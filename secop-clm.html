@@ -54,7 +54,7 @@
                 <span>DataLex <span class="font-light text-slate-400">Lab</span></span>
             </a>
             <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
-                <a href="datalex_lab.html#bitacora" class="hover:text-indigo-600 transition-colors">Bitácora</a>
+                <a href="datalex_lab.html#proyectos" class="hover:text-indigo-600 transition-colors">Proyectos</a>
                 <a href="#resumen" class="hover:text-indigo-600 transition-colors">Resumen</a>
                 <a href="#red-flags" class="hover:text-indigo-600 transition-colors">Red Flags</a>
                 <a href="#sectores" class="hover:text-indigo-600 transition-colors">Sectores</a>
@@ -69,10 +69,10 @@
             Auditoría automatizada <span class="gradient-text italic">SECOP II</span>
         </h1>
         <p class="text-lg text-slate-600 leading-relaxed max-w-2xl">
-            Pipeline de datos que ingiere contratación pública en vivo desde la API de
-            <a href="https://www.datos.gov.co" target="_blank" class="text-indigo-600 hover:underline">Datos Abiertos Colombia</a>,
-            detecta riesgo de sobre-ejecución con un modelo de anomalías (Isolation Forest) y expone los resultados
-            como una API estática — sin backend, actualizada por un job programado.
+            Analizamos en vivo la contratación pública reportada en
+            <a href="https://www.datos.gov.co" target="_blank" class="text-indigo-600 hover:underline">Datos Abiertos Colombia</a>
+            y usamos un modelo de anomalías (Isolation Forest) para detectar contratos con riesgo de sobre-ejecución.
+            Los datos se actualizan solos cada 12 horas con la información más reciente de Socrata.
         </p>
         <p id="meta-generacion" class="text-xs text-slate-400 mt-6 uppercase tracking-wider font-semibold">Cargando última actualización…</p>
     </header>
@@ -141,8 +141,8 @@
     <footer class="bg-slate-50 py-16 border-t border-slate-200 text-center">
         <div class="max-w-xl mx-auto px-6">
             <p class="text-slate-500 text-sm mb-4">
-                Datos generados automáticamente desde la API de Socrata (Datos Abiertos Colombia) mediante un job
-                programado. Metodología completa, notebook y código fuente en el repositorio.
+                Los datos se actualizan solos cada 12 horas desde la API de Socrata (Datos Abiertos Colombia).
+                Metodología completa, notebook y código fuente en el repositorio.
             </p>
             <a href="https://github.com/Juandf89/datalex-lab" target="_blank" class="text-indigo-600 text-sm font-bold hover:underline">Ver repositorio en GitHub ➔</a>
             <div class="mt-12 pt-8 border-t border-slate-200">
@@ -173,7 +173,7 @@
 
         function tarjeta(valor, etiqueta, acento) {
             return `
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 fade-in">
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 fade-in hover:shadow-md hover:-translate-y-0.5 hover:border-indigo-200 transition-all">
                     <p class="text-3xl font-serif font-bold ${acento}">${valor}</p>
                     <p class="text-xs text-slate-500 mt-2 uppercase tracking-wider font-semibold">${etiqueta}</p>
                 </div>`;
@@ -208,7 +208,7 @@
                     lista.innerHTML = '<div class="text-slate-400 italic text-sm">Sin contratos de alto riesgo en la muestra actual.</div>';
                 } else {
                     lista.innerHTML = flags.map(f => `
-                        <div class="bg-slate-800/60 border border-red-500/30 rounded-2xl p-5 fade-in">
+                        <div class="bg-slate-800/60 border border-red-500/30 hover:border-red-400/60 hover:bg-slate-800 rounded-2xl p-5 fade-in transition-colors">
                             <div class="flex justify-between items-start gap-3 mb-2">
                                 <span class="text-xs font-mono text-cyan-300">${f.id_contrato}</span>
                                 <span class="text-[10px] bg-red-500/20 text-red-300 px-2 py-1 rounded-full font-bold uppercase tracking-wider">Red Flag</span>

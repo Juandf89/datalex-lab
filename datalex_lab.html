@@ -66,7 +66,7 @@
                 <a href="#inicio" class="hover:text-indigo-600 transition-colors">Inicio</a>
                 <a href="#pilares" class="hover:text-indigo-600 transition-colors">Pilares</a>
                 <a href="#bitacora" class="hover:text-indigo-600 transition-colors">Bitácora</a>
-                <a href="secop-clm.html" class="hover:text-indigo-600 transition-colors">Proyectos</a>
+                <a href="#proyectos" class="hover:text-indigo-600 transition-colors">Proyectos</a>
                 <a href="#agora" class="hover:text-indigo-600 transition-colors">Comunidad</a>
             </div>
             <a href="#unete" class="bg-indigo-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-indigo-700 transition-all uppercase tracking-wider">Unirse</a>
@@ -99,13 +99,17 @@
 
     <section id="pilares" class="bg-slate-100/50 border-y border-slate-200 py-24">
         <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-12 text-left">
+                <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">Filosofía del Lab</span>
+                <h2 class="text-3xl font-serif font-bold mt-4 text-slate-900">Nuestros Pilares</h2>
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
-                <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm">
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 transition-all duration-300">
                     <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-2xl mb-6">🧠</div>
                     <h3 class="text-2xl font-serif font-bold mb-4">Reflexión Crítica</h3>
                     <p class="text-slate-600 leading-relaxed text-sm">Analicemos el impacto ético, profesional del uso de IA y Big Data en la estructura del Derecho.</p>
                 </div>
-                <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm">
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-cyan-200 transition-all duration-300">
                     <div class="w-12 h-12 bg-cyan-50 text-cyan-600 rounded-xl flex items-center justify-center text-2xl mb-6">🛠️</div>
                     <h3 class="text-2xl font-serif font-bold mb-4">Aprendizaje Práctico</h3>
                     <p class="text-slate-600 leading-relaxed text-sm">Resolvemos problemas reales usando analítica de Datos, herramientas de AI y aplicamos conceptos de Ingeniería Legal de manera práctica.</p>
@@ -117,7 +121,8 @@
     <section id="perfil" class="py-24 bg-white text-left">
         <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-                <h2 class="text-3xl font-serif font-bold mb-6 text-slate-900">Evolución de Potencia</h2>
+                <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">Perfil Profesional</span>
+                <h2 class="text-3xl font-serif font-bold mt-4 mb-6 text-slate-900">Evolución de Potencia</h2>
                 <p class="text-slate-600 mb-8 leading-relaxed">
                     Proponemos potenciar el perfil profesional integrando habilidades digitales sin perder la esencia de la profesión. Entendemos esta evolución como un efecto multiplicador: el rigor jurídico es el cimiento innegociable sobre el cual la tecnología actúa como un multiplicador de valor desmedido.
                 </p>
@@ -143,7 +148,8 @@
     <section id="bitacora" class="py-24 bg-slate-900 text-white text-left">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-12">
-                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">Bitácora de Construcción</h2>
+                <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest">Actualizaciones</span>
+                <h2 class="text-3xl md:text-4xl font-serif font-bold mt-4 mb-4">Bitácora de Construcción</h2>
                 <p class="text-slate-400 max-w-xl text-sm">Arquitectura Legal AI: Taller de implementación. Lanzamientos Semanales.</p>
             </div>
 
@@ -153,10 +159,45 @@
         </div>
     </section>
 
+    <section id="proyectos" class="py-24 bg-white text-left">
+        <div class="max-w-6xl mx-auto px-6">
+            <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">Laboratorio Aplicado</span>
+            <h2 class="text-3xl md:text-4xl font-serif font-bold mt-4 mb-4 text-slate-900">Proyectos</h2>
+            <p class="text-slate-500 max-w-xl text-sm mb-12">Del dato crudo a la decisión legal: prototipos reales de Legal Engineering construidos en el Lab.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <a href="secop-clm.html" class="group bg-slate-50 hover:bg-white rounded-3xl border border-slate-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 p-8 flex flex-col">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">⚖️</div>
+                        <span class="text-[10px] bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Datos en vivo</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-2 text-slate-900">Auditoría automatizada SECOP II</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
+                        Analizamos contratación pública colombiana con un modelo de anomalías (Isolation Forest) para
+                        detectar riesgo de sobre-ejecución. Los datos se actualizan solos cada 12 horas.
+                    </p>
+                    <div id="proyecto-secop-stats" class="flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-500 mb-6 font-semibold">
+                        <span class="italic text-slate-400 font-normal">Cargando cifras…</span>
+                    </div>
+                    <span class="inline-flex items-center gap-2 text-indigo-600 text-xs font-bold uppercase tracking-wider">
+                        Ver dashboard <span class="group-hover:translate-x-1 transition-transform">➔</span>
+                    </span>
+                </a>
+
+                <div class="bg-slate-50 rounded-3xl border border-dashed border-slate-300 p-8 flex flex-col items-center justify-center text-center">
+                    <div class="w-12 h-12 bg-slate-200 text-slate-400 rounded-xl flex items-center justify-center text-xl mb-6">➕</div>
+                    <p class="text-slate-500 text-sm font-semibold">Próximo prototipo en construcción</p>
+                    <p class="text-slate-400 text-xs mt-2">Legal Design · Automatización · IA aplicada</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="agora" class="py-24 bg-slate-50 text-left border-y border-slate-200">
         <div class="max-w-4xl mx-auto px-6">
             <div class="mb-12 text-center">
-                <h2 class="text-3xl font-serif font-bold mb-4 text-slate-900">Ágora DataLex</h2>
+                <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">Comunidad</span>
+                <h2 class="text-3xl font-serif font-bold mt-4 mb-4 text-slate-900">Ágora DataLex</h2>
                 <p class="text-slate-500 text-sm">El conocimiento compartido nos hace avanzar. Deja tu reflexión, duda o aporte a la comunidad.</p>
             </div>
 
@@ -243,6 +284,7 @@
         // Inicialización General
         window.addEventListener('DOMContentLoaded', () => {
             initRadarChart();
+            cargarStatsProyectoSecop();
             if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "TU_URL_DE_IMPLEMENTACION_AQUI") {
                 loadBitacora();
                 loadComentarios(); // Cargar comentarios al inicio
@@ -251,6 +293,22 @@
                 document.getElementById('comments-feed').innerHTML = `<div class="text-yellow-600 text-sm italic mt-10 text-center">Conecta la URL para ver la comunidad.</div>`;
             }
         });
+
+        async function cargarStatsProyectoSecop() {
+            const el = document.getElementById('proyecto-secop-stats');
+            if (!el) return;
+            try {
+                const res = await fetch('api/secop/resumen.json');
+                if (!res.ok) throw new Error('respuesta no válida');
+                const r = await res.json();
+                el.innerHTML = `
+                    <span>${r.muestra.limpios.toLocaleString('es-CO')} contratos analizados</span>
+                    <span class="text-red-500">${r.modelo.red_flags} red flags</span>
+                `;
+            } catch (error) {
+                el.innerHTML = '<span class="italic text-slate-400 font-normal">Ver cifras actualizadas en el dashboard →</span>';
+            }
+        }
 
         function initRadarChart() {
             const ctx = document.getElementById('skillsChart').getContext('2d');
