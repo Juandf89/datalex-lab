@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auditoría SECOP II | DataLex Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Merriweather', serif;
+        }
+        .gradient-bg { background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); }
+        .gradient-text {
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 340px;
+        }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .skeleton {
+            background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 37%, #e2e8f0 63%);
+            background-size: 400% 100%;
+            animation: skeleton-loading 1.4s ease infinite;
+        }
+        @keyframes skeleton-loading {
+            0% { background-position: 100% 50%; }
+            100% { background-position: 0 50%; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="datalex_lab.html" class="text-xl font-bold tracking-tight flex items-center gap-2">
+                <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white text-xs italic">DL</div>
+                <span>DataLex <span class="font-light text-slate-400">Lab</span></span>
+            </a>
+            <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                <a href="datalex_lab.html#bitacora" class="hover:text-indigo-600 transition-colors">Bitácora</a>
+                <a href="#resumen" class="hover:text-indigo-600 transition-colors">Resumen</a>
+                <a href="#red-flags" class="hover:text-indigo-600 transition-colors">Red Flags</a>
+                <a href="#sectores" class="hover:text-indigo-600 transition-colors">Sectores</a>
+            </div>
+            <a href="https://github.com/Juandf89/datalex-lab" target="_blank" class="bg-indigo-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-indigo-700 transition-all uppercase tracking-wider">Ver Repo</a>
+        </div>
+    </nav>
+
+    <header id="inicio" class="max-w-4xl mx-auto px-6 pt-24 pb-12 text-left">
+        <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">LegalTech · Contract Lifecycle Management</span>
+        <h1 class="text-4xl md:text-5xl font-serif font-bold leading-tight mt-4 mb-6 text-slate-900">
+            Auditoría automatizada <span class="gradient-text italic">SECOP II</span>
+        </h1>
+        <p class="text-lg text-slate-600 leading-relaxed max-w-2xl">
+            Pipeline de datos que ingiere contratación pública en vivo desde la API de
+            <a href="https://www.datos.gov.co" target="_blank" class="text-indigo-600 hover:underline">Datos Abiertos Colombia</a>,
+            detecta riesgo de sobre-ejecución con un modelo de anomalías (Isolation Forest) y expone los resultados
+            como una API estática — sin backend, actualizada por un job programado.
+        </p>
+        <p id="meta-generacion" class="text-xs text-slate-400 mt-6 uppercase tracking-wider font-semibold">Cargando última actualización…</p>
+    </header>
+
+    <section id="resumen" class="max-w-6xl mx-auto px-6 pb-20">
+        <div id="stat-cards" class="grid grid-cols-2 md:grid-cols-4 gap-5">
+            <!-- llenado por JS -->
+        </div>
+    </section>
+
+    <section id="red-flags" class="bg-slate-900 text-white py-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-10 text-left">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">Temporal Red Flags</h2>
+                <p class="text-slate-400 max-w-2xl text-sm leading-relaxed">
+                    Contratos que el modelo marca como estadísticamente atípicos (Isolation Forest sobre desviación
+                    temporal, valor, duración y sector) <strong class="text-slate-200">y</strong> que superan 365 días
+                    de plazo adicionado — el umbral de retraso crítico.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <div class="lg:col-span-3 bg-slate-800/60 rounded-3xl border border-slate-700 p-6">
+                    <div class="chart-container">
+                        <canvas id="redFlagsChart"></canvas>
+                    </div>
+                </div>
+                <div id="red-flags-list" class="lg:col-span-2 space-y-4">
+                    <div class="text-slate-500 italic text-sm">Cargando contratos de alto riesgo…</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sectores" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Concentración por sector</h2>
+            <p class="text-slate-500 mb-10 text-sm">Valor total adjudicado por sector en la muestra analizada.</p>
+            <div class="bg-slate-50 rounded-3xl border border-slate-200 p-8">
+                <div class="chart-container" style="height: 420px;">
+                    <canvas id="sectorChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tendencia" class="py-24 bg-slate-100/50 border-y border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Tendencia anual</h2>
+                <p class="text-slate-500 mb-8 text-sm">Inversión total adjudicada por año de firma.</p>
+                <div class="bg-white rounded-3xl border border-slate-200 p-6">
+                    <div class="chart-container"><canvas id="anioChart"></canvas></div>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Riesgo de concentración</h2>
+                <p class="text-slate-500 mb-8 text-sm">Top 10 proveedores por valor total adjudicado — señal de riesgo de monopolio.</p>
+                <div class="bg-white rounded-3xl border border-slate-200 p-6">
+                    <div class="chart-container"><canvas id="proveedoresChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-50 py-16 border-t border-slate-200 text-center">
+        <div class="max-w-xl mx-auto px-6">
+            <p class="text-slate-500 text-sm mb-4">
+                Datos generados automáticamente desde la API de Socrata (Datos Abiertos Colombia) mediante un job
+                programado. Metodología completa, notebook y código fuente en el repositorio.
+            </p>
+            <a href="https://github.com/Juandf89/datalex-lab" target="_blank" class="text-indigo-600 text-sm font-bold hover:underline">Ver repositorio en GitHub ➔</a>
+            <div class="mt-12 pt-8 border-t border-slate-200">
+                <p class="text-slate-400 text-xs tracking-widest uppercase font-bold">Bogotá, 2026 · DataLex Lab</p>
+                <p class="text-slate-400 text-[10px] mt-2">Juan Pablo Lopez Mejia</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE = "api/secop"; // JSON estáticos generados por scripts/generar_json.py
+
+        const formatoCOP = (valor) => {
+            if (valor === null || valor === undefined) return "—";
+            if (Math.abs(valor) >= 1e9) return `$${(valor / 1e9).toFixed(1)}B`;
+            if (Math.abs(valor) >= 1e6) return `$${(valor / 1e6).toFixed(0)}M`;
+            return `$${valor.toLocaleString('es-CO')}`;
+        };
+
+        const paletaSectores = ['#4f46e5', '#06b6d4', '#6366f1', '#22d3ee', '#818cf8', '#67e8f9',
+                                 '#a5b4fc', '#a5f3fc', '#c7d2fe', '#e0e7ff'];
+
+        async function cargarJSON(nombre) {
+            const res = await fetch(`${API_BASE}/${nombre}`);
+            if (!res.ok) throw new Error(`No se pudo cargar ${nombre}`);
+            return res.json();
+        }
+
+        function tarjeta(valor, etiqueta, acento) {
+            return `
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 fade-in">
+                    <p class="text-3xl font-serif font-bold ${acento}">${valor}</p>
+                    <p class="text-xs text-slate-500 mt-2 uppercase tracking-wider font-semibold">${etiqueta}</p>
+                </div>`;
+        }
+
+        async function cargarResumen() {
+            const cards = document.getElementById('stat-cards');
+            const meta = document.getElementById('meta-generacion');
+            try {
+                const r = await cargarJSON('resumen.json');
+                const fecha = new Date(r.generado_en);
+                meta.textContent = `Última actualización: ${fecha.toLocaleString('es-CO', { dateStyle: 'long', timeStyle: 'short' })} · Muestra de ${r.muestra.ingeridos.toLocaleString('es-CO')} contratos`;
+
+                cards.innerHTML = [
+                    tarjeta(r.muestra.limpios.toLocaleString('es-CO'), 'Contratos analizados', 'text-slate-900'),
+                    tarjeta(r.modelo.anomalias_detectadas.toLocaleString('es-CO'), 'Anomalías detectadas', 'text-indigo-600'),
+                    tarjeta(r.modelo.red_flags.toLocaleString('es-CO'), 'Temporal Red Flags', 'text-red-600'),
+                    tarjeta(formatoCOP(r.red_flags_resumen.valor_total_cop), 'Valor en riesgo (COP)', 'text-cyan-600'),
+                ].join('');
+            } catch (e) {
+                meta.textContent = 'No se pudo cargar el resumen. Verifica que la API estática esté publicada.';
+                cards.innerHTML = tarjeta('—', 'Datos no disponibles', 'text-slate-400');
+            }
+        }
+
+        async function cargarRedFlags() {
+            const lista = document.getElementById('red-flags-list');
+            try {
+                const flags = await cargarJSON('red_flags.json');
+
+                if (!flags.length) {
+                    lista.innerHTML = '<div class="text-slate-400 italic text-sm">Sin contratos de alto riesgo en la muestra actual.</div>';
+                } else {
+                    lista.innerHTML = flags.map(f => `
+                        <div class="bg-slate-800/60 border border-red-500/30 rounded-2xl p-5 fade-in">
+                            <div class="flex justify-between items-start gap-3 mb-2">
+                                <span class="text-xs font-mono text-cyan-300">${f.id_contrato}</span>
+                                <span class="text-[10px] bg-red-500/20 text-red-300 px-2 py-1 rounded-full font-bold uppercase tracking-wider">Red Flag</span>
+                            </div>
+                            <p class="font-bold text-white text-sm mb-1">${f.nombre_entidad}</p>
+                            <p class="text-slate-400 text-xs mb-3">${f.sector} · ${f.anio}</p>
+                            <div class="flex justify-between text-xs text-slate-300">
+                                <span>${formatoCOP(f.valor_del_contrato)} COP</span>
+                                <span class="text-red-300 font-bold">${f.desviacion_temporal_real} días de desviación</span>
+                            </div>
+                        </div>`).join('');
+                }
+
+                const ctx = document.getElementById('redFlagsChart').getContext('2d');
+                const [resumen, porSector] = [await cargarJSON('resumen.json'), null];
+
+                new Chart(ctx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [
+                            {
+                                label: 'Temporal Red Flag',
+                                data: flags.map(f => ({ x: f.valor_del_contrato, y: f.desviacion_temporal_real, id: f.id_contrato })),
+                                backgroundColor: '#f87171',
+                                borderColor: '#ffffff',
+                                borderWidth: 2,
+                                radius: 8,
+                            },
+                        ],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { type: 'logarithmic', title: { display: true, text: 'Valor del contrato (COP, log)', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            y: { title: { display: true, text: 'Desviación temporal (días)', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        },
+                        plugins: {
+                            legend: { labels: { color: '#cbd5e1' } },
+                            tooltip: {
+                                callbacks: {
+                                    label: (item) => `${item.raw.id}: ${formatoCOP(item.raw.x)} COP, ${item.raw.y} días`,
+                                },
+                            },
+                        },
+                    },
+                });
+            } catch (e) {
+                lista.innerHTML = '<div class="text-red-400 text-sm italic">No se pudieron cargar los red flags.</div>';
+            }
+        }
+
+        async function cargarSectores() {
+            try {
+                const datos = (await cargarJSON('por_sector.json')).slice(0, 12);
+                const ctx = document.getElementById('sectorChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: datos.map(d => d.sector),
+                        datasets: [{
+                            label: 'Valor total adjudicado (COP)',
+                            data: datos.map(d => d.valor_total),
+                            backgroundColor: paletaSectores[0],
+                            borderRadius: 6,
+                        }],
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { ticks: { callback: (v) => formatoCOP(v) } },
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: (item) => `${formatoCOP(item.raw)} COP` } },
+                        },
+                    },
+                });
+            } catch (e) {
+                document.getElementById('sectorChart').closest('.bg-slate-50').innerHTML = '<p class="text-red-500 text-sm italic">No se pudo cargar la distribución por sector.</p>';
+            }
+        }
+
+        async function cargarTendenciaAnual() {
+            try {
+                const datos = await cargarJSON('por_anio.json');
+                const ctx = document.getElementById('anioChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: datos.map(d => d.anio),
+                        datasets: [{
+                            label: 'Valor total adjudicado (COP)',
+                            data: datos.map(d => d.valor_total),
+                            borderColor: '#4f46e5',
+                            backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: { y: { ticks: { callback: (v) => formatoCOP(v) } } },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: (item) => `${formatoCOP(item.raw)} COP` } },
+                        },
+                    },
+                });
+            } catch (e) {
+                document.getElementById('anioChart').closest('.bg-white').innerHTML = '<p class="text-red-500 text-sm italic">No se pudo cargar la tendencia anual.</p>';
+            }
+        }
+
+        async function cargarProveedores() {
+            try {
+                const datos = await cargarJSON('top_proveedores.json');
+                const ctx = document.getElementById('proveedoresChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: datos.map(d => d.proveedor.length > 28 ? d.proveedor.slice(0, 28) + '…' : d.proveedor),
+                        datasets: [{
+                            label: 'Valor total adjudicado (COP)',
+                            data: datos.map(d => d.valor_total),
+                            backgroundColor: '#06b6d4',
+                            borderRadius: 6,
+                        }],
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        maintainAspectRatio: false,
+                        scales: { x: { ticks: { callback: (v) => formatoCOP(v) } } },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: (item) => `${formatoCOP(item.raw)} COP` } },
+                        },
+                    },
+                });
+            } catch (e) {
+                document.getElementById('proveedoresChart').closest('.bg-white').innerHTML = '<p class="text-red-500 text-sm italic">No se pudo cargar el ranking de proveedores.</p>';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            cargarResumen();
+            cargarRedFlags();
+            cargarSectores();
+            cargarTendenciaAnual();
+            cargarProveedores();
+        });
+    </script>
+</body>
+</html>

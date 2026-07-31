@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataLex Lab | La Arquitectura Legal de Hoy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc; 
+            color: #0f172a; 
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Merriweather', serif;
+        }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 600px; 
+            margin: auto;
+            height: 350px; 
+            max-height: 400px;
+        }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .gradient-bg { background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); }
+        .gradient-text {
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .video-placeholder {
+            background: linear-gradient(45deg, #1e293b, #334155);
+            position: relative;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        #chat-response::-webkit-scrollbar, #comments-feed::-webkit-scrollbar { width: 4px; }
+        #chat-response::-webkit-scrollbar-track, #comments-feed::-webkit-scrollbar-track { background: transparent; }
+        #chat-response::-webkit-scrollbar-thumb, #comments-feed::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-bold tracking-tight flex items-center gap-2">
+                <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white text-xs italic">DL</div>
+                <span>DataLex <span class="font-light text-slate-400">Lab</span></span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                <a href="#inicio" class="hover:text-indigo-600 transition-colors">Inicio</a>
+                <a href="#pilares" class="hover:text-indigo-600 transition-colors">Pilares</a>
+                <a href="#bitacora" class="hover:text-indigo-600 transition-colors">Bitácora</a>
+                <a href="secop-clm.html" class="hover:text-indigo-600 transition-colors">Proyectos</a>
+                <a href="#agora" class="hover:text-indigo-600 transition-colors">Comunidad</a>
+            </div>
+            <a href="#unete" class="bg-indigo-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-indigo-700 transition-all uppercase tracking-wider">Unirse</a>
+        </div>
+    </nav>
+
+    <header id="inicio" class="max-w-4xl mx-auto px-6 pt-24 pb-16">
+        <h1 class="text-4xl md:text-6xl font-serif font-bold leading-tight mb-12 text-slate-900 text-left">
+            La arquitectura <br>
+            <span class="gradient-text italic">legal de hoy</span>
+        </h1>
+        
+        <div class="border-l-4 border-indigo-600 pl-8 space-y-6 text-lg text-slate-600 leading-relaxed text-left">
+            <p>DataLex Lab nace con un propósito claro: <strong class="text-slate-900">construir comunidad</strong>. Este no es un repositorio de código abierto para ingenieros, sino un espacio de encuentro y reflexión para profesionales del sector legal.</p>
+            <p>Aquí analizamos cómo la Inteligencia Artificial y los datos han cambiado definitivamente nuestra forma de interactuar con el mundo y con la profesión. Exploramos el impacto de estas tecnologías desde una mirada crítica, pero también profundamente práctica.</p>
+            <p>En este espacio aprendemos juntos a utilizar las herramientas que están redefiniendo nuestro trabajo diario. Desde la implementación de sistemas CLM hasta los principios del Legal Design y el Legal Engineering, buscamos entender la tecnología para dominarla, aplicarla con rigor y transformar nuestra práctica. Bienvenidos a la conversación.</p>
+            
+            <div class="pt-8 flex items-center gap-4">
+                <div class="w-12 h-12 gradient-bg rounded-full flex items-center justify-center text-white font-bold text-xs shadow-lg relative">
+                    JPL
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full"></div>
+                </div>
+                <div>
+                    <p class="font-bold text-slate-900 leading-none">Juan Pablo Lopez Mejia</p>
+                    <p class="text-xs text-indigo-500 font-bold uppercase tracking-widest mt-1">Fundador · DataLex Lab</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="pilares" class="bg-slate-100/50 border-y border-slate-200 py-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-2xl mb-6">🧠</div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">Reflexión Crítica</h3>
+                    <p class="text-slate-600 leading-relaxed text-sm">Analicemos el impacto ético, profesional del uso de IA y Big Data en la estructura del Derecho.</p>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="w-12 h-12 bg-cyan-50 text-cyan-600 rounded-xl flex items-center justify-center text-2xl mb-6">🛠️</div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">Aprendizaje Práctico</h3>
+                    <p class="text-slate-600 leading-relaxed text-sm">Resolvemos problemas reales usando analítica de Datos, herramientas de AI y aplicamos conceptos de Ingeniería Legal de manera práctica.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="perfil" class="py-24 bg-white text-left">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-3xl font-serif font-bold mb-6 text-slate-900">Evolución de Potencia</h2>
+                <p class="text-slate-600 mb-8 leading-relaxed">
+                    Proponemos potenciar el perfil profesional integrando habilidades digitales sin perder la esencia de la profesión. Entendemos esta evolución como un efecto multiplicador: el rigor jurídico es el cimiento innegociable sobre el cual la tecnología actúa como un multiplicador de valor desmedido.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-slate-400"></div>
+                        <span class="text-sm font-medium text-slate-600">Perfil de Base (Fundamento)</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-indigo-600"></div>
+                        <span class="text-sm font-bold text-indigo-700">Perfil Expandido (DataLex Lab)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200">
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bitacora" class="py-24 bg-slate-900 text-white text-left">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">Bitácora de Construcción</h2>
+                <p class="text-slate-400 max-w-xl text-sm">Arquitectura Legal AI: Taller de implementación. Lanzamientos Semanales.</p>
+            </div>
+
+            <div id="bitacora-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="text-slate-500 italic py-10 text-left">Conectando con la base de datos...</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="agora" class="py-24 bg-slate-50 text-left border-y border-slate-200">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl font-serif font-bold mb-4 text-slate-900">Ágora DataLex</h2>
+                <p class="text-slate-500 text-sm">El conocimiento compartido nos hace avanzar. Deja tu reflexión, duda o aporte a la comunidad.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
+                <!-- Formulario de Comentarios -->
+                <div class="md:col-span-5 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm h-fit">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6">Suma tu voz al Lab</h3>
+                    <div class="space-y-4">
+                        <input type="text" id="com-nombre" placeholder="Tu nombre" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 outline-none">
+                        <input type="text" id="com-rol" placeholder="Tu rol (Ej: Abogado, Estudiante...)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 outline-none">
+                        <textarea id="com-mensaje" rows="4" placeholder="¿Qué opinas sobre la tecnología en el derecho hoy?" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 outline-none resize-none"></textarea>
+                        <button onclick="publicarComentario()" id="btn-comentar" class="w-full bg-indigo-600 text-white px-4 py-3 rounded-xl text-sm font-bold hover:bg-indigo-700 transition-all">Publicar Reflexión</button>
+                        <p id="com-status" class="text-xs text-center mt-2 hidden"></p>
+                    </div>
+                </div>
+
+                <!-- Feed de Comentarios -->
+                <div class="md:col-span-7 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col h-[450px]">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 flex justify-between items-center">
+                        Voces Recientes
+                        <span class="bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full text-xs font-bold" id="com-count">0</span>
+                    </h3>
+                    <div id="comments-feed" class="flex-grow overflow-y-auto space-y-6 pr-2">
+                        <div class="text-slate-400 text-sm italic text-center mt-10">Cargando comunidad...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ai-lab" class="py-24 bg-white text-left">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl font-serif font-bold mb-2 italic">Laboratorio Experimental</h2>
+            <p class="text-slate-500 mb-10 text-sm">Prototipa ideas de ingeniería legal con Gemini AI.</p>
+            
+            <div class="bg-slate-900 rounded-3xl p-8 shadow-2xl">
+                <div class="mb-6 text-left">
+                    <label class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2 block">Paso 1: Configura tu acceso</label>
+                    <input type="password" id="api-key" placeholder="Pega tu API Key de Google Gemini aquí..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:border-indigo-500 outline-none">
+                    <p class="text-[10px] text-slate-400 mt-2">
+                        ¿No tienes una? <a href="https://aistudio.google.com/" target="_blank" class="text-indigo-400 hover:underline">Obtén una clave gratuita en Google AI Studio ➔</a> (No la guardamos, es solo para esta sesión).
+                    </p>
+                </div>
+                
+                <div id="chat-response" class="h-64 bg-slate-800 rounded-2xl p-6 overflow-y-auto mb-4 text-sm text-slate-300 space-y-4">
+                    <div class="bg-slate-700 p-4 rounded-xl inline-block max-w-[85%] border border-slate-600">
+                        Hola. Soy el asistente del Lab de Ingeniería Legal. Configura tu API Key arriba y dime qué quieres construir hoy.
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <input type="text" id="user-prompt" placeholder="Escribe tu consulta técnica o prompt..." class="flex-grow bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none text-sm">
+                    <button onclick="askAI()" id="send-btn" class="bg-indigo-600 px-6 py-2 rounded-xl font-bold hover:bg-indigo-500 transition-all text-white">➔</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="unete" class="bg-slate-50 py-16 border-t border-slate-200 text-center">
+        <div class="max-w-xl mx-auto px-6">
+            <h2 class="text-2xl font-serif font-bold mb-4 text-slate-900">Únete a la Base de Datos</h2>
+            <p class="text-slate-500 text-sm mb-8">Recibe notificaciones cuando publiquemos nuevas herramientas y videos de Arquitectura Legal AI.</p>
+            
+            <div class="flex flex-col gap-3 max-w-sm mx-auto text-left">
+                <input type="text" id="member-name" placeholder="Tu nombre completo" class="bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-indigo-400">
+                <input type="email" id="member-email" placeholder="Tu correo electrónico" class="bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-indigo-400">
+                <button onclick="registerLead()" id="register-btn" class="bg-indigo-600 text-white px-4 py-3 rounded-lg text-sm font-bold hover:bg-indigo-500 shadow-sm transition-all mt-2">Unirme al Lab</button>
+                <p id="register-status" class="text-xs mt-2 text-center text-emerald-600 font-medium"></p>
+            </div>
+
+            <div class="mt-16 pt-8 border-t border-slate-200">
+                <p class="text-slate-400 text-xs tracking-widest uppercase font-bold">Bogotá, 2026 · DataLex Lab</p>
+                <p class="text-slate-400 text-[10px] mt-2">Juan Pablo Lopez Mejia</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // CONFIGURACIÓN: PEGA AQUÍ LA URL DE TU APLICACIÓN WEB DE GOOGLE
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWpbEkRN6DDDqRlrcElUpI0wm8qJPRoAJ6cpWUm-5rNwhmnnox85ATkGq--ztwgh5h5w/exec"; 
+        
+        // Inicialización General
+        window.addEventListener('DOMContentLoaded', () => {
+            initRadarChart();
+            if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "TU_URL_DE_IMPLEMENTACION_AQUI") {
+                loadBitacora();
+                loadComentarios(); // Cargar comentarios al inicio
+            } else {
+                document.getElementById('bitacora-grid').innerHTML = `<div class="text-yellow-500 italic py-10 col-span-3 text-sm">Falta configurar la URL de Google Script en el código.</div>`;
+                document.getElementById('comments-feed').innerHTML = `<div class="text-yellow-600 text-sm italic mt-10 text-center">Conecta la URL para ver la comunidad.</div>`;
+            }
+        });
+
+        function initRadarChart() {
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: [['Rigor', 'Jurídico'], ['Legal', 'Engineering'], ['Análisis', 'de Datos'], ['Legal', 'Design'], 'Automatización', ['Visión', 'Estratégica']],
+                    datasets: [
+                        {
+                            label: 'Perfil de Base (Fundamento)',
+                            data: [95, 10, 15, 10, 5, 40],
+                            backgroundColor: 'rgba(148, 163, 184, 0.2)',
+                            borderColor: '#94a3b8',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#94a3b8'
+                        }, 
+                        {
+                            label: 'Perfil Expandido (DataLex Lab)',
+                            data: [95, 85, 80, 85, 90, 95],
+                            backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                            borderColor: '#4f46e5',
+                            borderWidth: 3,
+                            pointBackgroundColor: '#4f46e5'
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 30,
+                            right: 30,
+                            top: 20,
+                            bottom: 20
+                        }
+                    },
+                    scales: {
+                        r: { beginAtZero: true, max: 100, ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.05)' }, pointLabels: { font: { size: 10, family: 'Plus Jakarta Sans', weight: '600' } } }
+                    },
+                    plugins: { legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans', size: 12 } } } }
+                }
+            });
+        }
+
+        async function loadBitacora() {
+            const grid = document.getElementById('bitacora-grid');
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL + "?action=getContenidos");
+                const data = await res.json();
+                grid.innerHTML = "";
+
+                data.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = "group bg-slate-800 rounded-3xl p-8 hover:bg-slate-700 transition-all border border-slate-700 hover:border-indigo-500 flex flex-col";
+                    
+                    const iconType = (item.tipo && item.tipo.toLowerCase() === 'video') ? '▶' : '📄';
+                    const fechaDisplay = item["fecha de lanzamiento"] || "Próximamente";
+
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-12 h-12 bg-white text-slate-900 rounded-full flex items-center justify-center text-xl font-bold shadow-lg group-hover:scale-110 transition-transform">
+                                ${iconType}
+                            </div>
+                            <span class="text-[10px] text-slate-300 font-bold bg-slate-900 px-3 py-1.5 rounded-full border border-slate-700 tracking-wider">
+                                ${fechaDisplay}
+                            </span>
+                        </div>
+                        <span class="text-cyan-400 text-[10px] font-bold uppercase tracking-widest">${item.etiqueta || 'Sesión'}</span>
+                        <h4 class="text-xl font-serif font-bold mt-2 mb-3 text-white">${item.titulo || 'Sin título'}</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">${item.descripcion || ''}</p>
+                        <a href="${item.link || '#'}" target="_blank" class="inline-block text-indigo-400 text-xs font-bold hover:text-indigo-300 uppercase tracking-wider mt-auto">Acceder ➔</a>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                grid.innerHTML = `<div class="text-red-400 italic py-10 col-span-3 text-sm">Error al cargar la bitácora.</div>`;
+            }
+        }
+
+        async function loadComentarios() {
+            const feed = document.getElementById('comments-feed');
+            const count = document.getElementById('com-count');
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL + "?action=getComentarios");
+                const data = await res.json();
+                
+                feed.innerHTML = "";
+                count.innerText = data.length;
+
+                if (data.length === 0) {
+                    feed.innerHTML = `<div class="text-slate-400 text-sm italic text-center mt-10">Sé el primero en iniciar la conversación.</div>`;
+                    return;
+                }
+
+                data.forEach(item => {
+                    const rol = item.rol ? `<span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded uppercase tracking-wider ml-2">${item.rol}</span>` : '';
+                    const commentEl = document.createElement('div');
+                    commentEl.className = "border-b border-slate-100 pb-5 last:border-0 fade-in";
+                    commentEl.innerHTML = `
+                        <div class="flex items-center mb-2">
+                            <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs mr-3">
+                                ${(item.nombre || "A").charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-slate-800 flex items-center">${item.nombre || 'Anónimo'} ${rol}</p>
+                                <p class="text-[10px] text-slate-400">${item.fecha || ''}</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed pl-11">${item.mensaje || ''}</p>
+                    `;
+                    feed.appendChild(commentEl);
+                });
+            } catch (error) {
+                feed.innerHTML = `<div class="text-red-400 text-sm italic">No se pudieron cargar los comentarios.</div>`;
+            }
+        }
+
+        async function publicarComentario() {
+            const nombre = document.getElementById('com-nombre').value;
+            const rol = document.getElementById('com-rol').value;
+            const mensaje = document.getElementById('com-mensaje').value;
+            const btn = document.getElementById('btn-comentar');
+            const status = document.getElementById('com-status');
+
+            if (!nombre || !mensaje) {
+                status.innerText = "El nombre y el mensaje son obligatorios.";
+                status.className = "text-xs text-center mt-2 text-red-500 block";
+                return;
+            }
+
+            btn.innerText = "Publicando...";
+            btn.disabled = true;
+
+            const payload = {
+                tipo_registro: "comentario",
+                nombre: nombre,
+                rol: rol,
+                mensaje: mensaje,
+                fecha: new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" })
+            };
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain" },
+                    body: JSON.stringify(payload)
+                });
+
+                status.innerText = "¡Reflexión publicada con éxito!";
+                status.className = "text-xs text-center mt-2 text-emerald-600 block";
+                
+                // Limpiar campos
+                document.getElementById('com-mensaje').value = '';
+                
+                // Recargar el feed (esperamos un par de segundos para asegurar que Google lo guardó)
+                setTimeout(() => { loadComentarios(); btn.innerText = "Publicar Reflexión"; btn.disabled = false; }, 1500);
+
+            } catch (e) {
+                status.innerText = "Error de conexión. Intenta de nuevo.";
+                status.className = "text-xs text-center mt-2 text-red-500 block";
+                btn.innerText = "Publicar Reflexión";
+                btn.disabled = false;
+            }
+        }
+
+        async function registerLead() {
+            const name = document.getElementById('member-name').value;
+            const email = document.getElementById('member-email').value;
+            const status = document.getElementById('register-status');
+            const btn = document.getElementById('register-btn');
+
+            if (!name || !email) {
+                status.innerText = "Por favor, completa ambos campos."; return;
+            }
+
+            btn.innerText = "Procesando..."; btn.disabled = true;
+
+            const userData = {
+                tipo_registro: "lead",
+                nombre: name,
+                correo: email,
+                fecha: new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" }),
+                origen: "Web DataLex"
+            };
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain" },
+                    body: JSON.stringify(userData)
+                });
+                status.innerText = `¡Gracias, ${name}! Te has unido al Lab.`;
+                document.getElementById('member-name').value = '';
+                document.getElementById('member-email').value = '';
+            } catch (e) {
+                status.innerText = "Error de conexión.";
+            } finally {
+                btn.innerText = "Unirme al Lab"; btn.disabled = false;
+            }
+        }
+
+        async function askAI() {
+            const apiKey = document.getElementById('api-key').value;
+            const input = document.getElementById('user-prompt');
+            const chat = document.getElementById('chat-response');
+            const btn = document.getElementById('send-btn');
+
+            if (!apiKey) { alert("Configura tu API Key primero."); return; }
+            if (!input.value) return;
+
+            const userText = input.value;
+            input.value = "";
+            btn.disabled = true; btn.innerText = "...";
+
+            chat.innerHTML += `<div class="text-right mb-4 fade-in"><div class="bg-indigo-600 text-white p-3 rounded-2xl inline-block max-w-[85%] border border-indigo-500 text-left">${userText}</div></div>`;
+            chat.scrollTop = chat.scrollHeight;
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `Eres un experto de DataLex Lab (Comunidad LegalTech en Bogotá). Responde a: ${userText}` }] }] })
+                });
+                const data = await res.json();
+                const responseText = data.candidates[0].content.parts[0].text;
+
+                chat.innerHTML += `<div class="mb-4 fade-in"><div class="bg-slate-700 p-4 rounded-2xl border border-slate-600 inline-block max-w-[85%]">${responseText.replace(/\n/g, '<br>')}</div></div>`;
+            } catch (e) {
+                chat.innerHTML += `<div class="mb-4 fade-in"><div class="bg-red-900/50 text-red-200 p-3 rounded-2xl border border-red-800">Error: Verifica tu API Key.</div></div>`;
+            } finally {
+                btn.disabled = false; btn.innerText = "➔"; chat.scrollTop = chat.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>

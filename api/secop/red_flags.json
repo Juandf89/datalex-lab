@@ -1,0 +1,24 @@
+[
+  {
+    "id_contrato": "CO1.PCCNTR.8197940",
+    "nombre_entidad": "INVIAS",
+    "sector": "Transporte",
+    "anio": 2025,
+    "valor_del_contrato": 20381638080.0,
+    "duracion_contrato_dias": 1193,
+    "desviacion_temporal_real": 1097,
+    "ratio_desviacion_temporal": 0.9195305951,
+    "puntaje_anomalia": -0.2646812864
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.9345722",
+    "nombre_entidad": "DEPARTAMENTO DE CORDOBA",
+    "sector": "Servicio Público",
+    "anio": 2026,
+    "valor_del_contrato": 18743000300.0,
+    "duracion_contrato_dias": 609,
+    "desviacion_temporal_real": 374,
+    "ratio_desviacion_temporal": 0.6141215107,
+    "puntaje_anomalia": -0.2446766955
+  }
+]

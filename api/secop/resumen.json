@@ -1,0 +1,23 @@
+{
+  "generado_en": "2026-07-31T21:53:49.254862+00:00",
+  "fuente": {
+    "dataset": "jbjy-vk9h",
+    "dominio": "www.datos.gov.co",
+    "descripcion": "SECOP II - Contratos Electrónicos, Datos Abiertos Colombia"
+  },
+  "muestra": {
+    "ingeridos": 5000,
+    "limpios": 4592,
+    "aptos_modelo": 4546,
+    "descartados_valor_cero": 46
+  },
+  "modelo": {
+    "algoritmo": "IsolationForest",
+    "anomalias_detectadas": 228,
+    "red_flags": 2
+  },
+  "red_flags_resumen": {
+    "valor_total_cop": 39124638380.0,
+    "desviacion_promedio_dias": 735.5
+  }
+}
