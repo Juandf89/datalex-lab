@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-08-02T18:49:20.063726+00:00",
+  "generado_en": "2026-08-03T08:56:13.378148+00:00",
   "fuente": {
     "dataset": "jbjy-vk9h",
     "dominio": "www.datos.gov.co",
@@ -8,8 +8,8 @@
   "muestra": {
     "ingeridos": 5000,
     "limpios": 4592,
-    "aptos_modelo": 4546,
-    "descartados_valor_cero": 46
+    "aptos_modelo": 4547,
+    "descartados_valor_cero": 45
   },
   "modelo": {
     "algoritmo": "IsolationForest",
