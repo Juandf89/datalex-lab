@@ -1,0 +1,12 @@
+# Defensa en profundidad para el deploy en Hostinger (LiteSpeed, compatible con
+# sintaxis Apache): si el conector Git de hPanel llega a copiar el repo completo
+# a public_html en vez de solo los archivos del sitio, esto evita que carpetas de
+# código fuente / control de versiones queden accesibles por HTTP. api/ se deja
+# fuera a propósito: el frontend hace fetch() público de esos JSON.
+RedirectMatch 404 /\.git
+RedirectMatch 404 /\.github
+RedirectMatch 404 /docs/
+RedirectMatch 404 /netlify/
+RedirectMatch 404 /scripts/
+RedirectMatch 404 /netlify\.toml$
+RedirectMatch 404 /README\.md$

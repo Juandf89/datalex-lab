@@ -5,9 +5,10 @@ contratación pública (SECOP II), desplegados juntos en Netlify.
 
 ## Estructura
 
-- `datalex_lab.html` — página principal del blog. `_redirects` reescribe `/` hacia este archivo
-  (sin cambiar la URL) para no mantener dos copias idénticas (`index.html` + `datalex_lab.html`)
-  sincronizadas a mano — ya divergieron una vez y causó un bug real.
+- `index.html` — página principal del blog (contenido real, único). `datalex_lab.html` es solo un
+  stub de redirección (`meta refresh` + `canonical` a `/`) para no romper enlaces/bookmarks
+  externos viejos — antes eran dos copias idénticas que se mantenían sincronizadas a mano y
+  divergieron una vez, causando un bug real; ahora solo hay una copia de contenido real.
 - `secop-clm.html` — dashboard del proyecto de auditoría SECOP II (Isolation Forest, red flags,
   concentración por sector/proveedor). Consume los JSON de `api/secop/`.
 - `api/secop/*.json` — API estática: resultados ya calculados, sin backend. Se regeneran solos.
