@@ -603,17 +603,49 @@
                 ignoreLocation: true,
             });
 
-            function pintarSugerencias(items, { fallback = false, restantesHoy = null } = {}) {
-                const encabezadoFallback = fallback ? `
-                    <div class="px-5 py-2 bg-amber-50 text-amber-700 text-[10px] uppercase tracking-wider font-bold border-b border-amber-100">
-                        Búsqueda en vivo sobre todo Datos Abiertos Colombia (no solo la muestra local)
-                        ${restantesHoy !== null ? `· ${restantesHoy} restantes hoy` : ''}
-                    </div>` : '';
-                sugerenciasEl.innerHTML = encabezadoFallback + items.map((item, i) => `
-                    <button data-idx="${i}" class="w-full text-left px-5 py-3 hover:bg-indigo-50 border-b border-slate-100 last:border-0 flex justify-between items-center gap-3">
+            function botonSugerencia(item, idx) {
+                return `
+                    <button data-idx="${idx}" class="w-full text-left px-5 py-3 hover:bg-indigo-50 border-b border-slate-100 last:border-0 flex justify-between items-center gap-3">
                         <span class="text-sm font-medium text-slate-800">${item.tipo === 'entidad' ? item.nombre_entidad : item.id_contrato}</span>
                         <span class="text-[10px] uppercase tracking-wider font-bold text-slate-400">${item.tipo === 'entidad' ? 'Entidad' : item.sector || 'Contrato'}</span>
-                    </button>`).join('');
+                    </button>`;
+            }
+
+            // Local (Fuse) y en vivo (fallback) se muestran SIEMPRE juntos, no uno u
+            // otro — antes, si Fuse encontraba cualquier coincidencia difusa (aunque
+            // fuera la entidad equivocada, ej. buscar "Alcaldía de Santiago de Cali" y
+            // que Fuse devolviera solo Concejo/Personería, entidades distintas), la
+            // búsqueda en vivo nunca se activaba y el usuario se quedaba sin la
+            // respuesta correcta. Verificado en producción: el fallback sí tenía el
+            // resultado real ("SANTIAGO DE CALI DISTRITO ESPECIAL - ..."), solo que
+            // nunca se consultaba.
+            function pintarSugerencias({ locales = [], fallbackItems = null, fallbackEstado = null, restantesHoy = null } = {}) {
+                const items = [...locales, ...(fallbackItems || [])];
+                const bloqueLocal = locales.map((item, i) => botonSugerencia(item, i)).join('');
+
+                let bloqueFallback = '';
+                if (fallbackEstado === 'cargando') {
+                    bloqueFallback = `<div class="px-5 py-2 text-xs text-slate-400 italic border-t border-slate-100">Buscando en vivo en Datos Abiertos Colombia…</div>`;
+                } else if (fallbackEstado === 'limite') {
+                    bloqueFallback = `<div class="px-5 py-2 text-xs text-amber-600 border-t border-slate-100">Alcanzaste el límite de búsquedas en vivo gratis por hoy.</div>`;
+                } else if (fallbackEstado === 'error') {
+                    bloqueFallback = `<div class="px-5 py-2 text-xs text-red-500 italic border-t border-slate-100">La búsqueda en vivo no está disponible en este momento.</div>`;
+                } else if (fallbackEstado === 'vacio') {
+                    bloqueFallback = `<div class="px-5 py-2 text-xs text-slate-400 italic border-t border-slate-100">Sin resultados adicionales en vivo.</div>`;
+                } else if (fallbackEstado === 'ok' && fallbackItems?.length) {
+                    bloqueFallback = `
+                        <div class="px-5 py-2 bg-amber-50 text-amber-700 text-[10px] uppercase tracking-wider font-bold border-t border-b border-amber-100">
+                            En vivo, todo Datos Abiertos Colombia${restantesHoy !== null ? ` · ${restantesHoy} restantes hoy` : ''}
+                        </div>` + fallbackItems.map((item, i) => botonSugerencia(item, locales.length + i)).join('');
+                }
+
+                if (!locales.length && !bloqueFallback) {
+                    sugerenciasEl.innerHTML = `<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias.</div>`;
+                    sugerenciasEl.classList.remove('hidden');
+                    return;
+                }
+
+                sugerenciasEl.innerHTML = bloqueLocal + bloqueFallback;
                 sugerenciasEl.classList.remove('hidden');
 
                 sugerenciasEl.querySelectorAll('button[data-idx]').forEach(btn => {
@@ -627,44 +659,49 @@
                 });
             }
 
-            async function consultarFallback(termino) {
-                sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Buscando en vivo en Datos Abiertos Colombia…</div>';
-                sugerenciasEl.classList.remove('hidden');
-                try {
-                    const resp = await fetch(`/api/fallback-secop?q=${encodeURIComponent(termino)}`);
-                    const datos = await resp.json();
-                    if (resp.status === 429) {
-                        sugerenciasEl.innerHTML = `<div class="px-5 py-3 text-sm text-amber-600">${datos.error} (límite: ${datos.limite_diario}/día)</div>`;
-                        return;
-                    }
-                    if (!resp.ok || !datos.resultados?.length) {
-                        sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias, ni en la muestra local ni en vivo.</div>';
-                        return;
-                    }
-                    const items = datos.resultados.map(r => ({ tipo: 'fallback', ...r }));
-                    pintarSugerencias(items, { fallback: true, restantesHoy: datos.busquedas_restantes_hoy });
-                } catch (e) {
-                    sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-red-500 italic">La búsqueda en vivo no está disponible en este momento.</div>';
-                }
-            }
-
             let temporizadorBusqueda = null;
+            let ultimoTermino = null;
+
             input.addEventListener('input', () => {
                 const termino = input.value.trim();
+                ultimoTermino = termino;
+                clearTimeout(temporizadorBusqueda);
+
                 if (termino.length < 2) {
                     sugerenciasEl.classList.add('hidden');
                     sugerenciasEl.innerHTML = '';
                     return;
                 }
+
                 const resultadosLocales = fuse.search(termino).slice(0, 8).map(r => r.item);
-                if (resultadosLocales.length) {
-                    pintarSugerencias(resultadosLocales);
+                // El backend exige mínimo 3 caracteres — con 2 solo se muestra lo local.
+                if (termino.length < 3) {
+                    pintarSugerencias({ locales: resultadosLocales });
                     return;
                 }
-                clearTimeout(temporizadorBusqueda);
-                sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias en la muestra local — buscando en vivo…</div>';
-                sugerenciasEl.classList.remove('hidden');
-                temporizadorBusqueda = setTimeout(() => consultarFallback(termino), 600);
+                pintarSugerencias({ locales: resultadosLocales, fallbackEstado: 'cargando' });
+
+                temporizadorBusqueda = setTimeout(async () => {
+                    let localesVigentes = fuse.search(termino).slice(0, 8).map(r => r.item);
+                    try {
+                        const resp = await fetch(`/api/fallback-secop?q=${encodeURIComponent(termino)}`);
+                        if (termino !== ultimoTermino) return; // el usuario ya escribió otra cosa
+                        const datos = await resp.json();
+                        if (termino !== ultimoTermino) return;
+                        localesVigentes = fuse.search(termino).slice(0, 8).map(r => r.item);
+                        if (resp.status === 429) {
+                            pintarSugerencias({ locales: localesVigentes, fallbackEstado: 'limite' });
+                        } else if (!resp.ok || !datos.resultados?.length) {
+                            pintarSugerencias({ locales: localesVigentes, fallbackEstado: 'vacio' });
+                        } else {
+                            const items = datos.resultados.map(r => ({ tipo: 'fallback', ...r }));
+                            pintarSugerencias({ locales: localesVigentes, fallbackItems: items, fallbackEstado: 'ok', restantesHoy: datos.busquedas_restantes_hoy });
+                        }
+                    } catch (e) {
+                        if (termino !== ultimoTermino) return;
+                        pintarSugerencias({ locales: localesVigentes, fallbackEstado: 'error' });
+                    }
+                }, 600);
             });
 
             document.addEventListener('click', (ev) => {
