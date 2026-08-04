@@ -28,6 +28,17 @@ DOMINIO = "www.datos.gov.co"
 # de la Fase 1, sin costo adicional (GitHub Actions sigue gratis para el repo
 # público). Con SOCRATA_APP_TOKEN configurado, límites mayores son más confiables.
 MAX_REGISTROS = int(os.getenv("SOCRATA_MAX_REGISTROS", "20000"))
+# "Prestación de servicios" (contratación individual de personas para apoyo/
+# servicios profesionales) distorsiona tanto los agregados como el modelo de
+# riesgo — verificado con una muestra real de 20,000 registros: es el 88.7% de
+# TODOS los contratos por conteo, pero solo el 40.7% del valor total. Incluirlo
+# desperdicia la mayor parte del cupo de cada corrida en el tipo de contrato
+# menos relevante para auditoría de contratación pública (obra, suministros,
+# interventoría, consultoría son los que de verdad importan para detectar
+# riesgo), y arrastra la mediana de valor muy por debajo de lo representativo.
+# Se excluye en la consulta misma, no después, mismo principio que los filtros
+# de completitud de más abajo.
+FILTRO_TIPOS_EXCLUIDOS = "tipo_de_contrato != 'Prestación de servicios'"
 # Default relativo a la ubicación del script (no al directorio de trabajo
 # actual) — un "./api/secop" ingenuo escribe en el lugar equivocado si el
 # script se corre desde scripts/ en vez de la raíz del repo (le pasó a esta
@@ -89,7 +100,8 @@ def ingerir():
             "fecha_de_firma IS NOT NULL "
             "AND fecha_de_inicio_del_contrato IS NOT NULL "
             "AND fecha_de_fin_del_contrato IS NOT NULL "
-            "AND valor_del_contrato IS NOT NULL"
+            "AND valor_del_contrato IS NOT NULL "
+            f"AND {FILTRO_TIPOS_EXCLUIDOS}"
         ),
         order="fecha_de_firma DESC",
     )
@@ -134,7 +146,8 @@ def ingerir_ventana_historica(fecha_inicio, fecha_fin, limite):
             "AND fecha_de_firma IS NOT NULL "
             "AND fecha_de_inicio_del_contrato IS NOT NULL "
             "AND fecha_de_fin_del_contrato IS NOT NULL "
-            "AND valor_del_contrato IS NOT NULL"
+            "AND valor_del_contrato IS NOT NULL "
+            f"AND {FILTRO_TIPOS_EXCLUIDOS}"
         ),
         order="fecha_de_firma ASC",
     )

@@ -40,7 +40,15 @@ export default async (req, context) => {
     );
   }
 
-  const params = new URLSearchParams({ $q: termino, $limit: "10" });
+  // Mismo filtro que scripts/generar_json.py: "Prestación de servicios" es el
+  // 88.7% de todos los contratos por conteo pero solo el 40.7% del valor
+  // (verificado con una muestra real de 20,000 registros) — se excluye para
+  // que la búsqueda en vivo sea consistente con lo que ya excluye el batch.
+  const params = new URLSearchParams({
+    $q: termino,
+    $where: "tipo_de_contrato != 'Prestación de servicios'",
+    $limit: "10",
+  });
 
   let resultados = [];
   let registrosCrudos = [];
