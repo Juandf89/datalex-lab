@@ -87,6 +87,7 @@
 
     <script>
         const API_BASE = "api/jurisprudencia"; // JSON estáticos generados por scripts/generar_grafo_jurisprudencia.py
+        const FALLBACK_API_BASE = "https://api.datalexlab.com"; // server/app.mjs (Node.js Web App en Hostinger)
 
         async function cargarJSON(nombre) {
             const res = await fetch(`${API_BASE}/${nombre}`);
@@ -219,7 +220,7 @@
                 sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Buscando en vivo en la Corte Constitucional…</div>';
                 sugerenciasEl.classList.remove('hidden');
                 try {
-                    const resp = await fetch(`/api/fallback-jurisprudencia?q=${encodeURIComponent(termino)}`);
+                    const resp = await fetch(`${FALLBACK_API_BASE}/fallback-jurisprudencia?q=${encodeURIComponent(termino)}`);
                     const datos = await resp.json();
                     if (resp.status === 429) {
                         sugerenciasEl.innerHTML = `<div class="px-5 py-3 text-sm text-amber-600">${datos.error} (límite: ${datos.limite_diario}/día)</div>`;

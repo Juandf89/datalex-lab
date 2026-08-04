@@ -203,6 +203,7 @@
 
     <script>
         const API_BASE = "api/secop"; // JSON estáticos generados por scripts/generar_json.py
+        const FALLBACK_API_BASE = "https://api.datalexlab.com"; // server/app.mjs (Node.js Web App en Hostinger)
 
         // Estado compartido: cada gráfico guarda aquí su instancia de Chart.js y
         // sus datos crudos, para que una selección en el buscador pueda
@@ -684,7 +685,7 @@
                 temporizadorBusqueda = setTimeout(async () => {
                     let localesVigentes = fuse.search(termino).slice(0, 8).map(r => r.item);
                     try {
-                        const resp = await fetch(`/api/fallback-secop?q=${encodeURIComponent(termino)}`);
+                        const resp = await fetch(`${FALLBACK_API_BASE}/fallback-secop?q=${encodeURIComponent(termino)}`);
                         if (termino !== ultimoTermino) return; // el usuario ya escribió otra cosa
                         const datos = await resp.json();
                         if (termino !== ultimoTermino) return;
