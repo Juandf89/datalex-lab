@@ -361,9 +361,9 @@ Mismo criterio aplicado a la Fase 5 (expansión de jurisprudencia).
   3. Si no hay resultados relevantes, se degrada al comportamiento actual (Fuse.js
      local → fallback léxico en vivo) — la búsqueda semántica es un *complemento*,
      no un reemplazo que pueda dejar al usuario sin resultados.
-  4. Los embeddings se recalculan en el batch job (`generar_json.py` o un script
-     hermano) solo para contratos nuevos/actualizados — no reindexar los ~33,000
-     contratos completos en cada corrida horaria.
+  4. Los embeddings se recalculan en el batch job solo para contratos
+     nuevos/actualizados — no reindexar todo el histórico completo en cada corrida
+     horaria (ver decisión de alcance abajo: solo la carga inicial es completa).
 - **Reglas de negocio:**
   - Campo a vectorizar: `descripcion_del_proceso` (más descriptivo que
     `objeto_del_contrato` en el esquema real de `jbjy-vk9h` — confirmar contra una
@@ -374,25 +374,61 @@ Mismo criterio aplicado a la Fase 5 (expansión de jurisprudencia).
     ilimitadas" — no se diseña ni se menciona en el producto hasta que exista
     autenticación real.
 - **Requisitos no funcionales:**
-  - Costo: dentro del presupuesto ya validado (Voyage AI 200M tokens gratis, o
-    ~$0.60/mes con OpenAI `text-embedding-3-small` — ver estimado de la sesión
-    anterior, sigue vigente).
+  - Costo: la decisión de indexar el histórico completo (ver abajo) cambia el
+    estimado de costo inicial — recalcular en 3b contra el volumen real del dataset
+    completo (2015+), no solo contra los ~5,000-30,000 contratos/mes ya estimados.
   - Latencia de búsqueda: debe sentirse instantánea (<1-2s), consistente con el
     debounce de 600ms ya usado en los fallbacks.
   - Netlify Pro sigue **sin ser requisito técnico** para esta fase (mismo análisis
     de antes: cualquier función en el plan Free puede llamar a un proveedor de
     embeddings vía HTTP).
-- **Supuestos y preguntas abiertas** (para validar en 3b, no bloquean el SRS):
-  - ¿Se indexa solo la muestra reciente (~33k) o también el histórico completo del
-    dataset (2015+)? Afecta directamente el costo de reindexación inicial.
-  - ¿Búsqueda semántica reemplaza o convive con Fuse.js? (Este SRS asume que
-    *convive*, ver requisito funcional 3.)
+
+- **Decisiones resueltas (2026-08-04):**
+  1. **Alcance de indexación: histórico completo del dataset** (2015+, no solo la
+     muestra reciente). Cambia el estimado de costo de la sesión anterior (basado en
+     ~5,000 contratos) — hay que recalcular contra el volumen real completo en 3b
+     antes de comprometerse a un proveedor. La carga inicial es un job aparte
+     (indexar todo una vez); las corridas normales solo indexan lo nuevo/actualizado
+     (requisito funcional 4).
+  2. **Repositorio separado y privado.** Este es el producto de pago — el pipeline de
+     embeddings, la función de búsqueda semántica y cualquier lógica de negocio de
+     monetización viven en un repo **nuevo, privado**, no en `datalex-lab` (público).
+     Implicaciones para 3b:
+     - El repo público sigue sirviendo `secop-clm.html` y los JSON estáticos de
+       siempre — sin cambios ahí.
+     - El servicio privado expone su propia función serverless (mismo patrón que
+       `fallback-secop.mjs`, pero desplegada en un sitio de Netlify aparte), que
+       `secop-clm.html` consume vía `fetch()` cross-origin.
+     - Implica configurar CORS en la función privada para aceptar solo peticiones
+       desde `datalexlab.com` (no abierto a cualquier origen).
+     - El código del pipeline de embeddings (prompts, lógica de ranking, costos)
+       queda fuera de un repo público — razonable para un servicio de pago, evita
+       que cualquiera clone la lógica de negocio completa.
+  3. **Cómo se complementan Fuse.js y la búsqueda semántica** (responde la pregunta
+     abierta anterior — sí conviven, no se reemplazan, y no son redundantes: resuelven
+     preguntas distintas):
+     - **Fuse.js (ya implementado, gratis, instantáneo):** responde *"¿quién/cuál?"*
+       — busca por identificador conocido (nombre de entidad, `id_contrato`).
+       Coincidencia textual/difusa sobre campos estructurados.
+     - **Búsqueda semántica (esta fase, producto de pago):** responde *"¿qué tipo de
+       contrato?"* — busca por *significado* de `descripcion_del_proceso` cuando el
+       usuario no conoce el nombre exacto de la entidad ni el ID, solo el tema
+       ("obras de pavimentación en zona rural del Meta").
+     - **Orden de la cascada de búsqueda** (extiende la ya existente
+       Fuse.js → fallback léxico): Fuse.js local → fallback léxico en vivo (ya
+       implementado) → **búsqueda semántica** como último recurso cuando ninguna de
+       las dos anteriores encuentra algo *o* cuando el usuario explícitamente
+       escribe una consulta conceptual (no un identificador) — el criterio exacto de
+       "cuándo disparar semántica en vez de solo léxica" se define en 3b.
 
 #### 3b. Diseño de software — Arquitectura técnica
 
-*(Pendiente de desarrollar — insumos ya validados en sesiones previas: proveedor de
-embeddings recomendado Voyage AI, arquitectura sin backend dedicado — función
-serverless de Netlify + caché en Blobs, igual patrón que `fallback-secop.mjs`.)*
+*(Pendiente de desarrollar — insumos ya validados: proveedor de embeddings
+recomendado Voyage AI (recalcular costo contra histórico completo, no la muestra),
+arquitectura de dos repos — público (`datalex-lab`, sin cambios) + privado nuevo
+(pipeline de embeddings + función de búsqueda, con CORS restringido a
+`datalexlab.com`). Falta: nombre y creación del repo privado, esquema del vector
+store, criterio exacto de cascada Fuse.js → léxico → semántico.)*
 
 #### 3c. Desarrollo
 
@@ -447,14 +483,9 @@ no dos iniciativas separadas.
   - Mismo criterio de rate limiting que Fase 2/3: sin cuenta de usuario, límite por
     IP/día.
 - **Requisitos no funcionales / cumplimiento:**
-  - **Bloqueante real, no técnico:** ni `jurisprudencia.ramajudicial.gov.co` ni
-    `cortesuprema.gov.co` ni `consejodeestado.gov.co` publican `robots.txt` — zona
-    gris, a diferencia de la Corte Constitucional que sí permite `/relatoria/`
-    explícitamente. **Antes de construir el scraper de producción**, escribir a
-    `info.cendoj@ramajudicial.gov.co` preguntando por un canal de datos masivos/API
-    — más legítimo para un producto comercial, y podría ahorrar todo el trabajo de
-    scraping si la respuesta es positiva. Este paso bloquea el inicio de 5c
-    (Desarrollo), no el de 5a/5b.
+  - Ni `jurisprudencia.ramajudicial.gov.co` ni `cortesuprema.gov.co` ni
+    `consejodeestado.gov.co` publican `robots.txt` — zona gris, a diferencia de la
+    Corte Constitucional que sí permite `/relatoria/` explícitamente.
   - Buena práctica de scraping ya validada en Fase 2 (User-Agent identificable,
     pausa entre requests, alcance acotado por corrida) aplica igual aquí.
 - **Hallazgos técnicos ya validados (insumo para 5b):**
@@ -469,18 +500,29 @@ no dos iniciativas separadas.
     headless browser** — confirmado con una búsqueda real ("estabilidad laboral
     reforzada") que devolvió resultados correctos. Script de referencia:
     `scripts/poc_cendoj.py`.
-- **Supuestos y preguntas abiertas** (para validar en 5b):
-  - ¿El grafo combinado vive en el mismo `grafo_citas.json` (con campo `corte`
-    nuevo) o en archivos separados por corte, unidos solo en el frontend? Afecta
-    cómo se calcula `in_degree` (¿global cross-corte, o por corte?).
-  - ¿La respuesta de CENDOJ a la Recomendación de cumplimiento cambia el diseño
-    técnico (API oficial vs. scraping)? — 5b no debería comprometerse a la
-    arquitectura de scraping hasta tener esa respuesta o un plazo razonable sin ella.
+- **Decisiones resueltas (2026-08-04):**
+  1. **Grafo combinado en un solo archivo** (`grafo_citas.json` con campo `corte`
+     nuevo por nodo), no archivos separados por corte. Prioriza eficiencia (un solo
+     fetch, un solo índice Fuse.js, un solo pipeline de fusión — mismo patrón que
+     `fusionar_historico` en SECOP) *y* el uso real del producto: el valor central
+     de un grafo de citas es precisamente ver **líneas jurisprudenciales que cruzan
+     cortes** (ej. una tutela de Corte Constitucional citando un precedente de
+     Consejo de Estado) — separar por corte fragmentaría justo lo que hace valioso
+     al grafo combinado. `in_degree` se calcula **global, cross-corte** (una cita es
+     una cita, sin importar el origen — mismo criterio que las aristas).
+  2. **No se espera respuesta de CENDOJ para empezar 5b/5c.** Se procede directo
+     con la arquitectura de scraping ya validada en el PoC (`scripts/poc_cendoj.py`).
+     El correo a `info.cendoj@ramajudicial.gov.co` se sigue enviando (más legítimo
+     para un producto comercial, y una respuesta positiva más adelante podría
+     simplificar o reemplazar el scraper), pero **en paralelo, sin bloquear** —
+     buena práctica de scraping (User-Agent identificable, pausas, alcance acotado)
+     ya cubre el riesgo de la zona gris de `robots.txt` mientras tanto.
 
 #### 5b. Diseño de software — Arquitectura técnica
 
-*(Pendiente — depende de la respuesta de CENDOJ o de un plazo límite razonable de
-espera antes de proceder solo con el PoC de scraping ya validado.)*
+*(Pendiente de desarrollar — insumo ya resuelto: un solo `grafo_citas.json`
+combinado con campo `corte`, arquitectura de scraping igual a
+`scripts/poc_cendoj.py`, sin esperar respuesta de CENDOJ.)*
 
 #### 5c. Desarrollo
 
@@ -621,13 +663,20 @@ PARA TODOS LOS COLOMBIANOS" en 3 líneas) — se lee completo, sin cortes.
 **Antes de Fase 3b/3c (diseño y desarrollo del buscador semántico SECOP):**
 - [ ] Confirmar qué campo vectorizar (`descripcion_del_proceso` vs.
       `objeto_del_contrato`) contra una muestra real del esquema.
-- [ ] Decidir si se indexa solo la muestra reciente o el histórico completo.
+- [ ] Crear el repositorio privado nuevo (falta definir nombre) y configurar su
+      propio deploy de Netlify.
+- [ ] Recalcular el costo de embeddings contra el volumen real del histórico
+      completo (2015+), no contra la muestra de ~5,000-30,000 usada en el
+      estimado anterior — decisión de indexar todo el histórico ya tomada
+      (2026-08-04), falta el número real.
+- [ ] Definir el criterio exacto de cuándo disparar la búsqueda semántica en la
+      cascada Fuse.js → léxico → semántico (¿solo cuando las dos anteriores no
+      encuentran nada, o también cuando la consulta "parece" conceptual?).
 
 **Antes de Fase 5b/5c (diseño y desarrollo de la expansión de jurisprudencia):**
-- [ ] Redactar y enviar el correo a CENDOJ (`info.cendoj@ramajudicial.gov.co`)
-      antes de construir el scraper de producción.
-- [ ] Decidir el modelo de datos del grafo combinado (un solo `grafo_citas.json`
-      con campo `corte`, o archivos separados por corte).
+- [ ] Redactar y enviar el correo a CENDOJ (`info.cendoj@ramajudicial.gov.co`) —
+      ya no bloquea el inicio de 5b/5c (decisión 2026-08-04: se procede con el
+      PoC de scraping validado en paralelo), pero sigue pendiente de enviarse.
 
 **Antes de Fase 6 (autenticación + pagos, cuando se active):**
 - [ ] Elegir Wompi vs. ePayco como procesador de pago.
