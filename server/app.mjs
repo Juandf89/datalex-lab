@@ -9,7 +9,13 @@ import express from "express";
 import * as cheerio from "cheerio";
 import { actualizar, leer } from "./store.mjs";
 
-const PUERTO = process.env.PORT || 3000;
+// El Node.js Web App de Hostinger corre detrás del módulo propio de LiteSpeed
+// ("lsnode"): ignora cualquier puerto TCP que la app pida y en vez de eso la
+// conecta por un socket Unix cuya ruta llega en LSNODE_SOCKET — confirmado
+// via runtime logs (la app escuchaba bien en :3000 pero LiteSpeed devolvía
+// 503 igual, porque nunca la buscó ahí). http.Server.listen() de Node acepta
+// un string de ruta como "puerto" y automáticamente escucha por socket Unix.
+const PUERTO = process.env.LSNODE_SOCKET || process.env.PORT || 3000;
 const ORIGEN_PERMITIDO = process.env.ALLOWED_ORIGIN || "https://datalexlab.com";
 const TOKEN_INTERNO = process.env.ABSORBER_TOKEN;
 const LIMITE_DIARIO_SECOP = Number(process.env.LIMITE_DIARIO_SECOP || 5);
@@ -283,10 +289,5 @@ registrarRutasInternas("secop", RUTA_PENDIENTES_SECOP);
 registrarRutasInternas("jurisprudencia", RUTA_PENDIENTES_JURISPRUDENCIA);
 
 app.listen(PUERTO, () => {
-  console.log(`[ok] servidor de fallbacks escuchando en el puerto ${PUERTO}`);
-  // Diagnóstico temporal: el 503 de LiteSpeed sugiere que espera un puerto
-  // distinto a nuestro default. Solo se listan NOMBRES de variables (nunca
-  // valores) para no filtrar secretos en los logs — sirve para ver si
-  // Hostinger inyecta algo tipo PORT/APP_PORT que no estamos leyendo.
-  console.log("[debug] variables de entorno disponibles:", Object.keys(process.env).sort().join(", "));
+  console.log(`[ok] servidor de fallbacks escuchando en ${PUERTO}`);
 });
