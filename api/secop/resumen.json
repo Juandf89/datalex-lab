@@ -1,28 +1,28 @@
 {
-  "generado_en": "2026-08-04T03:53:48.063810+00:00",
+  "generado_en": "2026-08-04T04:39:18.969028+00:00",
   "fuente": {
     "dataset": "jbjy-vk9h",
     "dominio": "www.datos.gov.co",
     "descripcion": "SECOP II - Contratos Electrónicos, Datos Abiertos Colombia"
   },
   "muestra": {
-    "ingeridos_esta_corrida": null,
-    "acumulados_total": 25000,
-    "nuevos_o_actualizados_esta_corrida": 0,
-    "aptos_modelo": 24848,
-    "entidades_distintas": 2020,
-    "valor_total_acumulado_cop": 2729194495178.76,
+    "ingeridos_esta_corrida": 20000,
+    "acumulados_total": 33238,
+    "nuevos_o_actualizados_esta_corrida": 8238,
+    "aptos_modelo": 32918,
+    "entidades_distintas": 2212,
+    "valor_total_acumulado_cop": 3964803582377.75,
     "sectores_distintos": 24,
-    "fecha_firma_min": "2026-05-05",
-    "fecha_firma_max": "2026-07-31"
+    "fecha_firma_min": "2022-07-16",
+    "fecha_firma_max": "2026-08-02"
   },
   "modelo": {
     "algoritmo": "IsolationForest",
-    "anomalias_detectadas": 1243,
-    "red_flags": 3
+    "anomalias_detectadas": 1646,
+    "red_flags": 8
   },
   "red_flags_resumen": {
-    "valor_total_cop": 1264999489.0,
-    "desviacion_promedio_dias": 445.0
+    "valor_total_cop": 11113762627.0,
+    "desviacion_promedio_dias": 506.0
   }
 }
