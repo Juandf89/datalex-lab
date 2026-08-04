@@ -1,0 +1,13 @@
+{
+  "name": "datalex-lab-server",
+  "private": true,
+  "type": "module",
+  "main": "app.mjs",
+  "scripts": {
+    "start": "node app.mjs"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "express": "^4.19.2"
+  }
+}

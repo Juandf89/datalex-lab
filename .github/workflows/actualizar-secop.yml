@@ -33,23 +33,20 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Instalar dependencias Node (absorción de pendientes-secop)
-        run: npm ci
-        working-directory: scripts
-
       # Recoge los contratos que la gente encontró en vivo (búsquedas que no
-      # estaban en la muestra local, resueltas por netlify/functions/fallback-secop.mjs)
+      # estaban en la muestra local, resueltas por server/app.mjs en Hostinger)
       # y los deja en scripts/pendientes_absorbidos.json para que Python los
-      # fusione al histórico acumulado. Si NETLIFY_SITE_ID/NETLIFY_AUTH_TOKEN
-      # no están configurados como secrets del repo, este paso no hace nada
-      # (ver scripts/absorber_pendientes_secop.mjs) y el resto del pipeline
-      # sigue funcionando exactamente igual que antes de este mecanismo —
-      # por eso continue-on-error: no debe poder tumbar la ingesta normal.
+      # fusione al histórico acumulado. Si API_BASE_URL/ABSORBER_TOKEN no están
+      # configurados como secrets del repo, este paso no hace nada (ver
+      # scripts/absorber_pendientes_secop.mjs) y el resto del pipeline sigue
+      # funcionando exactamente igual que antes de este mecanismo — por eso
+      # continue-on-error: no debe poder tumbar la ingesta normal. Sin paso de
+      # "npm ci": el script usa fetch() nativo de Node, sin dependencias.
       - name: Recoger pendientes de búsquedas en vivo (SECOP)
         continue-on-error: true
         env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          ABSORBER_TOKEN: ${{ secrets.ABSORBER_TOKEN }}
         run: node scripts/absorber_pendientes_secop.mjs fetch
 
       - name: Generar JSON de la API
@@ -66,8 +63,8 @@ jobs:
       - name: Confirmar absorción de pendientes-secop
         if: success()
         env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          ABSORBER_TOKEN: ${{ secrets.ABSORBER_TOKEN }}
         run: node scripts/absorber_pendientes_secop.mjs confirm
 
       - name: Commit y push si hay cambios

@@ -2,8 +2,5 @@
   "name": "datalex-lab-scripts",
   "private": true,
   "type": "module",
-  "description": "Dependencias Node para scripts auxiliares de GitHub Actions (no se despliegan como funciones de Netlify).",
-  "dependencies": {
-    "@netlify/blobs": "^8.1.0"
-  }
+  "description": "Scripts auxiliares de GitHub Actions (no se despliegan como funciones de Netlify). Sin dependencias externas: absorber_pendientes_secop.mjs usa fetch() nativo de Node."
 }
