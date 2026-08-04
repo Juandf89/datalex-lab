@@ -284,4 +284,9 @@ registrarRutasInternas("jurisprudencia", RUTA_PENDIENTES_JURISPRUDENCIA);
 
 app.listen(PUERTO, () => {
   console.log(`[ok] servidor de fallbacks escuchando en el puerto ${PUERTO}`);
+  // Diagnóstico temporal: el 503 de LiteSpeed sugiere que espera un puerto
+  // distinto a nuestro default. Solo se listan NOMBRES de variables (nunca
+  // valores) para no filtrar secretos en los logs — sirve para ver si
+  // Hostinger inyecta algo tipo PORT/APP_PORT que no estamos leyendo.
+  console.log("[debug] variables de entorno disponibles:", Object.keys(process.env).sort().join(", "));
 });
