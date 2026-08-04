@@ -6,6 +6,7 @@
     <title>Auditoría SECOP II | DataLex Lab</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
 
@@ -56,6 +57,7 @@
             <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
                 <a href="datalex_lab.html#proyectos" class="hover:text-indigo-600 transition-colors">Proyectos</a>
                 <a href="#resumen" class="hover:text-indigo-600 transition-colors">Resumen</a>
+                <a href="#expediente" class="hover:text-indigo-600 transition-colors">Expediente</a>
                 <a href="#red-flags" class="hover:text-indigo-600 transition-colors">Red Flags</a>
                 <a href="#sectores" class="hover:text-indigo-600 transition-colors">Sectores</a>
             </div>
@@ -69,10 +71,12 @@
             Auditoría automatizada <span class="gradient-text italic">SECOP II</span>
         </h1>
         <p class="text-lg text-slate-600 leading-relaxed max-w-2xl">
-            Analizamos en vivo la contratación pública reportada en
+            Analizamos la contratación pública reportada en
             <a href="https://www.datos.gov.co" target="_blank" class="text-indigo-600 hover:underline">Datos Abiertos Colombia</a>
-            y usamos un modelo de anomalías (Isolation Forest) para detectar contratos con riesgo de sobre-ejecución.
-            Los datos se actualizan solos cada 12 horas con la información más reciente de Socrata.
+            y señalamos automáticamente los contratos que se salen del comportamiento normal —
+            plazos que se estiran mucho más de lo esperado, valores fuera de lo común para su sector,
+            o duraciones atípicas — para que puedas revisarlos antes de que se conviertan en un problema.
+            Los datos se actualizan solos cada hora con la información más reciente.
         </p>
         <p id="meta-generacion" class="text-xs text-slate-400 mt-6 uppercase tracking-wider font-semibold">Cargando última actualización…</p>
     </header>
@@ -83,14 +87,51 @@
         </div>
     </section>
 
+    <section id="expediente" class="max-w-6xl mx-auto px-6 pb-24">
+        <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Buscar entidad o contrato</h2>
+        <p class="text-slate-500 mb-6 text-sm max-w-2xl">
+            Escribe el nombre de una entidad contratante o un ID de contrato para explorar su expediente —
+            en vez de solo mirar los agregados de arriba.
+        </p>
+        <div class="relative max-w-xl">
+            <input id="buscador-input" type="text" autocomplete="off"
+                   placeholder="Ej. INVIAS, DEPARTAMENTO DE CORDOBA, CO1.PCCNTR..."
+                   class="w-full border border-slate-300 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            <div id="buscador-sugerencias"
+                 class="absolute z-10 w-full bg-white border border-slate-200 rounded-2xl mt-2 shadow-lg overflow-hidden hidden">
+            </div>
+        </div>
+        <div id="filtro-activo" class="mt-4 hidden">
+            <span class="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 text-xs font-semibold px-4 py-2 rounded-full">
+                <span id="filtro-activo-texto"></span>
+                <button onclick="quitarSeleccion()" class="text-indigo-400 hover:text-indigo-700 font-bold">✕ Ver todos</button>
+            </span>
+        </div>
+        <div id="expediente-card" class="mt-6"></div>
+
+        <div class="mt-16">
+            <h3 class="text-2xl font-serif font-bold mb-2 text-slate-900">Benchmarking: valor vs. duración</h3>
+            <p class="text-slate-500 mb-6 text-sm max-w-2xl">
+                Cada punto es un contrato de la muestra. Sirve para calibrar si un presupuesto o un plazo
+                propuesto está dentro de lo históricamente adjudicado en ese sector.
+            </p>
+            <div class="bg-slate-50 rounded-3xl border border-slate-200 p-6">
+                <div class="chart-container" style="height: 420px;">
+                    <canvas id="benchmarkChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="red-flags" class="bg-slate-900 text-white py-24">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-10 text-left">
-                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">Temporal Red Flags</h2>
+                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">Alertas de alto riesgo</h2>
                 <p class="text-slate-400 max-w-2xl text-sm leading-relaxed">
-                    Contratos que el modelo marca como estadísticamente atípicos (Isolation Forest sobre desviación
-                    temporal, valor, duración y sector) <strong class="text-slate-200">y</strong> que superan 365 días
-                    de plazo adicionado — el umbral de retraso crítico.
+                    Contratos que combinan dos señales de alerta a la vez: su comportamiento se sale de lo normal
+                    para su sector (plazo, valor y duración muy distintos a contratos similares)
+                    <strong class="text-slate-200">y</strong> ya acumulan más de 365 días de plazo adicionado —
+                    más de un año de extensiones sobre lo pactado originalmente. Vale la pena revisarlos primero.
                 </p>
             </div>
 
@@ -110,7 +151,10 @@
     <section id="sectores" class="py-24 bg-white">
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Concentración por sector</h2>
-            <p class="text-slate-500 mb-10 text-sm">Valor total adjudicado por sector en la muestra analizada.</p>
+            <p class="text-slate-500 mb-10 text-sm max-w-2xl">
+                Cuánto dinero se ha adjudicado en cada sector. Útil para ver dónde se concentra realmente
+                el gasto público — y comparar si el sector que te interesa mueve más o menos de lo que esperabas.
+            </p>
             <div class="bg-slate-50 rounded-3xl border border-slate-200 p-8">
                 <div class="chart-container" style="height: 420px;">
                     <canvas id="sectorChart"></canvas>
@@ -123,7 +167,11 @@
         <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
                 <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Tendencia anual</h2>
-                <p class="text-slate-500 mb-8 text-sm">Inversión total adjudicada por año de firma.</p>
+                <p class="text-slate-500 mb-8 text-sm">
+                    Cuánto vale un contrato firmado cada año. Se muestran dos cifras porque un puñado
+                    de contratos gigantes puede inflar el promedio: la <strong>mediana</strong> es lo que paga
+                    la mayoría de entidades, el <strong>promedio</strong> incluye también esos contratos atípicos.
+                </p>
                 <div class="bg-white rounded-3xl border border-slate-200 p-6">
                     <div class="chart-container"><canvas id="anioChart"></canvas></div>
                 </div>
@@ -132,7 +180,7 @@
                 <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Riesgo de concentración</h2>
                 <p class="text-slate-500 mb-8 text-sm">Top 10 proveedores por valor total adjudicado — señal de riesgo de monopolio.</p>
                 <div class="bg-white rounded-3xl border border-slate-200 p-6">
-                    <div class="chart-container"><canvas id="proveedoresChart"></canvas></div>
+                    <div class="chart-container" style="height: 420px;"><canvas id="proveedoresChart"></canvas></div>
                 </div>
             </div>
         </div>
@@ -141,7 +189,7 @@
     <footer class="bg-slate-50 py-16 border-t border-slate-200 text-center">
         <div class="max-w-xl mx-auto px-6">
             <p class="text-slate-500 text-sm mb-4">
-                Los datos se actualizan solos cada 12 horas desde la API de Socrata (Datos Abiertos Colombia).
+                Los datos se actualizan solos cada hora desde Datos Abiertos Colombia.
                 Metodología completa, notebook y código fuente en el repositorio.
             </p>
             <a href="https://github.com/Juandf89/datalex-lab" target="_blank" class="text-indigo-600 text-sm font-bold hover:underline">Ver repositorio en GitHub ➔</a>
@@ -155,12 +203,49 @@
     <script>
         const API_BASE = "api/secop"; // JSON estáticos generados por scripts/generar_json.py
 
+        // Estado compartido: cada gráfico guarda aquí su instancia de Chart.js y
+        // sus datos crudos, para que una selección en el buscador pueda
+        // resaltarlos/filtrarlos a todos a la vez, en vez de dejarlos estáticos.
+        const graficos = {
+            sector: { chart: null, datos: [] },
+            anio: { chart: null, datos: [] },
+            proveedores: { chart: null, datos: [] },
+            benchmark: { chart: null, datos: [] },
+            redFlags: { chart: null, datos: [] },
+        };
+
+        // "B"/"M" al estilo inglés son ambiguos en español: un billón en español
+        // es 10^12, no 10^9 como el "billion" inglés — usar esa abreviatura le
+        // haría creer al lector que la cifra es 1000 veces más grande de lo que
+        // es. Se escribe la escala explícita en español para no dejar dudas.
         const formatoCOP = (valor) => {
             if (valor === null || valor === undefined) return "—";
-            if (Math.abs(valor) >= 1e9) return `$${(valor / 1e9).toFixed(1)}B`;
-            if (Math.abs(valor) >= 1e6) return `$${(valor / 1e6).toFixed(0)}M`;
+            if (Math.abs(valor) >= 1e12) return `$${(valor / 1e12).toFixed(1)} billones`;
+            if (Math.abs(valor) >= 1e9) return `$${(valor / 1e9).toFixed(1)} mil millones`;
+            if (Math.abs(valor) >= 1e6) return `$${(valor / 1e6).toFixed(0)} millones`;
             return `$${valor.toLocaleString('es-CO')}`;
         };
+
+        // Chart.js acepta un array de strings como etiqueta y las renderiza en
+        // varias líneas — mejor que truncar con "…" y perder el nombre real
+        // (importante para un nombre de proveedor/entidad, donde el nombre
+        // completo es justamente el dato que un veedor necesita).
+        function envolverTexto(texto, maxCaracteresPorLinea = 22) {
+            const palabras = String(texto).split(' ');
+            const lineas = [];
+            let actual = '';
+            for (const palabra of palabras) {
+                const propuesta = actual ? `${actual} ${palabra}` : palabra;
+                if (propuesta.length > maxCaracteresPorLinea && actual) {
+                    lineas.push(actual);
+                    actual = palabra;
+                } else {
+                    actual = propuesta;
+                }
+            }
+            if (actual) lineas.push(actual);
+            return lineas;
+        }
 
         const paletaSectores = ['#4f46e5', '#06b6d4', '#6366f1', '#22d3ee', '#818cf8', '#67e8f9',
                                  '#a5b4fc', '#a5f3fc', '#c7d2fe', '#e0e7ff'];
@@ -171,11 +256,12 @@
             return res.json();
         }
 
-        function tarjeta(valor, etiqueta, acento) {
+        function tarjeta(valor, etiqueta, acento, subtitulo) {
             return `
                 <div class="bg-white rounded-2xl border border-slate-200 p-6 fade-in hover:shadow-md hover:-translate-y-0.5 hover:border-indigo-200 transition-all">
                     <p class="text-3xl font-serif font-bold ${acento}">${valor}</p>
                     <p class="text-xs text-slate-500 mt-2 uppercase tracking-wider font-semibold">${etiqueta}</p>
+                    ${subtitulo ? `<p class="text-[11px] text-slate-400 mt-1">${subtitulo}</p>` : ''}
                 </div>`;
         }
 
@@ -185,13 +271,33 @@
             try {
                 const r = await cargarJSON('resumen.json');
                 const fecha = new Date(r.generado_en);
-                meta.textContent = `Última actualización: ${fecha.toLocaleString('es-CO', { dateStyle: 'long', timeStyle: 'short' })} · Muestra de ${r.muestra.ingeridos.toLocaleString('es-CO')} contratos`;
+                // Retrocompatible con el esquema anterior (ingeridos/limpios) por si
+                // resumen.json todavía no fue regenerado por la corrida acumulativa
+                // más reciente — evita que las tarjetas se rompan en la ventana entre
+                // desplegar el código nuevo y que corra el próximo cron.
+                const totalAcumulado = r.muestra.acumulados_total ?? r.muestra.limpios ?? r.muestra.ingeridos ?? 0;
+                const entidadesDistintas = r.muestra.entidades_distintas;
+                const valorTotalAcumulado = r.muestra.valor_total_acumulado_cop;
+                const sectoresDistintos = r.muestra.sectores_distintos;
+                // Un número grande de plata sin decir de cuándo a cuándo es difícil
+                // de creer (y de auditar) — siempre se muestra junto al rango de
+                // fechas real de la muestra, nunca solo.
+                const rangoFechas = (r.muestra.fecha_firma_min && r.muestra.fecha_firma_max)
+                    ? `Contratos firmados entre ${r.muestra.fecha_firma_min} y ${r.muestra.fecha_firma_max}`
+                    : null;
 
+                meta.textContent = `Última actualización: ${fecha.toLocaleString('es-CO', { dateStyle: 'long', timeStyle: 'short' })} · ${totalAcumulado.toLocaleString('es-CO')} contratos analizados en total`;
+
+                // Las 4 tarjetas de arriba muestran solo escala/cobertura global —
+                // nunca un conteo o valor derivado de "alertas" o "anomalías", porque
+                // esa pregunta ya se responde en contexto quien busca una entidad o
+                // un contrato (tarjeta de expediente + lista de alertas filtrada),
+                // no como un número flotante desconectado de cualquier búsqueda.
                 cards.innerHTML = [
-                    tarjeta(r.muestra.limpios.toLocaleString('es-CO'), 'Contratos analizados', 'text-slate-900'),
-                    tarjeta(r.modelo.anomalias_detectadas.toLocaleString('es-CO'), 'Anomalías detectadas', 'text-indigo-600'),
-                    tarjeta(r.modelo.red_flags.toLocaleString('es-CO'), 'Temporal Red Flags', 'text-red-600'),
-                    tarjeta(formatoCOP(r.red_flags_resumen.valor_total_cop), 'Valor en riesgo (COP)', 'text-cyan-600'),
+                    tarjeta(totalAcumulado.toLocaleString('es-CO'), 'Contratos analizados (acumulado)', 'text-slate-900', rangoFechas),
+                    tarjeta(entidadesDistintas != null ? entidadesDistintas.toLocaleString('es-CO') : '—', 'Entidades que puedes buscar', 'text-indigo-600'),
+                    tarjeta(valorTotalAcumulado != null ? formatoCOP(valorTotalAcumulado) : '—', 'Valor total en la muestra (COP)', 'text-cyan-600', rangoFechas),
+                    tarjeta(sectoresDistintos != null ? sectoresDistintos.toLocaleString('es-CO') : '—', 'Sectores cubiertos', 'text-emerald-600'),
                 ].join('');
             } catch (e) {
                 meta.textContent = 'No se pudo cargar el resumen. Verifica que la API estática esté publicada.';
@@ -199,38 +305,45 @@
             }
         }
 
-        async function cargarRedFlags() {
+        function pintarListaRedFlags(flags, filtroEtiqueta) {
             const lista = document.getElementById('red-flags-list');
+            if (!flags.length) {
+                lista.innerHTML = `<div class="text-slate-400 italic text-sm">${
+                    filtroEtiqueta
+                        ? `${filtroEtiqueta} no tiene contratos marcados como alerta de alto riesgo en la muestra actual.`
+                        : 'Sin contratos de alto riesgo en la muestra actual.'
+                }</div>`;
+                return;
+            }
+            lista.innerHTML = flags.map(f => `
+                <div class="bg-slate-800/60 border border-red-500/30 hover:border-red-400/60 hover:bg-slate-800 rounded-2xl p-5 fade-in transition-colors">
+                    <div class="flex justify-between items-start gap-3 mb-2">
+                        <span class="text-xs font-mono text-cyan-300">${f.id_contrato}</span>
+                        <span class="text-[10px] bg-red-500/20 text-red-300 px-2 py-1 rounded-full font-bold uppercase tracking-wider">Alerta</span>
+                    </div>
+                    <p class="font-bold text-white text-sm mb-1">${f.nombre_entidad}</p>
+                    <p class="text-slate-400 text-xs mb-3">${f.sector} · ${f.anio}</p>
+                    <div class="flex justify-between text-xs text-slate-300">
+                        <span>${formatoCOP(f.valor_del_contrato)} COP</span>
+                        <span class="text-red-300 font-bold">${f.desviacion_temporal_real} días de plazo adicionado</span>
+                    </div>
+                </div>`).join('');
+        }
+
+        async function cargarRedFlags() {
             try {
                 const flags = await cargarJSON('red_flags.json');
-
-                if (!flags.length) {
-                    lista.innerHTML = '<div class="text-slate-400 italic text-sm">Sin contratos de alto riesgo en la muestra actual.</div>';
-                } else {
-                    lista.innerHTML = flags.map(f => `
-                        <div class="bg-slate-800/60 border border-red-500/30 hover:border-red-400/60 hover:bg-slate-800 rounded-2xl p-5 fade-in transition-colors">
-                            <div class="flex justify-between items-start gap-3 mb-2">
-                                <span class="text-xs font-mono text-cyan-300">${f.id_contrato}</span>
-                                <span class="text-[10px] bg-red-500/20 text-red-300 px-2 py-1 rounded-full font-bold uppercase tracking-wider">Red Flag</span>
-                            </div>
-                            <p class="font-bold text-white text-sm mb-1">${f.nombre_entidad}</p>
-                            <p class="text-slate-400 text-xs mb-3">${f.sector} · ${f.anio}</p>
-                            <div class="flex justify-between text-xs text-slate-300">
-                                <span>${formatoCOP(f.valor_del_contrato)} COP</span>
-                                <span class="text-red-300 font-bold">${f.desviacion_temporal_real} días de desviación</span>
-                            </div>
-                        </div>`).join('');
-                }
+                graficos.redFlags.datos = flags;
+                pintarListaRedFlags(flags);
 
                 const ctx = document.getElementById('redFlagsChart').getContext('2d');
-                const [resumen, porSector] = [await cargarJSON('resumen.json'), null];
 
-                new Chart(ctx, {
+                graficos.redFlags.chart = new Chart(ctx, {
                     type: 'scatter',
                     data: {
                         datasets: [
                             {
-                                label: 'Temporal Red Flag',
+                                label: 'Alerta de alto riesgo',
                                 data: flags.map(f => ({ x: f.valor_del_contrato, y: f.desviacion_temporal_real, id: f.id_contrato })),
                                 backgroundColor: '#f87171',
                                 borderColor: '#ffffff',
@@ -242,29 +355,37 @@
                     options: {
                         maintainAspectRatio: false,
                         scales: {
-                            x: { type: 'logarithmic', title: { display: true, text: 'Valor del contrato (COP, log)', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                            y: { title: { display: true, text: 'Desviación temporal (días)', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            x: { type: 'logarithmic', title: { display: true, text: 'Valor del contrato (COP)', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            y: { title: { display: true, text: 'Días de plazo adicionado', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
                         },
                         plugins: {
                             legend: { labels: { color: '#cbd5e1' } },
                             tooltip: {
                                 callbacks: {
-                                    label: (item) => `${item.raw.id}: ${formatoCOP(item.raw.x)} COP, ${item.raw.y} días`,
+                                    label: (item) => `${item.raw.id}: ${formatoCOP(item.raw.x)} COP, ${item.raw.y} días de plazo adicionado`,
                                 },
                             },
                         },
                     },
                 });
             } catch (e) {
-                lista.innerHTML = '<div class="text-red-400 text-sm italic">No se pudieron cargar los red flags.</div>';
+                document.getElementById('red-flags-list').innerHTML = '<div class="text-red-400 text-sm italic">No se pudieron cargar las alertas.</div>';
             }
         }
 
         async function cargarSectores() {
             try {
-                const datos = (await cargarJSON('por_sector.json')).slice(0, 12);
+                // "No aplica/No pertenece" es un valor real del campo "sector" de SECOP
+                // (no un error nuestro) para contratos que la propia entidad no clasificó
+                // en ningún sector — se excluye de este ranking porque no es un sector real
+                // y confunde la lectura, pero sigue contando en los totales generales
+                // (resumen.json no depende de esta lista).
+                const datos = (await cargarJSON('por_sector.json'))
+                    .filter(d => d.sector !== 'No aplica/No pertenece')
+                    .slice(0, 12);
+                graficos.sector.datos = datos;
                 const ctx = document.getElementById('sectorChart').getContext('2d');
-                new Chart(ctx, {
+                graficos.sector.chart = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: datos.map(d => d.sector),
@@ -280,6 +401,13 @@
                         maintainAspectRatio: false,
                         scales: {
                             x: { ticks: { callback: (v) => formatoCOP(v) } },
+                            // Fuente reducida: en móvil Chart.js solo reserva ~50% del ancho
+                            // del canvas para las etiquetas del eje Y — con el tamaño por
+                            // defecto (12px), nombres de sector largos se dibujan más anchos
+                            // que esa columna y quedan recortados por el borde izquierdo del
+                            // canvas (verificado: "No aplica/No pertenece" se veía como "lo
+                            // aplica/No pertenece"). 9px reduce el problema a casos extremos.
+                            y: { ticks: { font: { size: 9 } } },
                         },
                         plugins: {
                             legend: { display: false },
@@ -295,26 +423,42 @@
         async function cargarTendenciaAnual() {
             try {
                 const datos = await cargarJSON('por_anio.json');
+                graficos.anio.datos = datos;
                 const ctx = document.getElementById('anioChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'line',
+                graficos.anio.chart = new Chart(ctx, {
+                    type: 'bar',
                     data: {
                         labels: datos.map(d => d.anio),
-                        datasets: [{
-                            label: 'Valor total adjudicado (COP)',
-                            data: datos.map(d => d.valor_total),
-                            borderColor: '#4f46e5',
-                            backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                            fill: true,
-                            tension: 0.3,
-                        }],
+                        datasets: [
+                            {
+                                label: 'Mediana (lo típico)',
+                                data: datos.map(d => d.valor_mediana),
+                                backgroundColor: '#06b6d4',
+                                borderRadius: 6,
+                                // Sin límite, Chart.js estira la barra para llenar todo el alto
+                                // disponible cuando hay pocos años en la muestra (hoy solo 2026) —
+                                // se ve desproporcionadamente gruesa. Un tope fijo la mantiene
+                                // legible sin importar cuántos años haya.
+                                maxBarThickness: 28,
+                            },
+                            {
+                                label: 'Promedio (incluye atípicos)',
+                                data: datos.map(d => d.valor_promedio),
+                                backgroundColor: '#4f46e5',
+                                borderRadius: 6,
+                                maxBarThickness: 28,
+                            },
+                        ],
                     },
                     options: {
+                        indexAxis: 'y',
                         maintainAspectRatio: false,
-                        scales: { y: { ticks: { callback: (v) => formatoCOP(v) } } },
+                        scales: {
+                            x: { ticks: { callback: (v) => formatoCOP(v) } },
+                        },
                         plugins: {
-                            legend: { display: false },
-                            tooltip: { callbacks: { label: (item) => `${formatoCOP(item.raw)} COP` } },
+                            legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } },
+                            tooltip: { callbacks: { label: (item) => `${item.dataset.label}: ${formatoCOP(item.raw)} COP` } },
                         },
                     },
                 });
@@ -326,11 +470,12 @@
         async function cargarProveedores() {
             try {
                 const datos = await cargarJSON('top_proveedores.json');
+                graficos.proveedores.datos = datos;
                 const ctx = document.getElementById('proveedoresChart').getContext('2d');
-                new Chart(ctx, {
+                graficos.proveedores.chart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: datos.map(d => d.proveedor.length > 28 ? d.proveedor.slice(0, 28) + '…' : d.proveedor),
+                        labels: datos.map(d => envolverTexto(d.proveedor)),
                         datasets: [{
                             label: 'Valor total adjudicado (COP)',
                             data: datos.map(d => d.valor_total),
@@ -341,10 +486,22 @@
                     options: {
                         indexAxis: 'y',
                         maintainAspectRatio: false,
-                        scales: { x: { ticks: { callback: (v) => formatoCOP(v) } } },
+                        scales: {
+                            x: { ticks: { callback: (v) => formatoCOP(v) } },
+                            // Mismo fix que sectorChart: fuente reducida para que nombres de
+                            // proveedor largos no se recorten contra el borde izquierdo del
+                            // canvas en móvil (verificado: "UNIÓN TEMPORAL ANDINOS - 040" se
+                            // veía como "TEMPORAL ANDINOS - 040").
+                            y: { ticks: { font: { size: 9 } } },
+                        },
                         plugins: {
                             legend: { display: false },
-                            tooltip: { callbacks: { label: (item) => `${formatoCOP(item.raw)} COP` } },
+                            tooltip: {
+                                callbacks: {
+                                    title: (items) => datos[items[0].dataIndex].proveedor,
+                                    label: (item) => `${formatoCOP(item.raw)} COP`,
+                                },
+                            },
                         },
                     },
                 });
@@ -353,8 +510,283 @@
             }
         }
 
+        function resumenAtipicosEntidad(nombreEntidad) {
+            const contratos = graficos.benchmark.datos.filter(c => c.nombre_entidad === nombreEntidad);
+            const evaluados = contratos.filter(c => c.puntaje_anomalia !== null && c.puntaje_anomalia !== undefined);
+            if (!evaluados.length) return 'Ningún contrato de esta entidad ha sido evaluado todavía por el modelo';
+            const atipicos = evaluados.filter(c => c.puntaje_anomalia < 0).length;
+            const alertas = contratos.filter(c => c.bandera_roja === true).length;
+            return `${atipicos} de ${evaluados.length} contratos evaluados se salen de lo normal para su sector`
+                + (alertas ? ` · ${alertas} en alerta de alto riesgo` : '');
+        }
+
+        function tarjetaExpediente(item) {
+            const esEntidad = item.tipo === 'entidad';
+            const esFallback = item.tipo === 'fallback';
+            const filas = esEntidad ? [
+                ['Total de contratos', item.total_contratos.toLocaleString('es-CO')],
+                ['Valor total adjudicado', `${formatoCOP(item.valor_total)} COP`],
+                ['Valor promedio por contrato', `${formatoCOP(item.valor_promedio)} COP`],
+                ['Sector principal', item.sector || '—'],
+                ['¿Tiene contratos atípicos?', resumenAtipicosEntidad(item.nombre_entidad)],
+            ] : esFallback ? [
+                ['Entidad contratante', item.nombre_entidad || '—'],
+                ['Sector', item.sector || '—'],
+                ['Fecha de firma', item.fecha_de_firma ? item.fecha_de_firma.slice(0, 10) : '—'],
+                ['Valor del contrato', item.valor_del_contrato ? `${formatoCOP(item.valor_del_contrato)} COP` : '—'],
+                ['Objeto del contrato', item.objeto || '—'],
+                ['¿Es un contrato atípico?', 'Aún no evaluado — este contrato se encontró en vivo, fuera de la muestra ya analizada'],
+            ] : [
+                ['Entidad contratante', item.nombre_entidad],
+                ['Sector', item.sector || '—'],
+                ['Año', item.anio ?? '—'],
+                ['Valor del contrato', `${formatoCOP(item.valor_del_contrato)} COP`],
+                ['Duración', `${item.duracion_contrato_dias ?? '—'} días`],
+                ['Días adicionados', item.dias_adicionados ?? '—'],
+                ['¿Es un contrato atípico?', item.puntaje_anomalia == null
+                    ? 'No evaluado'
+                    : (item.puntaje_anomalia < 0 ? 'Sí, se sale de lo normal para su sector' : 'No, dentro de lo esperado para su sector')],
+                ['Alerta de alto riesgo', item.bandera_roja === true ? 'Sí' : (item.bandera_roja === false ? 'No' : '—')],
+            ];
+
+            return `
+                <div class="bg-white border border-indigo-200 rounded-3xl p-6 fade-in shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-wider font-bold text-indigo-500">${esEntidad ? 'Entidad' : esFallback ? 'Contrato (búsqueda en vivo)' : 'Expediente de contrato'}</span>
+                            <h4 class="font-serif font-bold text-lg text-slate-900">${esEntidad ? item.nombre_entidad : item.id_contrato}</h4>
+                        </div>
+                    </div>
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                        ${filas.map(([etiqueta, valor]) => `
+                            <div class="flex justify-between sm:block border-b sm:border-0 border-slate-100 pb-2 sm:pb-0">
+                                <dt class="text-xs text-slate-400 uppercase tracking-wide font-semibold">${etiqueta}</dt>
+                                <dd class="text-sm text-slate-800 font-medium sm:mt-0.5">${valor}</dd>
+                            </div>`).join('')}
+                    </dl>
+                </div>`;
+        }
+
+        async function cargarExpediente() {
+            const input = document.getElementById('buscador-input');
+            const sugerenciasEl = document.getElementById('buscador-sugerencias');
+            const cardEl = document.getElementById('expediente-card');
+
+            let entidades = [];
+            let contratos = [];
+            try {
+                [entidades, contratos] = await Promise.all([
+                    cargarJSON('por_entidad.json'),
+                    cargarJSON('expediente_contratos.json'),
+                ]);
+            } catch (e) {
+                input.placeholder = 'Buscador no disponible por ahora';
+                input.disabled = true;
+                return;
+            }
+
+            const items = [
+                ...entidades.map(e => ({ tipo: 'entidad', clave: e.nombre_entidad, ...e })),
+                ...contratos.map(c => ({ tipo: 'contrato', clave: c.id_contrato, ...c })),
+            ];
+            const fuse = new Fuse(items, {
+                keys: ['nombre_entidad', 'id_contrato'],
+                threshold: 0.35,
+                ignoreLocation: true,
+            });
+
+            function pintarSugerencias(items, { fallback = false, restantesHoy = null } = {}) {
+                const encabezadoFallback = fallback ? `
+                    <div class="px-5 py-2 bg-amber-50 text-amber-700 text-[10px] uppercase tracking-wider font-bold border-b border-amber-100">
+                        Búsqueda en vivo sobre todo Datos Abiertos Colombia (no solo la muestra local)
+                        ${restantesHoy !== null ? `· ${restantesHoy} restantes hoy` : ''}
+                    </div>` : '';
+                sugerenciasEl.innerHTML = encabezadoFallback + items.map((item, i) => `
+                    <button data-idx="${i}" class="w-full text-left px-5 py-3 hover:bg-indigo-50 border-b border-slate-100 last:border-0 flex justify-between items-center gap-3">
+                        <span class="text-sm font-medium text-slate-800">${item.tipo === 'entidad' ? item.nombre_entidad : item.id_contrato}</span>
+                        <span class="text-[10px] uppercase tracking-wider font-bold text-slate-400">${item.tipo === 'entidad' ? 'Entidad' : item.sector || 'Contrato'}</span>
+                    </button>`).join('');
+                sugerenciasEl.classList.remove('hidden');
+
+                sugerenciasEl.querySelectorAll('button[data-idx]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const item = items[Number(btn.dataset.idx)];
+                        cardEl.innerHTML = tarjetaExpediente(item);
+                        input.value = item.tipo === 'entidad' ? item.nombre_entidad : item.id_contrato;
+                        sugerenciasEl.classList.add('hidden');
+                        aplicarSeleccion(item);
+                    });
+                });
+            }
+
+            async function consultarFallback(termino) {
+                sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Buscando en vivo en Datos Abiertos Colombia…</div>';
+                sugerenciasEl.classList.remove('hidden');
+                try {
+                    const resp = await fetch(`/api/fallback-secop?q=${encodeURIComponent(termino)}`);
+                    const datos = await resp.json();
+                    if (resp.status === 429) {
+                        sugerenciasEl.innerHTML = `<div class="px-5 py-3 text-sm text-amber-600">${datos.error} (límite: ${datos.limite_diario}/día)</div>`;
+                        return;
+                    }
+                    if (!resp.ok || !datos.resultados?.length) {
+                        sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias, ni en la muestra local ni en vivo.</div>';
+                        return;
+                    }
+                    const items = datos.resultados.map(r => ({ tipo: 'fallback', ...r }));
+                    pintarSugerencias(items, { fallback: true, restantesHoy: datos.busquedas_restantes_hoy });
+                } catch (e) {
+                    sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-red-500 italic">La búsqueda en vivo no está disponible en este momento.</div>';
+                }
+            }
+
+            let temporizadorBusqueda = null;
+            input.addEventListener('input', () => {
+                const termino = input.value.trim();
+                if (termino.length < 2) {
+                    sugerenciasEl.classList.add('hidden');
+                    sugerenciasEl.innerHTML = '';
+                    return;
+                }
+                const resultadosLocales = fuse.search(termino).slice(0, 8).map(r => r.item);
+                if (resultadosLocales.length) {
+                    pintarSugerencias(resultadosLocales);
+                    return;
+                }
+                clearTimeout(temporizadorBusqueda);
+                sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias en la muestra local — buscando en vivo…</div>';
+                sugerenciasEl.classList.remove('hidden');
+                temporizadorBusqueda = setTimeout(() => consultarFallback(termino), 600);
+            });
+
+            document.addEventListener('click', (ev) => {
+                if (!ev.target.closest('#expediente')) return;
+                if (!ev.target.closest('#buscador-input') && !ev.target.closest('#buscador-sugerencias')) {
+                    sugerenciasEl.classList.add('hidden');
+                }
+            });
+
+            renderBenchmark(contratos);
+        }
+
+        // Resaltado cruzado: una selección en el buscador actualiza los 5
+        // gráficos de la página en vez de dejarlos fijos en el agregado global.
+        function resaltarEnSector(sector) {
+            const g = graficos.sector;
+            if (!g.chart) return;
+            g.chart.data.datasets[0].backgroundColor = g.datos.map(d =>
+                sector ? (d.sector === sector ? '#4f46e5' : '#e2e8f0') : paletaSectores[0]);
+            g.chart.update();
+        }
+
+        function resaltarEnAnio(anio) {
+            const g = graficos.anio;
+            if (!g.chart) return;
+            const colorBase = ['#06b6d4', '#4f46e5'];
+            g.chart.data.datasets.forEach((ds, i) => {
+                ds.backgroundColor = g.datos.map(d =>
+                    anio ? (Number(d.anio) === Number(anio) ? '#f59e0b' : '#e2e8f0') : colorBase[i]);
+            });
+            g.chart.update();
+        }
+
+        function resaltarEnProveedores(proveedor) {
+            const g = graficos.proveedores;
+            if (!g.chart) return;
+            g.chart.data.datasets[0].backgroundColor = g.datos.map(d =>
+                proveedor ? (d.proveedor === proveedor ? '#4f46e5' : '#e2e8f0') : '#06b6d4');
+            g.chart.update();
+        }
+
+        function resaltarEnBenchmark(nombreEntidad) {
+            const g = graficos.benchmark;
+            if (!g.chart) return;
+            g.chart.data.datasets = g.chart.data.datasets.filter(d => !d.esResaltado);
+            if (nombreEntidad) {
+                const puntos = g.datos
+                    .filter(c => c.nombre_entidad === nombreEntidad && c.valor_del_contrato > 0 && c.duracion_contrato_dias > 0)
+                    .map(c => ({ x: c.duracion_contrato_dias, y: c.valor_del_contrato, id: c.id_contrato }));
+                g.chart.data.datasets.push({
+                    label: `${nombreEntidad} (seleccionada)`,
+                    data: puntos,
+                    backgroundColor: '#0f172a',
+                    borderColor: '#fbbf24',
+                    borderWidth: 2,
+                    radius: 9,
+                    esResaltado: true,
+                });
+            }
+            g.chart.update();
+        }
+
+        function resaltarEnRedFlags(nombreEntidad) {
+            const g = graficos.redFlags;
+            if (!g.chart) return;
+            const filtradas = nombreEntidad ? g.datos.filter(f => f.nombre_entidad === nombreEntidad) : g.datos;
+            pintarListaRedFlags(filtradas, nombreEntidad);
+            g.chart.data.datasets[0].data = filtradas.map(f => ({ x: f.valor_del_contrato, y: f.desviacion_temporal_real, id: f.id_contrato }));
+            g.chart.update();
+        }
+
+        function aplicarSeleccion(item) {
+            const nombreEntidad = item.nombre_entidad || null;
+            const sector = item.sector || null;
+            const anio = item.tipo === 'contrato' ? item.anio
+                : (item.fecha_de_firma ? new Date(item.fecha_de_firma).getFullYear() : null);
+            const proveedor = item.tipo === 'contrato' ? (item.proveedor || null) : null;
+
+            resaltarEnSector(sector);
+            resaltarEnAnio(anio);
+            resaltarEnProveedores(proveedor);
+            resaltarEnBenchmark(nombreEntidad);
+            resaltarEnRedFlags(nombreEntidad);
+
+            const etiqueta = item.tipo === 'entidad' ? nombreEntidad : item.id_contrato;
+            document.getElementById('filtro-activo-texto').textContent = `Gráficos filtrados por: ${etiqueta}`;
+            document.getElementById('filtro-activo').classList.remove('hidden');
+        }
+
+        function quitarSeleccion() {
+            resaltarEnSector(null);
+            resaltarEnAnio(null);
+            resaltarEnProveedores(null);
+            resaltarEnBenchmark(null);
+            resaltarEnRedFlags(null);
+            document.getElementById('filtro-activo').classList.add('hidden');
+        }
+
+        function renderBenchmark(contratos) {
+            graficos.benchmark.datos = contratos;
+            const sectores = [...new Set(contratos.map(c => c.sector).filter(Boolean))];
+            const datasets = sectores.map((sector, i) => ({
+                label: sector,
+                data: contratos
+                    .filter(c => c.sector === sector && c.valor_del_contrato > 0 && c.duracion_contrato_dias > 0)
+                    .map(c => ({ x: c.duracion_contrato_dias, y: c.valor_del_contrato, id: c.id_contrato })),
+                backgroundColor: paletaSectores[i % paletaSectores.length],
+                radius: 5,
+            }));
+
+            graficos.benchmark.chart = new Chart(document.getElementById('benchmarkChart').getContext('2d'), {
+                type: 'scatter',
+                data: { datasets },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'Duración (días)' } },
+                        y: { type: 'logarithmic', title: { display: true, text: 'Valor del contrato (COP, log)' }, ticks: { callback: (v) => formatoCOP(v) } },
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } },
+                        tooltip: { callbacks: { label: (item) => `${item.raw.id}: ${formatoCOP(item.raw.y)} COP, ${item.raw.x} días` } },
+                    },
+                },
+            });
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             cargarResumen();
+            cargarExpediente();
             cargarRedFlags();
             cargarSectores();
             cargarTendenciaAnual();

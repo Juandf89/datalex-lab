@@ -174,7 +174,7 @@
                     <h3 class="text-xl font-serif font-bold mb-2 text-slate-900">Auditoría automatizada SECOP II</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
                         Analizamos contratación pública colombiana con un modelo de anomalías (Isolation Forest) para
-                        detectar riesgo de sobre-ejecución. Los datos se actualizan solos cada 12 horas.
+                        detectar riesgo de sobre-ejecución. Los datos se actualizan solos cada hora.
                     </p>
                     <div id="proyecto-secop-stats" class="flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-500 mb-6 font-semibold">
                         <span class="italic text-slate-400 font-normal">Cargando cifras…</span>
@@ -184,11 +184,20 @@
                     </span>
                 </a>
 
-                <div class="bg-slate-50 rounded-3xl border border-dashed border-slate-300 p-8 flex flex-col items-center justify-center text-center">
-                    <div class="w-12 h-12 bg-slate-200 text-slate-400 rounded-xl flex items-center justify-center text-xl mb-6">➕</div>
-                    <p class="text-slate-500 text-sm font-semibold">Próximo prototipo en construcción</p>
-                    <p class="text-slate-400 text-xs mt-2">Legal Design · Automatización · IA aplicada</p>
-                </div>
+                <a href="jurisprudencia.html" class="group bg-slate-50 hover:bg-white rounded-3xl border border-slate-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 p-8 flex flex-col">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">🕸️</div>
+                        <span class="text-[10px] bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Grafo interactivo</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-2 text-slate-900">Grafo de Jurisprudencia Constitucional</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
+                        Busca por tema y explora cómo se citan entre sí las sentencias de la Corte Constitucional.
+                        El tamaño de cada nodo refleja qué tan citada — y por tanto influyente — es esa sentencia.
+                    </p>
+                    <span class="inline-flex items-center gap-2 text-indigo-600 text-xs font-bold uppercase tracking-wider">
+                        Explorar el grafo <span class="group-hover:translate-x-1 transition-transform">➔</span>
+                    </span>
+                </a>
             </div>
         </div>
     </section>
@@ -301,8 +310,9 @@
                 const res = await fetch('api/secop/resumen.json');
                 if (!res.ok) throw new Error('respuesta no válida');
                 const r = await res.json();
+                const totalAcumulado = r.muestra.acumulados_total ?? r.muestra.limpios ?? r.muestra.ingeridos ?? 0;
                 el.innerHTML = `
-                    <span>${r.muestra.limpios.toLocaleString('es-CO')} contratos analizados</span>
+                    <span>${totalAcumulado.toLocaleString('es-CO')} contratos analizados</span>
                     <span class="text-red-500">${r.modelo.red_flags} red flags</span>
                 `;
             } catch (error) {

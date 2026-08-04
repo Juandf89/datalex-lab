@@ -1,24 +1,35 @@
 [
   {
-    "id_contrato": "CO1.PCCNTR.8197940",
-    "nombre_entidad": "INVIAS",
-    "sector": "Transporte",
-    "anio": 2025,
-    "valor_del_contrato": 20381638080.0,
-    "duracion_contrato_dias": 1193,
-    "desviacion_temporal_real": 1097,
-    "ratio_desviacion_temporal": 0.9195305951,
-    "puntaje_anomalia": -0.2704222216
+    "id_contrato": "CO1.PCCNTR.9493925",
+    "nombre_entidad": "RED SALUD CASANARE E.S.E. *",
+    "sector": "Salud y Protección Social",
+    "anio": 2026,
+    "valor_del_contrato": 1102399489.0,
+    "duracion_contrato_dias": 244,
+    "desviacion_temporal_real": 367,
+    "ratio_desviacion_temporal": 1.5040983607,
+    "puntaje_anomalia": -0.2592296363
   },
   {
-    "id_contrato": "CO1.PCCNTR.9345722",
-    "nombre_entidad": "DEPARTAMENTO DE CORDOBA",
-    "sector": "Servicio Público",
+    "id_contrato": "CO1.PCCNTR.7485656",
+    "nombre_entidad": "ASOCIACION DE MUNICIPIOS DEL OCCIDENTE ANTIOQUEÑO",
+    "sector": "No aplica/No pertenece",
     "anio": 2026,
-    "valor_del_contrato": 18743000300.0,
-    "duracion_contrato_dias": 609,
-    "desviacion_temporal_real": 374,
-    "ratio_desviacion_temporal": 0.6141215107,
-    "puntaje_anomalia": -0.2489537254
+    "valor_del_contrato": 150000000.0,
+    "duracion_contrato_dias": 3,
+    "desviacion_temporal_real": 453,
+    "ratio_desviacion_temporal": 151.0,
+    "puntaje_anomalia": -0.2549556802
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7160737",
+    "nombre_entidad": "ASOCIACION DE MUNICIPIOS DEL OCCIDENTE ANTIOQUEÑO",
+    "sector": "No aplica/No pertenece",
+    "anio": 2026,
+    "valor_del_contrato": 12600000.0,
+    "duracion_contrato_dias": 19,
+    "desviacion_temporal_real": 515,
+    "ratio_desviacion_temporal": 27.1052631579,
+    "puntaje_anomalia": -0.239440512
   }
 ]

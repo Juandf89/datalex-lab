@@ -2,7 +2,12 @@ name: Actualizar datos SECOP II
 
 on:
   schedule:
-    - cron: "0 6,18 * * *"  # 06:00 y 18:00 UTC = 01:00 y 13:00 Bogotá, cada 12h
+    # Cada hora. Antes esto habría costado un deploy por corrida sin importar
+    # si había datos nuevos (~10,800 créditos Netlify/mes, insostenible) —
+    # ahora generar_json.py solo commitea cuando el acumulado realmente
+    # cambió, así que el costo real depende de cuántas corridas encuentran
+    # contratos nuevos, no de la frecuencia del cron en sí.
+    - cron: "0 * * * *"
   workflow_dispatch: {}   # permite disparo manual desde la pestaña Actions
 
 permissions:
@@ -20,14 +25,50 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Instalar dependencias
+      - name: Instalar dependencias Python
         run: pip install -r scripts/requirements.txt
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar dependencias Node (absorción de pendientes-secop)
+        run: npm ci
+        working-directory: scripts
+
+      # Recoge los contratos que la gente encontró en vivo (búsquedas que no
+      # estaban en la muestra local, resueltas por netlify/functions/fallback-secop.mjs)
+      # y los deja en scripts/pendientes_absorbidos.json para que Python los
+      # fusione al histórico acumulado. Si NETLIFY_SITE_ID/NETLIFY_AUTH_TOKEN
+      # no están configurados como secrets del repo, este paso no hace nada
+      # (ver scripts/absorber_pendientes_secop.mjs) y el resto del pipeline
+      # sigue funcionando exactamente igual que antes de este mecanismo —
+      # por eso continue-on-error: no debe poder tumbar la ingesta normal.
+      - name: Recoger pendientes de búsquedas en vivo (SECOP)
+        continue-on-error: true
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: node scripts/absorber_pendientes_secop.mjs fetch
 
       - name: Generar JSON de la API
         env:
           SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
           OUTPUT_DIR: ./api/secop
         run: python scripts/generar_json.py
+
+      # Solo se borran de Netlify Blobs los pendientes que el paso anterior sí
+      # pudo escribir en disco Y que Python sí terminó de procesar — si
+      # generar_json.py falla, este paso ni se ejecuta (comportamiento por
+      # defecto de GitHub Actions) y esos contratos se reintentan en la
+      # próxima corrida en vez de perderse.
+      - name: Confirmar absorción de pendientes-secop
+        if: success()
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: node scripts/absorber_pendientes_secop.mjs confirm
 
       - name: Commit y push si hay cambios
         run: |

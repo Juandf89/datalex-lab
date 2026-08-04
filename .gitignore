@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .env
 .DS_Store
+node_modules/
+scripts/pendientes_absorbidos.json
+scripts/pendientes_absorbidos.keys.json

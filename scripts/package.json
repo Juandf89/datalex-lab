@@ -1,0 +1,9 @@
+{
+  "name": "datalex-lab-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Dependencias Node para scripts auxiliares de GitHub Actions (no se despliegan como funciones de Netlify).",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

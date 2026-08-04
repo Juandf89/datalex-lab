@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafo de Jurisprudencia | DataLex Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        h1, h2, h3, .font-serif { font-family: 'Merriweather', serif; }
+        .gradient-bg { background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%); }
+        .gradient-text {
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #cy { width: 100%; height: 520px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="datalex_lab.html" class="text-xl font-bold tracking-tight flex items-center gap-2">
+                <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white text-xs italic">DL</div>
+                <span>DataLex <span class="font-light text-slate-400">Lab</span></span>
+            </a>
+            <a href="https://github.com/Juandf89/datalex-lab" target="_blank" class="bg-indigo-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-indigo-700 transition-all uppercase tracking-wider">Ver Repo</a>
+        </div>
+    </nav>
+
+    <header class="max-w-4xl mx-auto px-6 pt-24 pb-12 text-left">
+        <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">LegalTech · Grafo de Jurisprudencia</span>
+        <h1 class="text-4xl md:text-5xl font-serif font-bold leading-tight mt-4 mb-6 text-slate-900">
+            Explora la <span class="gradient-text italic">jurisprudencia constitucional</span> como un grafo
+        </h1>
+        <p class="text-lg text-slate-600 leading-relaxed max-w-2xl">
+            Escribe un tema y descubre cómo se conectan las sentencias de la Corte Constitucional que ya
+            se citan entre sí sobre ese asunto. Mientras más grande se ve una sentencia en el mapa, más veces
+            la han citado otras sentencias — una señal de qué tan consolidada está esa línea jurisprudencial.
+        </p>
+        <p id="meta-generacion" class="text-xs text-slate-400 mt-6 uppercase tracking-wider font-semibold">Cargando índice…</p>
+    </header>
+
+    <section class="max-w-6xl mx-auto px-6 pb-24">
+        <div class="relative max-w-xl">
+            <input id="buscador-input" type="text" autocomplete="off"
+                   placeholder="Ej. estabilidad laboral reforzada, debido proceso, tutela contra particulares..."
+                   class="w-full border border-slate-300 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            <div id="buscador-sugerencias"
+                 class="absolute z-10 w-full bg-white border border-slate-200 rounded-2xl mt-2 shadow-lg overflow-hidden hidden max-h-80 overflow-y-auto">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+            <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-200 p-4">
+                <div id="cy"></div>
+                <p id="grafo-vacio" class="text-center text-slate-400 text-sm italic py-24">
+                    Busca un tema arriba para ver el mapa de sentencias relacionadas.
+                </p>
+            </div>
+            <div id="detalle-nodo" class="bg-slate-50 rounded-3xl border border-slate-200 p-6">
+                <p class="text-slate-400 text-sm italic">Haz clic en un nodo del grafo para ver su detalle.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-50 py-16 border-t border-slate-200 text-center">
+        <div class="max-w-xl mx-auto px-6">
+            <p class="text-slate-500 text-sm mb-4">
+                El índice y el grafo se actualizan semanalmente desde la Relatoría de la Corte Constitucional.
+                Metodología completa y código fuente en el repositorio.
+            </p>
+            <a href="https://github.com/Juandf89/datalex-lab" target="_blank" class="text-indigo-600 text-sm font-bold hover:underline">Ver repositorio en GitHub ➔</a>
+            <div class="mt-12 pt-8 border-t border-slate-200">
+                <p class="text-slate-400 text-xs tracking-widest uppercase font-bold">Bogotá, 2026 · DataLex Lab</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE = "api/jurisprudencia"; // JSON estáticos generados por scripts/generar_grafo_jurisprudencia.py
+
+        async function cargarJSON(nombre) {
+            const res = await fetch(`${API_BASE}/${nombre}`);
+            if (!res.ok) throw new Error(`No se pudo cargar ${nombre}`);
+            return res.json();
+        }
+
+        function tarjetaDetalle(nodo) {
+            return `
+                <span class="text-[10px] uppercase tracking-wider font-bold text-indigo-500">Sentencia</span>
+                <h4 class="font-serif font-bold text-lg text-slate-900 mb-3">${nodo.id}</h4>
+                <dl class="space-y-3">
+                    <div>
+                        <dt class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Tema</dt>
+                        <dd class="text-sm text-slate-700 mt-1">${nodo.tema || 'Esta sentencia aparece citada por otras, pero todavía no la hemos indexado directamente — haz clic en "Ver sentencia completa" para leerla en la Corte.'}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Veces citada en todo lo indexado</dt>
+                        <dd class="text-sm text-slate-700 mt-1">${nodo.in_degree}</dd>
+                    </div>
+                    ${nodo.url ? `<a href="${nodo.url}" target="_blank" class="inline-block text-xs font-bold text-indigo-600 hover:underline mt-2">Ver sentencia completa en la Corte ➔</a>` : ''}
+                </dl>`;
+        }
+
+        function construirSubgrafo(nodoSemillaId, todosNodos, todasAristas) {
+            const idsRelacionados = new Set([nodoSemillaId]);
+            todasAristas.forEach(a => {
+                if (a.origen === nodoSemillaId) idsRelacionados.add(a.destino);
+                if (a.destino === nodoSemillaId) idsRelacionados.add(a.origen);
+            });
+            const nodos = todosNodos.filter(n => idsRelacionados.has(n.id));
+            const aristas = todasAristas.filter(a => idsRelacionados.has(a.origen) && idsRelacionados.has(a.destino));
+            return { nodos, aristas };
+        }
+
+        function renderGrafo(nodoSemillaId, nodos, aristas) {
+            document.getElementById('grafo-vacio').classList.add('hidden');
+            const maxInDegree = Math.max(1, ...nodos.map(n => n.in_degree));
+
+            const cy = cytoscape({
+                container: document.getElementById('cy'),
+                elements: [
+                    ...nodos.map(n => ({
+                        data: { id: n.id, label: n.id, tema: n.tema, in_degree: n.in_degree, url: n.url },
+                    })),
+                    ...aristas.map(a => ({ data: { source: a.origen, target: a.destino } })),
+                ],
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'background-color': (ele) => ele.id() === nodoSemillaId ? '#4f46e5' : '#06b6d4',
+                            'label': 'data(label)',
+                            'font-size': 9,
+                            'color': '#334155',
+                            'text-valign': 'bottom',
+                            'text-margin-y': 4,
+                            'width': (ele) => 18 + 40 * (ele.data('in_degree') / maxInDegree),
+                            'height': (ele) => 18 + 40 * (ele.data('in_degree') / maxInDegree),
+                        },
+                    },
+                    { selector: 'edge', style: { 'width': 1, 'line-color': '#cbd5e1', 'target-arrow-color': '#cbd5e1', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier' } },
+                ],
+                layout: { name: 'cose', animate: false, padding: 30 },
+            });
+
+            cy.on('tap', 'node', (evt) => {
+                const d = evt.target.data();
+                document.getElementById('detalle-nodo').innerHTML = tarjetaDetalle(d);
+            });
+
+            // seleccionar la semilla automáticamente al renderizar
+            const semilla = nodos.find(n => n.id === nodoSemillaId);
+            if (semilla) document.getElementById('detalle-nodo').innerHTML = tarjetaDetalle(semilla);
+        }
+
+        async function iniciar() {
+            const input = document.getElementById('buscador-input');
+            const sugerenciasEl = document.getElementById('buscador-sugerencias');
+            const meta = document.getElementById('meta-generacion');
+
+            let indice = [];
+            let grafo = { nodos: [], aristas: [] };
+            try {
+                [indice, grafo] = await Promise.all([
+                    cargarJSON('indice_temas.json'),
+                    cargarJSON('grafo_citas.json'),
+                ]);
+                meta.textContent = `Última actualización: ${new Date(grafo.generado_en).toLocaleString('es-CO', { dateStyle: 'long', timeStyle: 'short' })} · ${grafo.nodos.length} sentencias en el grafo`;
+            } catch (e) {
+                meta.textContent = 'El índice de jurisprudencia aún no está disponible — vuelve pronto.';
+                input.placeholder = 'Buscador no disponible por ahora';
+                input.disabled = true;
+                return;
+            }
+
+            const fuse = new Fuse(indice, { keys: ['tema', 'id'], threshold: 0.35, ignoreLocation: true });
+
+            function pintarSugerencias(resultados, { fallback = false, restantesHoy = null } = {}) {
+                const encabezadoFallback = fallback ? `
+                    <div class="px-5 py-2 bg-amber-50 text-amber-700 text-[10px] uppercase tracking-wider font-bold border-b border-amber-100">
+                        Resultado de una búsqueda en vivo (todavía no forma parte del mapa de citas)
+                        ${restantesHoy !== null ? `· ${restantesHoy} búsquedas en vivo gratis restantes hoy` : ''}
+                    </div>` : '';
+                sugerenciasEl.innerHTML = encabezadoFallback + resultados.map((r, i) => `
+                    <button data-idx="${i}" data-fallback="${fallback}" class="w-full text-left px-5 py-3 hover:bg-indigo-50 border-b border-slate-100 last:border-0">
+                        <span class="text-xs font-mono text-indigo-600 block">${r.id}</span>
+                        <span class="text-xs text-slate-500 line-clamp-2">${(r.tema || '').slice(0, 140)}</span>
+                    </button>`).join('');
+                sugerenciasEl.classList.remove('hidden');
+
+                sugerenciasEl.querySelectorAll('button[data-idx]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const item = resultados[Number(btn.dataset.idx)];
+                        input.value = item.id;
+                        sugerenciasEl.classList.add('hidden');
+                        const idEnGrafo = grafo.nodos.some(n => n.id === item.id);
+                        if (idEnGrafo) {
+                            const { nodos, aristas } = construirSubgrafo(item.id, grafo.nodos, grafo.aristas);
+                            renderGrafo(item.id, nodos, aristas);
+                        } else {
+                            // Sentencia encontrada solo en vivo, aún sin aristas de citas en el grafo indexado.
+                            renderGrafo(item.id, [{ id: item.id, url: item.url, tema: item.tema, in_degree: 0 }], []);
+                        }
+                    });
+                });
+            }
+
+            async function consultarFallback(termino) {
+                sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Buscando en vivo en la Corte Constitucional…</div>';
+                sugerenciasEl.classList.remove('hidden');
+                try {
+                    const resp = await fetch(`/api/fallback-jurisprudencia?q=${encodeURIComponent(termino)}`);
+                    const datos = await resp.json();
+                    if (resp.status === 429) {
+                        sugerenciasEl.innerHTML = `<div class="px-5 py-3 text-sm text-amber-600">${datos.error} (límite: ${datos.limite_diario}/día)</div>`;
+                        return;
+                    }
+                    if (!resp.ok || !datos.resultados?.length) {
+                        sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias, ni en el índice ni en vivo.</div>';
+                        return;
+                    }
+                    pintarSugerencias(datos.resultados, { fallback: true, restantesHoy: datos.busquedas_restantes_hoy });
+                } catch (e) {
+                    sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-red-500 italic">La búsqueda en vivo no está disponible en este momento.</div>';
+                }
+            }
+
+            let temporizadorBusqueda = null;
+            input.addEventListener('input', () => {
+                const termino = input.value.trim();
+                if (termino.length < 3) {
+                    sugerenciasEl.classList.add('hidden');
+                    sugerenciasEl.innerHTML = '';
+                    return;
+                }
+                const resultadosLocales = fuse.search(termino).slice(0, 8).map(r => r.item);
+                if (resultadosLocales.length) {
+                    pintarSugerencias(resultadosLocales);
+                    return;
+                }
+                // Sin coincidencias locales: espera a que el usuario deje de escribir antes
+                // de gastar una búsqueda en vivo (evita disparar el fallback por cada letra).
+                clearTimeout(temporizadorBusqueda);
+                sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias en el índice — buscando en vivo…</div>';
+                sugerenciasEl.classList.remove('hidden');
+                temporizadorBusqueda = setTimeout(() => consultarFallback(termino), 600);
+            });
+
+            document.addEventListener('click', (ev) => {
+                if (!ev.target.closest('#buscador-input') && !ev.target.closest('#buscador-sugerencias')) {
+                    sugerenciasEl.classList.add('hidden');
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', iniciar);
+    </script>
+</body>
+</html>
