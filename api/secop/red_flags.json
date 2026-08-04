@@ -8,7 +8,7 @@
     "duracion_contrato_dias": 777,
     "desviacion_temporal_real": 396,
     "ratio_desviacion_temporal": 0.5096525097,
-    "puntaje_anomalia": -0.2187211464
+    "puntaje_anomalia": -0.2191412088
   },
   {
     "id_contrato": "CO1.PCCNTR.7876249",
@@ -19,51 +19,18 @@
     "duracion_contrato_dias": 3147,
     "desviacion_temporal_real": 549,
     "ratio_desviacion_temporal": 0.1744518589,
-    "puntaje_anomalia": -0.2137116371
+    "puntaje_anomalia": -0.2084298034
   },
   {
-    "id_contrato": "CO1.PCCNTR.7919418",
-    "nombre_entidad": "FONDO DE DESARROLLO LOCAL DE BOSA",
-    "sector": "Servicio Público",
-    "anio": 2025,
-    "valor_del_contrato": 17489674907.0,
-    "duracion_contrato_dias": 3141,
-    "desviacion_temporal_real": 584,
-    "ratio_desviacion_temporal": 0.1859280484,
-    "puntaje_anomalia": -0.2072927995
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8528832",
-    "nombre_entidad": "MINISTERIO DE MINAS Y ENERGIA",
-    "sector": "Minas y Energía",
-    "anio": 2025,
-    "valor_del_contrato": 9943690218.0,
-    "duracion_contrato_dias": 272,
-    "desviacion_temporal_real": 550,
-    "ratio_desviacion_temporal": 2.0220588235,
-    "puntaje_anomalia": -0.204300383
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.7018862",
-    "nombre_entidad": "DEPARTAMENTO DE CUNDINAMARCA-SECRETARIA DEL AMBIENTE",
-    "sector": "Ambiente y Desarrollo Sostenible",
+    "id_contrato": "CO1.PCCNTR.6677541",
+    "nombre_entidad": "FONDO UNICO DE TECNOLOGÍAS DE LA INFORMACIÓN Y LAS COMUNICACIONES",
+    "sector": "Tecnologías de la Información y las Comunicaciones",
     "anio": 2024,
-    "valor_del_contrato": 14325467100.0,
-    "duracion_contrato_dias": 729,
-    "desviacion_temporal_real": 366,
-    "ratio_desviacion_temporal": 0.5020576132,
-    "puntaje_anomalia": -0.2032003712
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.7909071",
-    "nombre_entidad": "ALCALDIA LOCAL DE USME",
-    "sector": "Servicio Público",
-    "anio": 2025,
-    "valor_del_contrato": 12513069628.0,
-    "duracion_contrato_dias": 3144,
-    "desviacion_temporal_real": 549,
-    "ratio_desviacion_temporal": 0.1746183206,
-    "puntaje_anomalia": -0.2031657934
+    "valor_del_contrato": 22000000000.0,
+    "duracion_contrato_dias": 1208,
+    "desviacion_temporal_real": 731,
+    "ratio_desviacion_temporal": 0.6051324503,
+    "puntaje_anomalia": -0.2058540926
   },
   {
     "id_contrato": "CO1.PCCNTR.8560978",
@@ -74,18 +41,51 @@
     "duracion_contrato_dias": 247,
     "desviacion_temporal_real": 410,
     "ratio_desviacion_temporal": 1.6599190283,
-    "puntaje_anomalia": -0.2024285829
+    "puntaje_anomalia": -0.2026394894
   },
   {
-    "id_contrato": "CO1.PCCNTR.7881279",
-    "nombre_entidad": "INSTITUTO COLOMBIANO AGROPECUARIO - SECCIONAL CUNDINAMARCA",
-    "sector": "agricultura",
+    "id_contrato": "CO1.PCCNTR.7018862",
+    "nombre_entidad": "DEPARTAMENTO DE CUNDINAMARCA-SECRETARIA DEL AMBIENTE",
+    "sector": "Ambiente y Desarrollo Sostenible",
+    "anio": 2024,
+    "valor_del_contrato": 14325467100.0,
+    "duracion_contrato_dias": 729,
+    "desviacion_temporal_real": 366,
+    "ratio_desviacion_temporal": 0.5020576132,
+    "puntaje_anomalia": -0.2008740468
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7919418",
+    "nombre_entidad": "FONDO DE DESARROLLO LOCAL DE BOSA",
+    "sector": "Servicio Público",
     "anio": 2025,
-    "valor_del_contrato": 168640042.0,
-    "duracion_contrato_dias": 1461,
-    "desviacion_temporal_real": 1461,
-    "ratio_desviacion_temporal": 1.0,
-    "puntaje_anomalia": -0.1958158797
+    "valor_del_contrato": 17489674907.0,
+    "duracion_contrato_dias": 3141,
+    "desviacion_temporal_real": 584,
+    "ratio_desviacion_temporal": 0.1859280484,
+    "puntaje_anomalia": -0.1988260337
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8528832",
+    "nombre_entidad": "MINISTERIO DE MINAS Y ENERGIA",
+    "sector": "Minas y Energía",
+    "anio": 2025,
+    "valor_del_contrato": 9943690218.0,
+    "duracion_contrato_dias": 272,
+    "desviacion_temporal_real": 550,
+    "ratio_desviacion_temporal": 2.0220588235,
+    "puntaje_anomalia": -0.1965487526
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7909071",
+    "nombre_entidad": "ALCALDIA LOCAL DE USME",
+    "sector": "Servicio Público",
+    "anio": 2025,
+    "valor_del_contrato": 12513069628.0,
+    "duracion_contrato_dias": 3144,
+    "desviacion_temporal_real": 549,
+    "ratio_desviacion_temporal": 0.1746183206,
+    "puntaje_anomalia": -0.1904405927
   },
   {
     "id_contrato": "CO1.PCCNTR.7911222",
@@ -96,18 +96,7 @@
     "duracion_contrato_dias": 787,
     "desviacion_temporal_real": 426,
     "ratio_desviacion_temporal": 0.541296061,
-    "puntaje_anomalia": -0.1908225197
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8493575",
-    "nombre_entidad": "GOBIERNO DEPARTAMENTAL",
-    "sector": "Servicio Público",
-    "anio": 2025,
-    "valor_del_contrato": 10416287504.42,
-    "duracion_contrato_dias": 329,
-    "desviacion_temporal_real": 375,
-    "ratio_desviacion_temporal": 1.1398176292,
-    "puntaje_anomalia": -0.1836251222
+    "puntaje_anomalia": -0.1904329145
   },
   {
     "id_contrato": "CO1.PCCNTR.8564866",
@@ -118,7 +107,18 @@
     "duracion_contrato_dias": 273,
     "desviacion_temporal_real": 603,
     "ratio_desviacion_temporal": 2.2087912088,
-    "puntaje_anomalia": -0.1781936545
+    "puntaje_anomalia": -0.1859764168
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7881279",
+    "nombre_entidad": "INSTITUTO COLOMBIANO AGROPECUARIO - SECCIONAL CUNDINAMARCA",
+    "sector": "agricultura",
+    "anio": 2025,
+    "valor_del_contrato": 168640042.0,
+    "duracion_contrato_dias": 1461,
+    "desviacion_temporal_real": 1461,
+    "ratio_desviacion_temporal": 1.0,
+    "puntaje_anomalia": -0.1827676234
   },
   {
     "id_contrato": "CO1.PCCNTR.9345722",
@@ -129,18 +129,7 @@
     "duracion_contrato_dias": 609,
     "desviacion_temporal_real": 374,
     "ratio_desviacion_temporal": 0.6141215107,
-    "puntaje_anomalia": -0.1770485863
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.7018406",
-    "nombre_entidad": "SUPERSOCIEDADES",
-    "sector": "Industria",
-    "anio": 2024,
-    "valor_del_contrato": 30000000.0,
-    "duracion_contrato_dias": 29,
-    "desviacion_temporal_real": 367,
-    "ratio_desviacion_temporal": 12.6551724138,
-    "puntaje_anomalia": -0.1757670131
+    "puntaje_anomalia": -0.1822887376
   },
   {
     "id_contrato": "CO1.PCCNTR.8566003",
@@ -151,7 +140,7 @@
     "duracion_contrato_dias": 364,
     "desviacion_temporal_real": 539,
     "ratio_desviacion_temporal": 1.4807692308,
-    "puntaje_anomalia": -0.1737400392
+    "puntaje_anomalia": -0.1782421592
   },
   {
     "id_contrato": "CO1.PCCNTR.7049187",
@@ -162,18 +151,40 @@
     "duracion_contrato_dias": 885,
     "desviacion_temporal_real": 521,
     "ratio_desviacion_temporal": 0.588700565,
-    "puntaje_anomalia": -0.1732848143
+    "puntaje_anomalia": -0.177752337
   },
   {
-    "id_contrato": "CO1.PCCNTR.8561070",
-    "nombre_entidad": "MUNICIPIO DE MARINILLA",
+    "id_contrato": "CO1.PCCNTR.8493575",
+    "nombre_entidad": "GOBIERNO DEPARTAMENTAL",
     "sector": "Servicio Público",
     "anio": 2025,
-    "valor_del_contrato": 3019009722.0,
-    "duracion_contrato_dias": 355,
-    "desviacion_temporal_real": 493,
-    "ratio_desviacion_temporal": 1.3887323944,
-    "puntaje_anomalia": -0.1659683181
+    "valor_del_contrato": 10416287504.42,
+    "duracion_contrato_dias": 329,
+    "desviacion_temporal_real": 375,
+    "ratio_desviacion_temporal": 1.1398176292,
+    "puntaje_anomalia": -0.1719497778
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7018406",
+    "nombre_entidad": "SUPERSOCIEDADES",
+    "sector": "Industria",
+    "anio": 2024,
+    "valor_del_contrato": 30000000.0,
+    "duracion_contrato_dias": 29,
+    "desviacion_temporal_real": 367,
+    "ratio_desviacion_temporal": 12.6551724138,
+    "puntaje_anomalia": -0.1646049424
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.6662857",
+    "nombre_entidad": "AGENCIA PARA LA REINCORPORACIÓN Y LA NORMALIZACIÓN",
+    "sector": "Presidencia de la República",
+    "anio": 2024,
+    "valor_del_contrato": 154500000.0,
+    "duracion_contrato_dias": 1582,
+    "desviacion_temporal_real": 1095,
+    "ratio_desviacion_temporal": 0.6921618205,
+    "puntaje_anomalia": -0.1637644323
   },
   {
     "id_contrato": "CO1.PCCNTR.8555704",
@@ -184,51 +195,7 @@
     "duracion_contrato_dias": 211,
     "desviacion_temporal_real": 396,
     "ratio_desviacion_temporal": 1.8767772512,
-    "puntaje_anomalia": -0.1657829892
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8563230",
-    "nombre_entidad": "INSTITUTO DEPARTAMENTAL DE DEPORTES DE ANTIOQUIA",
-    "sector": "No aplica/No pertenece",
-    "anio": 2025,
-    "valor_del_contrato": 1250422980.0,
-    "duracion_contrato_dias": 243,
-    "desviacion_temporal_real": 403,
-    "ratio_desviacion_temporal": 1.658436214,
-    "puntaje_anomalia": -0.161505778
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8564680",
-    "nombre_entidad": "GOBERNACIÓN DE BOLÍVAR//",
-    "sector": "Servicio Público",
-    "anio": 2025,
-    "valor_del_contrato": 586461621.0,
-    "duracion_contrato_dias": 424,
-    "desviacion_temporal_real": 822,
-    "ratio_desviacion_temporal": 1.9386792453,
-    "puntaje_anomalia": -0.1599266528
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8560749",
-    "nombre_entidad": "ALCALDIA MUNICIPIO DE GIRALDO",
-    "sector": "No aplica/No pertenece",
-    "anio": 2025,
-    "valor_del_contrato": 820382634.4,
-    "duracion_contrato_dias": 268,
-    "desviacion_temporal_real": 483,
-    "ratio_desviacion_temporal": 1.802238806,
-    "puntaje_anomalia": -0.1597847121
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.9338418",
-    "nombre_entidad": "MUNICIPIO DE URRAO",
-    "sector": "Servicio Público",
-    "anio": 2026,
-    "valor_del_contrato": 73538010.0,
-    "duracion_contrato_dias": 322,
-    "desviacion_temporal_real": 1096,
-    "ratio_desviacion_temporal": 3.4037267081,
-    "puntaje_anomalia": -0.1564947794
+    "puntaje_anomalia": -0.1625909526
   },
   {
     "id_contrato": "CO1.PCCNTR.7009225",
@@ -239,62 +206,18 @@
     "duracion_contrato_dias": 598,
     "desviacion_temporal_real": 450,
     "ratio_desviacion_temporal": 0.7525083612,
-    "puntaje_anomalia": -0.1553155661
+    "puntaje_anomalia": -0.1566047384
   },
   {
-    "id_contrato": "CO1.PCCNTR.9534066",
-    "nombre_entidad": "E.S.E HOSPITAL NUESTRA SEÑORA DEL CARMEN DEL COLEGIO",
-    "sector": "Salud y Protección Social",
-    "anio": 2026,
-    "valor_del_contrato": 449800000.0,
-    "duracion_contrato_dias": 87,
-    "desviacion_temporal_real": 427,
-    "ratio_desviacion_temporal": 4.908045977,
-    "puntaje_anomalia": -0.1546889226
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8565951",
-    "nombre_entidad": "MUNICIPIO DE GRANADA",
-    "sector": "Servicio Público",
-    "anio": 2025,
-    "valor_del_contrato": 1099383315.0,
-    "duracion_contrato_dias": 212,
-    "desviacion_temporal_real": 427,
-    "ratio_desviacion_temporal": 2.0141509434,
-    "puntaje_anomalia": -0.1541756805
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.7872435",
-    "nombre_entidad": "COMANDO DE RECLUTAMIENTO Y CONTROL RESERVAS DEL EJERCITO NACIONAL",
-    "sector": "defensa",
-    "anio": 2025,
-    "valor_del_contrato": 5395283.0,
-    "duracion_contrato_dias": 406,
-    "desviacion_temporal_real": 396,
-    "ratio_desviacion_temporal": 0.9753694581,
-    "puntaje_anomalia": -0.153562126
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8849270",
-    "nombre_entidad": "MUNICIPIO DE PUERTO TEJADA",
+    "id_contrato": "CO1.PCCNTR.8560749",
+    "nombre_entidad": "ALCALDIA MUNICIPIO DE GIRALDO",
     "sector": "No aplica/No pertenece",
-    "anio": 2026,
-    "valor_del_contrato": 411013936.0,
-    "duracion_contrato_dias": 242,
-    "desviacion_temporal_real": 389,
-    "ratio_desviacion_temporal": 1.6074380165,
-    "puntaje_anomalia": -0.1523505728
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8565442",
-    "nombre_entidad": "DEPARTAMENTO DE CUNDINAMARCA- SECRETARIA DE SALUD",
-    "sector": "Salud y Protección Social",
     "anio": 2025,
-    "valor_del_contrato": 42072426.0,
-    "duracion_contrato_dias": 272,
-    "desviacion_temporal_real": 465,
-    "ratio_desviacion_temporal": 1.7095588235,
-    "puntaje_anomalia": -0.1522571079
+    "valor_del_contrato": 820382634.4,
+    "duracion_contrato_dias": 268,
+    "desviacion_temporal_real": 483,
+    "ratio_desviacion_temporal": 1.802238806,
+    "puntaje_anomalia": -0.1548587622
   },
   {
     "id_contrato": "CO1.PCCNTR.7046568",
@@ -305,62 +228,51 @@
     "duracion_contrato_dias": 630,
     "desviacion_temporal_real": 480,
     "ratio_desviacion_temporal": 0.7619047619,
-    "puntaje_anomalia": -0.1520259706
+    "puntaje_anomalia": -0.1536467629
   },
   {
-    "id_contrato": "CO1.PCCNTR.8560875",
-    "nombre_entidad": "MUNICIPIO SANTA ROSA DE OSOS",
-    "sector": "Servicio Público",
-    "anio": 2025,
-    "valor_del_contrato": 1055042655.0,
-    "duracion_contrato_dias": 211,
-    "desviacion_temporal_real": 411,
-    "ratio_desviacion_temporal": 1.9478672986,
-    "puntaje_anomalia": -0.1509535948
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8191308",
-    "nombre_entidad": "ESCUELA DE SUBOFICIALES Y NIVEL EJECUTIVO  GONZALO JIMENEZ DE QUESADA",
-    "sector": "defensa",
-    "anio": 2025,
-    "valor_del_contrato": 9419760.0,
-    "duracion_contrato_dias": 365,
-    "desviacion_temporal_real": 367,
-    "ratio_desviacion_temporal": 1.0054794521,
-    "puntaje_anomalia": -0.1508737846
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.9185000",
-    "nombre_entidad": "ALCALDÍA MUNICIPAL DE MAGANGUE",
-    "sector": "Servicio Público",
-    "anio": 2026,
-    "valor_del_contrato": 1323634755.0,
-    "duracion_contrato_dias": 305,
-    "desviacion_temporal_real": 425,
-    "ratio_desviacion_temporal": 1.393442623,
-    "puntaje_anomalia": -0.1501041224
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8549798",
-    "nombre_entidad": "Gobernación Norte de Santander*",
+    "id_contrato": "CO1.PCCNTR.8563230",
+    "nombre_entidad": "INSTITUTO DEPARTAMENTAL DE DEPORTES DE ANTIOQUIA",
     "sector": "No aplica/No pertenece",
     "anio": 2025,
-    "valor_del_contrato": 97200000.0,
-    "duracion_contrato_dias": 315,
-    "desviacion_temporal_real": 488,
-    "ratio_desviacion_temporal": 1.5492063492,
-    "puntaje_anomalia": -0.1499433658
+    "valor_del_contrato": 1250422980.0,
+    "duracion_contrato_dias": 243,
+    "desviacion_temporal_real": 403,
+    "ratio_desviacion_temporal": 1.658436214,
+    "puntaje_anomalia": -0.1523624118
   },
   {
-    "id_contrato": "CO1.PCCNTR.8566098",
-    "nombre_entidad": "MUNICIPIO DE FRONTINO",
-    "sector": "Vivienda, Ciudad y Territorio",
+    "id_contrato": "CO1.PCCNTR.8561070",
+    "nombre_entidad": "MUNICIPIO DE MARINILLA",
+    "sector": "Servicio Público",
     "anio": 2025,
-    "valor_del_contrato": 679952062.0,
-    "duracion_contrato_dias": 545,
-    "desviacion_temporal_real": 453,
-    "ratio_desviacion_temporal": 0.8311926606,
-    "puntaje_anomalia": -0.1481990259
+    "valor_del_contrato": 3019009722.0,
+    "duracion_contrato_dias": 355,
+    "desviacion_temporal_real": 493,
+    "ratio_desviacion_temporal": 1.3887323944,
+    "puntaje_anomalia": -0.1522036035
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8564680",
+    "nombre_entidad": "GOBERNACIÓN DE BOLÍVAR//",
+    "sector": "Servicio Público",
+    "anio": 2025,
+    "valor_del_contrato": 586461621.0,
+    "duracion_contrato_dias": 424,
+    "desviacion_temporal_real": 822,
+    "ratio_desviacion_temporal": 1.9386792453,
+    "puntaje_anomalia": -0.1507462567
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.6614162",
+    "nombre_entidad": "MUNICIPIO DE MONTERIA",
+    "sector": "Servicio Público",
+    "anio": 2024,
+    "valor_del_contrato": 3056222683.0,
+    "duracion_contrato_dias": 715,
+    "desviacion_temporal_real": 403,
+    "ratio_desviacion_temporal": 0.5636363636,
+    "puntaje_anomalia": -0.1493541919
   },
   {
     "id_contrato": "CO1.PCCNTR.7008370",
@@ -371,29 +283,106 @@
     "duracion_contrato_dias": 643,
     "desviacion_temporal_real": 599,
     "ratio_desviacion_temporal": 0.9315707621,
-    "puntaje_anomalia": -0.1465429308
+    "puntaje_anomalia": -0.148124277
   },
   {
-    "id_contrato": "CO1.PCCNTR.8556397",
-    "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DIRECCION NACIONAL DE BOMBEROS",
+    "id_contrato": "CO1.PCCNTR.9338418",
+    "nombre_entidad": "MUNICIPIO DE URRAO",
     "sector": "Servicio Público",
-    "anio": 2025,
-    "valor_del_contrato": 2750000000.0,
-    "duracion_contrato_dias": 419,
-    "desviacion_temporal_real": 366,
-    "ratio_desviacion_temporal": 0.8735083532,
-    "puntaje_anomalia": -0.1454167015
+    "anio": 2026,
+    "valor_del_contrato": 73538010.0,
+    "duracion_contrato_dias": 322,
+    "desviacion_temporal_real": 1096,
+    "ratio_desviacion_temporal": 3.4037267081,
+    "puntaje_anomalia": -0.1477636899
   },
   {
-    "id_contrato": "CO1.PCCNTR.8558173",
-    "nombre_entidad": "MUNICIPIO LA DORADA",
+    "id_contrato": "CO1.PCCNTR.8565951",
+    "nombre_entidad": "MUNICIPIO DE GRANADA",
     "sector": "Servicio Público",
     "anio": 2025,
-    "valor_del_contrato": 243635527.0,
-    "duracion_contrato_dias": 275,
-    "desviacion_temporal_real": 419,
-    "ratio_desviacion_temporal": 1.5236363636,
-    "puntaje_anomalia": -0.1446647169
+    "valor_del_contrato": 1099383315.0,
+    "duracion_contrato_dias": 212,
+    "desviacion_temporal_real": 427,
+    "ratio_desviacion_temporal": 2.0141509434,
+    "puntaje_anomalia": -0.147330307
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.9534066",
+    "nombre_entidad": "E.S.E HOSPITAL NUESTRA SEÑORA DEL CARMEN DEL COLEGIO",
+    "sector": "Salud y Protección Social",
+    "anio": 2026,
+    "valor_del_contrato": 449800000.0,
+    "duracion_contrato_dias": 87,
+    "desviacion_temporal_real": 427,
+    "ratio_desviacion_temporal": 4.908045977,
+    "puntaje_anomalia": -0.1471656332
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8560875",
+    "nombre_entidad": "MUNICIPIO SANTA ROSA DE OSOS",
+    "sector": "Servicio Público",
+    "anio": 2025,
+    "valor_del_contrato": 1055042655.0,
+    "duracion_contrato_dias": 211,
+    "desviacion_temporal_real": 411,
+    "ratio_desviacion_temporal": 1.9478672986,
+    "puntaje_anomalia": -0.1465925456
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8549798",
+    "nombre_entidad": "Gobernación Norte de Santander*",
+    "sector": "No aplica/No pertenece",
+    "anio": 2025,
+    "valor_del_contrato": 97200000.0,
+    "duracion_contrato_dias": 315,
+    "desviacion_temporal_real": 488,
+    "ratio_desviacion_temporal": 1.5492063492,
+    "puntaje_anomalia": -0.1448348997
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.6640493",
+    "nombre_entidad": "EMPRESA SOCIAL DEL ESTADO CENTRO DE SALUD MANUEL ELKIN PATARROYO",
+    "sector": "Salud y Protección Social",
+    "anio": 2024,
+    "valor_del_contrato": 349871900.0,
+    "duracion_contrato_dias": 676,
+    "desviacion_temporal_real": 558,
+    "ratio_desviacion_temporal": 0.825443787,
+    "puntaje_anomalia": -0.1443789565
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8566098",
+    "nombre_entidad": "MUNICIPIO DE FRONTINO",
+    "sector": "Vivienda, Ciudad y Territorio",
+    "anio": 2025,
+    "valor_del_contrato": 679952062.0,
+    "duracion_contrato_dias": 545,
+    "desviacion_temporal_real": 453,
+    "ratio_desviacion_temporal": 0.8311926606,
+    "puntaje_anomalia": -0.143251189
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8849270",
+    "nombre_entidad": "MUNICIPIO DE PUERTO TEJADA",
+    "sector": "No aplica/No pertenece",
+    "anio": 2026,
+    "valor_del_contrato": 411013936.0,
+    "duracion_contrato_dias": 242,
+    "desviacion_temporal_real": 389,
+    "ratio_desviacion_temporal": 1.6074380165,
+    "puntaje_anomalia": -0.1423260317
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8565442",
+    "nombre_entidad": "DEPARTAMENTO DE CUNDINAMARCA- SECRETARIA DE SALUD",
+    "sector": "Salud y Protección Social",
+    "anio": 2025,
+    "valor_del_contrato": 42072426.0,
+    "duracion_contrato_dias": 272,
+    "desviacion_temporal_real": 465,
+    "ratio_desviacion_temporal": 1.7095588235,
+    "puntaje_anomalia": -0.1417676736
   },
   {
     "id_contrato": "CO1.PCCNTR.8559108",
@@ -404,62 +393,18 @@
     "duracion_contrato_dias": 226,
     "desviacion_temporal_real": 452,
     "ratio_desviacion_temporal": 2.0,
-    "puntaje_anomalia": -0.1442760199
+    "puntaje_anomalia": -0.1416301912
   },
   {
-    "id_contrato": "CO1.PCCNTR.8552581",
-    "nombre_entidad": "ALCALDÍA MUNICIPAL DE MADRID CUNDINAMARCA",
+    "id_contrato": "CO1.PCCNTR.9185000",
+    "nombre_entidad": "ALCALDÍA MUNICIPAL DE MAGANGUE",
     "sector": "Servicio Público",
-    "anio": 2025,
-    "valor_del_contrato": 230000000.0,
-    "duracion_contrato_dias": 180,
-    "desviacion_temporal_real": 402,
-    "ratio_desviacion_temporal": 2.2333333333,
-    "puntaje_anomalia": -0.1434832639
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.9542773",
-    "nombre_entidad": "ALCALDIA MUNICIPAL FUSAGASUGA",
-    "sector": "No aplica/No pertenece",
     "anio": 2026,
-    "valor_del_contrato": 655515956.0,
-    "duracion_contrato_dias": 376,
-    "desviacion_temporal_real": 380,
-    "ratio_desviacion_temporal": 1.0106382979,
-    "puntaje_anomalia": -0.1411458158
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.7887157",
-    "nombre_entidad": "ARMADA NACIONAL -  BASE NAVAL No. 3 ARC LEGUIZAMO.*",
-    "sector": "defensa",
-    "anio": 2025,
-    "valor_del_contrato": 3324000.0,
-    "duracion_contrato_dias": 587,
-    "desviacion_temporal_real": 367,
-    "ratio_desviacion_temporal": 0.6252129472,
-    "puntaje_anomalia": -0.1389060033
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8565767",
-    "nombre_entidad": "DEPARTAMENTO DE CUNDINAMARCA- SECRETARIA DE SALUD",
-    "sector": "Salud y Protección Social",
-    "anio": 2025,
-    "valor_del_contrato": 420057185.0,
-    "duracion_contrato_dias": 334,
-    "desviacion_temporal_real": 411,
-    "ratio_desviacion_temporal": 1.2305389222,
-    "puntaje_anomalia": -0.1367937228
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.8551349",
-    "nombre_entidad": "GOBERNACIÓN DE BOYACÁ",
-    "sector": "Servicio Público",
-    "anio": 2025,
-    "valor_del_contrato": 858117762.67,
-    "duracion_contrato_dias": 415,
-    "desviacion_temporal_real": 366,
-    "ratio_desviacion_temporal": 0.8819277108,
-    "puntaje_anomalia": -0.134830901
+    "valor_del_contrato": 1323634755.0,
+    "duracion_contrato_dias": 305,
+    "desviacion_temporal_real": 425,
+    "ratio_desviacion_temporal": 1.393442623,
+    "puntaje_anomalia": -0.1408925111
   },
   {
     "id_contrato": "CO1.PCCNTR.7005159",
@@ -470,18 +415,51 @@
     "duracion_contrato_dias": 745,
     "desviacion_temporal_real": 409,
     "ratio_desviacion_temporal": 0.5489932886,
-    "puntaje_anomalia": -0.1335674278
+    "puntaje_anomalia": -0.1395957965
   },
   {
-    "id_contrato": "CO1.PCCNTR.7031791",
-    "nombre_entidad": "REGIÓN DE PLANEACIÓN Y GESTIÓN DEL BAJO CAUCA",
-    "sector": "No aplica/No pertenece",
-    "anio": 2024,
-    "valor_del_contrato": 264171216.8,
-    "duracion_contrato_dias": 598,
+    "id_contrato": "CO1.PCCNTR.7887157",
+    "nombre_entidad": "ARMADA NACIONAL -  BASE NAVAL No. 3 ARC LEGUIZAMO.*",
+    "sector": "defensa",
+    "anio": 2025,
+    "valor_del_contrato": 3324000.0,
+    "duracion_contrato_dias": 587,
+    "desviacion_temporal_real": 367,
+    "ratio_desviacion_temporal": 0.6252129472,
+    "puntaje_anomalia": -0.1388079776
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7872435",
+    "nombre_entidad": "COMANDO DE RECLUTAMIENTO Y CONTROL RESERVAS DEL EJERCITO NACIONAL",
+    "sector": "defensa",
+    "anio": 2025,
+    "valor_del_contrato": 5395283.0,
+    "duracion_contrato_dias": 406,
+    "desviacion_temporal_real": 396,
+    "ratio_desviacion_temporal": 0.9753694581,
+    "puntaje_anomalia": -0.1380885749
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8558173",
+    "nombre_entidad": "MUNICIPIO LA DORADA",
+    "sector": "Servicio Público",
+    "anio": 2025,
+    "valor_del_contrato": 243635527.0,
+    "duracion_contrato_dias": 275,
     "desviacion_temporal_real": 419,
-    "ratio_desviacion_temporal": 0.7006688963,
-    "puntaje_anomalia": -0.1324307279
+    "ratio_desviacion_temporal": 1.5236363636,
+    "puntaje_anomalia": -0.1358228733
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8552581",
+    "nombre_entidad": "ALCALDÍA MUNICIPAL DE MADRID CUNDINAMARCA",
+    "sector": "Servicio Público",
+    "anio": 2025,
+    "valor_del_contrato": 230000000.0,
+    "duracion_contrato_dias": 180,
+    "desviacion_temporal_real": 402,
+    "ratio_desviacion_temporal": 2.2333333333,
+    "puntaje_anomalia": -0.1357836125
   },
   {
     "id_contrato": "CO1.PCCNTR.7858009",
@@ -492,7 +470,51 @@
     "duracion_contrato_dias": 597,
     "desviacion_temporal_real": 366,
     "ratio_desviacion_temporal": 0.6130653266,
-    "puntaje_anomalia": -0.1316575722
+    "puntaje_anomalia": -0.1341684823
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8191308",
+    "nombre_entidad": "ESCUELA DE SUBOFICIALES Y NIVEL EJECUTIVO  GONZALO JIMENEZ DE QUESADA",
+    "sector": "defensa",
+    "anio": 2025,
+    "valor_del_contrato": 9419760.0,
+    "duracion_contrato_dias": 365,
+    "desviacion_temporal_real": 367,
+    "ratio_desviacion_temporal": 1.0054794521,
+    "puntaje_anomalia": -0.1334566021
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.6622862",
+    "nombre_entidad": "ITBOY",
+    "sector": "Transporte",
+    "anio": 2024,
+    "valor_del_contrato": 1.0,
+    "duracion_contrato_dias": 926,
+    "desviacion_temporal_real": 378,
+    "ratio_desviacion_temporal": 0.4082073434,
+    "puntaje_anomalia": -0.1332599094
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8556397",
+    "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DIRECCION NACIONAL DE BOMBEROS",
+    "sector": "Servicio Público",
+    "anio": 2025,
+    "valor_del_contrato": 2750000000.0,
+    "duracion_contrato_dias": 419,
+    "desviacion_temporal_real": 366,
+    "ratio_desviacion_temporal": 0.8735083532,
+    "puntaje_anomalia": -0.1332204964
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8565767",
+    "nombre_entidad": "DEPARTAMENTO DE CUNDINAMARCA- SECRETARIA DE SALUD",
+    "sector": "Salud y Protección Social",
+    "anio": 2025,
+    "valor_del_contrato": 420057185.0,
+    "duracion_contrato_dias": 334,
+    "desviacion_temporal_real": 411,
+    "ratio_desviacion_temporal": 1.2305389222,
+    "puntaje_anomalia": -0.1329057601
   },
   {
     "id_contrato": "CO1.PCCNTR.7857200",
@@ -503,7 +525,7 @@
     "duracion_contrato_dias": 597,
     "desviacion_temporal_real": 366,
     "ratio_desviacion_temporal": 0.6130653266,
-    "puntaje_anomalia": -0.1302369994
+    "puntaje_anomalia": -0.1325011475
   },
   {
     "id_contrato": "CO1.PCCNTR.7905208",
@@ -514,18 +536,18 @@
     "duracion_contrato_dias": 730,
     "desviacion_temporal_real": 368,
     "ratio_desviacion_temporal": 0.504109589,
-    "puntaje_anomalia": -0.1288779991
+    "puntaje_anomalia": -0.1312844453
   },
   {
-    "id_contrato": "CO1.PCCNTR.7492200",
-    "nombre_entidad": "INSTITUTO NACIONAL PENITENCIARIO Y CARCELARIO INPEC+",
-    "sector": "No aplica/No pertenece",
-    "anio": 2025,
-    "valor_del_contrato": 1.0,
-    "duracion_contrato_dias": 650,
+    "id_contrato": "CO1.PCCNTR.6648125",
+    "nombre_entidad": "MUNICIPIO DE TUNJA/",
+    "sector": "Servicio Público",
+    "anio": 2024,
+    "valor_del_contrato": 1257000000.0,
+    "duracion_contrato_dias": 860,
     "desviacion_temporal_real": 366,
-    "ratio_desviacion_temporal": 0.5630769231,
-    "puntaje_anomalia": -0.1202754716
+    "ratio_desviacion_temporal": 0.4255813953,
+    "puntaje_anomalia": -0.1311263663
   },
   {
     "id_contrato": "CO1.PCCNTR.9573277",
@@ -536,7 +558,40 @@
     "duracion_contrato_dias": 730,
     "desviacion_temporal_real": 371,
     "ratio_desviacion_temporal": 0.5082191781,
-    "puntaje_anomalia": -0.1176856848
+    "puntaje_anomalia": -0.1308722988
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.6559184",
+    "nombre_entidad": "Empresas Públicas de Risaralda SA ESP",
+    "sector": "Vivienda, Ciudad y Territorio",
+    "anio": 2024,
+    "valor_del_contrato": 238487737.0,
+    "duracion_contrato_dias": 481,
+    "desviacion_temporal_real": 375,
+    "ratio_desviacion_temporal": 0.7796257796,
+    "puntaje_anomalia": -0.1299737634
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7031791",
+    "nombre_entidad": "REGIÓN DE PLANEACIÓN Y GESTIÓN DEL BAJO CAUCA",
+    "sector": "No aplica/No pertenece",
+    "anio": 2024,
+    "valor_del_contrato": 264171216.8,
+    "duracion_contrato_dias": 598,
+    "desviacion_temporal_real": 419,
+    "ratio_desviacion_temporal": 0.7006688963,
+    "puntaje_anomalia": -0.1285834288
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.9542773",
+    "nombre_entidad": "ALCALDIA MUNICIPAL FUSAGASUGA",
+    "sector": "No aplica/No pertenece",
+    "anio": 2026,
+    "valor_del_contrato": 655515956.0,
+    "duracion_contrato_dias": 376,
+    "desviacion_temporal_real": 380,
+    "ratio_desviacion_temporal": 1.0106382979,
+    "puntaje_anomalia": -0.1264269695
   },
   {
     "id_contrato": "CO1.PCCNTR.6911235",
@@ -547,6 +602,50 @@
     "duracion_contrato_dias": 674,
     "desviacion_temporal_real": 402,
     "ratio_desviacion_temporal": 0.5964391691,
-    "puntaje_anomalia": -0.1162482452
+    "puntaje_anomalia": -0.1252165133
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.6549071",
+    "nombre_entidad": "MUNICIPIO DE MONTERIA",
+    "sector": "Servicio Público",
+    "anio": 2024,
+    "valor_del_contrato": 235088078.0,
+    "duracion_contrato_dias": 715,
+    "desviacion_temporal_real": 403,
+    "ratio_desviacion_temporal": 0.5636363636,
+    "puntaje_anomalia": -0.124683162
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7492200",
+    "nombre_entidad": "INSTITUTO NACIONAL PENITENCIARIO Y CARCELARIO INPEC+",
+    "sector": "No aplica/No pertenece",
+    "anio": 2025,
+    "valor_del_contrato": 1.0,
+    "duracion_contrato_dias": 650,
+    "desviacion_temporal_real": 366,
+    "ratio_desviacion_temporal": 0.5630769231,
+    "puntaje_anomalia": -0.1245944287
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.6671488",
+    "nombre_entidad": "MUNICIPIO DE DAGUA",
+    "sector": "No aplica/No pertenece",
+    "anio": 2024,
+    "valor_del_contrato": 15278475.0,
+    "duracion_contrato_dias": 387,
+    "desviacion_temporal_real": 378,
+    "ratio_desviacion_temporal": 0.976744186,
+    "puntaje_anomalia": -0.1216467656
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8551349",
+    "nombre_entidad": "GOBERNACIÓN DE BOYACÁ",
+    "sector": "Servicio Público",
+    "anio": 2025,
+    "valor_del_contrato": 858117762.67,
+    "duracion_contrato_dias": 415,
+    "desviacion_temporal_real": 366,
+    "ratio_desviacion_temporal": 0.8819277108,
+    "puntaje_anomalia": -0.1132064739
   }
 ]
