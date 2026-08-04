@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grafo de Jurisprudencia | DataLex Lab</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
@@ -39,20 +38,20 @@
     <header class="max-w-4xl mx-auto px-6 pt-24 pb-12 text-left">
         <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">LegalTech · Grafo de Jurisprudencia</span>
         <h1 class="text-4xl md:text-5xl font-serif font-bold leading-tight mt-4 mb-6 text-slate-900">
-            Explora la <span class="gradient-text italic">jurisprudencia constitucional</span> como un grafo
+            Explora la <span class="gradient-text italic">jurisprudencia constitucional</span> en vivo
         </h1>
         <p class="text-lg text-slate-600 leading-relaxed max-w-2xl">
-            Escribe un tema y descubre cómo se conectan las sentencias de la Corte Constitucional que ya
-            se citan entre sí sobre ese asunto. Mientras más grande se ve una sentencia en el mapa, más veces
-            la han citado otras sentencias — una señal de qué tan consolidada está esa línea jurisprudencial.
+            Busca por tema o directamente por número de sentencia (ej. <span class="font-mono text-sm">T-388-2019</span>).
+            Cada búsqueda consulta la Relatoría de la Corte Constitucional en tiempo real — sin índice
+            acumulado, siempre lo más actual. Haz clic en cualquier sentencia citada para seguir explorando su propia red de citas.
         </p>
-        <p id="meta-generacion" class="text-xs text-slate-400 mt-6 uppercase tracking-wider font-semibold">Cargando índice…</p>
+        <p id="meta-generacion" class="text-xs text-slate-400 mt-6 uppercase tracking-wider font-semibold">Escribe un tema o un número de sentencia arriba.</p>
     </header>
 
     <section class="max-w-6xl mx-auto px-6 pb-24">
         <div class="relative max-w-xl">
             <input id="buscador-input" type="text" autocomplete="off"
-                   placeholder="Ej. estabilidad laboral reforzada, debido proceso, tutela contra particulares..."
+                   placeholder="Ej. estabilidad laboral reforzada, o T-388-2019..."
                    class="w-full border border-slate-300 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
             <div id="buscador-sugerencias"
                  class="absolute z-10 w-full bg-white border border-slate-200 rounded-2xl mt-2 shadow-lg overflow-hidden hidden max-h-80 overflow-y-auto">
@@ -63,7 +62,7 @@
             <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-200 p-4">
                 <div id="cy"></div>
                 <p id="grafo-vacio" class="text-center text-slate-400 text-sm italic py-24">
-                    Busca un tema arriba para ver el mapa de sentencias relacionadas.
+                    Busca un tema o un número de sentencia arriba para ver su mapa de citas.
                 </p>
             </div>
             <div id="detalle-nodo" class="bg-slate-50 rounded-3xl border border-slate-200 p-6">
@@ -75,8 +74,9 @@
     <footer class="bg-slate-50 py-16 border-t border-slate-200 text-center">
         <div class="max-w-xl mx-auto px-6">
             <p class="text-slate-500 text-sm mb-4">
-                El índice y el grafo se actualizan semanalmente desde la Relatoría de la Corte Constitucional.
-                Metodología completa y código fuente en el repositorio.
+                Cada búsqueda consulta la Relatoría de la Corte Constitucional directamente, en el momento —
+                no hay un índice guardado que se pueda quedar desactualizado. Metodología completa y código
+                fuente en el repositorio.
             </p>
             <a href="https://github.com/Juandf89/datalex-lab" target="_blank" class="text-indigo-600 text-sm font-bold hover:underline">Ver repositorio en GitHub ➔</a>
             <div class="mt-12 pt-8 border-t border-slate-200">
@@ -86,67 +86,65 @@
     </footer>
 
     <script>
-        const API_BASE = "api/jurisprudencia"; // JSON estáticos generados por scripts/generar_grafo_jurisprudencia.py
         const FALLBACK_API_BASE = "https://api.datalexlab.com"; // server/app.mjs (Node.js Web App en Hostinger)
+        // Detecta si lo que escribió el usuario parece un número de sentencia
+        // (ej. "T-388-2019", "C-380/2020", "SU-388 de 2019") para ir directo al
+        // grafo de esa sentencia en vez de a la búsqueda por tema.
+        const PATRON_NUMERO = /^(SU|T|C)[-.\s]*(\d{1,4})\s*(?:[-/]|\s+de\s+)\s*(\d{2,4})$/i;
 
-        async function cargarJSON(nombre) {
-            const res = await fetch(`${API_BASE}/${nombre}`);
-            if (!res.ok) throw new Error(`No se pudo cargar ${nombre}`);
-            return res.json();
+        function normalizarIdSentencia(m) {
+            const [, tipo, numero, anioTexto] = m;
+            let anio = parseInt(anioTexto, 10);
+            if (anio < 100) anio += anio < 50 ? 2000 : 1900;
+            return `${tipo.toUpperCase()}-${parseInt(numero, 10)}-${anio}`;
         }
 
-        function tarjetaDetalle(nodo) {
+        let cy = null;
+
+        function tarjetaDetalle(nodo, esSemilla) {
+            const cuerpoTema = nodo.tema
+                ? `<div>
+                        <dt class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Tema</dt>
+                        <dd class="text-sm text-slate-700 mt-1">${nodo.tema}</dd>
+                   </div>`
+                : esSemilla
+                    ? `<p class="text-sm text-slate-500 italic mt-1">No encontramos un resumen para esta sentencia — abre el texto completo para leerla.</p>`
+                    : `<p class="text-sm text-slate-500 italic mt-1">Citada por la sentencia que buscaste — explórala para ver su propio texto y sus citas.</p>`;
             return `
                 <span class="text-[10px] uppercase tracking-wider font-bold text-indigo-500">Sentencia</span>
                 <h4 class="font-serif font-bold text-lg text-slate-900 mb-3">${nodo.id}</h4>
-                <dl class="space-y-3">
-                    <div>
-                        <dt class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Tema</dt>
-                        <dd class="text-sm text-slate-700 mt-1">${nodo.tema || 'Esta sentencia aparece citada por otras, pero todavía no la hemos indexado directamente — haz clic en "Ver sentencia completa" para leerla en la Corte.'}</dd>
-                    </div>
-                    <div>
-                        <dt class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Veces citada en todo lo indexado</dt>
-                        <dd class="text-sm text-slate-700 mt-1">${nodo.in_degree}</dd>
-                    </div>
-                    ${nodo.url ? `<a href="${nodo.url}" target="_blank" class="inline-block text-xs font-bold text-indigo-600 hover:underline mt-2">Ver sentencia completa en la Corte ➔</a>` : ''}
-                </dl>`;
+                <dl class="space-y-3">${cuerpoTema}</dl>
+                <div class="flex flex-col items-start gap-3 mt-4">
+                    ${nodo.url ? `<a href="${nodo.url}" target="_blank" class="text-xs font-bold text-indigo-600 hover:underline">Ver sentencia completa en la Corte ➔</a>` : ''}
+                    ${esSemilla ? '' : `<button data-explorar="${nodo.id}" class="text-xs font-bold text-cyan-600 hover:underline">Explorar sus citas ➔</button>`}
+                </div>`;
         }
 
-        function construirSubgrafo(nodoSemillaId, todosNodos, todasAristas) {
-            const idsRelacionados = new Set([nodoSemillaId]);
-            todasAristas.forEach(a => {
-                if (a.origen === nodoSemillaId) idsRelacionados.add(a.destino);
-                if (a.destino === nodoSemillaId) idsRelacionados.add(a.origen);
-            });
-            const nodos = todosNodos.filter(n => idsRelacionados.has(n.id));
-            const aristas = todasAristas.filter(a => idsRelacionados.has(a.origen) && idsRelacionados.has(a.destino));
-            return { nodos, aristas };
-        }
-
-        function renderGrafo(nodoSemillaId, nodos, aristas) {
+        function renderGrafo(semillaId, nodos, aristas) {
             document.getElementById('grafo-vacio').classList.add('hidden');
-            const maxInDegree = Math.max(1, ...nodos.map(n => n.in_degree));
+            if (cy) cy.destroy();
 
-            const cy = cytoscape({
+            cy = cytoscape({
                 container: document.getElementById('cy'),
                 elements: [
-                    ...nodos.map(n => ({
-                        data: { id: n.id, label: n.id, tema: n.tema, in_degree: n.in_degree, url: n.url },
-                    })),
+                    ...nodos.map(n => ({ data: { id: n.id, label: n.id, tema: n.tema || null, url: n.url || null } })),
                     ...aristas.map(a => ({ data: { source: a.origen, target: a.destino } })),
                 ],
                 style: [
                     {
                         selector: 'node',
                         style: {
-                            'background-color': (ele) => ele.id() === nodoSemillaId ? '#4f46e5' : '#06b6d4',
+                            'background-color': (ele) => ele.id() === semillaId ? '#4f46e5' : '#06b6d4',
                             'label': 'data(label)',
                             'font-size': 9,
                             'color': '#334155',
                             'text-valign': 'bottom',
                             'text-margin-y': 4,
-                            'width': (ele) => 18 + 40 * (ele.data('in_degree') / maxInDegree),
-                            'height': (ele) => 18 + 40 * (ele.data('in_degree') / maxInDegree),
+                            // Sin índice acumulado no hay "veces citada globalmente" para pesar el
+                            // tamaño — cada búsqueda solo conoce el vecindario directo de UNA
+                            // sentencia, así que el único tamaño con sentido es "es la semilla o no".
+                            'width': (ele) => ele.id() === semillaId ? 46 : 22,
+                            'height': (ele) => ele.id() === semillaId ? 46 : 22,
                         },
                     },
                     { selector: 'edge', style: { 'width': 1, 'line-color': '#cbd5e1', 'target-arrow-color': '#cbd5e1', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier' } },
@@ -154,49 +152,62 @@
                 layout: { name: 'cose', animate: false, padding: 30 },
             });
 
-            cy.on('tap', 'node', (evt) => {
-                const d = evt.target.data();
-                document.getElementById('detalle-nodo').innerHTML = tarjetaDetalle(d);
-            });
-
-            // seleccionar la semilla automáticamente al renderizar
-            const semilla = nodos.find(n => n.id === nodoSemillaId);
-            if (semilla) document.getElementById('detalle-nodo').innerHTML = tarjetaDetalle(semilla);
-        }
-
-        async function iniciar() {
-            const input = document.getElementById('buscador-input');
-            const sugerenciasEl = document.getElementById('buscador-sugerencias');
-            const meta = document.getElementById('meta-generacion');
-
-            let indice = [];
-            let grafo = { nodos: [], aristas: [] };
-            try {
-                [indice, grafo] = await Promise.all([
-                    cargarJSON('indice_temas.json'),
-                    cargarJSON('grafo_citas.json'),
-                ]);
-                meta.textContent = `Última actualización: ${new Date(grafo.generado_en).toLocaleString('es-CO', { dateStyle: 'long', timeStyle: 'short' })} · ${grafo.nodos.length} sentencias en el grafo`;
-            } catch (e) {
-                meta.textContent = 'El índice de jurisprudencia aún no está disponible — vuelve pronto.';
-                input.placeholder = 'Buscador no disponible por ahora';
-                input.disabled = true;
-                return;
+            function mostrarDetalle(d) {
+                const panel = document.getElementById('detalle-nodo');
+                panel.innerHTML = tarjetaDetalle(d, d.id === semillaId);
+                const btn = panel.querySelector('button[data-explorar]');
+                if (btn) btn.addEventListener('click', () => cargarGrafoDe(btn.dataset.explorar, null));
             }
 
-            const fuse = new Fuse(indice, { keys: ['tema', 'id'], threshold: 0.35, ignoreLocation: true });
+            cy.on('tap', 'node', (evt) => mostrarDetalle(evt.target.data()));
 
-            function pintarSugerencias(resultados, { fallback = false, restantesHoy = null } = {}) {
-                const encabezadoFallback = fallback ? `
-                    <div class="px-5 py-2 bg-amber-50 text-amber-700 text-[10px] uppercase tracking-wider font-bold border-b border-amber-100">
-                        Resultado de una búsqueda en vivo (todavía no forma parte del mapa de citas)
-                        ${restantesHoy !== null ? `· ${restantesHoy} búsquedas en vivo gratis restantes hoy` : ''}
-                    </div>` : '';
-                sugerenciasEl.innerHTML = encabezadoFallback + resultados.map((r, i) => `
-                    <button data-idx="${i}" data-fallback="${fallback}" class="w-full text-left px-5 py-3 hover:bg-indigo-50 border-b border-slate-100 last:border-0">
+            const semilla = nodos.find(n => n.id === semillaId);
+            if (semilla) mostrarDetalle(semilla);
+        }
+
+        // Pide al servidor el grafo en vivo de UNA sentencia (ella + lo que cita).
+        // Si "url" es null, el servidor mismo la resuelve (búsqueda directa por
+        // número, o "explorar" un nodo citado que todavía no tenía URL conocida)
+        // — un solo endpoint, una sola búsqueda del límite diario.
+        async function cargarGrafoDe(id, url, temaConocido) {
+            const meta = document.getElementById('meta-generacion');
+            meta.textContent = `Consultando ${id} en la Relatoría…`;
+            try {
+                const params = new URLSearchParams({ id });
+                if (url) params.set('url', url);
+                const resp = await fetch(`${FALLBACK_API_BASE}/jurisprudencia/grafo?${params.toString()}`);
+                const datos = await resp.json();
+                if (resp.status === 429) {
+                    meta.textContent = `${datos.error} (límite: ${datos.limite_diario}/día)`;
+                    return;
+                }
+                if (!resp.ok) {
+                    meta.textContent = datos.error || `No se pudo cargar ${id}.`;
+                    return;
+                }
+                const nodos = temaConocido
+                    ? datos.nodos.map(n => n.id === id ? { ...n, tema: temaConocido } : n)
+                    : datos.nodos;
+                renderGrafo(id, nodos, datos.aristas);
+                meta.textContent = `${id} · ${nodos.length - 1} sentencia(s) citada(s) · ${datos.busquedas_restantes_hoy} búsquedas en vivo gratis restantes hoy`;
+            } catch (e) {
+                meta.textContent = 'No se pudo consultar la Corte Constitucional en este momento. Intenta de nuevo más tarde.';
+            }
+        }
+
+        function iniciar() {
+            const input = document.getElementById('buscador-input');
+            const sugerenciasEl = document.getElementById('buscador-sugerencias');
+
+            function pintarSugerencias(resultados, restantesHoy) {
+                const pieRestantes = restantesHoy !== null
+                    ? `<div class="px-5 py-2 bg-slate-50 text-slate-400 text-[10px] uppercase tracking-wider font-bold border-t border-slate-100">${restantesHoy} búsquedas en vivo gratis restantes hoy</div>`
+                    : '';
+                sugerenciasEl.innerHTML = resultados.map((r, i) => `
+                    <button data-idx="${i}" class="w-full text-left px-5 py-3 hover:bg-indigo-50 border-b border-slate-100 last:border-0">
                         <span class="text-xs font-mono text-indigo-600 block">${r.id}</span>
                         <span class="text-xs text-slate-500 line-clamp-2">${(r.tema || '').slice(0, 140)}</span>
-                    </button>`).join('');
+                    </button>`).join('') + pieRestantes;
                 sugerenciasEl.classList.remove('hidden');
 
                 sugerenciasEl.querySelectorAll('button[data-idx]').forEach(btn => {
@@ -204,19 +215,12 @@
                         const item = resultados[Number(btn.dataset.idx)];
                         input.value = item.id;
                         sugerenciasEl.classList.add('hidden');
-                        const idEnGrafo = grafo.nodos.some(n => n.id === item.id);
-                        if (idEnGrafo) {
-                            const { nodos, aristas } = construirSubgrafo(item.id, grafo.nodos, grafo.aristas);
-                            renderGrafo(item.id, nodos, aristas);
-                        } else {
-                            // Sentencia encontrada solo en vivo, aún sin aristas de citas en el grafo indexado.
-                            renderGrafo(item.id, [{ id: item.id, url: item.url, tema: item.tema, in_degree: 0 }], []);
-                        }
+                        cargarGrafoDe(item.id, item.url, item.tema);
                     });
                 });
             }
 
-            async function consultarFallback(termino) {
+            async function buscarPorPalabra(termino) {
                 sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Buscando en vivo en la Corte Constitucional…</div>';
                 sugerenciasEl.classList.remove('hidden');
                 try {
@@ -227,34 +231,33 @@
                         return;
                     }
                     if (!resp.ok || !datos.resultados?.length) {
-                        sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias, ni en el índice ni en vivo.</div>';
+                        sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Sin resultados en vivo para ese tema.</div>';
                         return;
                     }
-                    pintarSugerencias(datos.resultados, { fallback: true, restantesHoy: datos.busquedas_restantes_hoy });
+                    pintarSugerencias(datos.resultados, datos.busquedas_restantes_hoy);
                 } catch (e) {
                     sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-red-500 italic">La búsqueda en vivo no está disponible en este momento.</div>';
                 }
             }
 
-            let temporizadorBusqueda = null;
+            let temporizador = null;
             input.addEventListener('input', () => {
                 const termino = input.value.trim();
+                clearTimeout(temporizador);
                 if (termino.length < 3) {
                     sugerenciasEl.classList.add('hidden');
                     sugerenciasEl.innerHTML = '';
                     return;
                 }
-                const resultadosLocales = fuse.search(termino).slice(0, 8).map(r => r.item);
-                if (resultadosLocales.length) {
-                    pintarSugerencias(resultadosLocales);
-                    return;
-                }
-                // Sin coincidencias locales: espera a que el usuario deje de escribir antes
-                // de gastar una búsqueda en vivo (evita disparar el fallback por cada letra).
-                clearTimeout(temporizadorBusqueda);
-                sugerenciasEl.innerHTML = '<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias en el índice — buscando en vivo…</div>';
-                sugerenciasEl.classList.remove('hidden');
-                temporizadorBusqueda = setTimeout(() => consultarFallback(termino), 600);
+                const comoNumero = termino.match(PATRON_NUMERO);
+                temporizador = setTimeout(() => {
+                    if (comoNumero) {
+                        sugerenciasEl.classList.add('hidden');
+                        cargarGrafoDe(normalizarIdSentencia(comoNumero), null);
+                    } else {
+                        buscarPorPalabra(termino);
+                    }
+                }, 600);
             });
 
             document.addEventListener('click', (ev) => {

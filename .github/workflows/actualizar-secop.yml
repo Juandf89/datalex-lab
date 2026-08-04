@@ -55,8 +55,9 @@ jobs:
           OUTPUT_DIR: ./api/secop
         run: python scripts/generar_json.py
 
-      # Solo se borran de Netlify Blobs los pendientes que el paso anterior sí
-      # pudo escribir en disco Y que Python sí terminó de procesar — si
+      # Solo se confirma el borrado en el servidor de los pendientes que el
+      # paso anterior sí pudo escribir en disco Y que Python sí terminó de
+      # procesar — si
       # generar_json.py falla, este paso ni se ejecuta (comportamiento por
       # defecto de GitHub Actions) y esos contratos se reintentan en la
       # próxima corrida en vez de perderse.

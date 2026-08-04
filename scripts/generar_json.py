@@ -38,7 +38,17 @@ MAX_REGISTROS = int(os.getenv("SOCRATA_MAX_REGISTROS", "20000"))
 # riesgo), y arrastra la mediana de valor muy por debajo de lo representativo.
 # Se excluye en la consulta misma, no después, mismo principio que los filtros
 # de completitud de más abajo.
-FILTRO_TIPOS_EXCLUIDOS = "tipo_de_contrato != 'Prestación de servicios'"
+#
+# "Decreto 092 de 2017" es OTRA etiqueta de tipo_de_contrato para la MISMA
+# categoría real: ese decreto crea el régimen especial para contratar personas
+# naturales para prestación de servicios profesionales y de apoyo a la gestión
+# (usado mucho por ESE/hospitales). El filtro original solo excluía la
+# etiqueta literal "Prestación de servicios" y dejaba pasar esta — verificado
+# con un registro real: tipo_de_contrato="Decreto 092 de 2017" con
+# descripcion_del_proceso="PRESTACION DE SERVICIOS COMO COORDINADOR...". Sin
+# esto, ~208,000 contratos de prestación de servicios (el 3er tipo más común)
+# seguían colándose en el histórico y distorsionando "Tendencia anual".
+FILTRO_TIPOS_EXCLUIDOS = "tipo_de_contrato NOT IN ('Prestación de servicios', 'Decreto 092 de 2017')"
 # Default relativo a la ubicación del script (no al directorio de trabajo
 # actual) — un "./api/secop" ingenuo escribe en el lugar equivocado si el
 # script se corre desde scripts/ en vez de la raíz del repo (le pasó a esta
@@ -63,14 +73,25 @@ CURSOR_BACKFILL_FILE = "cursor_backfill.json"
 DIAS_POR_LOTE_BACKFILL = int(os.getenv("DIAS_POR_LOTE_BACKFILL", "90"))
 MAX_REGISTROS_BACKFILL = int(os.getenv("MAX_REGISTROS_BACKFILL", "5000"))
 FECHA_LIMITE_HISTORICA_SECOP = "2015-01-01"
+# El cron dice "cada hora" (actualizar-secop.yml), pero GitHub Actions no lo
+# cumple así en la práctica: verificado con el historial real de corridas —
+# están cayendo cada ~2-3 horas, no cada hora (limitación conocida de GH
+# Actions: retrasa/salta corridas programadas en repos de poca actividad). Con
+# una sola ventana de 90 días por corrida, cubrir 2015->hoy (~4000 días)
+# tomaría semanas reales — mientras tanto "Tendencia anual" queda dominada por
+# un par de años recientes con miles de contratos y años viejos con un puñado,
+# una muestra demasiado chica para ser representativa. Se retrocede varias
+# ventanas por corrida para compensar, sin depender de que GH Actions dispare
+# el cron con la frecuencia nominal.
+ITERACIONES_BACKFILL_POR_CORRIDA = int(os.getenv("ITERACIONES_BACKFILL_POR_CORRIDA", "5"))
 
-# Contratos encontrados en vivo por netlify/functions/fallback-secop.mjs cuando
-# alguien buscó algo que no estaba en la muestra local (por_entidad.json /
+# Contratos encontrados en vivo por server/app.mjs (Hostinger) cuando alguien
+# buscó algo que no estaba en la muestra local (por_entidad.json /
 # expediente_contratos.json). scripts/absorber_pendientes_secop.mjs (Node) los
-# lee de Netlify Blobs y los vuelca aquí ANTES de correr este script — Python
-# no habla con Netlify Blobs directamente. Si el archivo no existe (sin
-# NETLIFY_SITE_ID/NETLIFY_AUTH_TOKEN configurados, o sin búsquedas en vivo
-# desde la última corrida), simplemente no hay nada que fusionar.
+# recoge por HTTP y los vuelca aquí ANTES de correr este script — Python no le
+# habla al servidor directamente. Si el archivo no existe (sin
+# API_BASE_URL/ABSORBER_TOKEN configurados, o sin búsquedas en vivo desde la
+# última corrida), simplemente no hay nada que fusionar.
 PENDIENTES_ABSORBIDOS_FILE = os.path.join(_RAIZ_REPO, "scripts", "pendientes_absorbidos.json")
 
 
@@ -154,14 +175,11 @@ def ingerir_ventana_historica(fecha_inicio, fecha_fin, limite):
     return pd.DataFrame.from_records(registros)
 
 
-def ingerir_backfill():
-    """Retrocede una ventana más en el histórico real del dataset (independiente
-    de ingerir(), que solo trae lo más reciente) y devuelve (dataframe, nuevo
-    cursor). Si ya se alcanzó el límite histórico, reinicia desde hoy para
+def _paso_backfill(fecha_fin):
+    """Retrocede UNA ventana de DIAS_POR_LOTE_BACKFILL días terminando en
+    fecha_fin. Si ya se alcanzó el límite histórico, reinicia desde hoy para
     volver a recorrerlo — el propio merge por id_contrato hace que reprocesar
     un contrato ya conocido no cause daño, solo trabajo redundante ocasional."""
-    cursor = leer_cursor_backfill()
-    fecha_fin = cursor["fecha_cursor_backfill"]
     fecha_inicio = max(
         (date.fromisoformat(fecha_fin) - timedelta(days=DIAS_POR_LOTE_BACKFILL)),
         date.fromisoformat(FECHA_LIMITE_HISTORICA_SECOP),
@@ -176,9 +194,26 @@ def ingerir_backfill():
         ).isoformat()
 
     print(f"[info] Backfill histórico: ventana {fecha_inicio} -> {fecha_fin}")
-    df_backfill = ingerir_ventana_historica(fecha_inicio, fecha_fin, MAX_REGISTROS_BACKFILL)
-    print(f"[info] Backfill histórico: {len(df_backfill)} contratos encontrados en la ventana")
-    return df_backfill, fecha_inicio
+    df_ventana = ingerir_ventana_historica(fecha_inicio, fecha_fin, MAX_REGISTROS_BACKFILL)
+    print(f"[info] Backfill histórico: {len(df_ventana)} contratos encontrados en la ventana")
+    return df_ventana, fecha_inicio
+
+
+def ingerir_backfill():
+    """Retrocede ITERACIONES_BACKFILL_POR_CORRIDA ventanas del histórico real
+    del dataset (independiente de ingerir(), que solo trae lo más reciente) en
+    una sola corrida, y devuelve (dataframe acumulado, cursor final)."""
+    cursor = leer_cursor_backfill()
+    fecha_cursor = cursor["fecha_cursor_backfill"]
+
+    dfs = []
+    for _ in range(ITERACIONES_BACKFILL_POR_CORRIDA):
+        df_ventana, fecha_cursor = _paso_backfill(fecha_cursor)
+        if not df_ventana.empty:
+            dfs.append(df_ventana)
+
+    df_backfill = pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
+    return df_backfill, fecha_cursor
 
 
 def cargar_pendientes_absorbidos():
@@ -236,7 +271,7 @@ COLUMNAS_NECESARIAS = [
     "id_contrato", "nombre_entidad", "sector", "valor_del_contrato",
     "fecha_de_firma", "fecha_de_inicio_del_contrato", "fecha_de_fin_del_contrato",
     "dias_adicionados", "duracion_contrato_dias", "año_contrato",
-    "desviacion_temporal_real", "retraso_critico",
+    "desviacion_temporal_real", "retraso_critico", "tipo_de_contrato",
 ]
 
 
@@ -285,6 +320,33 @@ def fusionar_historico(historico, nuevo):
     return combinado.drop_duplicates(subset="id_contrato", keep="last").reset_index(drop=True)
 
 
+def filtrar_valores_implausibles(df):
+    # Encontrado en producción: un solo contrato con valor_del_contrato =
+    # 6,453,840,000,000,000 COP (6.45 CUATRILLONES) — una mejora de
+    # infraestructura de UN colegio, verificado directo contra Socrata (no es
+    # un bug de parseo nuestro: el dato fuente de SECOP ya viene así, un
+    # evidente error de digitación). El siguiente valor más alto en toda la
+    # muestra es ~2.39 billones/trillion COP — casi 2700x más chico. Ese solo
+    # registro inflaba el total y promedio de su año por varios órdenes de
+    # magnitud, dejando "Tendencia anual" ilegible (los demás años quedaban
+    # invisibles al lado).
+    #
+    # El umbral se recalcula en cada corrida a partir del percentil 99.9 de la
+    # MUESTRA ACTUAL (no un número fijo que se vuelva obsoleto a medida que la
+    # muestra crece) con un margen x50 — generoso a propósito: el contrato
+    # legítimo más grande verificado en la muestra real (~2.39 billones) queda
+    # muy por debajo, así que esto no debería tocar contratos grandes pero
+    # reales (obra pública, defensa), solo el caso claramente absurdo.
+    if len(df) < 100:
+        return df  # muestra muy chica para que un percentil tenga sentido
+    umbral = df["valor_del_contrato"].quantile(0.999) * 50
+    descartados = df[df["valor_del_contrato"] > umbral]
+    if len(descartados):
+        print(f"[info] {len(descartados)} contrato(s) descartado(s) por valor implausible "
+              f"(> {umbral:,.0f} COP): {descartados['id_contrato'].tolist()}")
+    return df[df["valor_del_contrato"] <= umbral].copy()
+
+
 def guardar_historico(df):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     ruta = os.path.join(OUTPUT_DIR, HISTORICO_FILE)
@@ -330,19 +392,6 @@ def construir_agregaciones(df, riesgo):
         .sort_values("valor_total", ascending=False)
     )
 
-    # valor_promedio (mean) se distorsiona fuerte por contratos grandes atípicos —
-    # verificado: con mediana de $16M en la muestra, unos pocos contratos de cientos
-    # de miles de millones empujan el promedio hasta $109M, muy por encima de lo que
-    # paga la mayoría. Se agrega valor_mediana para mostrar ambos y que quede claro
-    # que el promedio no representa "un contrato típico".
-    por_anio = (
-        df.groupby("año_contrato")["valor_del_contrato"]
-        .agg(total_contratos="count", valor_total="sum", valor_promedio="mean", valor_mediana="median")
-        .reset_index()
-        .rename(columns={"año_contrato": "anio"})
-        .sort_values("anio")
-    )
-
     col_proveedor = columna_proveedor(df)
     top_proveedores = (
         df.groupby(col_proveedor)["valor_del_contrato"]
@@ -353,7 +402,7 @@ def construir_agregaciones(df, riesgo):
         .head(10)
     )
 
-    return por_sector, por_anio, top_proveedores
+    return por_sector, top_proveedores
 
 
 def construir_por_entidad(df):
@@ -455,6 +504,7 @@ def main():
     hash_previo = _hash_contenido(historico)
 
     df = fusionar_historico(historico, df_nuevo)
+    df = filtrar_valores_implausibles(df)
     total_acumulado = len(df)
     total_nuevos_o_actualizados = total_acumulado - len(historico) if not historico.empty else total_acumulado
 
@@ -479,7 +529,7 @@ def main():
                           "puntaje_anomalia"]
     red_flags_out = red_flags[columnas_red_flag].rename(columns={"año_contrato": "anio"})
 
-    por_sector, por_anio, top_proveedores = construir_agregaciones(df, riesgo)
+    por_sector, top_proveedores = construir_agregaciones(df, riesgo)
     por_entidad = construir_por_entidad(df)
     expediente_contratos = construir_expediente_contratos(df, riesgo)
 
@@ -523,7 +573,6 @@ def main():
     escribir_json("resumen.json", resumen)
     escribir_json("red_flags.json", a_registros_json(red_flags_out))
     escribir_json("por_sector.json", a_registros_json(por_sector))
-    escribir_json("por_anio.json", a_registros_json(por_anio))
     escribir_json("top_proveedores.json", a_registros_json(top_proveedores))
     escribir_json("por_entidad.json", a_registros_json(por_entidad))
     escribir_json("expediente_contratos.json", a_registros_json(expediente_contratos))

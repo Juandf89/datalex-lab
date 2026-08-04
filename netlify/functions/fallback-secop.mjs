@@ -42,11 +42,12 @@ export default async (req, context) => {
 
   // Mismo filtro que scripts/generar_json.py: "Prestación de servicios" es el
   // 88.7% de todos los contratos por conteo pero solo el 40.7% del valor
-  // (verificado con una muestra real de 20,000 registros) — se excluye para
+  // (verificado con una muestra real de 20,000 registros), y "Decreto 092 de
+  // 2017" es la MISMA categoría bajo otra etiqueta — se excluyen ambas para
   // que la búsqueda en vivo sea consistente con lo que ya excluye el batch.
   const params = new URLSearchParams({
     $q: termino,
-    $where: "tipo_de_contrato != 'Prestación de servicios'",
+    $where: "tipo_de_contrato NOT IN ('Prestación de servicios', 'Decreto 092 de 2017')",
     $limit: "10",
   });
 

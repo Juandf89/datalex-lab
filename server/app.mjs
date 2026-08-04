@@ -19,12 +19,16 @@ const PUERTO = process.env.LSNODE_SOCKET || process.env.PORT || 3000;
 const ORIGEN_PERMITIDO = process.env.ALLOWED_ORIGIN || "https://datalexlab.com";
 const TOKEN_INTERNO = process.env.ABSORBER_TOKEN;
 const LIMITE_DIARIO_SECOP = Number(process.env.LIMITE_DIARIO_SECOP || 5);
-const LIMITE_DIARIO_JURISPRUDENCIA = Number(process.env.LIMITE_DIARIO_JURISPRUDENCIA || 5);
+// Antes cada "búsqueda" era una sola acción (una consulta = un resultado).
+// Ahora, sin índice acumulado, explorar el grafo (clic en una cita para ver
+// sus propias citas) también consulta la Relatoría en vivo — una sesión
+// normal de exploración fácilmente hace varias consultas encadenadas, así
+// que el límite por defecto sube para no frustrar el uso normal del feature.
+const LIMITE_DIARIO_JURISPRUDENCIA = Number(process.env.LIMITE_DIARIO_JURISPRUDENCIA || 20);
 const USER_AGENT = "DataLexLab-fallback-bot/0.1 (contacto: juanpablo.lopez.mejia@gmail.com)";
 
 const RUTA_RATE_LIMITS = new URL("./data/rate-limits.json", import.meta.url);
 const RUTA_PENDIENTES_SECOP = new URL("./data/pendientes-secop.json", import.meta.url);
-const RUTA_PENDIENTES_JURISPRUDENCIA = new URL("./data/pendientes-jurisprudencia.json", import.meta.url);
 
 function obtenerIP(req) {
   const xff = req.headers["x-forwarded-for"];
@@ -80,8 +84,10 @@ async function incrementarLimiteDiario(clave) {
 // ============================== SECOP ==============================
 // Mismo filtro que scripts/generar_json.py: "Prestación de servicios" es el
 // 88.7% de los contratos por conteo pero solo el 40.7% del valor (verificado
-// con una muestra real de 20,000 registros) — se excluye para que la búsqueda
-// en vivo sea consistente con lo que ya excluye el batch.
+// con una muestra real de 20,000 registros), y "Decreto 092 de 2017" es la
+// MISMA categoría bajo otra etiqueta (régimen especial para prestación de
+// servicios profesionales/apoyo a la gestión) — ambas se excluyen para que la
+// búsqueda en vivo sea consistente con lo que ya excluye el batch.
 const DOMINIO_SECOP = "https://www.datos.gov.co";
 const DATASET_ID_SECOP = "jbjy-vk9h";
 
@@ -107,7 +113,7 @@ app.get("/fallback-secop", async (req, res) => {
 
   const params = new URLSearchParams({
     $q: termino,
-    $where: "tipo_de_contrato != 'Prestación de servicios'",
+    $where: "tipo_de_contrato NOT IN ('Prestación de servicios', 'Decreto 092 de 2017')",
     $limit: "10",
   });
 
@@ -157,7 +163,8 @@ app.get("/fallback-secop", async (req, res) => {
 // OJO: searchOption=texto (texto completo) vía POST, no searchOption=prov_sentencia
 // (eso es búsqueda por NÚMERO de sentencia) — confirmado observando el request
 // real del formulario del sitio. Ver docs/plan-evolucion-plataforma.md, Fase 2.
-const BUSCADOR_JURISPRUDENCIA = "https://www.corteconstitucional.gov.co/relatoria/buscador_new//index.php";
+const DOMINIO_JURISPRUDENCIA = "https://www.corteconstitucional.gov.co";
+const BUSCADOR_JURISPRUDENCIA = `${DOMINIO_JURISPRUDENCIA}/relatoria/buscador_new//index.php`;
 const PATRON_URL_SENTENCIA = /\/relatoria\/(\d{4})\/(SU|[TC])-(\d+)-(\d+)\.htm/i;
 
 function normalizarId(tipo, numero, anioCorto) {
@@ -239,13 +246,129 @@ app.get("/fallback-jurisprudencia", async (req, res) => {
 
   await incrementarLimiteDiario(clave);
 
-  await actualizar(RUTA_PENDIENTES_JURISPRUDENCIA, {}, (datos) => {
-    const nuevos = { ...datos };
-    for (const r of resultados) nuevos[r.id] = r;
-    return nuevos;
-  });
-
   res.json({ resultados, busquedas_restantes_hoy: LIMITE_DIARIO_JURISPRUDENCIA - (usoActual + 1) });
+});
+
+// --- Grafo en vivo (sin acumular nada en disco) ---
+// Decisión de producto: este servicio se consume directo de la Relatoría en
+// cada búsqueda (por palabra o por número), no manteniendo un índice/grafo
+// acumulado en el servidor. Por eso solo se calcula el vecindario directo de
+// UNA sentencia por consulta (ella + lo que cita), no citas-de-citas — eso
+// requeriría escanear el corpus, que es justo lo que se está evitando.
+
+// Mismo bug ya encontrado y corregido en scripts/generar_grafo_jurisprudencia.py:
+// separadores de miles en años viejos (ej. "T-432 de 1.992") rompen el regex
+// de citas — el "." corta la racha de dígitos y solo captura "992". La Corte
+// existe desde 1991, así que un año fuera de [1991, año actual + 1] es casi
+// con certeza un falso positivo, no una sentencia real.
+const PATRON_CITA = /\b(SU|[TC])[-.\s]?(\d{1,4})\s*(?:\/|\s+de\s+)\s*(\d{2,4})\b/gi;
+
+function normalizarIdValidado(tipo, numero, anioCorto) {
+  let anio = parseInt(anioCorto, 10);
+  if (anio < 100) anio += anio < 50 ? 2000 : 1900;
+  if (anio < 1991 || anio > new Date().getFullYear() + 1) return null;
+  return `${tipo.toUpperCase()}-${parseInt(numero, 10)}-${anio}`;
+}
+
+function extraerCitas(html, idPropio) {
+  const texto = cheerio.load(html).text();
+  const patron = new RegExp(PATRON_CITA); // instancia propia (lastIndex propio) por llamada
+  const citas = new Set();
+  let m;
+  while ((m = patron.exec(texto))) {
+    const candidato = normalizarIdValidado(m[1], m[2], m[3]);
+    if (candidato && candidato !== idPropio) citas.add(candidato);
+  }
+  return [...citas].sort();
+}
+
+// Construye la URL directa de una sentencia sin pasar por el buscador —
+// verificado en vivo: los números de sentencia se escriben con al menos 3
+// dígitos en la URL (ej. "T-021-19", no "T-21-19"; convención de citación
+// colombiana estándar), y el año en la URL va en 2 dígitos.
+function urlSentencia(id) {
+  const m = id.match(/^(SU|T|C)-(\d+)-(\d{4})$/);
+  if (!m) return null;
+  const [, tipo, numeroStr, anioStr] = m;
+  const anio = parseInt(anioStr, 10);
+  const anioCorto = String(anio % 100).padStart(2, "0");
+  const numeroPadded = String(parseInt(numeroStr, 10)).padStart(3, "0");
+  return `${DOMINIO_JURISPRUDENCIA}/relatoria/${anio}/${tipo}-${numeroPadded}-${anioCorto}.htm`;
+}
+
+// Verificado en vivo: una URL de sentencia inexistente NO da 404 — el sitio
+// devuelve con 200 el shell genérico de la SPA. Las páginas reales de
+// sentencia son documentos exportados de Word con esta meta etiqueta.
+async function obtenerSentencia(url) {
+  const resp = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
+  if (!resp.ok) return null;
+  const html = await resp.text();
+  if (!html.includes("Microsoft Word")) return null;
+  return html;
+}
+
+// Búsqueda por número (ej. "T-388-2019") y "explorar una cita" (un nodo del
+// grafo sin URL conocida) llegan ambas aquí sin "url" — un solo endpoint para
+// las dos, en vez de un endpoint separado solo para validar/resolver, porque
+// obtenerSentencia() ya trae la página completa de todos modos (verificarla
+// no cuesta menos que además extraerle las citas).
+//
+// El "id" alcanza (sin "url") tanto para una búsqueda directa por número como
+// para explorar una sentencia que salió como cita dentro de un grafo anterior
+// — en ambos casos el endpoint resuelve la URL con urlSentencia() antes de
+// pedir las citas. Así cuesta 1 sola búsqueda del límite diario en vez de 2
+// (resolver URL + pedir grafo por separado) — el visitante no nota ni le
+// importa que internamente sean dos peticiones a la Relatoría.
+app.get("/jurisprudencia/grafo", async (req, res) => {
+  const ip = obtenerIP(req);
+  const id = (req.query.id || "").toString().trim();
+  let url = (req.query.url || "").toString().trim() || null;
+
+  if (limiteDeRafagaSuperado(ip)) {
+    return res.status(429).json({ error: "Demasiadas solicitudes, intenta en un minuto." });
+  }
+  // Guarda contra SSRF: solo se permite pedirle al servidor que consulte URLs
+  // del propio dominio de la Corte Constitucional, nunca una URL arbitraria
+  // que el visitante mande.
+  if (url && !url.startsWith(`${DOMINIO_JURISPRUDENCIA}/relatoria/`)) {
+    return res.status(400).json({ error: "La URL no es de la Corte Constitucional." });
+  }
+  if (!url) {
+    url = urlSentencia(id);
+  }
+  if (!id || !url) {
+    return res.status(400).json({ error: "Falta el parámetro id, o no tiene el formato de una sentencia (ej. T-388-2019)." });
+  }
+
+  const { clave, usoActual, alcanzado } = await verificarLimiteDiario("jurisprudencia", ip, LIMITE_DIARIO_JURISPRUDENCIA);
+  if (alcanzado) {
+    return res.status(429).json({
+      error: "Alcanzaste el límite de búsquedas en vivo gratis por hoy.",
+      limite_diario: LIMITE_DIARIO_JURISPRUDENCIA,
+      busquedas_restantes_hoy: 0,
+    });
+  }
+
+  let html;
+  try {
+    html = await obtenerSentencia(url);
+  } catch (e) {
+    return res.status(502).json({ error: "No se pudo consultar la Corte Constitucional en este momento. Intenta de nuevo más tarde." });
+  }
+
+  await incrementarLimiteDiario(clave);
+  const restantes = LIMITE_DIARIO_JURISPRUDENCIA - (usoActual + 1);
+
+  if (!html) {
+    return res.status(404).json({ error: `No se pudo cargar el texto de ${id}.`, busquedas_restantes_hoy: restantes });
+  }
+
+  const citas = extraerCitas(html, id);
+  res.json({
+    nodos: [{ id, url }, ...citas.map((c) => ({ id: c, url: null }))],
+    aristas: citas.map((destino) => ({ origen: id, destino })),
+    busquedas_restantes_hoy: restantes,
+  });
 });
 
 // ============================ INTERNAS ============================
@@ -286,7 +409,6 @@ function registrarRutasInternas(servicio, ruta) {
 }
 
 registrarRutasInternas("secop", RUTA_PENDIENTES_SECOP);
-registrarRutasInternas("jurisprudencia", RUTA_PENDIENTES_JURISPRUDENCIA);
 
 app.listen(PUERTO, () => {
   console.log(`[ok] servidor de fallbacks escuchando en ${PUERTO}`);
