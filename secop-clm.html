@@ -178,7 +178,8 @@
             </div>
             <div>
                 <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Riesgo de concentración</h2>
-                <p class="text-slate-500 mb-8 text-sm">Top 10 proveedores por valor total adjudicado — señal de riesgo de monopolio.</p>
+                <p class="text-slate-500 mb-2 text-sm">Top 10 proveedores por valor total adjudicado — señal de riesgo de monopolio.</p>
+                <p id="proveedores-nota" class="text-indigo-600 text-xs font-semibold mb-6 hidden"></p>
                 <div class="bg-white rounded-3xl border border-slate-200 p-6">
                     <div class="chart-container" style="height: 420px;"><canvas id="proveedoresChart"></canvas></div>
                 </div>
@@ -471,6 +472,10 @@
             try {
                 const datos = await cargarJSON('top_proveedores.json');
                 graficos.proveedores.datos = datos;
+                // Se guarda aparte del top nacional (arriba) porque al seleccionar una
+                // entidad el gráfico cambia a MOSTRAR los proveedores de esa entidad —
+                // hay que poder volver al top nacional cuando se quita la selección.
+                graficos.proveedores.datosGlobal = datos;
                 const ctx = document.getElementById('proveedoresChart').getContext('2d');
                 graficos.proveedores.chart = new Chart(ctx, {
                     type: 'bar',
@@ -498,7 +503,10 @@
                             legend: { display: false },
                             tooltip: {
                                 callbacks: {
-                                    title: (items) => datos[items[0].dataIndex].proveedor,
+                                    // Referencia graficos.proveedores.datos (no la constante local
+                                    // "datos" de esta función) porque ese array cambia cuando se
+                                    // selecciona una entidad — ver resaltarEnProveedores().
+                                    title: (items) => graficos.proveedores.datos[items[0].dataIndex].proveedor,
                                     label: (item) => `${formatoCOP(item.raw)} COP`,
                                 },
                             },
@@ -690,11 +698,44 @@
             g.chart.update();
         }
 
-        function resaltarEnProveedores(proveedor) {
+        // Top proveedores de UNA entidad específica, calculado en el cliente a partir
+        // de los contratos ya cargados (mismo dataset que usa el benchmarking) — el
+        // top nacional (top_proveedores.json) casi nunca incluye a los proveedores de
+        // una entidad chica, así que resaltar sobre esa lista no serviría de nada.
+        function calcularTopProveedoresEntidad(nombreEntidad, contratos, topN = 10) {
+            const porProveedor = {};
+            contratos.forEach(c => {
+                if (c.nombre_entidad !== nombreEntidad || !c.proveedor) return;
+                porProveedor[c.proveedor] = (porProveedor[c.proveedor] || 0) + (c.valor_del_contrato || 0);
+            });
+            return Object.entries(porProveedor)
+                .map(([proveedor, valor_total]) => ({ proveedor, valor_total }))
+                .sort((a, b) => b.valor_total - a.valor_total)
+                .slice(0, topN);
+        }
+
+        function resaltarEnProveedores(nombreEntidad, proveedorResaltado) {
             const g = graficos.proveedores;
+            const notaEl = document.getElementById('proveedores-nota');
             if (!g.chart) return;
-            g.chart.data.datasets[0].backgroundColor = g.datos.map(d =>
-                proveedor ? (d.proveedor === proveedor ? '#4f46e5' : '#e2e8f0') : '#06b6d4');
+
+            let datos;
+            if (nombreEntidad) {
+                datos = calcularTopProveedoresEntidad(nombreEntidad, graficos.benchmark.datos);
+                notaEl.textContent = datos.length
+                    ? `Mostrando los proveedores de ${nombreEntidad} (no el top nacional).`
+                    : `${nombreEntidad} no tiene proveedores identificados en la muestra local.`;
+                notaEl.classList.remove('hidden');
+            } else {
+                datos = g.datosGlobal;
+                notaEl.classList.add('hidden');
+            }
+
+            g.datos = datos;
+            g.chart.data.labels = datos.map(d => envolverTexto(d.proveedor));
+            g.chart.data.datasets[0].data = datos.map(d => d.valor_total);
+            g.chart.data.datasets[0].backgroundColor = datos.map(d =>
+                proveedorResaltado ? (d.proveedor === proveedorResaltado ? '#4f46e5' : '#e2e8f0') : '#06b6d4');
             g.chart.update();
         }
 
@@ -737,7 +778,7 @@
 
             resaltarEnSector(sector);
             resaltarEnAnio(anio);
-            resaltarEnProveedores(proveedor);
+            resaltarEnProveedores(nombreEntidad, proveedor);
             resaltarEnBenchmark(nombreEntidad);
             resaltarEnRedFlags(nombreEntidad);
 
