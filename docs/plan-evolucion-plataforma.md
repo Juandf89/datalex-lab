@@ -5,6 +5,25 @@ jurisprudencia) implementadas y verificadas en navegador — ver detalle al fina
 cada sección de fase. Ejecutado con una rejilla de validación fija por fase (ver
 sección 6).
 
+**Migración de infraestructura (2026-08-04):** el sitio se movió de Netlify a
+Hostinger completo — sitio estático con deploy por Git + un Node.js Web App
+(`server/app.mjs`, subdominio `api.datalexlab.com`) que reemplaza las Netlify
+Functions, con estado en disco local en vez de Netlify Blobs. Motivo: Netlify
+Free se quedó sin créditos de deploy. Todas las referencias a Netlify Blobs,
+créditos de Netlify, u "otro sitio de Netlify" en las fases de abajo quedan
+**obsoletas** — ver README.md para el detalle de la arquitectura actual.
+
+**Rediseño de jurisprudencia a búsqueda en vivo sin acumular (2026-08-04):**
+decisión de producto — el nivel gratuito de `jurisprudencia.html` ya NO mantiene
+un índice/grafo acumulado (se eliminaron `generar_grafo_jurisprudencia.py`, su
+cron semanal, y los JSON acumulados). Cada búsqueda consulta la Relatoría de la
+Corte Constitucional en vivo, por palabra o por número de sentencia, y el grafo
+que se muestra es solo el vecindario directo de una sentencia (ella + lo que
+cita) — sin conteo global de citas ni efecto de citas-de-citas. **Esto cambia el
+alcance de la Fase 5** (ver esa sección): el grafo acumulado multi-corte con
+conteo global de citas que ahí se planeaba pasa a ser el diferenciador del nivel
+de pago, no parte del producto gratis — ver Fase 6.
+
 ## 1. Motivación
 
 El dashboard SECOP II actual (Isolation Forest sobre contratación pública) es estático:
@@ -14,19 +33,31 @@ jurisprudencia basado en grafos, hacia una plataforma con capas gratuita y de pa
 manteniendo el principio original de la arquitectura: **el uptime del sitio público
 nunca depende de una máquina personal**.
 
-## 2. Arquitectura actual ("Ruta A")
+## 2. Arquitectura actual (post-migración a Hostinger, 2026-08-04)
 
-- Netlify sirve `datalex-lab` (repo público `Juandf89/datalex-lab`) como sitio
-  estático, sin build step.
-- GitHub Actions corre `scripts/generar_json.py` cada 12h: ingiere SECOP II
-  (`jbjy-vk9h` vía Socrata), corre Isolation Forest, escribe JSON estáticos en
-  `api/secop/`, comitea y pushea solo si los datos cambian.
-- El frontend hace `fetch()` client-side de esos JSON — cero backend en tiempo real.
+- **Hostinger** sirve `datalex-lab` (repo público `Juandf89/datalex-lab`) como
+  sitio estático, deploy por Git, sin build step. `.htaccess` bloquea acceso
+  público a `scripts/`, `server/`, `netlify/`, `.github/`, `docs/` (el deploy
+  por Git copia el repo completo a `public_html`).
+- **`server/app.mjs`** — Node.js Web App aparte en Hostinger (subdominio
+  `api.datalexlab.com`), reemplaza las Netlify Functions. Corre detrás del
+  módulo `lsnode` de LiteSpeed (socket Unix, no puerto TCP). Estado (rate
+  limits, colas de absorción) en JSON en disco local — no hay KV externo
+  porque este sí es un proceso persistente, a diferencia de una función
+  serverless.
+- GitHub Actions corre `scripts/generar_json.py` cada hora (nominal — en la
+  práctica GitHub Actions no dispara el cron con esa puntualidad, verificado:
+  cada ~2-3h): ingiere SECOP II (`jbjy-vk9h` vía Socrata), retrocede varias
+  ventanas de backfill histórico, corre Isolation Forest, escribe JSON
+  estáticos en `api/secop/`, comitea y pushea solo si los datos cambian.
+- El frontend hace `fetch()` client-side de esos JSON estáticos, y llama en
+  vivo a `api.datalexlab.com` para búsquedas fuera de la muestra (SECOP) o
+  para toda búsqueda de jurisprudencia (sin muestra local que consultar
+  primero).
 
-**Verificado en esta sesión (dashboard de Netlify, periodo Jul 8–Ago 7 2026):**
-136 de 300 créditos del plan Free consumidos, 9 deploys de producción (135 créditos),
-bandwidth y compute casi nulos. Margen real disponible antes de necesitar plan pago:
-~135-150 créditos/mes.
+**Ya no aplica** (referencia histórica): el análisis de créditos de Netlify de
+la sesión anterior — el plan Free de Netlify se agotó (deploys de producción
+pausados) y motivó la migración completa a Hostinger.
 
 ## 3. Hoja de ruta por fases
 
@@ -379,9 +410,9 @@ Mismo criterio aplicado a la Fase 5 (expansión de jurisprudencia).
     completo (2015+), no solo contra los ~5,000-30,000 contratos/mes ya estimados.
   - Latencia de búsqueda: debe sentirse instantánea (<1-2s), consistente con el
     debounce de 600ms ya usado en los fallbacks.
-  - Netlify Pro sigue **sin ser requisito técnico** para esta fase (mismo análisis
-    de antes: cualquier función en el plan Free puede llamar a un proveedor de
-    embeddings vía HTTP).
+  - No hace falta un plan de hosting superior para esta fase (actualizado
+    2026-08-04, ya en Hostinger): el Node.js Web App premium (ver 3b) puede
+    llamar a un proveedor de embeddings vía HTTP sin restricciones de plan.
 
 - **Decisiones resueltas (2026-08-04):**
   1. **Alcance de indexación: histórico completo del dataset** (2015+, no solo la
@@ -393,17 +424,24 @@ Mismo criterio aplicado a la Fase 5 (expansión de jurisprudencia).
   2. **Repositorio separado y privado.** Este es el producto de pago — el pipeline de
      embeddings, la función de búsqueda semántica y cualquier lógica de negocio de
      monetización viven en un repo **nuevo, privado**, no en `datalex-lab` (público).
-     Implicaciones para 3b:
+     Implicaciones para 3b (actualizado 2026-08-04 tras la migración a Hostinger):
      - El repo público sigue sirviendo `secop-clm.html` y los JSON estáticos de
        siempre — sin cambios ahí.
-     - El servicio privado expone su propia función serverless (mismo patrón que
-       `fallback-secop.mjs`, pero desplegada en un sitio de Netlify aparte), que
-       `secop-clm.html` consume vía `fetch()` cross-origin.
-     - Implica configurar CORS en la función privada para aceptar solo peticiones
-       desde `datalexlab.com` (no abierto a cualquier origen).
+     - El servicio privado se despliega como **otro Node.js Web App en la misma
+       cuenta de Hostinger** (otro subdominio, ej. `api-premium.datalexlab.com`),
+       mismo patrón que `server/app.mjs` hoy — proceso Express persistente, no
+       una función serverless suelta.
+     - Implica configurar CORS en ese servidor para aceptar solo peticiones desde
+       `datalexlab.com` (no abierto a cualquier origen) — mismo patrón ya
+       implementado en `server/app.mjs` (`ALLOWED_ORIGIN`).
      - El código del pipeline de embeddings (prompts, lógica de ranking, costos)
        queda fuera de un repo público — razonable para un servicio de pago, evita
        que cualquiera clone la lógica de negocio completa.
+     - Pendiente de decidir: si el estado que necesite este servicio (ej. caché de
+       embeddings, sesiones de usuario) vive en disco local del propio Node.js Web
+       App (mismo patrón que `server/store.mjs`) o si a esta escala conviene una
+       base de datos real — Hostinger ya incluye hasta 300 bases de datos MySQL en
+       el plan actual, disponibles sin costo adicional si hace falta.
   3. **Cómo se complementan Fuse.js y la búsqueda semántica** (responde la pregunta
      abierta anterior — sí conviven, no se reemplazan, y no son redundantes: resuelven
      preguntas distintas):
@@ -441,88 +479,68 @@ store, criterio exacto de cascada Fuse.js → léxico → semántico.)*
   pasa a ser un SaaS con estado persistente. Posponer hasta validar tracción real de
   las fases anteriores.
 
-### Fase 5 — Expansión de jurisprudencia a otras altas cortes (no comprometida aún)
+### Fase 5 — Expansión de jurisprudencia a otras altas cortes (nivel gratuito, en vivo)
 
-**Mismo cambio de enfoque que Fase 3 (2026-08-04):** se divide en SRS → diseño →
-desarrollo, con autenticación/pagos diferidos a la Fase 6 compartida. El grafo de
-citas y el futuro buscador semántico de jurisprudencia (mencionado originalmente en
-el "Producto 1" de la Fase 3 vieja) se planean aquí, junto con la expansión de
-cobertura a otras cortes — son la misma capacidad (el "graficador de grafos"),
-no dos iniciativas separadas.
+**Replanteada 2026-08-04** tras el rediseño de `jurisprudencia.html` a búsqueda en
+vivo sin acumular (ver nota al inicio del documento). La versión anterior de esta
+fase asumía un grafo acumulado multi-corte con conteo global de citas — **esa
+capacidad se movió a la Fase 6** como producto de pago (ver "Jurisprudencia
+premium" ahí). Lo que queda aquí, en el nivel gratuito, es más angosto: extender
+el mismo patrón de búsqueda en vivo de hoy (sin índice, sin acumular) a Corte
+Suprema y Consejo de Estado.
 
 #### 5a. SRS — Requisitos y lógica de negocio
 
-- **Propósito:** ampliar `jurisprudencia.html` más allá de la Corte Constitucional
-  para cubrir Consejo de Estado y Corte Suprema de Justicia — y, sobre esa base más
-  completa, ofrecer búsqueda semántica sobre las sentencias (no solo Fuse.js sobre
-  el tema indexado).
-- **Alcance de esta sub-fase:** cobertura multi-corte del grafo de citas + índice de
-  temas. **Fuera de alcance explícitamente:** cuentas de usuario, límites premium —
-  igual que en Fase 3, el buscador ampliado se lanza con el mismo rate limiting
-  gratuito por IP/día ya validado (`LIMITE_DIARIO_JURISPRUDENCIA`), no con muro de
-  pago.
+- **Propósito:** que el buscador de `jurisprudencia.html` no esté limitado a Corte
+  Constitucional — permitir buscar por tema o número de sentencia también en Corte
+  Suprema y Consejo de Estado, con el mismo modelo en vivo (sin índice acumulado)
+  ya construido.
+- **Alcance de esta sub-fase:** búsqueda en vivo multi-corte (por palabra y por
+  número), reutilizando el patrón de `server/app.mjs` de hoy
+  (`fallback-jurisprudencia`, `/jurisprudencia/grafo`). **Fuera de alcance
+  explícitamente:** cualquier forma de acumulación, grafo combinado persistente,
+  conteo global de citas, o búsqueda semántica — eso es la Fase 6
+  ("Jurisprudencia premium"), no esta fase.
 - **Usuarios/actores:** mismo público de `jurisprudencia.html` (abogados
-  litigantes, investigadores) — ahora con necesidad real de encontrar líneas
-  jurisprudenciales que crucen varias cortes (ej. una tutela que cita tanto Corte
-  Constitucional como Consejo de Estado).
+  litigantes, investigadores).
 - **Requisitos funcionales:**
-  1. Cada nodo del grafo debe indicar de qué corte proviene (hoy el modelo de datos
-     de `grafo_citas.json` asume implícitamente que todo es Corte Constitucional —
-     hay que agregar un campo `corte` a cada nodo antes de mezclar fuentes).
-  2. Las citas cruzadas entre cortes deben representarse igual que las citas dentro
-     de una misma corte (una arista es una arista, independiente del origen).
-  3. El buscador de temas (Fuse.js) debe seguir funcionando sobre el índice
-     combinado sin necesitar que el usuario elija corte de antemano.
-  4. El scraper de CENDOJ corre en su propio cron (igual patrón que
-     `actualizar-jurisprudencia.yml`), independiente del scraper de Corte
-     Constitucional existente — no se reemplaza el scraper que ya funciona.
+  1. El usuario puede elegir (o el sistema detecta) sobre qué corte está buscando
+     — a diferencia de hoy (una sola corte implícita), con varias cortes hace
+     falta un selector o una detección de formato de número por corte.
+  2. Cada resultado indica de qué corte proviene.
+  3. El grafo de citas en vivo (equivalente a `/jurisprudencia/grafo` de hoy) debe
+     poder mostrar citas de una sentencia a otra corte distinta, no solo dentro de
+     la misma — una cita es una cita, independiente del origen, mismo criterio que
+     ya se aplicaba en el diseño acumulado descartado.
 - **Reglas de negocio:**
-  - El campo `Descriptor-Restrictor` de CENDOJ (temas ya curados por juristas) se
-    usa directamente como `tema` en el índice — no se genera resumen con NLP,
-    confirmado como innecesario en el PoC de esta sesión.
-  - Mismo criterio de rate limiting que Fase 2/3: sin cuenta de usuario, límite por
-    IP/día.
+  - Mismo rate limiting ya validado (`LIMITE_DIARIO_JURISPRUDENCIA`, por IP/día,
+    sin cuenta de usuario) — compartido entre las tres cortes, no un límite nuevo
+    por corte.
 - **Requisitos no funcionales / cumplimiento:**
   - Ni `jurisprudencia.ramajudicial.gov.co` ni `cortesuprema.gov.co` ni
     `consejodeestado.gov.co` publican `robots.txt` — zona gris, a diferencia de la
     Corte Constitucional que sí permite `/relatoria/` explícitamente.
-  - Buena práctica de scraping ya validada en Fase 2 (User-Agent identificable,
-    pausa entre requests, alcance acotado por corrida) aplica igual aquí.
-- **Hallazgos técnicos ya validados (insumo para 5b):**
-  - No existe dato abierto integral para Corte Suprema ni Consejo de Estado en
-    datos.gov.co (solo datasets puntuales, ej. "Jurisprudencia Indígena del Consejo
-    de Estado" — no sirven como corpus general).
-  - **CENDOJ** ofrece búsqueda unificada real sobre Corte Suprema, Corte
-    Constitucional, Consejo de Estado, Sala Disciplinaria y Comisión Nacional de
-    Disciplina Judicial — un solo objetivo técnico en vez de 4+ scrapers distintos.
-  - **PoC validado:** CENDOJ es JSF+PrimeFaces (no una SPA con API REST). El
-    mecanismo de ViewState/postback **es replicable con `requests` puro, sin
-    headless browser** — confirmado con una búsqueda real ("estabilidad laboral
-    reforzada") que devolvió resultados correctos. Script de referencia:
-    `scripts/poc_cendoj.py`.
-- **Decisiones resueltas (2026-08-04):**
-  1. **Grafo combinado en un solo archivo** (`grafo_citas.json` con campo `corte`
-     nuevo por nodo), no archivos separados por corte. Prioriza eficiencia (un solo
-     fetch, un solo índice Fuse.js, un solo pipeline de fusión — mismo patrón que
-     `fusionar_historico` en SECOP) *y* el uso real del producto: el valor central
-     de un grafo de citas es precisamente ver **líneas jurisprudenciales que cruzan
-     cortes** (ej. una tutela de Corte Constitucional citando un precedente de
-     Consejo de Estado) — separar por corte fragmentaría justo lo que hace valioso
-     al grafo combinado. `in_degree` se calcula **global, cross-corte** (una cita es
-     una cita, sin importar el origen — mismo criterio que las aristas).
-  2. **No se espera respuesta de CENDOJ para empezar 5b/5c.** Se procede directo
-     con la arquitectura de scraping ya validada en el PoC (`scripts/poc_cendoj.py`).
-     El correo a `info.cendoj@ramajudicial.gov.co` se sigue enviando (más legítimo
-     para un producto comercial, y una respuesta positiva más adelante podría
-     simplificar o reemplazar el scraper), pero **en paralelo, sin bloquear** —
-     buena práctica de scraping (User-Agent identificable, pausas, alcance acotado)
-     ya cubre el riesgo de la zona gris de `robots.txt` mientras tanto.
+  - Buena práctica de scraping ya validada (User-Agent identificable, sin
+    recursión agresiva) aplica igual aquí.
+- **⚠️ No verificado todavía — bloquea 5b:** el patrón de búsqueda en vivo de hoy
+  (POST a un buscador con `searchOption=texto`, y construcción directa de URL por
+  convención de número de sentencia con padding a 3 dígitos) se verificó
+  específicamente contra el sitio de la Corte Constitucional — **no se ha
+  confirmado que Corte Suprema o Consejo de Estado tengan una estructura de sitio
+  o convención de URL equivalente.** El PoC de CENDOJ (`scripts/poc_cendoj.py`,
+  JSF+PrimeFaces con ViewState/postback) es la única exploración real hecha sobre
+  esas cortes, y fue para un *scraper batch*, no para construir URLs directas en
+  vivo — antes de comprometerse al diseño de 5b, hay que repetir el mismo ejercicio
+  de verificación de hoy (abrir el sitio real, capturar el request real de una
+  búsqueda) contra Corte Suprema y Consejo de Estado, o evaluar si CENDOJ mismo
+  sirve como fuente en vivo (una sola consulta por búsqueda, no scraping batch).
 
 #### 5b. Diseño de software — Arquitectura técnica
 
-*(Pendiente de desarrollar — insumo ya resuelto: un solo `grafo_citas.json`
-combinado con campo `corte`, arquitectura de scraping igual a
-`scripts/poc_cendoj.py`, sin esperar respuesta de CENDOJ.)*
+*(Pendiente — bloqueado por la verificación de arriba. No empezar el diseño
+técnico hasta confirmar cómo se busca en vivo, por tema y por número, en Corte
+Suprema y Consejo de Estado — o si conviene usar CENDOJ como fuente en vivo en
+vez de las tres cortes por separado.)*
 
 #### 5c. Desarrollo
 
@@ -531,45 +549,104 @@ combinado con campo `corte`, arquitectura de scraping igual a
 ### Fase 6 — Autenticación de usuarios + Pagos (al final, compartida)
 
 **Por qué al final (2026-08-04):** autenticación y pagos son la misma pieza de
-infraestructura sin importar cuál producto la dispare (buscador semántico de SECOP,
-Fase 3; buscador semántico de jurisprudencia multi-corte, Fase 5) — no tiene sentido
+infraestructura sin importar cuál producto la dispare — no tiene sentido
 construirla dos veces, y construirla antes de validar que el producto gratuito tiene
 tracción real es exactamente el tipo de complejidad prematura que este plan busca
-evitar. Se activa cuando **cualquiera** de las dos fases de producto (3 o 5) esté
-desarrollada y validada, no antes.
+evitar. Se activa cuando **cualquiera** de los productos de pago esté desarrollado y
+validado, no antes. Tres productos comparten esta infraestructura:
 
-- **Pagos (botones premium):**
-  - **Stripe descartado como opción directa:** verificado que no tiene soporte
-    oficial para comercios colombianos (requiere condiciones especiales, típicamente
-    cuenta bancaria en EE.UU.).
-  - **Recomendado: procesador colombiano nativo** (Wompi, ePayco o PayU) — settlement
-    en COP, sin entidad extranjera. *Pendiente: decidir cuál de los tres entre Wompi
-    y ePayco.*
-  - **Diseño:** usar un link/checkout hospedado por el proveedor (no un formulario de
-    tarjeta custom) — evita tocar datos de tarjeta y minimiza el alcance de
-    cumplimiento PCI.
-  - **Modelo de precio:** paquete o suscripción (ej. "$5/mes ilimitado"), no
-    microcobros de $1 — la comisión de un procesador (~2.9% + cargo fijo) hace que
-    cobrar $1 por unidad sea económicamente malo.
-  - Debe cubrir acceso premium a **ambos** productos (SECOP y jurisprudencia) bajo
-    una misma suscripción, no dos cobros separados — a definir en el SRS de esta
-    fase cuando se active.
-- **Autenticación de usuarios premium:**
-  - Sin contraseña (magic link por correo) — evita almacenar contraseñas.
-  - **Netlify Identity** es una opción nativa viable (verificado en sesión previa:
-    Netlify anunció su descontinuación pero la revirtió en febrero 2026 — sigue
-    soportado). Alternativa con más funcionalidad: Supabase Auth.
-- **Seguridad — idempotencia:**
-  - Toda creación de sesión/link de pago debe llevar un `Idempotency-Key` único
-    (derivado de la sesión del usuario) para que un doble clic o reintento de red no
-    genere cobro duplicado.
-  - El webhook que confirma el pago debe ser idempotente: verificar el ID del evento
-    antes de otorgar acceso premium, para no activarlo dos veces por el mismo pago.
-- **UX/UI de estos incrementos:**
-  - Botón de pago con estados explícitos (cargando / éxito / error).
-  - Indicador visible de "X búsquedas gratis restantes hoy" antes de tocar el límite
-    (patrón ya usado en los fallbacks de Fase 2/3/5, reutilizar tal cual).
-  - Página de confirmación post-pago que active el acceso premium de inmediato.
+1. **Buscador semántico SECOP** (Fase 3).
+2. **Jurisprudencia premium** (nuevo, ver abajo) — el grafo acumulado multi-corte
+   que la Fase 5 original planeaba, replanteado como producto de pago.
+3. Cualquier futuro buscador semántico de jurisprudencia sobre ese grafo acumulado
+   (mencionado en la Fase 5 original, ahora dependiente del punto 2).
+
+#### Jurisprudencia premium — grafo acumulado multi-corte (movido desde la Fase 5 original, 2026-08-04)
+
+El nivel gratuito (Fase 5 replanteada) es búsqueda en vivo, sentencia por
+sentencia, sin memoria entre búsquedas. Lo que el nivel de pago ofrece que el
+gratis estructuralmente no puede: **un corpus acumulado real**, con las señales
+que solo emergen de tener miles de sentencias ya escaneadas —
+conteo global de "cuántas veces ha sido citada esta sentencia en todo lo
+indexado" (proxy de relevancia, tipo Shepard's/KeyCite), líneas jurisprudenciales
+que cruzan cortes, y una base sobre la cual sí tiene sentido correr búsqueda
+semántica (no hay "significado" que buscar semánticamente sobre un vecindario de
+una sola sentencia).
+
+Todo el trabajo de investigación de la Fase 5 original sigue siendo válido como
+insumo técnico, solo que ahora aplica a un producto de pago en vez del gratuito:
+
+- **Hallazgos técnicos ya validados:**
+  - No existe dato abierto integral para Corte Suprema ni Consejo de Estado en
+    datos.gov.co (solo datasets puntuales, no sirven como corpus general).
+  - **CENDOJ** ofrece búsqueda unificada real sobre Corte Suprema, Corte
+    Constitucional, Consejo de Estado, Sala Disciplinaria y Comisión Nacional de
+    Disciplina Judicial — un solo objetivo técnico en vez de 4+ scrapers distintos.
+  - **PoC validado:** CENDOJ es JSF+PrimeFaces (no una SPA con API REST). El
+    mecanismo de ViewState/postback **es replicable con `requests` puro, sin
+    headless browser** — confirmado con una búsqueda real ("estabilidad laboral
+    reforzada") que devolvió resultados correctos. Script de referencia:
+    `scripts/poc_cendoj.py`.
+  - El campo `Descriptor-Restrictor` de CENDOJ (temas ya curados por juristas)
+    sirve directamente como `tema` en el índice — no hace falta generar resumen
+    con NLP, confirmado innecesario en el PoC.
+- **Decisiones de diseño ya resueltas (heredadas de la Fase 5 original):**
+  - Grafo combinado en un solo store (no separado por corte) — el valor central
+    de un grafo de citas es ver líneas jurisprudenciales que cruzan cortes;
+    separar por corte fragmentaría justo lo que lo hace valioso. `in_degree`
+    global, cross-corte (una cita es una cita, sin importar el origen).
+  - No se espera respuesta de CENDOJ para empezar a construir — se procede
+    directo con la arquitectura de scraping ya validada en el PoC. El correo a
+    `info.cendoj@ramajudicial.gov.co` se sigue enviando en paralelo, sin bloquear.
+- **Pendiente de decidir (nuevo, 2026-08-04):**
+  - Dónde vive el store acumulado: a diferencia de SECOP (archivos JSON en el
+    repo público), este es un producto de pago — probablemente una base de datos
+    real (Hostinger incluye hasta 300 MySQL en el plan actual) en vez de JSON
+    versionado en un repo, para no exponer el corpus completo públicamente vía
+    Git.
+  - Si el batch scraper corre en GitHub Actions del repo privado (mismo patrón
+    que hoy) o en un cron del propio Node.js Web App premium en Hostinger.
+  - Cómo se relaciona con el buscador semántico de jurisprudencia mencionado en
+    la Fase 5 original — probablemente la misma relación que SECOP: el grafo
+    acumulado es el corpus, la búsqueda semántica es una capa encima.
+
+#### Pagos (botones premium)
+- **Stripe descartado como opción directa:** verificado que no tiene soporte
+  oficial para comercios colombianos (requiere condiciones especiales, típicamente
+  cuenta bancaria en EE.UU.).
+- **Recomendado: procesador colombiano nativo** (Wompi, ePayco o PayU) — settlement
+  en COP, sin entidad extranjera. *Pendiente: decidir cuál de los tres entre Wompi
+  y ePayco.*
+- **Diseño:** usar un link/checkout hospedado por el proveedor (no un formulario de
+  tarjeta custom) — evita tocar datos de tarjeta y minimiza el alcance de
+  cumplimiento PCI.
+- **Modelo de precio:** paquete o suscripción (ej. "$5/mes ilimitado"), no
+  microcobros de $1 — la comisión de un procesador (~2.9% + cargo fijo) hace que
+  cobrar $1 por unidad sea económicamente malo.
+- Debe cubrir acceso premium a los productos de pago (SECOP semántico,
+  Jurisprudencia premium) bajo una misma suscripción, no cobros separados por
+  producto — a definir en el SRS de esta fase cuando se active.
+
+#### Autenticación de usuarios premium
+- Sin contraseña (magic link por correo) — evita almacenar contraseñas.
+- **Netlify Identity queda descartado** (ya no hay infraestructura Netlify tras la
+  migración a Hostinger, 2026-08-04). Opciones a evaluar: **Supabase Auth**
+  (gestionado, incluye magic link nativo) o un mecanismo propio de tokens de un
+  solo uso servido desde el Node.js Web App premium — pendiente de decidir cuando
+  se active esta fase.
+
+#### Seguridad — idempotencia
+- Toda creación de sesión/link de pago debe llevar un `Idempotency-Key` único
+  (derivado de la sesión del usuario) para que un doble clic o reintento de red no
+  genere cobro duplicado.
+- El webhook que confirma el pago debe ser idempotente: verificar el ID del evento
+  antes de otorgar acceso premium, para no activarlo dos veces por el mismo pago.
+
+#### UX/UI de estos incrementos
+- Botón de pago con estados explícitos (cargando / éxito / error).
+- Indicador visible de "X búsquedas gratis restantes hoy" antes de tocar el límite
+  (patrón ya usado en los fallbacks de SECOP y jurisprudencia, reutilizar tal cual).
+- Página de confirmación post-pago que active el acceso premium de inmediato.
 
 ### Tarjetas de resumen: bug de esquema + rediseño de la tarjeta de Isolation Forest (2026-08-03)
 
@@ -663,8 +740,9 @@ PARA TODOS LOS COLOMBIANOS" en 3 líneas) — se lee completo, sin cortes.
 **Antes de Fase 3b/3c (diseño y desarrollo del buscador semántico SECOP):**
 - [ ] Confirmar qué campo vectorizar (`descripcion_del_proceso` vs.
       `objeto_del_contrato`) contra una muestra real del esquema.
-- [ ] Crear el repositorio privado nuevo (falta definir nombre) y configurar su
-      propio deploy de Netlify.
+- [ ] Crear el repositorio privado nuevo (falta definir nombre) y crear el
+      segundo Node.js Web App en Hostinger para desplegarlo (decisión
+      2026-08-04: mismo patrón que `server/app.mjs`, no un proveedor aparte).
 - [ ] Recalcular el costo de embeddings contra el volumen real del histórico
       completo (2015+), no contra la muestra de ~5,000-30,000 usada en el
       estimado anterior — decisión de indexar todo el histórico ya tomada
@@ -673,20 +751,35 @@ PARA TODOS LOS COLOMBIANOS" en 3 líneas) — se lee completo, sin cortes.
       cascada Fuse.js → léxico → semántico (¿solo cuando las dos anteriores no
       encuentran nada, o también cuando la consulta "parece" conceptual?).
 
-**Antes de Fase 5b/5c (diseño y desarrollo de la expansión de jurisprudencia):**
+**Antes de Fase 5b/5c (diseño y desarrollo de la expansión de jurisprudencia, nivel
+gratuito, en vivo):**
+- [ ] **Bloqueante:** verificar en vivo (abrir el sitio real, capturar el request
+      real de una búsqueda) si Corte Suprema y Consejo de Estado tienen una
+      estructura de búsqueda y convención de URL de sentencia equivalente a la ya
+      verificada para Corte Constitucional — o si conviene usar CENDOJ como fuente
+      en vivo (una consulta por búsqueda) en vez de las cortes por separado.
+
+**Antes de activar "Jurisprudencia premium" dentro de la Fase 6 (grafo acumulado
+multi-corte, movido desde la Fase 5 original):**
 - [ ] Redactar y enviar el correo a CENDOJ (`info.cendoj@ramajudicial.gov.co`) —
-      ya no bloquea el inicio de 5b/5c (decisión 2026-08-04: se procede con el
+      no bloquea el inicio del desarrollo (decisión 2026-08-04: se procede con el
       PoC de scraping validado en paralelo), pero sigue pendiente de enviarse.
+- [ ] Decidir dónde vive el store acumulado (base de datos real vs. JSON) y si el
+      batch scraper corre en GitHub Actions del repo privado o en un cron del
+      propio Node.js Web App premium.
 
 **Antes de Fase 6 (autenticación + pagos, cuando se active):**
 - [ ] Elegir Wompi vs. ePayco como procesador de pago.
-- [ ] Confirmar límites de timeout de funciones síncronas/background en Netlify Pro
-      (no se pudo verificar el detalle exacto en esta sesión).
+- [ ] Elegir Supabase Auth vs. un mecanismo propio de magic link para
+      autenticación (Netlify Identity queda descartado tras la migración a
+      Hostinger, 2026-08-04).
 - [ ] Verificar implicaciones fiscales/DIAN de recibir pagos recurrentes por un
       servicio digital antes de activar cualquier cobro.
 
 **Transversal (ya aplica a Fase 2/3/5):**
-- [ ] Definir el número exacto de búsquedas gratis/día para el rate limiting.
+- [ ] Definir el número exacto de búsquedas gratis/día para el rate limiting
+      (`LIMITE_DIARIO_JURISPRUDENCIA` subió de 5 a 20 el 2026-08-04 por el
+      rediseño en vivo — sigue siendo un default, no una decisión final).
 
 ## 5. Principio rector
 
