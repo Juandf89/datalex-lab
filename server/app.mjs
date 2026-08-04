@@ -162,7 +162,7 @@ app.get("/fallback-secop", async (req, res) => {
 // ========================= JURISPRUDENCIA =========================
 // OJO: searchOption=texto (texto completo) vía POST, no searchOption=prov_sentencia
 // (eso es búsqueda por NÚMERO de sentencia) — confirmado observando el request
-// real del formulario del sitio. Ver docs/plan-evolucion-plataforma.md, Fase 2.
+// real del formulario del sitio.
 const DOMINIO_JURISPRUDENCIA = "https://www.corteconstitucional.gov.co";
 const BUSCADOR_JURISPRUDENCIA = `${DOMINIO_JURISPRUDENCIA}/relatoria/buscador_new//index.php`;
 const PATRON_URL_SENTENCIA = /\/relatoria\/(\d{4})\/(SU|[TC])-(\d+)-(\d+)\.htm/i;

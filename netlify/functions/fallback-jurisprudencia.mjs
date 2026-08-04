@@ -16,7 +16,7 @@ import * as cheerio from "cheerio";
 // (jQuery + DataTables) sin resultados en el HTML. Verificado en vivo: la
 // búsqueda temática real usa searchOption=texto (texto completo) vía POST a
 // /index.php con FormData — confirmado observando el request real del propio
-// formulario del sitio (ver docs/plan-evolucion-plataforma.md, Fase 2).
+// formulario del sitio.
 const BUSCADOR = "https://www.corteconstitucional.gov.co/relatoria/buscador_new//index.php";
 const USER_AGENT = "DataLexLab-fallback-bot/0.1 (contacto: juanpablo.lopez.mejia@gmail.com)";
 const LIMITE_DIARIO = Number(process.env.LIMITE_DIARIO_JURISPRUDENCIA || 5);
