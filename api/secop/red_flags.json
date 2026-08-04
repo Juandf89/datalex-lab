@@ -1,14 +1,14 @@
 [
   {
-    "id_contrato": "CO1.PCCNTR.9573277",
-    "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DE PENSIONES DE CUNDINAMARCA",
-    "sector": "Salud y Protección Social",
+    "id_contrato": "CO1.PCCNTR.9345722",
+    "nombre_entidad": "DEPARTAMENTO DE CORDOBA",
+    "sector": "Servicio Público",
     "anio": 2026,
-    "valor_del_contrato": 929702730.0,
-    "duracion_contrato_dias": 730,
-    "desviacion_temporal_real": 371,
-    "ratio_desviacion_temporal": 0.5082191781,
-    "puntaje_anomalia": -0.2021209965
+    "valor_del_contrato": 18743000300.0,
+    "duracion_contrato_dias": 609,
+    "desviacion_temporal_real": 374,
+    "ratio_desviacion_temporal": 0.6141215107,
+    "puntaje_anomalia": -0.2299219499
   },
   {
     "id_contrato": "CO1.PCCNTR.9542773",
@@ -19,7 +19,18 @@
     "duracion_contrato_dias": 376,
     "desviacion_temporal_real": 380,
     "ratio_desviacion_temporal": 1.0106382979,
-    "puntaje_anomalia": -0.2011175273
+    "puntaje_anomalia": -0.2025221847
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.9185000",
+    "nombre_entidad": "ALCALDÍA MUNICIPAL DE MAGANGUE",
+    "sector": "Servicio Público",
+    "anio": 2026,
+    "valor_del_contrato": 1323634755.0,
+    "duracion_contrato_dias": 305,
+    "desviacion_temporal_real": 425,
+    "ratio_desviacion_temporal": 1.393442623,
+    "puntaje_anomalia": -0.2015255572
   },
   {
     "id_contrato": "CO1.PCCNTR.9534066",
@@ -30,6 +41,39 @@
     "duracion_contrato_dias": 87,
     "desviacion_temporal_real": 427,
     "ratio_desviacion_temporal": 4.908045977,
-    "puntaje_anomalia": -0.1935599043
+    "puntaje_anomalia": -0.1994804862
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.9338418",
+    "nombre_entidad": "MUNICIPIO DE URRAO",
+    "sector": "Servicio Público",
+    "anio": 2026,
+    "valor_del_contrato": 73538010.0,
+    "duracion_contrato_dias": 322,
+    "desviacion_temporal_real": 1096,
+    "ratio_desviacion_temporal": 3.4037267081,
+    "puntaje_anomalia": -0.1955038732
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8849270",
+    "nombre_entidad": "MUNICIPIO DE PUERTO TEJADA",
+    "sector": "No aplica/No pertenece",
+    "anio": 2026,
+    "valor_del_contrato": 411013936.0,
+    "duracion_contrato_dias": 242,
+    "desviacion_temporal_real": 389,
+    "ratio_desviacion_temporal": 1.6074380165,
+    "puntaje_anomalia": -0.1936795395
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.9573277",
+    "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DE PENSIONES DE CUNDINAMARCA",
+    "sector": "Salud y Protección Social",
+    "anio": 2026,
+    "valor_del_contrato": 929702730.0,
+    "duracion_contrato_dias": 730,
+    "desviacion_temporal_real": 371,
+    "ratio_desviacion_temporal": 0.5082191781,
+    "puntaje_anomalia": -0.1910991493
   }
 ]
