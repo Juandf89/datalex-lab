@@ -1870,7 +1870,128 @@
     "puntaje_anomalia": -0.1574881391
   },
   {
-    "id_contrato": "CO1.PCCNTR.2612733",
+    "id_contrato": "CO1.PCCNTR.8561070",
+    "nombre_entidad": "MUNICIPIO DE MARINILLA",
+    "sector": "Servicio Público",
+    "anio": 2025,
+    "valor_del_contrato": 3019009722.0,
+    "duracion_contrato_dias": 355,
+    "desviacion_temporal_real": 493,
+    "ratio_desviacion_temporal": 1.3887323944,
+    "puntaje_anomalia": -0.1599132331
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.3997626",
+    "nombre_entidad": "INSTITUTO DE CAMINOS Y CONSTRUCCIONES DE CUNDINAMARCA - ICCU",
+    "sector": "Transporte",
+    "anio": 2022,
+    "valor_del_contrato": 100000000.0,
+    "duracion_contrato_dias": 303,
+    "desviacion_temporal_real": 759,
+    "ratio_desviacion_temporal": 2.504950495,
+    "puntaje_anomalia": -0.1595881757
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.3998042",
+    "nombre_entidad": "INSTITUTO DE CAMINOS Y CONSTRUCCIONES DE CUNDINAMARCA - ICCU",
+    "sector": "Transporte",
+    "anio": 2022,
+    "valor_del_contrato": 100000000.0,
+    "duracion_contrato_dias": 304,
+    "desviacion_temporal_real": 759,
+    "ratio_desviacion_temporal": 2.4967105263,
+    "puntaje_anomalia": -0.1595881757
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.5319946",
+    "nombre_entidad": "ALCALDIA  MUNICIPIO DE IBAGUE*",
+    "sector": "Servicio Público",
+    "anio": 2023,
+    "valor_del_contrato": 126984364.0,
+    "duracion_contrato_dias": 1460,
+    "desviacion_temporal_real": 730,
+    "ratio_desviacion_temporal": 0.5,
+    "puntaje_anomalia": -0.1593290195
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.1647109",
+    "nombre_entidad": "MINCIENCIAS",
+    "sector": "Ciencia Tecnología",
+    "anio": 2020,
+    "valor_del_contrato": 348728688.0,
+    "duracion_contrato_dias": 1152,
+    "desviacion_temporal_real": 478,
+    "ratio_desviacion_temporal": 0.4149305556,
+    "puntaje_anomalia": -0.1592121288
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.9338418",
+    "nombre_entidad": "MUNICIPIO DE URRAO",
+    "sector": "Servicio Público",
+    "anio": 2026,
+    "valor_del_contrato": 73538010.0,
+    "duracion_contrato_dias": 322,
+    "desviacion_temporal_real": 1096,
+    "ratio_desviacion_temporal": 3.4037267081,
+    "puntaje_anomalia": -0.1586754578
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.444765",
+    "nombre_entidad": "SECRETARIA DE EDUCACION DEL DISTRITO",
+    "sector": "Educación Nacional",
+    "anio": 2018,
+    "valor_del_contrato": 1762250072.0,
+    "duracion_contrato_dias": 1173,
+    "desviacion_temporal_real": 426,
+    "ratio_desviacion_temporal": 0.3631713555,
+    "puntaje_anomalia": -0.1586727182
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.1071507",
+    "nombre_entidad": "SERVICIO GEOLOGICO COLOMBIANO**",
+    "sector": "Minas y Energía",
+    "anio": 2020,
+    "valor_del_contrato": 1452765421.0,
+    "duracion_contrato_dias": 569,
+    "desviacion_temporal_real": 443,
+    "ratio_desviacion_temporal": 0.7785588752,
+    "puntaje_anomalia": -0.1586456153
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8560749",
+    "nombre_entidad": "ALCALDIA MUNICIPIO DE GIRALDO",
+    "sector": "No aplica/No pertenece",
+    "anio": 2025,
+    "valor_del_contrato": 820382634.4,
+    "duracion_contrato_dias": 268,
+    "desviacion_temporal_real": 483,
+    "ratio_desviacion_temporal": 1.802238806,
+    "puntaje_anomalia": -0.1583375014
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.8563230",
+    "nombre_entidad": "INSTITUTO DEPARTAMENTAL DE DEPORTES DE ANTIOQUIA",
+    "sector": "No aplica/No pertenece",
+    "anio": 2025,
+    "valor_del_contrato": 1250422980.0,
+    "duracion_contrato_dias": 243,
+    "desviacion_temporal_real": 403,
+    "ratio_desviacion_temporal": 1.658436214,
+    "puntaje_anomalia": -0.1576404353
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7046568",
+    "nombre_entidad": "EMPRESA DE DESARROLLO DE SAN CARLOS",
+    "sector": "Industria",
+    "anio": 2024,
+    "valor_del_contrato": 409847899.0,
+    "duracion_contrato_dias": 630,
+    "desviacion_temporal_real": 480,
+    "ratio_desviacion_temporal": 0.7619047619,
+    "puntaje_anomalia": -0.1575800818
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.1481332",
     "nombre_entidad": "INVIAS",
     "sector": "Transporte",
     "anio": 2021,
@@ -2629,8 +2750,8 @@
     "puntaje_anomalia": -0.1473112118
   },
   {
-    "id_contrato": "CO1.PCCNTR.3961205",
-    "nombre_entidad": "GOBIERNO DEPARTAMENTAL",
+    "id_contrato": "CO1.PCCNTR.8559108",
+    "nombre_entidad": "DEPARTAMENTO DEL META",
     "sector": "Servicio Público",
     "anio": 2022,
     "valor_del_contrato": 537146722.0,
@@ -2728,7 +2849,18 @@
     "puntaje_anomalia": -0.1455009563
   },
   {
-    "id_contrato": "CO1.PCCNTR.5701676",
+    "id_contrato": "CO1.PCCNTR.2612849",
+    "nombre_entidad": "DEPARTAMENTO ADMINISTRATIVO DEL SERVICIO CIVIL DISTRITAL",
+    "sector": "Servicio Público",
+    "anio": 2021,
+    "valor_del_contrato": 465626954.0,
+    "duracion_contrato_dias": 1630,
+    "desviacion_temporal_real": 475,
+    "ratio_desviacion_temporal": 0.2914110429,
+    "puntaje_anomalia": -0.1428561315
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.4978508",
     "nombre_entidad": "DEPARTAMENTO DE SANTANDER",
     "sector": "Servicio Público",
     "anio": 2024,
@@ -3245,8 +3377,107 @@
     "puntaje_anomalia": -0.1319462625
   },
   {
-    "id_contrato": "CO1.PCCNTR.6911235",
-    "nombre_entidad": "GOBERNACION DEL HUILA*",
+    "id_contrato": "CO1.PCCNTR.8551349",
+    "nombre_entidad": "GOBERNACIÓN DE BOYACÁ",
+    "sector": "Servicio Público",
+    "anio": 2025,
+    "valor_del_contrato": 858117762.67,
+    "duracion_contrato_dias": 415,
+    "desviacion_temporal_real": 366,
+    "ratio_desviacion_temporal": 0.8819277108,
+    "puntaje_anomalia": -0.1318885702
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.3605172",
+    "nombre_entidad": "FONDO DE DESARROLLO LOCAL DE SANTA FE",
+    "sector": "Servicio Público",
+    "anio": 2022,
+    "valor_del_contrato": 21124880.0,
+    "duracion_contrato_dias": 469,
+    "desviacion_temporal_real": 409,
+    "ratio_desviacion_temporal": 0.8720682303,
+    "puntaje_anomalia": -0.1318827003
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.2046042",
+    "nombre_entidad": "SECRETARIA GENERAL Y DE CERCANIA AL CIUDADANO",
+    "sector": "No aplica/No pertenece",
+    "anio": 2021,
+    "valor_del_contrato": 15600000.0,
+    "duracion_contrato_dias": 1064,
+    "desviacion_temporal_real": 439,
+    "ratio_desviacion_temporal": 0.412593985,
+    "puntaje_anomalia": -0.1318640225
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.3959026",
+    "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL CUERPO OFICIAL DE BOMBEROS DE BOGOTA",
+    "sector": "Ley de Justicia",
+    "anio": 2022,
+    "valor_del_contrato": 108021210.0,
+    "duracion_contrato_dias": 804,
+    "desviacion_temporal_real": 440,
+    "ratio_desviacion_temporal": 0.5472636816,
+    "puntaje_anomalia": -0.1310718192
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.2854841",
+    "nombre_entidad": "SECRETARIA GENERAL Y DE CERCANIA AL CIUDADANO",
+    "sector": "No aplica/No pertenece",
+    "anio": 2021,
+    "valor_del_contrato": 13600000.0,
+    "duracion_contrato_dias": 895,
+    "desviacion_temporal_real": 440,
+    "ratio_desviacion_temporal": 0.4916201117,
+    "puntaje_anomalia": -0.1304104162
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.1492637",
+    "nombre_entidad": "HOSPITAL CENTRAL DE LA POLICIA",
+    "sector": "defensa",
+    "anio": 2020,
+    "valor_del_contrato": 10000000.0,
+    "duracion_contrato_dias": 569,
+    "desviacion_temporal_real": 367,
+    "ratio_desviacion_temporal": 0.6449912127,
+    "puntaje_anomalia": -0.1301191645
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.1240371",
+    "nombre_entidad": "ALCALDIA LOCAL DE TEUSAQUILLO(oficial)",
+    "sector": "Servicio Público",
+    "anio": 2019,
+    "valor_del_contrato": 573000000.0,
+    "duracion_contrato_dias": 619,
+    "desviacion_temporal_real": 436,
+    "ratio_desviacion_temporal": 0.704361874,
+    "puntaje_anomalia": -0.1300446726
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.5273958",
+    "nombre_entidad": "EMPRESAS PÚBLICAS DE CUNDINAMARCA S.A. E.S.P.",
+    "sector": "Vivienda, Ciudad y Territorio",
+    "anio": 2023,
+    "valor_del_contrato": 281182716.0,
+    "duracion_contrato_dias": 963,
+    "desviacion_temporal_real": 384,
+    "ratio_desviacion_temporal": 0.3987538941,
+    "puntaje_anomalia": -0.1282738739
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.335346",
+    "nombre_entidad": "MINTRABAJO NIVEL CENTRAL*/",
+    "sector": "Trabajo",
+    "anio": 2018,
+    "valor_del_contrato": 513556400.0,
+    "duracion_contrato_dias": 813,
+    "desviacion_temporal_real": 447,
+    "ratio_desviacion_temporal": 0.5498154982,
+    "puntaje_anomalia": -0.1278830514
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.5701676",
+    "nombre_entidad": "DEPARTAMENTO DE SANTANDER",
     "sector": "Servicio Público",
     "anio": 2024,
     "valor_del_contrato": 526018119.0,
@@ -3311,8 +3542,19 @@
     "puntaje_anomalia": -0.1256669672
   },
   {
-    "id_contrato": "CO1.PCCNTR.6549071",
-    "nombre_entidad": "MUNICIPIO DE MONTERIA",
+    "id_contrato": "CO1.PCCNTR.1649751",
+    "nombre_entidad": "ALCALDIA LOCAL DE MARTIRES",
+    "sector": "Servicio Público",
+    "anio": 2020,
+    "valor_del_contrato": 0.01,
+    "duracion_contrato_dias": 1023,
+    "desviacion_temporal_real": 456,
+    "ratio_desviacion_temporal": 0.4457478006,
+    "puntaje_anomalia": -0.1197683947
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.6648125",
+    "nombre_entidad": "MUNICIPIO DE TUNJA/",
     "sector": "Servicio Público",
     "anio": 2024,
     "valor_del_contrato": 235088078.0,
