@@ -420,7 +420,10 @@
                             // que esa columna y quedan recortados por el borde izquierdo del
                             // canvas (verificado: "No aplica/No pertenece" se veía como "lo
                             // aplica/No pertenece"). 9px reduce el problema a casos extremos.
-                            y: { ticks: { font: { size: 9 } } },
+                            // autoSkip: false por el mismo bug encontrado en proveedoresChart —
+                            // con 12 categorías en altura fija, Chart.js ocultaba la mitad de las
+                            // etiquetas por defecto, sin relación con el largo del nombre.
+                            y: { ticks: { font: { size: 9 }, autoSkip: false } },
                         },
                         plugins: {
                             legend: { display: false },
@@ -458,11 +461,16 @@
                         maintainAspectRatio: false,
                         scales: {
                             x: { ticks: { callback: (v) => formatoCOP(v) } },
-                            // Mismo fix que sectorChart: fuente reducida para que nombres de
+                            // Fuente reducida (mismo fix que sectorChart) para que nombres de
                             // proveedor largos no se recorten contra el borde izquierdo del
                             // canvas en móvil (verificado: "UNIÓN TEMPORAL ANDINOS - 040" se
-                            // veía como "TEMPORAL ANDINOS - 040").
-                            y: { ticks: { font: { size: 9 } } },
+                            // veía como "TEMPORAL ANDINOS - 040"). autoSkip: false porque Chart.js
+                            // por defecto lo activa y, con 10 categorías en una altura fija,
+                            // decidía que no cabían todas y ocultaba la mitad de las etiquetas
+                            // (verificado en producción: solo dibujaba 5 de 10, sin relación con
+                            // el largo del nombre) — con solo 10 barras máximo (top_proveedores.json
+                            // ya viene acotado a 10), forzar que dibuje todas es seguro.
+                            y: { ticks: { font: { size: 9 }, autoSkip: false } },
                         },
                         plugins: {
                             legend: { display: false },
