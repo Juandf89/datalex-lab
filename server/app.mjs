@@ -200,6 +200,7 @@ app.get("/secop/buscar", async (req, res) => {
     }));
     res.json({ resultados });
   } catch (e) {
+    console.error("[secop/buscar] error de conexión/consulta MySQL:", e.message);
     res.status(502).json({ error: "No se pudo consultar la base de datos en este momento. Intenta de nuevo más tarde." });
   }
 });
@@ -235,6 +236,7 @@ app.get("/secop/riesgo-entidad", async (req, res) => {
       alertas: Number(fila.alertas) || 0,
     });
   } catch (e) {
+    console.error("[secop/riesgo-entidad] error de conexión/consulta MySQL:", e.message);
     res.status(502).json({ error: "No se pudo consultar la base de datos en este momento." });
   }
 });

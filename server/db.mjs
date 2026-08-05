@@ -7,6 +7,18 @@
 // necesite el servicio de pago en la misma cuenta de Hostinger.
 import mysql from "mysql2/promise";
 
+// Diagnóstico de arranque (sin exponer valores, solo si existen) — el pool es
+// perezoso (solo se crea en el primer request), así que un problema de
+// variables de entorno faltantes quedaba invisible hasta la primera búsqueda,
+// y el error real no se veía en ningún log.
+console.log("[db] variables MySQL presentes al arrancar:", {
+  SECOP_MYSQL_HOST: Boolean(process.env.SECOP_MYSQL_HOST),
+  SECOP_MYSQL_PORT: Boolean(process.env.SECOP_MYSQL_PORT),
+  SECOP_MYSQL_USER: Boolean(process.env.SECOP_MYSQL_USER),
+  SECOP_MYSQL_PASSWORD: Boolean(process.env.SECOP_MYSQL_PASSWORD),
+  SECOP_MYSQL_DATABASE: Boolean(process.env.SECOP_MYSQL_DATABASE),
+});
+
 let pool;
 
 export function obtenerPool() {
