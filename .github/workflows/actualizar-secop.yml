@@ -53,6 +53,11 @@ jobs:
         env:
           SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
           OUTPUT_DIR: ./api/secop
+          SECOP_MYSQL_HOST: ${{ secrets.SECOP_MYSQL_HOST }}
+          SECOP_MYSQL_PORT: ${{ secrets.SECOP_MYSQL_PORT }}
+          SECOP_MYSQL_USER: ${{ secrets.SECOP_MYSQL_USER }}
+          SECOP_MYSQL_PASSWORD: ${{ secrets.SECOP_MYSQL_PASSWORD }}
+          SECOP_MYSQL_DATABASE: ${{ secrets.SECOP_MYSQL_DATABASE }}
         run: python scripts/generar_json.py
 
       # Solo se confirma el borrado en el servidor de los pendientes que el

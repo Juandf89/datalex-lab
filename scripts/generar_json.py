@@ -15,6 +15,7 @@ from datetime import date, datetime, timedelta, timezone
 
 import numpy as np
 import pandas as pd
+import pymysql
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import LabelEncoder
 from sodapy import Socrata
@@ -70,8 +71,23 @@ FILTRO_PERSONA_JURIDICA = "tipodocproveedor = 'NIT'"
 # que esto solo protege corridas manuales.
 _RAIZ_REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUTPUT_DIR = os.getenv("OUTPUT_DIR", os.path.join(_RAIZ_REPO, "api", "secop"))
-HISTORICO_FILE = "historico_contratos.json"
 COLUMNAS_FECHA = ["fecha_de_firma", "fecha_de_inicio_del_contrato", "fecha_de_fin_del_contrato"]
+
+# El acumulador (antes historico_contratos.json, 88MB) y el detalle por
+# contrato servido al navegador (antes expediente_contratos.json, 76MB) eran
+# el mismo dato — se unifican en una sola tabla MySQL en una base separada
+# del servicio de pago (ver docs/plan-evolucion-plataforma.md del repo
+# privado). GitHub Actions conecta directo vía Remote MySQL "Any Host"
+# (verificado disponible en el plan de Hostinger); server/app.mjs, al vivir
+# en el mismo hosting, consulta la misma base para /secop/buscar.
+TABLA_CONTRATOS = "contratos"
+COLUMNAS_MYSQL = [
+    "id_contrato", "nombre_entidad", "sector", "valor_del_contrato",
+    "fecha_de_firma", "fecha_de_inicio_del_contrato", "fecha_de_fin_del_contrato",
+    "dias_adicionados", "duracion_contrato_dias", "anio_contrato",
+    "desviacion_temporal_real", "retraso_critico", "proveedor_adjudicado",
+    "tipo_de_contrato",
+]
 
 # Backfill histórico: ingerir() solo trae "lo más reciente" — con miles de
 # contratos firmados por día, eso deja la ventana acumulada concentrada en
@@ -99,10 +115,10 @@ FECHA_LIMITE_HISTORICA_SECOP = "2015-01-01"
 ITERACIONES_BACKFILL_POR_CORRIDA = int(os.getenv("ITERACIONES_BACKFILL_POR_CORRIDA", "5"))
 
 # Contratos encontrados en vivo por server/app.mjs (Hostinger) cuando alguien
-# buscó algo que no estaba en la muestra local (por_entidad.json /
-# expediente_contratos.json). scripts/absorber_pendientes_secop.mjs (Node) los
-# recoge por HTTP y los vuelca aquí ANTES de correr este script — Python no le
-# habla al servidor directamente. Si el archivo no existe (sin
+# buscó algo que no estaba en la tabla MySQL (ver /secop/buscar).
+# scripts/absorber_pendientes_secop.mjs (Node) los recoge por HTTP y los
+# vuelca aquí ANTES de correr este script — Python no le habla al servidor
+# directamente. Si el archivo no existe (sin
 # API_BASE_URL/ABSORBER_TOKEN configurados, o sin búsquedas en vivo desde la
 # última corrida), simplemente no hay nada que fusionar.
 PENDIENTES_ABSORBIDOS_FILE = os.path.join(_RAIZ_REPO, "scripts", "pendientes_absorbidos.json")
@@ -295,14 +311,12 @@ def calcular_desviacion_temporal(df):
 
 
 # Socrata devuelve 85+ columnas por contrato (datos bancarios, representante
-# legal, etc.) pero todo el pipeline — agregaciones, expediente, modelo de
-# riesgo — solo usa este subconjunto fijo (verificado revisando cada función
+# legal, etc.) pero todo el pipeline — agregaciones, modelo de riesgo, tabla
+# MySQL — solo usa este subconjunto fijo (verificado revisando cada función
 # downstream: construir_agregaciones, construir_por_entidad,
-# construir_expediente_contratos, construir_features_riesgo). Sin recortar,
-# historico_contratos.json crece sin control: con ~25,000 contratos y todas
-# las columnas crudas llegó a 113 MB en pruebas locales — por encima del
-# límite duro de GitHub (100 MB) — sin que ese archivo se consuma nunca desde
-# el frontend (es solo el acumulador interno entre corridas de Python).
+# construir_features_riesgo). Sin recortar, cada corrida movería columnas
+# crudas innecesarias hacia MySQL y ampliaría cada INSERT/UPDATE sin ninguna
+# ganancia — nada del pipeline las usa.
 COLUMNAS_NECESARIAS = [
     "id_contrato", "nombre_entidad", "sector", "valor_del_contrato",
     "fecha_de_firma", "fecha_de_inicio_del_contrato", "fecha_de_fin_del_contrato",
@@ -334,17 +348,87 @@ def _hash_contenido(df):
     return hashlib.sha256(ordenado.to_json(orient="records", date_format="iso").encode("utf-8")).hexdigest()
 
 
+def _valor_sql(valor):
+    """Convierte un valor de pandas/numpy al tipo nativo que PyMySQL sabe
+    serializar — sin esto, np.int64/np.float64/pd.Timestamp llegan tal cual al
+    driver y algunos fallan en executemany() con lotes grandes."""
+    try:
+        if valor is None or pd.isna(valor):
+            return None
+    except (TypeError, ValueError):
+        pass
+    if isinstance(valor, pd.Timestamp):
+        return valor.date().isoformat()
+    if isinstance(valor, np.integer):
+        return int(valor)
+    if isinstance(valor, np.floating):
+        return float(valor)
+    if isinstance(valor, np.bool_):
+        return bool(valor)
+    return valor
+
+
+def conexion_mysql():
+    return pymysql.connect(
+        host=os.environ["SECOP_MYSQL_HOST"],
+        port=int(os.getenv("SECOP_MYSQL_PORT", "3306")),
+        user=os.environ["SECOP_MYSQL_USER"],
+        password=os.environ["SECOP_MYSQL_PASSWORD"],
+        database=os.environ["SECOP_MYSQL_DATABASE"],
+        charset="utf8mb4",
+        connect_timeout=30,
+    )
+
+
+def crear_tabla_si_no_existe(conn):
+    # nombre_entidad/proveedor_adjudicado en VARCHAR(500): el nombre más largo
+    # verificado en el histórico real ronda los 140 caracteres, 500 deja
+    # margen sin desperdiciar demasiado. Índice acotado a 191 caracteres
+    # (límite práctico para utf8mb4 sin innodb_large_prefix) — de sobra para
+    # que LIKE 'texto%' use el índice; LIKE '%texto%' (búsqueda libre) escanea
+    # igual, pero a esta escala (~150,000 filas) sigue siendo rápido.
+    with conn.cursor() as cur:
+        cur.execute(f"""
+            CREATE TABLE IF NOT EXISTS {TABLA_CONTRATOS} (
+                id_contrato VARCHAR(64) PRIMARY KEY,
+                nombre_entidad VARCHAR(500),
+                sector VARCHAR(255),
+                valor_del_contrato DOUBLE,
+                fecha_de_firma DATE,
+                fecha_de_inicio_del_contrato DATE,
+                fecha_de_fin_del_contrato DATE,
+                dias_adicionados INT,
+                duracion_contrato_dias INT,
+                anio_contrato INT,
+                desviacion_temporal_real DOUBLE,
+                retraso_critico TINYINT(1),
+                proveedor_adjudicado VARCHAR(500),
+                tipo_de_contrato VARCHAR(255),
+                puntaje_anomalia DOUBLE NULL,
+                bandera_roja TINYINT(1) NULL,
+                INDEX idx_nombre_entidad (nombre_entidad(191)),
+                INDEX idx_proveedor (proveedor_adjudicado(191))
+            ) CHARACTER SET utf8mb4
+        """)
+    conn.commit()
+
+
 def cargar_historico():
-    ruta = os.path.join(OUTPUT_DIR, HISTORICO_FILE)
-    if not os.path.exists(ruta):
+    conn = conexion_mysql()
+    try:
+        crear_tabla_si_no_existe(conn)
+        with conn.cursor() as cur:
+            cur.execute(f"SELECT {', '.join(COLUMNAS_MYSQL)} FROM {TABLA_CONTRATOS}")
+            filas = cur.fetchall()
+            columnas = [d[0] for d in cur.description]
+    finally:
+        conn.close()
+    if not filas:
         return pd.DataFrame()
-    with open(ruta, encoding="utf-8") as f:
-        registros = json.load(f)
-    if not registros:
-        return pd.DataFrame()
-    df = pd.DataFrame.from_records(registros)
+    df = pd.DataFrame(list(filas), columns=columnas).rename(columns={"anio_contrato": "año_contrato"})
     for col in COLUMNAS_FECHA:
         df[col] = pd.to_datetime(df[col], errors="coerce")
+    df["retraso_critico"] = df["retraso_critico"].astype(bool)
     return df
 
 
@@ -384,10 +468,63 @@ def filtrar_valores_implausibles(df):
 
 
 def guardar_historico(df):
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    ruta = os.path.join(OUTPUT_DIR, HISTORICO_FILE)
-    with open(ruta, "w", encoding="utf-8") as f:
-        f.write(df.to_json(orient="records", date_format="iso", force_ascii=False, indent=2))
+    if df.empty:
+        return
+    columnas_df = [c if c != "anio_contrato" else "año_contrato" for c in COLUMNAS_MYSQL]
+    registros = [
+        tuple(_valor_sql(fila[c]) for c in columnas_df)
+        for _, fila in df[columnas_df].iterrows()
+    ]
+    placeholders = ", ".join(["%s"] * len(COLUMNAS_MYSQL))
+    actualizaciones = ", ".join(f"{c}=VALUES({c})" for c in COLUMNAS_MYSQL if c != "id_contrato")
+    sql = (
+        f"INSERT INTO {TABLA_CONTRATOS} ({', '.join(COLUMNAS_MYSQL)}) "
+        f"VALUES ({placeholders}) ON DUPLICATE KEY UPDATE {actualizaciones}"
+    )
+    conn = conexion_mysql()
+    try:
+        crear_tabla_si_no_existe(conn)
+        with conn.cursor() as cur:
+            cur.executemany(sql, registros)
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def actualizar_riesgo_mysql(riesgo):
+    """Escribe puntaje_anomalia/bandera_roja calculados esta corrida de vuelta
+    a MySQL — separado de guardar_historico() porque el modelo corre DESPUÉS
+    de acumular (necesita el histórico completo ya fusionado), y estas dos
+    columnas son las que /secop/buscar (server/app.mjs) expone al reemplazar
+    expediente_contratos.json.
+
+    Usa INSERT ... ON DUPLICATE KEY UPDATE (no UPDATE simple) a propósito:
+    PyMySQL fusiona múltiples INSERT en pocos viajes de red vía executemany(),
+    pero NO hace lo mismo con UPDATE — un UPDATE por fila para ~135,000 filas
+    contra un host remoto significa ~135,000 round-trips (probado en
+    producción: no terminaba en un tiempo razonable). Como id_contrato ya
+    existe en la tabla (guardar_historico corrió antes), esto siempre termina
+    en la rama UPDATE — el resto de columnas quedan como NULL en el INSERT
+    "de mentira" pero nunca se usan porque nunca se llega a insertar de
+    verdad."""
+    if riesgo.empty:
+        return
+    registros = [
+        (fila["id_contrato"], _valor_sql(fila["bandera_roja"]), _valor_sql(fila["puntaje_anomalia"]))
+        for _, fila in riesgo[["id_contrato", "puntaje_anomalia", "bandera_roja"]].iterrows()
+    ]
+    sql = (
+        f"INSERT INTO {TABLA_CONTRATOS} (id_contrato, bandera_roja, puntaje_anomalia) "
+        "VALUES (%s, %s, %s) "
+        "ON DUPLICATE KEY UPDATE bandera_roja=VALUES(bandera_roja), puntaje_anomalia=VALUES(puntaje_anomalia)"
+    )
+    conn = conexion_mysql()
+    try:
+        with conn.cursor() as cur:
+            cur.executemany(sql, registros)
+        conn.commit()
+    finally:
+        conn.close()
 
 
 def construir_features_riesgo(df):
@@ -469,23 +606,22 @@ def construir_por_entidad(df):
     return por_entidad
 
 
-def construir_expediente_contratos(df, riesgo):
-    col_proveedor = columna_proveedor(df)
-    columnas_expediente = ["id_contrato", "nombre_entidad", "sector", "año_contrato",
-                            "valor_del_contrato", "duracion_contrato_dias",
-                            "fecha_de_firma", "fecha_de_inicio_del_contrato",
-                            "fecha_de_fin_del_contrato", "dias_adicionados", col_proveedor]
-    expediente = df[columnas_expediente].rename(
-        columns={"año_contrato": "anio", col_proveedor: "proveedor"}
-    ).copy()
-
-    # bandera_roja solo existe para las filas que sobrevivieron construir_features_riesgo();
-    # el resto del corpus (valor $0, sector nulo, etc.) no tiene puntaje del modelo.
-    expediente = expediente.merge(
-        riesgo[["id_contrato", "puntaje_anomalia", "bandera_roja"]],
-        on="id_contrato", how="left",
+def construir_muestra_benchmark(riesgo, tope_por_sector=300):
+    """Muestra acotada para el scatter 'Benchmark costo vs duración' del
+    frontend — antes usaba expediente_contratos.json completo (145,000+ filas,
+    76MB descargados por cada visitante solo para dibujar puntos). Un scatter
+    no necesita CADA contrato para mostrar la forma de la distribución por
+    sector; alcanza con una muestra representativa acotada. Parte de "riesgo"
+    (no de "df") porque ya es exactamente el subconjunto con
+    valor_del_contrato > 0 y duracion_contrato_dias válida que el scatter
+    necesita (misma elegibilidad que usa el modelo de anomalías)."""
+    columnas = ["id_contrato", "sector", "valor_del_contrato", "duracion_contrato_dias"]
+    return (
+        riesgo[columnas]
+        .groupby("sector", group_keys=False)[columnas]
+        .apply(lambda g: g.sample(min(len(g), tope_por_sector), random_state=42))
+        .reset_index(drop=True)
     )
-    return expediente
 
 
 def a_registros_json(df):
@@ -571,6 +707,7 @@ def main():
 
     riesgo = construir_features_riesgo(df)
     riesgo = detectar_anomalias(riesgo)
+    actualizar_riesgo_mysql(riesgo)
 
     red_flags = riesgo[riesgo["bandera_roja"]].sort_values("puntaje_anomalia")
     columnas_red_flag = ["id_contrato", "nombre_entidad", "sector", "año_contrato", "valor_del_contrato",
@@ -580,7 +717,7 @@ def main():
 
     por_sector, top_proveedores = construir_agregaciones(df, riesgo)
     por_entidad = construir_por_entidad(df)
-    expediente_contratos = construir_expediente_contratos(df, riesgo)
+    benchmark_muestra = construir_muestra_benchmark(riesgo)
 
     # Si nada cambió, reusar el generado_en anterior — así resumen.json queda
     # byte-idéntico y el workflow no commitea un "cambio" que no existió.
@@ -624,7 +761,7 @@ def main():
     escribir_json("por_sector.json", a_registros_json(por_sector))
     escribir_json("top_proveedores.json", a_registros_json(top_proveedores))
     escribir_json("por_entidad.json", a_registros_json(por_entidad))
-    escribir_json("expediente_contratos.json", a_registros_json(expediente_contratos))
+    escribir_json("benchmark_contratos.json", a_registros_json(benchmark_muestra))
 
     print(f"\nResumen: {total_ingeridos_corrida} ingeridos esta corrida, "
           f"{total_acumulado} acumulados en total, {len(riesgo)} aptos para el modelo, "

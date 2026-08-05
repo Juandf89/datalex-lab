@@ -8,6 +8,7 @@
 import express from "express";
 import * as cheerio from "cheerio";
 import { actualizar, leer } from "./store.mjs";
+import { obtenerPool } from "./db.mjs";
 
 // El Node.js Web App de Hostinger corre detrás del módulo propio de LiteSpeed
 // ("lsnode"): ignora cualquier puerto TCP que la app pida y en vez de eso la
@@ -157,6 +158,85 @@ app.get("/fallback-secop", async (req, res) => {
   });
 
   res.json({ resultados, busquedas_restantes_hoy: LIMITE_DIARIO_SECOP - (usoActual + 1) });
+});
+
+// Reemplaza la carga completa de expediente_contratos.json (76MB) en el
+// navegador — antes se descargaba el detalle de ~145,000 contratos para
+// buscar con Fuse.js en el cliente, ahora se consulta la tabla MySQL en vivo,
+// igual que ya hace secop-clm.html para el buscador por entidad
+// (por_entidad.json, que sí se queda estático por ser pequeño). Sin límite
+// diario propio (no consume cupo de una API externa, solo nuestra propia
+// base de datos) — el rate limit de ráfaga ya existente basta para evitar abuso.
+app.get("/secop/buscar", async (req, res) => {
+  const ip = obtenerIP(req);
+  const termino = (req.query.q || "").toString().trim();
+
+  if (limiteDeRafagaSuperado(ip)) {
+    return res.status(429).json({ error: "Demasiadas solicitudes, intenta en un minuto." });
+  }
+  if (!termino || termino.length < 3) {
+    return res.status(400).json({ error: "Falta el parámetro de búsqueda (q, mínimo 3 caracteres)." });
+  }
+
+  const comodin = `%${termino}%`;
+  try {
+    const pool = obtenerPool();
+    const [filas] = await pool.query(
+      `SELECT id_contrato, nombre_entidad, sector, anio_contrato AS anio, valor_del_contrato,
+              duracion_contrato_dias, fecha_de_firma, fecha_de_inicio_del_contrato,
+              fecha_de_fin_del_contrato, dias_adicionados, proveedor_adjudicado AS proveedor,
+              puntaje_anomalia, bandera_roja
+       FROM contratos
+       WHERE id_contrato LIKE ? OR nombre_entidad LIKE ? OR proveedor_adjudicado LIKE ?
+       LIMIT 20`,
+      [comodin, comodin, comodin]
+    );
+    // mysql2 devuelve TINYINT(1) como Number (0/1), no boolean — el frontend
+    // (tarjetaExpediente en secop-clm.html) compara bandera_roja con
+    // === true/false estricto, igual que ya hacía con expediente_contratos.json.
+    const resultados = filas.map((f) => ({
+      ...f,
+      bandera_roja: f.bandera_roja === null ? null : Boolean(f.bandera_roja),
+    }));
+    res.json({ resultados });
+  } catch (e) {
+    res.status(502).json({ error: "No se pudo consultar la base de datos en este momento. Intenta de nuevo más tarde." });
+  }
+});
+
+// "¿Tiene contratos atípicos?" en la tarjeta de una entidad (secop-clm.html)
+// necesita el conteo real sobre TODOS sus contratos, no la muestra acotada de
+// benchmark_contratos.json (esa muestra es solo para la forma del scatter, no
+// para conteos exactos por entidad) — se agrega en la base, no se escanea en
+// el navegador.
+app.get("/secop/riesgo-entidad", async (req, res) => {
+  const ip = obtenerIP(req);
+  const entidad = (req.query.entidad || "").toString().trim();
+
+  if (limiteDeRafagaSuperado(ip)) {
+    return res.status(429).json({ error: "Demasiadas solicitudes, intenta en un minuto." });
+  }
+  if (!entidad) {
+    return res.status(400).json({ error: "Falta el parámetro entidad." });
+  }
+
+  try {
+    const pool = obtenerPool();
+    const [[fila]] = await pool.query(
+      `SELECT COUNT(puntaje_anomalia) AS evaluados,
+              SUM(CASE WHEN puntaje_anomalia < 0 THEN 1 ELSE 0 END) AS atipicos,
+              SUM(CASE WHEN bandera_roja = 1 THEN 1 ELSE 0 END) AS alertas
+       FROM contratos WHERE nombre_entidad = ?`,
+      [entidad]
+    );
+    res.json({
+      evaluados: Number(fila.evaluados) || 0,
+      atipicos: Number(fila.atipicos) || 0,
+      alertas: Number(fila.alertas) || 0,
+    });
+  } catch (e) {
+    res.status(502).json({ error: "No se pudo consultar la base de datos en este momento." });
+  }
 });
 
 // ========================= JURISPRUDENCIA =========================

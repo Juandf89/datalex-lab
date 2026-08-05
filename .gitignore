@@ -6,3 +6,11 @@ node_modules/
 scripts/pendientes_absorbidos.json
 scripts/pendientes_absorbidos.keys.json
 server/data/
+
+# Migrados a MySQL (Hostinger, base separada del tier de pago) —
+# ver scripts/migrar_historico_a_mysql.py y docs/plan-evolucion-plataforma.md
+# (repo privado). Se generaban/leían aquí antes, ahora quedan solo como
+# artefacto local si alguien corre el pipeline sin OUTPUT_DIR apuntando a otro
+# lado — no deben volver a subirse al repo.
+api/secop/historico_contratos.json
+api/secop/expediente_contratos.json

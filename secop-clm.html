@@ -473,14 +473,27 @@
             }
         }
 
-        function resumenAtipicosEntidad(nombreEntidad) {
-            const contratos = graficos.benchmark.datos.filter(c => c.nombre_entidad === nombreEntidad);
-            const evaluados = contratos.filter(c => c.puntaje_anomalia !== null && c.puntaje_anomalia !== undefined);
-            if (!evaluados.length) return 'Ningún contrato de esta entidad ha sido evaluado todavía por el modelo';
-            const atipicos = evaluados.filter(c => c.puntaje_anomalia < 0).length;
-            const alertas = contratos.filter(c => c.bandera_roja === true).length;
-            return `${atipicos} de ${evaluados.length} contratos evaluados se salen de lo normal para su sector`
-                + (alertas ? ` · ${alertas} en alerta de alto riesgo` : '');
+        // Conteo real vía /secop/riesgo-entidad (MySQL) — la muestra acotada de
+        // benchmark_contratos.json solo sirve para la forma del scatter, no para
+        // contar bien los atípicos de una entidad puntual (ver comentario del
+        // endpoint en server/app.mjs). Se pinta un placeholder primero
+        // (actualizarResumenAtipicos la reemplaza cuando llega la respuesta) para
+        // no bloquear el render de la tarjeta con una llamada de red.
+        async function actualizarResumenAtipicos(nombreEntidad, elId) {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            try {
+                const resp = await fetch(`${FALLBACK_API_BASE}/secop/riesgo-entidad?entidad=${encodeURIComponent(nombreEntidad)}`);
+                const datos = await resp.json();
+                if (!resp.ok) throw new Error('respuesta no ok');
+                if (!document.getElementById(elId)) return; // la tarjeta ya cambió
+                el.textContent = !datos.evaluados
+                    ? 'Ningún contrato de esta entidad ha sido evaluado todavía por el modelo'
+                    : `${datos.atipicos} de ${datos.evaluados} contratos evaluados se salen de lo normal para su sector`
+                        + (datos.alertas ? ` · ${datos.alertas} en alerta de alto riesgo` : '');
+            } catch (e) {
+                if (document.getElementById(elId)) el.textContent = 'No se pudo calcular en este momento.';
+            }
         }
 
         function tarjetaExpediente(item) {
@@ -491,7 +504,7 @@
                 ['Valor total adjudicado', `${formatoCOP(item.valor_total)} COP`],
                 ['Valor promedio por contrato', `${formatoCOP(item.valor_promedio)} COP`],
                 ['Sector principal', item.sector || '—'],
-                ['¿Tiene contratos atípicos?', resumenAtipicosEntidad(item.nombre_entidad)],
+                ['¿Tiene contratos atípicos?', '<span id="resumen-atipicos-valor">Calculando…</span>'],
             ] : esFallback ? [
                 ['Entidad contratante', item.nombre_entidad || '—'],
                 ['Sector', item.sector || '—'],
@@ -535,28 +548,38 @@
             const sugerenciasEl = document.getElementById('buscador-sugerencias');
             const cardEl = document.getElementById('expediente-card');
 
+            // El detalle por contrato (antes expediente_contratos.json, 76MB
+            // descargados por cada visitante) ahora vive en MySQL — se consulta en
+            // vivo vía /secop/buscar (server/app.mjs) con el mismo debounce que ya
+            // usa el fallback léxico de abajo, en vez de traerse todo el acumulado
+            // al navegador. por_entidad.json sigue siendo pequeño (~670KB) y se
+            // queda como índice local instantáneo de Fuse.js.
             let entidades = [];
-            let contratos = [];
             try {
-                [entidades, contratos] = await Promise.all([
-                    cargarJSON('por_entidad.json'),
-                    cargarJSON('expediente_contratos.json'),
-                ]);
+                entidades = await cargarJSON('por_entidad.json');
             } catch (e) {
                 input.placeholder = 'Buscador no disponible por ahora';
                 input.disabled = true;
                 return;
             }
 
-            const items = [
-                ...entidades.map(e => ({ tipo: 'entidad', clave: e.nombre_entidad, ...e })),
-                ...contratos.map(c => ({ tipo: 'contrato', clave: c.id_contrato, ...c })),
-            ];
-            const fuse = new Fuse(items, {
-                keys: ['nombre_entidad', 'id_contrato'],
+            const entidadesIndexadas = entidades.map(e => ({ tipo: 'entidad', clave: e.nombre_entidad, ...e }));
+            const fuse = new Fuse(entidadesIndexadas, {
+                keys: ['nombre_entidad'],
                 threshold: 0.35,
                 ignoreLocation: true,
             });
+
+            async function buscarContratosAcumulados(termino) {
+                try {
+                    const resp = await fetch(`${FALLBACK_API_BASE}/secop/buscar?q=${encodeURIComponent(termino)}`);
+                    if (!resp.ok) return [];
+                    const datos = await resp.json();
+                    return (datos.resultados || []).map(r => ({ tipo: 'contrato', clave: r.id_contrato, ...r }));
+                } catch (e) {
+                    return [];
+                }
+            }
 
             function botonSugerencia(item, idx) {
                 return `
@@ -607,6 +630,7 @@
                     btn.addEventListener('click', () => {
                         const item = items[Number(btn.dataset.idx)];
                         cardEl.innerHTML = tarjetaExpediente(item);
+                        if (item.tipo === 'entidad') actualizarResumenAtipicos(item.nombre_entidad, 'resumen-atipicos-valor');
                         input.value = item.tipo === 'entidad' ? item.nombre_entidad : item.id_contrato;
                         sugerenciasEl.classList.add('hidden');
                         aplicarSeleccion(item);
@@ -628,22 +652,33 @@
                     return;
                 }
 
-                const resultadosLocales = fuse.search(termino).slice(0, 8).map(r => r.item);
-                // El backend exige mínimo 3 caracteres — con 2 solo se muestra lo local.
+                const entidadesLocales = fuse.search(termino).slice(0, 5).map(r => r.item);
+                // El backend exige mínimo 3 caracteres — con 2 solo se muestra la entidad local.
                 if (termino.length < 3) {
-                    pintarSugerencias({ locales: resultadosLocales });
+                    pintarSugerencias({ locales: entidadesLocales });
                     return;
                 }
-                pintarSugerencias({ locales: resultadosLocales, fallbackEstado: 'cargando' });
+                pintarSugerencias({ locales: entidadesLocales, fallbackEstado: 'cargando' });
 
                 temporizadorBusqueda = setTimeout(async () => {
-                    let localesVigentes = fuse.search(termino).slice(0, 8).map(r => r.item);
+                    const entidadesVigentes = fuse.search(termino).slice(0, 5).map(r => r.item);
+                    let contratosAcumulados = [];
+                    let localesVigentes = entidadesVigentes;
                     try {
-                        const resp = await fetch(`${FALLBACK_API_BASE}/fallback-secop?q=${encodeURIComponent(termino)}`);
+                        // En paralelo: nuestros contratos ya acumulados (MySQL, vía
+                        // /secop/buscar) y el fallback léxico contra todo Datos Abiertos
+                        // Colombia en vivo — mismo criterio que ya existía (mostrar
+                        // ambos juntos, no uno solo si el otro "ya encontró algo").
+                        const [resp, acumulados] = await Promise.all([
+                            fetch(`${FALLBACK_API_BASE}/fallback-secop?q=${encodeURIComponent(termino)}`),
+                            buscarContratosAcumulados(termino),
+                        ]);
                         if (termino !== ultimoTermino) return; // el usuario ya escribió otra cosa
+                        contratosAcumulados = acumulados;
+                        localesVigentes = [...fuse.search(termino).slice(0, 5).map(r => r.item), ...contratosAcumulados].slice(0, 8);
+
                         const datos = await resp.json();
                         if (termino !== ultimoTermino) return;
-                        localesVigentes = fuse.search(termino).slice(0, 8).map(r => r.item);
                         if (resp.status === 429) {
                             pintarSugerencias({ locales: localesVigentes, fallbackEstado: 'limite' });
                         } else if (!resp.ok || !datos.resultados?.length) {
@@ -654,6 +689,7 @@
                         }
                     } catch (e) {
                         if (termino !== ultimoTermino) return;
+                        localesVigentes = [...fuse.search(termino).slice(0, 5).map(r => r.item), ...contratosAcumulados].slice(0, 8);
                         pintarSugerencias({ locales: localesVigentes, fallbackEstado: 'error' });
                     }
                 }, 600);
@@ -665,8 +701,22 @@
                     sugerenciasEl.classList.add('hidden');
                 }
             });
+        }
 
-            renderBenchmark(contratos);
+        // Separado de cargarExpediente(): el scatter necesita una muestra del
+        // dataset completo para mostrar la forma de la distribución por sector,
+        // no resultados de una búsqueda puntual — antes usaba
+        // expediente_contratos.json completo (76MB), ahora una muestra acotada
+        // que el pipeline ya genera (benchmark_contratos.json, ver
+        // construir_muestra_benchmark() en scripts/generar_json.py).
+        async function cargarBenchmark() {
+            try {
+                const contratos = await cargarJSON('benchmark_contratos.json');
+                renderBenchmark(contratos);
+            } catch (e) {
+                document.getElementById('benchmarkChart').closest('.bg-slate-50').innerHTML =
+                    '<p class="text-red-500 text-sm italic">No se pudo cargar el benchmark.</p>';
+            }
         }
 
         // Resaltado cruzado: una selección en el buscador actualiza los 5
@@ -855,6 +905,7 @@
             cargarRedFlags();
             cargarSectores();
             cargarProveedores();
+            cargarBenchmark();
         });
     </script>
 </body>
