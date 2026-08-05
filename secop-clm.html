@@ -228,8 +228,17 @@
         // Chart.js acepta un array de strings como etiqueta y las renderiza en
         // varias líneas — mejor que truncar con "…" y perder el nombre real
         // (importante para un nombre de proveedor/entidad, donde el nombre
-        // completo es justamente el dato que un veedor necesita).
-        function envolverTexto(texto, maxCaracteresPorLinea = 22) {
+        // completo es justamente el dato que un veedor necesita). Pero un
+        // gráfico de altura FIJA con 10 categorías reparte esa altura en
+        // partes iguales — un nombre que envuelve en 5+ líneas (ej.
+        // "INSTITUTO COLOMBIANO DE CREDITO EDUCATIVO Y ESTUDIO TÉCNICOS EN EL
+        // EXTERIOR MARIANO OSPINA PEREZ.") pesa mucho más que las demás y
+        // rompe el cálculo de Chart.js — verificado en producción: le hacía
+        // ocultar las etiquetas de los proveedores vecinos, no solo la suya.
+        // Por eso se acota a maxLineas y se recorta la última con "…" — el
+        // nombre completo se sigue viendo igual en el tooltip (title callback
+        // más abajo), esto solo protege la etiqueta fija del eje Y.
+        function envolverTexto(texto, maxCaracteresPorLinea = 22, maxLineas = 3) {
             const palabras = String(texto).split(' ');
             const lineas = [];
             let actual = '';
@@ -243,6 +252,11 @@
                 }
             }
             if (actual) lineas.push(actual);
+
+            if (lineas.length > maxLineas) {
+                lineas.length = maxLineas;
+                lineas[maxLineas - 1] = lineas[maxLineas - 1].replace(/.{3}$/, '…');
+            }
             return lineas;
         }
 
