@@ -17,7 +17,49 @@ import { obtenerPool } from "./db.mjs";
 // 503 igual, porque nunca la buscó ahí). http.Server.listen() de Node acepta
 // un string de ruta como "puerto" y automáticamente escucha por socket Unix.
 const PUERTO = process.env.LSNODE_SOCKET || process.env.PORT || 3000;
-const ORIGEN_PERMITIDO = process.env.ALLOWED_ORIGIN || "https://datalexlab.com";
+// El origen NO se toma tal cual del entorno: se valida.
+//
+// Incidente real en producción (2026-08-05): el valor de ALLOWED_ORIGIN quedó
+// pegado con el de la siguiente variable y terminó siendo
+// `'https://datalexlab.com'SECOP_MYSQL_HOST=srv1456.hstgr.io`. Consecuencias:
+// (1) el navegador rechazó la cabecera y TODA la búsqueda en vivo dejó de
+// funcionar para los visitantes, (2) el servidor no se enteró — seguía
+// respondiendo 200 sin un solo error en el log, así que el fallo fue
+// invisible del lado del servidor, y (3) el host de MySQL quedó publicado en
+// una cabecera HTTP abierta a cualquiera.
+//
+// Con la validación, un valor mal escrito cae al origen por defecto (que es
+// el correcto) y deja un error visible al arrancar, en vez de romper en
+// silencio. Mismo criterio que el diagnóstico de arranque de db.mjs.
+const ORIGEN_POR_DEFECTO = "https://datalexlab.com";
+
+export function origenValido(valor) {
+  if (typeof valor !== "string" || !valor) return false;
+  try {
+    const u = new URL(valor);
+    if (u.protocol !== "https:" && u.protocol !== "http:") return false;
+    // Comparar contra u.origin descarta comillas, rutas, barras finales y
+    // cualquier texto pegado después del dominio: un origen para CORS es
+    // exactamente esquema + host (+ puerto), nada más.
+    return u.origin === valor;
+  } catch {
+    return false;
+  }
+}
+
+const ORIGEN_CONFIGURADO = process.env.ALLOWED_ORIGIN;
+const ORIGEN_PERMITIDO = origenValido(ORIGEN_CONFIGURADO)
+  ? ORIGEN_CONFIGURADO
+  : ORIGEN_POR_DEFECTO;
+
+if (ORIGEN_CONFIGURADO && !origenValido(ORIGEN_CONFIGURADO)) {
+  console.error(
+    "[cors] ALLOWED_ORIGIN tiene un valor inválido y fue ignorado. " +
+    `Se usa "${ORIGEN_POR_DEFECTO}". Revisa la variable en el panel de hosting: ` +
+    "debe ser solo el origen, sin comillas ni barra final (ej. https://datalexlab.com)."
+  );
+}
+console.log(`[cors] origen permitido: ${ORIGEN_PERMITIDO}`);
 const TOKEN_INTERNO = process.env.ABSORBER_TOKEN;
 const LIMITE_DIARIO_SECOP = Number(process.env.LIMITE_DIARIO_SECOP || 5);
 // Antes cada "búsqueda" era una sola acción (una consulta = un resultado).

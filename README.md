@@ -35,6 +35,14 @@ constitucional. Desplegado en Hostinger.
 - Variables de entorno del backend: `ABSORBER_TOKEN` (autentica los endpoints `/internal/*` que usa
   GitHub Actions), `ALLOWED_ORIGIN` (`https://datalexlab.com`, para CORS), `SOCRATA_APP_TOKEN`
   (opcional), `LIMITE_DIARIO_SECOP` / `LIMITE_DIARIO_JURISPRUDENCIA` (opcionales).
+- **Al escribir variables en el panel: valor crudo, sin comillas y una por campo.** Incidente real
+  (2026-08-05): `ALLOWED_ORIGIN` quedó guardada como
+  `'https://datalexlab.com'SECOP_MYSQL_HOST=srv1456.hstgr.io` — dos variables fusionadas y con
+  comillas. El navegador rechazó la cabecera CORS y la búsqueda en vivo dejó de funcionar para todos
+  los visitantes, mientras el servidor seguía respondiendo 200 sin ningún error en el log. Desde
+  entonces `app.mjs` valida el origen al arrancar (`origenValido`): si no es un origen bien formado
+  lo ignora, usa el valor por defecto y escribe un `[cors]` de error en el log. Tras cambiar
+  variables hay que **reiniciar la app** para que Node relea el entorno.
 - `netlify.toml` y `netlify/functions/` se mantienen temporalmente como respaldo de la migración
   (el sitio ya no corre en Netlify) — se eliminan una vez confirmada la estabilidad en Hostinger.
 
