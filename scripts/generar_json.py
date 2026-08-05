@@ -49,6 +49,19 @@ MAX_REGISTROS = int(os.getenv("SOCRATA_MAX_REGISTROS", "20000"))
 # esto, ~208,000 contratos de prestación de servicios (el 3er tipo más común)
 # seguían colándose en el histórico y distorsionando "Tendencia anual".
 FILTRO_TIPOS_EXCLUIDOS = "tipo_de_contrato NOT IN ('Prestación de servicios', 'Decreto 092 de 2017')"
+# tipodocproveedor identifica el tipo de documento del proveedor adjudicado.
+# Encontrado en producción: "Yesid Avila Torres" (persona natural, cédula de
+# ciudadanía) en el top de proveedores nacional con 2.39 billones COP en 31
+# contratos de Compraventa/Suministros/Arrendamiento — tipos de contrato que
+# FILTRO_TIPOS_EXCLUIDOS no toca (ese filtro solo cubre prestación de
+# servicios). Verificado contra Socrata: "NIT" es el único valor que
+# corresponde con certeza a una persona jurídica; el resto ("Cédula de
+# Ciudadanía", "Cédula de Extranjería", "Tarjeta de Identidad", "Pasaporte",
+# "Permiso por Protección Temporal", "Permiso especial de permanencia",
+# "Registro Civil", "No Definido", "Otro") es persona natural o ambiguo. Por
+# decisión de negocio no se toman datos de personas naturales bajo ningún tipo
+# de contrato, así que se exige NIT explícito en vez de excluir por lista.
+FILTRO_PERSONA_JURIDICA = "tipodocproveedor = 'NIT'"
 # Default relativo a la ubicación del script (no al directorio de trabajo
 # actual) — un "./api/secop" ingenuo escribe en el lugar equivocado si el
 # script se corre desde scripts/ en vez de la raíz del repo (le pasó a esta
@@ -122,7 +135,8 @@ def ingerir():
             "AND fecha_de_inicio_del_contrato IS NOT NULL "
             "AND fecha_de_fin_del_contrato IS NOT NULL "
             "AND valor_del_contrato IS NOT NULL "
-            f"AND {FILTRO_TIPOS_EXCLUIDOS}"
+            f"AND {FILTRO_TIPOS_EXCLUIDOS} "
+            f"AND {FILTRO_PERSONA_JURIDICA}"
         ),
         order="fecha_de_firma DESC",
     )
@@ -168,7 +182,8 @@ def ingerir_ventana_historica(fecha_inicio, fecha_fin, limite):
             "AND fecha_de_inicio_del_contrato IS NOT NULL "
             "AND fecha_de_fin_del_contrato IS NOT NULL "
             "AND valor_del_contrato IS NOT NULL "
-            f"AND {FILTRO_TIPOS_EXCLUIDOS}"
+            f"AND {FILTRO_TIPOS_EXCLUIDOS} "
+            f"AND {FILTRO_PERSONA_JURIDICA}"
         ),
         order="fecha_de_firma ASC",
     )
@@ -233,7 +248,28 @@ def cargar_pendientes_absorbidos():
     return pd.DataFrame.from_records(registros)
 
 
+def sanear_texto_legado(valor):
+    """SECOP sirve algunos nombres de entidad/proveedor con bytes de control de
+    Windows-1252 reinterpretados como puntos de código Unicode crudos —
+    verificado con un registro real: 'Rama Judicial \x96 Dirección...' en vez
+    de 'Rama Judicial – Dirección...'. Los puntos de código U+0080-U+009F
+    coinciden exactamente con los bytes crudos de cp1252, así que
+    reinterpretar como Latin-1 y luego decodificar como cp1252 recupera el
+    caracter correcto sin perder nada del resto del texto (que ya es UTF-8
+    válido)."""
+    if not isinstance(valor, str):
+        return valor
+    try:
+        return valor.encode("latin-1").decode("cp1252")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return valor
+
+
 def limpiar(df):
+    for col in ("nombre_entidad", "proveedor_adjudicado"):
+        if col in df.columns:
+            df[col] = df[col].map(sanear_texto_legado)
+
     df["valor_del_contrato"] = df["valor_del_contrato"].astype(str).str.replace(",", "", regex=False)
     df["valor_del_contrato"] = pd.to_numeric(df["valor_del_contrato"], errors="coerce")
 
