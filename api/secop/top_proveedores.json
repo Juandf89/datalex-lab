@@ -1,42 +1,52 @@
 [
   {
     "proveedor": "ENTerritorio S.A",
+    "total_contratos": 14,
     "valor_total": 3323728851005.74
   },
   {
     "proveedor": "Yesid Avila Torres",
+    "total_contratos": 9,
     "valor_total": 2389132033850.0
   },
   {
     "proveedor": "AGENCIA LOGISTICA DE LAS FUERZAS MILITARES",
-    "valor_total": 2141357559525.81
-  },
-  {
-    "proveedor": "Banco Davivienda",
-    "valor_total": 1190997187892.6099
-  },
-  {
-    "proveedor": "UNION TEMPORAL CENTROS POBLADOS COLOMBIA 2020",
-    "valor_total": 1072552301475.0
+    "total_contratos": 58,
+    "valor_total": 2148572655426.81
   },
   {
     "proveedor": "COMCEL S.A.",
-    "valor_total": 1068136575267.65
+    "total_contratos": 31,
+    "valor_total": 1360211478043.65
+  },
+  {
+    "proveedor": "Banco Davivienda",
+    "total_contratos": 24,
+    "valor_total": 1205458715952.6099
   },
   {
     "proveedor": "FIDUCIARIA POPULAR S.A",
-    "valor_total": 989508304809.0
+    "total_contratos": 6,
+    "valor_total": 989545194809.0
   },
   {
     "proveedor": "ETB SA ESP",
-    "valor_total": 888647772901.64
+    "total_contratos": 161,
+    "valor_total": 916258040224.43
   },
   {
-    "proveedor": "PROSPERIDAD SOCIAL",
-    "valor_total": 770095956400.0
+    "proveedor": "FINANCIERA DE DESARROLLO TERRITORIAL S.A.",
+    "total_contratos": 39,
+    "valor_total": 775652834804.3
   },
   {
     "proveedor": "EDUBAR S.A.",
-    "valor_total": 726322053624.37
+    "total_contratos": 19,
+    "valor_total": 745569440380.37
+  },
+  {
+    "proveedor": "FONDO PARA EL FINANCIAMIENTO DEL SECTOR AGROPECUARIO",
+    "total_contratos": 14,
+    "valor_total": 712321404598.0
   }
 ]

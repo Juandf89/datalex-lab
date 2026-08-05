@@ -392,12 +392,25 @@ def construir_agregaciones(df, riesgo):
         .sort_values("valor_total", ascending=False)
     )
 
+    # "Riesgo de concentración" real es que UN MISMO contratista se lleve varios
+    # contratos por un monto significativo — no simplemente tener el valor_total
+    # más alto. Un proveedor con un solo contrato gigante (ej. un banco que le
+    # prestó una vez al Estado) no es una señal de concentración/favoritismo,
+    # aunque su valor_total sea enorme. Bug real encontrado en producción: sin
+    # el filtro de abajo, "PROSPERIDAD SOCIAL" y "CONSORCIO THC CORREDOR VERDE 99"
+    # (1 solo contrato cada uno) aparecían en el top 10 etiquetados como "señal
+    # de riesgo de monopolio", mientras proveedores con concentración real (ej.
+    # "ETB SA ESP" con 68 contratos) quedaban más abajo en el ranking solo por
+    # tener un valor_total menor. Se exige total_contratos >= 2 para calificar.
     col_proveedor = columna_proveedor(df)
     top_proveedores = (
         df.groupby(col_proveedor)["valor_del_contrato"]
-        .sum()
+        .agg(total_contratos="count", valor_total="sum")
         .reset_index()
-        .rename(columns={col_proveedor: "proveedor", "valor_del_contrato": "valor_total"})
+        .rename(columns={col_proveedor: "proveedor"})
+    )
+    top_proveedores = (
+        top_proveedores[top_proveedores["total_contratos"] >= 2]
         .sort_values("valor_total", ascending=False)
         .head(10)
     )

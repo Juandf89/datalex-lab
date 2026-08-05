@@ -148,15 +148,13 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-                <div class="lg:col-span-3 bg-slate-800/60 rounded-3xl border border-slate-700 p-6">
-                    <div class="chart-container">
-                        <canvas id="redFlagsChart"></canvas>
-                    </div>
+            <div class="bg-slate-800/60 rounded-3xl border border-slate-700 p-6 mb-8">
+                <div class="chart-container" style="height: 380px;">
+                    <canvas id="redFlagsChart"></canvas>
                 </div>
-                <div id="red-flags-list" class="lg:col-span-2 space-y-4">
-                    <div class="text-slate-500 italic text-sm">Cargando contratos de alto riesgo…</div>
-                </div>
+            </div>
+            <div id="red-flags-list" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                <div class="col-span-full text-slate-500 italic text-sm">Cargando contratos de alto riesgo…</div>
             </div>
         </div>
     </section>
@@ -179,7 +177,7 @@
     <section id="concentracion" class="py-24 bg-slate-100/50 border-y border-slate-200">
         <div class="max-w-2xl mx-auto px-6">
             <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Riesgo de concentración</h2>
-            <p class="text-slate-500 mb-2 text-sm">Top 10 proveedores por valor total adjudicado — señal de riesgo de monopolio.</p>
+            <p class="text-slate-500 mb-2 text-sm">Top 10 proveedores que se llevan varios contratos (mínimo 2) por un valor total significativo — señal de riesgo de monopolio o favoritismo. Un solo contrato grande no cuenta, sin importar su valor.</p>
             <p id="proveedores-nota" class="text-indigo-600 text-xs font-semibold mb-6 hidden"></p>
             <div class="bg-white rounded-3xl border border-slate-200 p-6">
                 <div class="chart-container" style="height: 420px;"><canvas id="proveedoresChart"></canvas></div>
@@ -309,7 +307,7 @@
         function pintarListaRedFlags(flags, filtroEtiqueta) {
             const lista = document.getElementById('red-flags-list');
             if (!flags.length) {
-                lista.innerHTML = `<div class="text-slate-400 italic text-sm">${
+                lista.innerHTML = `<div class="col-span-full text-slate-400 italic text-sm">${
                     filtroEtiqueta
                         ? `${filtroEtiqueta} no tiene contratos marcados como alerta de alto riesgo en la muestra actual.`
                         : 'Sin contratos de alto riesgo en la muestra actual.'
@@ -460,7 +458,11 @@
                                     // "datos" de esta función) porque ese array cambia cuando se
                                     // selecciona una entidad — ver resaltarEnProveedores().
                                     title: (items) => graficos.proveedores.datos[items[0].dataIndex].proveedor,
-                                    label: (item) => `${formatoCOP(item.raw)} COP`,
+                                    label: (item) => {
+                                        const d = graficos.proveedores.datos[item.dataIndex];
+                                        const contratos = d.total_contratos ? `${d.total_contratos} contratos · ` : '';
+                                        return `${contratos}${formatoCOP(item.raw)} COP`;
+                                    },
                                 },
                             },
                         },
@@ -685,10 +687,12 @@
             const porProveedor = {};
             contratos.forEach(c => {
                 if (c.nombre_entidad !== nombreEntidad || !c.proveedor) return;
-                porProveedor[c.proveedor] = (porProveedor[c.proveedor] || 0) + (c.valor_del_contrato || 0);
+                if (!porProveedor[c.proveedor]) porProveedor[c.proveedor] = { valor_total: 0, total_contratos: 0 };
+                porProveedor[c.proveedor].valor_total += (c.valor_del_contrato || 0);
+                porProveedor[c.proveedor].total_contratos += 1;
             });
             return Object.entries(porProveedor)
-                .map(([proveedor, valor_total]) => ({ proveedor, valor_total }))
+                .map(([proveedor, datos]) => ({ proveedor, ...datos }))
                 .sort((a, b) => b.valor_total - a.valor_total)
                 .slice(0, topN);
         }
