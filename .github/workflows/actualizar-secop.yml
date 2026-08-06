@@ -10,6 +10,16 @@ on:
     - cron: "0 * * * *"
   workflow_dispatch: {}   # permite disparo manual desde la pestaña Actions
 
+# Encontrado en producción (2026-08-06): sin esto, dos disparos manuales
+# separados por segundos (o uno manual solapado con el programado) corrían en
+# paralelo y competían por el mismo "git push" — una de las dos quedaba
+# rechazada (no-fast-forward) y las siguientes se acumulaban en cola hasta
+# quedar canceladas. Con `cancel-in-progress: false` la corrida nueva espera
+# a que termine la anterior en vez de pisarla o competir por el push.
+concurrency:
+  group: actualizar-secop
+  cancel-in-progress: false
+
 permissions:
   contents: write
 

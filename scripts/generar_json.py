@@ -11,11 +11,13 @@ Diseñado para correr en un job programado (GitHub Actions), no en una máquina 
 import hashlib
 import json
 import os
+import time
 from datetime import date, datetime, timedelta, timezone
 
 import numpy as np
 import pandas as pd
 import pymysql
+import requests
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import LabelEncoder
 from sodapy import Socrata
@@ -50,6 +52,23 @@ MAX_REGISTROS = int(os.getenv("SOCRATA_MAX_REGISTROS", "20000"))
 # esto, ~208,000 contratos de prestación de servicios (el 3er tipo más común)
 # seguían colándose en el histórico y distorsionando "Tendencia anual".
 FILTRO_TIPOS_EXCLUIDOS = "tipo_de_contrato NOT IN ('Prestación de servicios', 'Decreto 092 de 2017')"
+
+
+def _con_reintentos(fn, intentos=3, espera_base=5):
+    """Reintenta una llamada de red a Socrata ante timeouts/errores de
+    conexión transitorios. Encontrado en producción (2026-08-06): un solo
+    ReadTimeout de 60s contra Socrata durante el backfill tumbaba TODA la
+    corrida sin reintento — no un fallo raro, www.datos.gov.co es lento bajo
+    carga. Solo reintenta errores de red (RequestException); un error real de
+    datos/código debe seguir propagándose sin disfrazarse de "problema
+    transitorio"."""
+    for intento in range(1, intentos + 1):
+        try:
+            return fn()
+        except requests.exceptions.RequestException:
+            if intento == intentos:
+                raise
+            time.sleep(espera_base * intento)
 # tipodocproveedor identifica el tipo de documento del proveedor adjudicado.
 # Encontrado en producción: "Yesid Avila Torres" (persona natural, cédula de
 # ciudadanía) en el top de proveedores nacional con 2.39 billones COP en 31
@@ -143,7 +162,7 @@ def ingerir():
     # construcción (verificado: da una ventana de ~5 días, 100% utilizable).
     token = os.getenv("SOCRATA_APP_TOKEN")
     cliente = Socrata(DOMINIO, token, timeout=60)
-    registros = cliente.get(
+    registros = _con_reintentos(lambda: cliente.get(
         DATASET_ID,
         limit=MAX_REGISTROS,
         where=(
@@ -155,7 +174,7 @@ def ingerir():
             f"AND {FILTRO_PERSONA_JURIDICA}"
         ),
         order="fecha_de_firma DESC",
-    )
+    ))
     return pd.DataFrame.from_records(registros)
 
 
@@ -189,7 +208,7 @@ def ingerir_ventana_historica(fecha_inicio, fecha_fin, limite):
     viejo de la ventana."""
     token = os.getenv("SOCRATA_APP_TOKEN")
     cliente = Socrata(DOMINIO, token, timeout=60)
-    registros = cliente.get(
+    registros = _con_reintentos(lambda: cliente.get(
         DATASET_ID,
         limit=limite,
         where=(
@@ -202,7 +221,7 @@ def ingerir_ventana_historica(fecha_inicio, fecha_fin, limite):
             f"AND {FILTRO_PERSONA_JURIDICA}"
         ),
         order="fecha_de_firma ASC",
-    )
+    ))
     return pd.DataFrame.from_records(registros)
 
 
@@ -239,7 +258,22 @@ def ingerir_backfill():
 
     dfs = []
     for _ in range(ITERACIONES_BACKFILL_POR_CORRIDA):
-        df_ventana, fecha_cursor = _paso_backfill(fecha_cursor)
+        try:
+            df_ventana, fecha_cursor_nueva = _paso_backfill(fecha_cursor)
+        except requests.exceptions.RequestException as exc:
+            # Encontrado en producción (2026-08-06): un ReadTimeout acá, sin
+            # este try/except, se propagaba hasta main() y descartaba también
+            # la ventana reciente que ingerir() ya había traído bien — un
+            # blip transitorio de red tumbaba la corrida entera. Se corta el
+            # backfill de ESTA corrida sin avanzar el cursor más allá de la
+            # última ventana que sí terminó, para que la próxima corrida
+            # reintente exactamente la ventana que falló, sin perder nada ni
+            # saltársela.
+            print(f"[warn] Backfill histórico interrumpido por error de red "
+                  f"({exc!r}) tras {len(dfs)} ventana(s) ok — se reintenta en "
+                  "la próxima corrida.")
+            break
+        fecha_cursor = fecha_cursor_nueva
         if not df_ventana.empty:
             dfs.append(df_ventana)
 
