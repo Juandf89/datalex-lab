@@ -9,6 +9,7 @@ import express from "express";
 import * as cheerio from "cheerio";
 import { actualizar, leer } from "./store.mjs";
 import { obtenerPool } from "./db.mjs";
+import { clasificarSalud } from "./salud.mjs";
 
 // El Node.js Web App de Hostinger corre detrás del módulo propio de LiteSpeed
 // ("lsnode"): ignora cualquier puerto TCP que la app pida y en vez de eso la
@@ -19,8 +20,9 @@ import { obtenerPool } from "./db.mjs";
 const PUERTO = process.env.LSNODE_SOCKET || process.env.PORT || 3000;
 // El origen NO se toma tal cual del entorno: se valida.
 //
-// Incidente real en producción (2026-08-05): el valor de ALLOWED_ORIGIN quedó
-// pegado con el de la siguiente variable y terminó siendo
+// Incidente real en producción (2026-08-05): al guardar las variables en el
+// panel, el valor de ALLOWED_ORIGIN quedó pegado con el de la siguiente
+// variable y terminó siendo
 // `'https://datalexlab.com'SECOP_MYSQL_HOST=srv1456.hstgr.io`. Consecuencias:
 // (1) el navegador rechazó la cabecera y TODA la búsqueda en vivo dejó de
 // funcionar para los visitantes, (2) el servidor no se enteró — seguía
@@ -252,6 +254,29 @@ app.get("/secop/buscar", async (req, res) => {
 // benchmark_contratos.json (esa muestra es solo para la forma del scatter, no
 // para conteos exactos por entidad) — se agrega en la base, no se escanea en
 // el navegador.
+// El semáforo de salud compara la tasa de alertas de una entidad/proveedor
+// contra la del histórico completo (ver salud.mjs: umbrales relativos, no
+// absolutos). Esa tasa global exige recorrer toda la tabla, así que se cachea
+// en memoria — cambia lentamente (solo cuando el cron acumula contratos
+// nuevos), no tiene sentido recalcularla en cada búsqueda del dashboard.
+const TTL_TASA_GLOBAL_MS = 10 * 60_000;
+let cacheTasaGlobal = { valor: null, expira: 0 };
+
+async function obtenerTasaGlobalAlertas(pool) {
+  if (cacheTasaGlobal.valor !== null && Date.now() < cacheTasaGlobal.expira) {
+    return cacheTasaGlobal.valor;
+  }
+  const [[fila]] = await pool.query(
+    `SELECT COUNT(puntaje_anomalia) AS evaluados,
+            SUM(CASE WHEN bandera_roja = 1 THEN 1 ELSE 0 END) AS alertas
+     FROM contratos`
+  );
+  const evaluados = Number(fila.evaluados) || 0;
+  const tasa = evaluados ? (Number(fila.alertas) || 0) / evaluados : 0;
+  cacheTasaGlobal = { valor: tasa, expira: Date.now() + TTL_TASA_GLOBAL_MS };
+  return tasa;
+}
+
 app.get("/secop/riesgo-entidad", async (req, res) => {
   const ip = obtenerIP(req);
   const entidad = (req.query.entidad || "").toString().trim();
@@ -272,13 +297,67 @@ app.get("/secop/riesgo-entidad", async (req, res) => {
        FROM contratos WHERE nombre_entidad = ?`,
       [entidad]
     );
+    const evaluados = Number(fila.evaluados) || 0;
+    const alertas = Number(fila.alertas) || 0;
     res.json({
-      evaluados: Number(fila.evaluados) || 0,
+      evaluados,
       atipicos: Number(fila.atipicos) || 0,
-      alertas: Number(fila.alertas) || 0,
+      alertas,
+      salud: clasificarSalud({
+        evaluados,
+        alertas,
+        tasaGlobalAlertas: await obtenerTasaGlobalAlertas(pool),
+      }),
     });
   } catch (e) {
     console.error("[secop/riesgo-entidad] error de conexión/consulta MySQL:", e.message);
+    res.status(502).json({ error: "No se pudo consultar la base de datos en este momento." });
+  }
+});
+
+// Perfil de riesgo por proveedor — el análisis existente está centrado en la
+// entidad contratante, pero un proveedor que concentra contratos en varias
+// entidades distintas es una señal que no se veía en ninguna parte.
+// Señales acordadas: total de contratos, valor total, % con alerta y número
+// de entidades distintas (proxy de concentración).
+app.get("/secop/riesgo-proveedor", async (req, res) => {
+  const ip = obtenerIP(req);
+  const proveedor = (req.query.proveedor || "").toString().trim();
+
+  if (limiteDeRafagaSuperado(ip)) {
+    return res.status(429).json({ error: "Demasiadas solicitudes, intenta en un minuto." });
+  }
+  if (!proveedor) {
+    return res.status(400).json({ error: "Falta el parámetro proveedor." });
+  }
+
+  try {
+    const pool = obtenerPool();
+    const [[fila]] = await pool.query(
+      `SELECT COUNT(*) AS total_contratos,
+              SUM(valor_del_contrato) AS valor_total,
+              COUNT(puntaje_anomalia) AS evaluados,
+              SUM(CASE WHEN bandera_roja = 1 THEN 1 ELSE 0 END) AS alertas,
+              COUNT(DISTINCT nombre_entidad) AS entidades_distintas
+       FROM contratos WHERE proveedor_adjudicado = ?`,
+      [proveedor]
+    );
+    const evaluados = Number(fila.evaluados) || 0;
+    const alertas = Number(fila.alertas) || 0;
+    res.json({
+      total_contratos: Number(fila.total_contratos) || 0,
+      valor_total_cop: Number(fila.valor_total) || 0,
+      evaluados,
+      alertas,
+      entidades_distintas: Number(fila.entidades_distintas) || 0,
+      salud: clasificarSalud({
+        evaluados,
+        alertas,
+        tasaGlobalAlertas: await obtenerTasaGlobalAlertas(pool),
+      }),
+    });
+  } catch (e) {
+    console.error("[secop/riesgo-proveedor] error de conexión/consulta MySQL:", e.message);
     res.status(502).json({ error: "No se pudo consultar la base de datos en este momento." });
   }
 });
