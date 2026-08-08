@@ -43,8 +43,9 @@ constitucional. Desplegado en Hostinger.
   entonces `app.mjs` valida el origen al arrancar (`origenValido`): si no es un origen bien formado
   lo ignora, usa el valor por defecto y escribe un `[cors]` de error en el log. Tras cambiar
   variables hay que **reiniciar la app** para que Node relea el entorno.
-- `netlify.toml` y `netlify/functions/` se mantienen temporalmente como respaldo de la migración
-  (el sitio ya no corre en Netlify) — se eliminan una vez confirmada la estabilidad en Hostinger.
+- Migración a Hostinger confirmada estable (2026-08-08): `netlify.toml` y `netlify/functions/`
+  eliminados del repo, ambos dominios sirven desde Hostinger (`platform: hostinger` en las
+  cabeceras HTTP).
 
 ## SECOP II: pipeline de datos
 
