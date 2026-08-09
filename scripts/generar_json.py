@@ -402,7 +402,29 @@ def _valor_sql(valor):
     return valor
 
 
+# Incidente en producción (2026-08-09): SECOP_MYSQL_HOST (srv1456.hstgr.io) resuelve a
+# IPv4 y a IPv6, y el runner de GitHub Actions no tiene salida IPv6 funcional hacia esa
+# red — socket.create_connection prueba las direcciones en el orden de getaddrinfo
+# (normalmente IPv6 primero) y, si todas fallan, relanza la excepción de la primera:
+# "OSError: [Errno 101] Network is unreachable". Forzamos IPv4-only a nivel de proceso
+# antes de conectar para no depender de la conectividad IPv6 del runner.
+def _forzar_ipv4():
+    import socket
+
+    if getattr(socket.getaddrinfo, "_solo_ipv4", False):
+        return  # ya aplicado (conexion_mysql se llama varias veces por corrida)
+
+    original = socket.getaddrinfo
+
+    def solo_ipv4(*args, **kwargs):
+        return [r for r in original(*args, **kwargs) if r[0] == socket.AF_INET]
+
+    solo_ipv4._solo_ipv4 = True
+    socket.getaddrinfo = solo_ipv4
+
+
 def conexion_mysql():
+    _forzar_ipv4()
     return pymysql.connect(
         host=os.environ["SECOP_MYSQL_HOST"],
         port=int(os.getenv("SECOP_MYSQL_PORT", "3306")),
