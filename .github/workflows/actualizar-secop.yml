@@ -83,6 +83,16 @@ jobs:
           ABSORBER_TOKEN: ${{ secrets.ABSORBER_TOKEN }}
         run: node scripts/absorber_pendientes_secop.mjs confirm
 
+      # Encontrado en producción (2026-08-09): el `concurrency` de arriba solo serializa
+      # corridas de ESTE workflow entre sí — no protege contra un push manual directo a
+      # main (p.ej. un fix de código) que aterriza mientras el job ya hizo el checkout.
+      # Ese día un push manual llegó a mitad de una corrida y el `git push` final se
+      # rechazó (non-fast-forward), perdiendo la actualización de datos de esa hora.
+      # Con reintentos: si el push falla, se reintegra el commit sobre el origin/main
+      # más reciente con `reset --soft` (no rebase/merge) y se recommitea — como
+      # api/secop/*.json es 100% output regenerado por este mismo job, no hay nada que
+      # mezclar línea por línea: el archivo recién generado siempre gana sobre lo que
+      # haya en el commit ajeno.
       - name: Commit y push si hay cambios
         run: |
           git config user.name "github-actions[bot]"
@@ -90,7 +100,17 @@ jobs:
           git add api/secop
           if git diff --cached --quiet; then
             echo "Sin cambios en los datos, nada que commitear."
-          else
-            git commit -m "chore: actualizar datos SECOP II ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
-            git push
+            exit 0
           fi
+          for intento in 1 2 3 4 5; do
+            git commit -m "chore: actualizar datos SECOP II ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            if git push; then
+              exit 0
+            fi
+            echo "push rechazado (intento $intento/5) — reintegrando sobre origin/main y reintentando"
+            git fetch origin main
+            git reset --soft origin/main
+            sleep $((intento * 5))
+          done
+          echo "::error::no se pudo pushear tras 5 intentos"
+          exit 1
