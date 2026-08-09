@@ -187,17 +187,6 @@
     "puntaje_anomalia": -0.2151533295
   },
   {
-    "id_contrato": "CO1.PCCNTR.679770",
-    "nombre_entidad": "MINVIVIENDA",
-    "sector": "Vivienda, Ciudad y Territorio",
-    "anio": 2018,
-    "valor_del_contrato": 24625129358.0,
-    "duracion_contrato_dias": 3145,
-    "desviacion_temporal_real": 785.0,
-    "ratio_desviacion_temporal": 0.2496025437,
-    "puntaje_anomalia": -0.2150974136
-  },
-  {
     "id_contrato": "CO1.PCCNTR.2424793",
     "nombre_entidad": "METRO DE BOGOTA SA",
     "sector": "Transporte",
@@ -206,6 +195,17 @@
     "duracion_contrato_dias": 2415,
     "desviacion_temporal_real": 722.0,
     "ratio_desviacion_temporal": 0.2989648033,
+    "puntaje_anomalia": -0.2150974136
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.679770",
+    "nombre_entidad": "MINVIVIENDA",
+    "sector": "Vivienda, Ciudad y Territorio",
+    "anio": 2018,
+    "valor_del_contrato": 24625129358.0,
+    "duracion_contrato_dias": 3145,
+    "desviacion_temporal_real": 785.0,
+    "ratio_desviacion_temporal": 0.2496025437,
     "puntaje_anomalia": -0.2150974136
   },
   {
@@ -704,17 +704,6 @@
     "puntaje_anomalia": -0.1827383382
   },
   {
-    "id_contrato": "CO1.PCCNTR.4245201",
-    "nombre_entidad": "GOBERNACIÓN DEL DEPARTAMENTO ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA",
-    "sector": "No aplica/No pertenece",
-    "anio": 2022,
-    "valor_del_contrato": 28991436780.0,
-    "duracion_contrato_dias": 587,
-    "desviacion_temporal_real": 366.0,
-    "ratio_desviacion_temporal": 0.6235093697,
-    "puntaje_anomalia": -0.1825967822
-  },
-  {
     "id_contrato": "CO1.PCCNTR.8560978",
     "nombre_entidad": "DISTRITO ESPECIAL DE CIENCIA TECNOLOGIA E INNOVACION DE MEDELLIN",
     "sector": "Servicio Público",
@@ -723,6 +712,17 @@
     "duracion_contrato_dias": 247,
     "desviacion_temporal_real": 410.0,
     "ratio_desviacion_temporal": 1.6599190283,
+    "puntaje_anomalia": -0.1825967822
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.4245201",
+    "nombre_entidad": "GOBERNACIÓN DEL DEPARTAMENTO ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA",
+    "sector": "No aplica/No pertenece",
+    "anio": 2022,
+    "valor_del_contrato": 28991436780.0,
+    "duracion_contrato_dias": 587,
+    "desviacion_temporal_real": 366.0,
+    "ratio_desviacion_temporal": 0.6235093697,
     "puntaje_anomalia": -0.1825967822
   },
   {
@@ -1232,17 +1232,6 @@
     "puntaje_anomalia": -0.1691736899
   },
   {
-    "id_contrato": "CO1.PCCNTR.230025",
-    "nombre_entidad": "MINCIENCIAS",
-    "sector": "Ciencia Tecnología",
-    "anio": 2017,
-    "valor_del_contrato": 559644220.0,
-    "duracion_contrato_dias": 2210,
-    "desviacion_temporal_real": 548.0,
-    "ratio_desviacion_temporal": 0.2479638009,
-    "puntaje_anomalia": -0.1685249574
-  },
-  {
     "id_contrato": "CO1.PCCNTR.704263",
     "nombre_entidad": "MINCIENCIAS",
     "sector": "Ciencia Tecnología",
@@ -1251,6 +1240,17 @@
     "duracion_contrato_dias": 2250,
     "desviacion_temporal_real": 549.0,
     "ratio_desviacion_temporal": 0.244,
+    "puntaje_anomalia": -0.1685249574
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.230025",
+    "nombre_entidad": "MINCIENCIAS",
+    "sector": "Ciencia Tecnología",
+    "anio": 2017,
+    "valor_del_contrato": 559644220.0,
+    "duracion_contrato_dias": 2210,
+    "desviacion_temporal_real": 548.0,
+    "ratio_desviacion_temporal": 0.2479638009,
     "puntaje_anomalia": -0.1685249574
   },
   {
@@ -1815,17 +1815,6 @@
     "puntaje_anomalia": -0.162055298
   },
   {
-    "id_contrato": "CO1.PCCNTR.3107101",
-    "nombre_entidad": "MINCIENCIAS",
-    "sector": "Ciencia Tecnología",
-    "anio": 2021,
-    "valor_del_contrato": 999095178.0,
-    "duracion_contrato_dias": 1643,
-    "desviacion_temporal_real": 546.0,
-    "ratio_desviacion_temporal": 0.3323189288,
-    "puntaje_anomalia": -0.161938025
-  },
-  {
     "id_contrato": "CO1.PCCNTR.3098461",
     "nombre_entidad": "MINCIENCIAS",
     "sector": "Ciencia Tecnología",
@@ -1834,6 +1823,17 @@
     "duracion_contrato_dias": 1643,
     "desviacion_temporal_real": 547.0,
     "ratio_desviacion_temporal": 0.3329275715,
+    "puntaje_anomalia": -0.161938025
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.3107101",
+    "nombre_entidad": "MINCIENCIAS",
+    "sector": "Ciencia Tecnología",
+    "anio": 2021,
+    "valor_del_contrato": 999095178.0,
+    "duracion_contrato_dias": 1643,
+    "desviacion_temporal_real": 546.0,
+    "ratio_desviacion_temporal": 0.3323189288,
     "puntaje_anomalia": -0.161938025
   },
   {
@@ -2651,17 +2651,6 @@
     "puntaje_anomalia": -0.151456116
   },
   {
-    "id_contrato": "CO1.PCCNTR.704540",
-    "nombre_entidad": "MINCIENCIAS",
-    "sector": "Ciencia Tecnología",
-    "anio": 2018,
-    "valor_del_contrato": 341990076.0,
-    "duracion_contrato_dias": 1517,
-    "desviacion_temporal_real": 421.0,
-    "ratio_desviacion_temporal": 0.2775214239,
-    "puntaje_anomalia": -0.1514045425
-  },
-  {
     "id_contrato": "CO1.PCCNTR.705959",
     "nombre_entidad": "MINCIENCIAS",
     "sector": "Ciencia Tecnología",
@@ -2684,17 +2673,6 @@
     "puntaje_anomalia": -0.1514045425
   },
   {
-    "id_contrato": "CO1.PCCNTR.698522",
-    "nombre_entidad": "MINCIENCIAS",
-    "sector": "Ciencia Tecnología",
-    "anio": 2018,
-    "valor_del_contrato": 341946095.0,
-    "duracion_contrato_dias": 1516,
-    "desviacion_temporal_real": 420.0,
-    "ratio_desviacion_temporal": 0.2770448549,
-    "puntaje_anomalia": -0.1514045425
-  },
-  {
     "id_contrato": "CO1.PCCNTR.705972",
     "nombre_entidad": "MINCIENCIAS",
     "sector": "Ciencia Tecnología",
@@ -2714,6 +2692,28 @@
     "duracion_contrato_dias": 1506,
     "desviacion_temporal_real": 410.0,
     "ratio_desviacion_temporal": 0.2722443559,
+    "puntaje_anomalia": -0.1514045425
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.698522",
+    "nombre_entidad": "MINCIENCIAS",
+    "sector": "Ciencia Tecnología",
+    "anio": 2018,
+    "valor_del_contrato": 341946095.0,
+    "duracion_contrato_dias": 1516,
+    "desviacion_temporal_real": 420.0,
+    "ratio_desviacion_temporal": 0.2770448549,
+    "puntaje_anomalia": -0.1514045425
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.704540",
+    "nombre_entidad": "MINCIENCIAS",
+    "sector": "Ciencia Tecnología",
+    "anio": 2018,
+    "valor_del_contrato": 341990076.0,
+    "duracion_contrato_dias": 1517,
+    "desviacion_temporal_real": 421.0,
+    "ratio_desviacion_temporal": 0.2775214239,
     "puntaje_anomalia": -0.1514045425
   },
   {
@@ -4048,17 +4048,6 @@
     "puntaje_anomalia": -0.1320389588
   },
   {
-    "id_contrato": "CO1.PCCNTR.4277822",
-    "nombre_entidad": "PROCURADURIA GENERAL DE LA NACION",
-    "sector": "No aplica/No pertenece",
-    "anio": 2022,
-    "valor_del_contrato": 181673420.0,
-    "duracion_contrato_dias": 1338,
-    "desviacion_temporal_real": 486.0,
-    "ratio_desviacion_temporal": 0.3632286996,
-    "puntaje_anomalia": -0.1319974175
-  },
-  {
     "id_contrato": "CO1.PCCNTR.4251801",
     "nombre_entidad": "PROCURADURIA GENERAL DE LA NACION",
     "sector": "No aplica/No pertenece",
@@ -4067,6 +4056,17 @@
     "duracion_contrato_dias": 1338,
     "desviacion_temporal_real": 487.0,
     "ratio_desviacion_temporal": 0.3639760837,
+    "puntaje_anomalia": -0.1319974175
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.4277822",
+    "nombre_entidad": "PROCURADURIA GENERAL DE LA NACION",
+    "sector": "No aplica/No pertenece",
+    "anio": 2022,
+    "valor_del_contrato": 181673420.0,
+    "duracion_contrato_dias": 1338,
+    "desviacion_temporal_real": 486.0,
+    "ratio_desviacion_temporal": 0.3632286996,
     "puntaje_anomalia": -0.1319974175
   },
   {
