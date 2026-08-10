@@ -11,14 +11,14 @@
     "nuevos_o_actualizados_esta_corrida": 0,
     "aptos_modelo": 199937,
     "entidades_distintas": 3427,
-    "valor_total_acumulado_cop": 196038464257393.72,
+    "valor_total_acumulado_cop": 196038464257393.75,
     "sectores_distintos": 25,
     "fecha_firma_min": "2015-07-07",
     "fecha_firma_max": "2026-08-07"
   },
   "modelo": {
     "algoritmo": "IsolationForest",
-    "anomalias_detectadas": 9997,
+    "anomalias_detectadas": 9994,
     "red_flags": 434
   },
   "red_flags_resumen": {
