@@ -1,75 +1,81 @@
 [
   {
     "sector": "Servicio Público",
-    "total_contratos": 44588,
-    "valor_total": 42802958440938.54,
-    "valor_promedio": 959965875.1444007
+    "total_contratos": 44704,
+    "valor_total": 42942576273392.38,
+    "valor_promedio": 960598073.4026572
   },
   {
     "sector": "Salud y Protección Social",
-    "total_contratos": 31335,
-    "valor_total": 27709251360752.3,
-    "valor_promedio": 884290772.6424861
+    "total_contratos": 31380,
+    "valor_total": 27727953077276.3,
+    "valor_promedio": 883618644.910016
   },
   {
     "sector": "No aplica/No pertenece",
-    "total_contratos": 27362,
-    "valor_total": 23664174312349.6,
-    "valor_promedio": 864855431.3408962
+    "total_contratos": 27397,
+    "valor_total": 23793661456555.84,
+    "valor_promedio": 868476893.6947782
   },
   {
     "sector": "defensa",
-    "total_contratos": 31382,
-    "valor_total": 19891153912597.16,
-    "valor_promedio": 633839586.7885145
+    "total_contratos": 31418,
+    "valor_total": 19897503084868.18,
+    "valor_promedio": 633315395.1514475
   },
   {
     "sector": "Transporte",
-    "total_contratos": 9088,
-    "valor_total": 17247764217376.51,
-    "valor_promedio": 1897861379.552873
+    "total_contratos": 9117,
+    "valor_total": 17317525844335.15,
+    "valor_promedio": 1899476345.7645223
   },
   {
     "sector": "Ambiente y Desarrollo Sostenible",
-    "total_contratos": 8791,
-    "valor_total": 9843689585108.299,
-    "valor_promedio": 1119746284.2803206
+    "total_contratos": 8813,
+    "valor_total": 9868606356171.3,
+    "valor_promedio": 1119778322.4975946
   },
   {
     "sector": "Educación Nacional",
-    "total_contratos": 7924,
-    "valor_total": 7388922210486.92,
-    "valor_promedio": 932473777.1942099
+    "total_contratos": 7936,
+    "valor_total": 7389476281148.92,
+    "valor_promedio": 931133603.9754183
   },
   {
     "sector": "Planeación",
-    "total_contratos": 2904,
-    "valor_total": 5515621522131.391,
-    "valor_promedio": 1899318705.9681096
+    "total_contratos": 2907,
+    "valor_total": 5568540141666.21,
+    "valor_promedio": 1915562484.2333024
   },
   {
     "sector": "Inclusión Social y Reconciliación",
-    "total_contratos": 3486,
-    "valor_total": 5007757306313.28,
-    "valor_promedio": 1436533937.5540104
+    "total_contratos": 3492,
+    "valor_total": 5020089176798.28,
+    "valor_promedio": 1437597129.6673198
   },
   {
     "sector": "Hacienda y Crédito Público",
-    "total_contratos": 2544,
-    "valor_total": 4846300615003.7295,
-    "valor_promedio": 1904992380.1115289
+    "total_contratos": 2546,
+    "valor_total": 4847020083357.7295,
+    "valor_promedio": 1903778508.781512
   },
   {
     "sector": "Vivienda, Ciudad y Territorio",
-    "total_contratos": 2550,
-    "valor_total": 4440972976287.25,
-    "valor_promedio": 1741558029.9165685
+    "total_contratos": 2556,
+    "valor_total": 4443812117549.25,
+    "valor_promedio": 1738580640.6687207
   },
   {
     "sector": "Ley de Justicia",
-    "total_contratos": 14909,
-    "valor_total": 4364687565701.3257,
-    "valor_promedio": 292755219.3776461
+    "total_contratos": 14928,
+    "valor_total": 4372352884255.186,
+    "valor_promedio": 292896093.53263575
+  },
+  {
+    "sector": "Trabajo",
+    "total_contratos": 8726,
+    "valor_total": 4112500780260.91,
+    "valor_promedio": 471292777.9350115
   },
   {
     "sector": "Tecnologías de la Información y las Comunicaciones",
@@ -78,52 +84,46 @@
     "valor_promedio": 2558413607.3750687
   },
   {
-    "sector": "Trabajo",
-    "total_contratos": 8701,
-    "valor_total": 4066284327883.75,
-    "valor_promedio": 467335286.5054304
-  },
-  {
     "sector": "agricultura",
-    "total_contratos": 1753,
-    "valor_total": 3700288241014.14,
-    "valor_promedio": 2110831854.543149
+    "total_contratos": 1759,
+    "valor_total": 3701052659890.14,
+    "valor_promedio": 2104066321.7112792
   },
   {
     "sector": "interior",
-    "total_contratos": 1504,
-    "valor_total": 3200591751225.93,
-    "valor_promedio": 2128053026.0810707
+    "total_contratos": 1511,
+    "valor_total": 3251635265708.96,
+    "valor_promedio": 2151975688.7551026
   },
   {
     "sector": "Cultura",
-    "total_contratos": 7038,
-    "valor_total": 2765475303573.96,
-    "valor_promedio": 392934825.7422506
+    "total_contratos": 7060,
+    "valor_total": 2788453319143.84,
+    "valor_promedio": 394965059.36881584
   },
   {
     "sector": "Minas y Energía",
-    "total_contratos": 1734,
-    "valor_total": 2563098639575.26,
-    "valor_promedio": 1478142237.3559744
+    "total_contratos": 1754,
+    "valor_total": 2626472368562.66,
+    "valor_promedio": 1497418682.1907983
   },
   {
     "sector": "deportes",
-    "total_contratos": 3679,
-    "valor_total": 2086949622432.04,
-    "valor_promedio": 567260022.4060994
+    "total_contratos": 3696,
+    "valor_total": 2108908540792.54,
+    "valor_promedio": 570592137.6603193
   },
   {
     "sector": "Industria",
-    "total_contratos": 1900,
-    "valor_total": 1996889400308.55,
-    "valor_promedio": 1050994421.2150264
+    "total_contratos": 1904,
+    "valor_total": 1998343908880.55,
+    "valor_promedio": 1049550372.3112133
   },
   {
     "sector": "Presidencia de la República",
-    "total_contratos": 1194,
-    "valor_total": 530339051572.16,
-    "valor_promedio": 444170059.9431825
+    "total_contratos": 1197,
+    "valor_total": 530849626042.16003,
+    "valor_promedio": 443483396.86061823
   },
   {
     "sector": "Ciencia Tecnología",
@@ -133,9 +133,9 @@
   },
   {
     "sector": "Información Estadística",
-    "total_contratos": 729,
-    "valor_total": 372474650933.3695,
-    "valor_promedio": 510939164.51765364
+    "total_contratos": 732,
+    "valor_total": 372503545120.3295,
+    "valor_promedio": 508884624.4813245
   },
   {
     "sector": "Relaciones Exteriores",
