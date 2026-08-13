@@ -8,17 +8,17 @@
   "muestra": {
     "ingeridos_esta_corrida": 20000,
     "acumulados_total": 229224,
-    "nuevos_o_actualizados_esta_corrida": 104,
+    "nuevos_o_actualizados_esta_corrida": 0,
     "aptos_modelo": 213670,
     "entidades_distintas": 3473,
-    "valor_total_acumulado_cop": 213014203938504.47,
+    "valor_total_acumulado_cop": 213014203938504.5,
     "sectores_distintos": 25,
     "fecha_firma_min": "2015-07-07",
     "fecha_firma_max": "2026-08-11"
   },
   "modelo": {
     "algoritmo": "IsolationForest",
-    "anomalias_detectadas": 10676,
+    "anomalias_detectadas": 10684,
     "red_flags": 470
   },
   "red_flags_resumen": {
