@@ -8,7 +8,7 @@
   "muestra": {
     "ingeridos_esta_corrida": 20000,
     "acumulados_total": 242861,
-    "nuevos_o_actualizados_esta_corrida": 50,
+    "nuevos_o_actualizados_esta_corrida": 0,
     "aptos_modelo": 226314,
     "entidades_distintas": 3519,
     "valor_total_acumulado_cop": 225264979839321.8,
@@ -18,11 +18,11 @@
   },
   "modelo": {
     "algoritmo": "IsolationForest",
-    "anomalias_detectadas": 11314,
+    "anomalias_detectadas": 11316,
     "red_flags": 509
   },
   "red_flags_resumen": {
-    "valor_total_cop": 11979803579169.59,
+    "valor_total_cop": 11979803579169.592,
     "desviacion_promedio_dias": 629.3379174852653
   }
 }
