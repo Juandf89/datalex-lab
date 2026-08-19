@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-08-19T19:31:10.649378+00:00",
+  "generado_en": "2026-08-19T23:29:06.144038+00:00",
   "fuente": {
     "dataset": "jbjy-vk9h",
     "dominio": "www.datos.gov.co",
@@ -7,11 +7,11 @@
   },
   "muestra": {
     "ingeridos_esta_corrida": 20000,
-    "acumulados_total": 257428,
-    "nuevos_o_actualizados_esta_corrida": 0,
-    "aptos_modelo": 239723,
+    "acumulados_total": 257444,
+    "nuevos_o_actualizados_esta_corrida": 16,
+    "aptos_modelo": 239739,
     "entidades_distintas": 3560,
-    "valor_total_acumulado_cop": 242565512256407.72,
+    "valor_total_acumulado_cop": 242571011200299.12,
     "sectores_distintos": 25,
     "fecha_firma_min": "2015-07-07",
     "fecha_firma_max": "2026-08-18"
