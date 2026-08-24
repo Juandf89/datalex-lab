@@ -1,16 +1,16 @@
 [
   {
     "nombre_entidad": "INVIAS",
-    "total_contratos": 4327,
-    "valor_total": 13503281408387.26,
-    "valor_promedio": 3120702890.775886,
+    "total_contratos": 4329,
+    "valor_total": 13522318406721.26,
+    "valor_promedio": 3123658675.6112866,
     "sector": "Transporte"
   },
   {
     "nombre_entidad": "DISTRITO ESPECIAL DE CIENCIA TECNOLOGIA E INNOVACION DE MEDELLIN",
-    "total_contratos": 2750,
-    "valor_total": 11660375621731.42,
-    "valor_promedio": 4240136589.720516,
+    "total_contratos": 2755,
+    "valor_total": 11666909378968.42,
+    "valor_promedio": 4234812841.730824,
     "sector": "Servicio Público"
   },
   {
@@ -19,6 +19,13 @@
     "valor_total": 5206875327403.4795,
     "valor_promedio": 20181687315.51736,
     "sector": "Ambiente y Desarrollo Sostenible"
+  },
+  {
+    "nombre_entidad": "FONDO UNICO DE TECNOLOGÍAS DE LA INFORMACIÓN Y LAS COMUNICACIONES",
+    "total_contratos": 404,
+    "valor_total": 5177940622347.36,
+    "valor_promedio": 12816684708.780596,
+    "sector": "Tecnologías de la Información y las Comunicaciones"
   },
   {
     "nombre_entidad": "INSTITUTO DE DESARROLLO URBANO",
@@ -56,81 +63,74 @@
     "sector": "Transporte"
   },
   {
-    "nombre_entidad": "FONDO UNICO DE TECNOLOGÍAS DE LA INFORMACIÓN Y LAS COMUNICACIONES",
-    "total_contratos": 400,
-    "valor_total": 4096302978217.36,
-    "valor_promedio": 10240757445.5434,
-    "sector": "Tecnologías de la Información y las Comunicaciones"
-  },
-  {
     "nombre_entidad": "MINISTERIO DE EDUCACION NACIONAL (MEN)",
-    "total_contratos": 543,
-    "valor_total": 3803253647514.8003,
-    "valor_promedio": 7004150363.747331,
+    "total_contratos": 553,
+    "valor_total": 3841460448564.25,
+    "valor_promedio": 6946583089.627938,
     "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "DEPARTAMENTO NACIONAL DE PLANEACIÓN",
-    "total_contratos": 353,
-    "valor_total": 3539928068616.5,
-    "valor_promedio": 10028124840.27337,
+    "total_contratos": 354,
+    "valor_total": 3539944863099.5,
+    "valor_promedio": 9999844246.043785,
     "sector": "Planeación"
   },
   {
     "nombre_entidad": "AGENCIA LOGISTICA DE LAS FUERZAS MILITARES",
-    "total_contratos": 2650,
-    "valor_total": 3184733316169.19,
-    "valor_promedio": 1201786157.0449774,
+    "total_contratos": 2651,
+    "valor_total": 3184761926980.19,
+    "valor_promedio": 1201343616.363708,
     "sector": "defensa"
   },
   {
     "nombre_entidad": "MINISTERIO DEL INTERIOR",
-    "total_contratos": 620,
-    "valor_total": 2912217713601.75,
-    "valor_promedio": 4697125344.518951,
+    "total_contratos": 623,
+    "valor_total": 2912425337507.75,
+    "valor_promedio": 4674840028.102327,
     "sector": "interior"
   },
   {
     "nombre_entidad": "DEPARTAMENTO DE SANTANDER",
     "total_contratos": 1222,
-    "valor_total": 2861622483767.76,
+    "valor_total": 2861622483767.7603,
     "valor_promedio": 2341753260.0390835,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "DISTRITO ESPECIAL INDUSTRIAL Y PORTUARIO DE BARRANQUILLA",
-    "total_contratos": 563,
-    "valor_total": 2750987722456.07,
-    "valor_promedio": 4886301460.845594,
+    "total_contratos": 566,
+    "valor_total": 2751452820798.07,
+    "valor_promedio": 4861224065.014257,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "SECRETARIA DE EDUCACION DEL DISTRITO",
-    "total_contratos": 807,
-    "valor_total": 2725022992272.25,
-    "valor_promedio": 3376732332.4315367,
+    "total_contratos": 811,
+    "valor_total": 2743633390905.25,
+    "valor_promedio": 3383025142.916461,
     "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "ICBF REGIONAL ANTIOQUIA",
-    "total_contratos": 1601,
-    "valor_total": 2543573396820.35,
-    "valor_promedio": 1588740410.2563086,
+    "total_contratos": 1609,
+    "valor_total": 2546133358220.35,
+    "valor_promedio": 1582432167.9430392,
     "sector": "Salud y Protección Social"
   },
   {
-    "nombre_entidad": "ENTerritorio S.A",
-    "total_contratos": 1011,
-    "valor_total": 2329015661196.96,
-    "valor_promedio": 2303675233.6270623,
-    "sector": "Planeación"
+    "nombre_entidad": "MINISTERIO DE AGRICULTURA Y DESARROLLO RURAL",
+    "total_contratos": 224,
+    "valor_total": 2365736716414.51,
+    "valor_promedio": 10561324626.85049,
+    "sector": "agricultura"
   },
   {
-    "nombre_entidad": "MINISTERIO DE AGRICULTURA Y DESARROLLO RURAL",
-    "total_contratos": 218,
-    "valor_total": 2213478540089.51,
-    "valor_promedio": 10153571284.814264,
-    "sector": "agricultura"
+    "nombre_entidad": "ENTerritorio S.A",
+    "total_contratos": 1012,
+    "valor_total": 2330039900956.22,
+    "valor_promedio": 2302410969.3243284,
+    "sector": "Planeación"
   },
   {
     "nombre_entidad": "GOBERNACION DEL DEPARTAMENTO DEL CESAR",
@@ -156,15 +156,15 @@
   {
     "nombre_entidad": "MINISTERIO DE MINAS Y ENERGIA",
     "total_contratos": 459,
-    "valor_total": 2127337152719.86,
-    "valor_promedio": 4634721465.62061,
+    "valor_total": 2127337152719.8599,
+    "valor_promedio": 4634721465.620609,
     "sector": "Minas y Energía"
   },
   {
     "nombre_entidad": "ICBF REGIONAL GUAJIRA",
-    "total_contratos": 1234,
-    "valor_total": 2039278627515.84,
-    "valor_promedio": 1652575873.1894977,
+    "total_contratos": 1253,
+    "valor_total": 2041552441826.84,
+    "valor_promedio": 1629331557.722937,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -183,23 +183,23 @@
   },
   {
     "nombre_entidad": "SECRETARIA DISTRITAL DEL HABITAT-",
-    "total_contratos": 246,
-    "valor_total": 1972152849243.58,
-    "valor_promedio": 8016881500.990163,
+    "total_contratos": 247,
+    "valor_total": 1972242039243.58,
+    "valor_promedio": 7984785583.982105,
     "sector": "Vivienda, Ciudad y Territorio"
   },
   {
     "nombre_entidad": "AEROCIVIL",
-    "total_contratos": 1523,
-    "valor_total": 1950560145584.48,
-    "valor_promedio": 1280735486.2668943,
+    "total_contratos": 1525,
+    "valor_total": 1951221288085.59,
+    "valor_promedio": 1279489369.2364526,
     "sector": "Transporte"
   },
   {
     "nombre_entidad": "PROSPERIDAD SOCIAL",
-    "total_contratos": 2360,
-    "valor_total": 1950244102531.11,
-    "valor_promedio": 826374619.716572,
+    "total_contratos": 2362,
+    "valor_total": 1950537677653.1099,
+    "valor_promedio": 825799186.1359483,
     "sector": "Inclusión Social y Reconciliación"
   },
   {
@@ -211,9 +211,9 @@
   },
   {
     "nombre_entidad": "SENA DIRECCION GENERAL",
-    "total_contratos": 445,
-    "valor_total": 1846341210584.04,
-    "valor_promedio": 4149081372.0989666,
+    "total_contratos": 448,
+    "valor_total": 1867213544134.04,
+    "valor_promedio": 4167887375.2991967,
     "sector": "Trabajo"
   },
   {
@@ -225,38 +225,38 @@
   },
   {
     "nombre_entidad": "ICBF REGIONAL VALLE DEL CAUCA",
-    "total_contratos": 1569,
-    "valor_total": 1696326501601.71,
-    "valor_promedio": 1081151371.3204014,
+    "total_contratos": 1582,
+    "valor_total": 1703349888404.71,
+    "valor_promedio": 1076706629.8386283,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "ALCALDÍA DEL DISTRITO TURÍSTICO Y CULTURAL DE CARTAGENA DE INDIAS",
-    "total_contratos": 722,
-    "valor_total": 1674432779487.31,
-    "valor_promedio": 2319158974.359155,
+    "total_contratos": 726,
+    "valor_total": 1675033700203.31,
+    "valor_promedio": 2307208953.4480853,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "ICBF REGIONAL ATLANTICO",
-    "total_contratos": 730,
-    "valor_total": 1633236507116.72,
-    "valor_promedio": 2237310283.7215343,
+    "total_contratos": 737,
+    "valor_total": 1634986814488.72,
+    "valor_promedio": 2218435297.813731,
     "sector": "Salud y Protección Social"
   },
   {
-    "nombre_entidad": "REGIONAL DE ASEGURAMIENTO EN SALUD N° 8",
-    "total_contratos": 183,
-    "valor_total": 1609970572093.85,
-    "valor_promedio": 8797653399.419947,
-    "sector": "Servicio Público"
+    "nombre_entidad": "INSTITUTO DE CAMINOS Y CONSTRUCCIONES DE CUNDINAMARCA - ICCU",
+    "total_contratos": 2229,
+    "valor_total": 1619436439514.4,
+    "valor_promedio": 726530479.818035,
+    "sector": "Transporte"
   },
   {
-    "nombre_entidad": "INSTITUTO DE CAMINOS Y CONSTRUCCIONES DE CUNDINAMARCA - ICCU",
-    "total_contratos": 2227,
-    "valor_total": 1608924950545.4,
-    "valor_promedio": 722462932.4406825,
-    "sector": "Transporte"
+    "nombre_entidad": "REGIONAL DE ASEGURAMIENTO EN SALUD N° 8",
+    "total_contratos": 184,
+    "valor_total": 1610000572093.85,
+    "valor_promedio": 8750003109.205708,
+    "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "CORPORACION AUTONOMA REGIONAL DE CUNDINAMARCA - CAR.",
@@ -267,9 +267,9 @@
   },
   {
     "nombre_entidad": "MINTRABAJO NIVEL CENTRAL*/",
-    "total_contratos": 286,
-    "valor_total": 1604937520594.78,
-    "valor_promedio": 5611669652.429301,
+    "total_contratos": 287,
+    "valor_total": 1604952520594.78,
+    "valor_promedio": 5592169061.305854,
     "sector": "Trabajo"
   },
   {
@@ -295,16 +295,16 @@
   },
   {
     "nombre_entidad": "ANI",
-    "total_contratos": 175,
-    "valor_total": 1410931900396.09,
-    "valor_promedio": 8062468002.263371,
+    "total_contratos": 176,
+    "valor_total": 1411186334296.0898,
+    "valor_promedio": 8018104172.136874,
     "sector": "Transporte"
   },
   {
     "nombre_entidad": "GOBERNACIÓN DE BOLÍVAR//",
-    "total_contratos": 507,
-    "valor_total": 1344191070707.85,
-    "valor_promedio": 2651264439.2659764,
+    "total_contratos": 510,
+    "valor_total": 1346250851317.85,
+    "valor_promedio": 2639707551.6036277,
     "sector": "Servicio Público"
   },
   {
@@ -316,10 +316,17 @@
   },
   {
     "nombre_entidad": "INSTITUTO COLOMBIANO DE BIENESTAR FAMILIAR REGIONAL BOLIVAR",
-    "total_contratos": 959,
-    "valor_total": 1284699920265.95,
-    "valor_promedio": 1339624525.8247654,
+    "total_contratos": 964,
+    "valor_total": 1286491536018.95,
+    "valor_promedio": 1334534788.4014003,
     "sector": "Salud y Protección Social"
+  },
+  {
+    "nombre_entidad": "Gobernación Norte de Santander*",
+    "total_contratos": 709,
+    "valor_total": 1271228666057.49,
+    "valor_promedio": 1792988245.497165,
+    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "MINISTERIO DE HACIENDA Y CREDITO PUBLICO",
@@ -329,17 +336,10 @@
     "sector": "Hacienda y Crédito Público"
   },
   {
-    "nombre_entidad": "Gobernación Norte de Santander*",
-    "total_contratos": 704,
-    "valor_total": 1268737463875.49,
-    "valor_promedio": 1802183897.550412,
-    "sector": "No aplica/No pertenece"
-  },
-  {
     "nombre_entidad": "SECRETARIA DISTRITAL DE SEGURIDAD, CONVIVENCIA Y JUSTICIA",
-    "total_contratos": 480,
-    "valor_total": 1267456589938.5,
-    "valor_promedio": 2640534562.371875,
+    "total_contratos": 481,
+    "valor_total": 1267806348788.5,
+    "valor_promedio": 2635772034.9033265,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -365,16 +365,16 @@
   },
   {
     "nombre_entidad": "ICBF REGIONAL CORDOBA",
-    "total_contratos": 680,
-    "valor_total": 1189776589512.51,
-    "valor_promedio": 1749671455.1654558,
+    "total_contratos": 682,
+    "valor_total": 1190278582012.51,
+    "valor_promedio": 1745276513.214824,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "GOBIERNO DEPARTAMENTAL",
-    "total_contratos": 1102,
-    "valor_total": 1181267639273.74,
-    "valor_promedio": 1071930707.1449546,
+    "total_contratos": 1103,
+    "valor_total": 1181376503052.74,
+    "valor_promedio": 1071057573.0305893,
     "sector": "Servicio Público"
   },
   {
@@ -387,8 +387,8 @@
   {
     "nombre_entidad": "DIRECCION DE SANIDAD DE LA POLICIA NACIONAL - DISAN PONAL",
     "total_contratos": 239,
-    "valor_total": 1153672384323.84,
-    "valor_promedio": 4827081105.95749,
+    "valor_total": 1153672384323.8398,
+    "valor_promedio": 4827081105.957489,
     "sector": "defensa"
   },
   {
@@ -407,15 +407,15 @@
   },
   {
     "nombre_entidad": "ICBF SEDE NACIONAL",
-    "total_contratos": 288,
-    "valor_total": 1070953083667.86,
-    "valor_promedio": 3718587096.0689583,
+    "total_contratos": 290,
+    "valor_total": 1075506882670.86,
+    "valor_promedio": 3708644423.0029655,
     "sector": "Inclusión Social y Reconciliación"
   },
   {
     "nombre_entidad": "AGENCIA NACIONAL DE TIERRAS - ANT",
     "total_contratos": 226,
-    "valor_total": 1063703172451.92,
+    "valor_total": 1063703172451.9199,
     "valor_promedio": 4706651205.539469,
     "sector": "agricultura"
   },
@@ -449,37 +449,37 @@
   },
   {
     "nombre_entidad": "IMPRENTA NACIONAL DE COLOMBIA",
-    "total_contratos": 622,
-    "valor_total": 977553626179.45,
-    "valor_promedio": 1571629624.082717,
+    "total_contratos": 625,
+    "valor_total": 977630075382.4501,
+    "valor_promedio": 1564208120.61192,
     "sector": "interior"
   },
   {
     "nombre_entidad": "GOBERNACION DE CALDAS",
-    "total_contratos": 1459,
-    "valor_total": 944026657412.05,
-    "valor_promedio": 647036776.8417066,
+    "total_contratos": 1465,
+    "valor_total": 944248493515.05,
+    "valor_promedio": 644538220.8293858,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "ICBF REGIONAL MAGDALENA",
-    "total_contratos": 547,
-    "valor_total": 918603526212.82,
-    "valor_promedio": 1679348311.1751735,
+    "total_contratos": 551,
+    "valor_total": 918935351972.82,
+    "valor_promedio": 1667759259.478802,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "ICBF REGIONAL CUNDINAMARCA",
-    "total_contratos": 836,
-    "valor_total": 895030271717.08,
-    "valor_promedio": 1070610372.8673205,
+    "total_contratos": 839,
+    "valor_total": 895839649278.08,
+    "valor_promedio": 1067746900.2122526,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "ICBF REGIONAL NARIÑO",
-    "total_contratos": 778,
-    "valor_total": 885872134366.15,
-    "valor_promedio": 1138653129.0053341,
+    "total_contratos": 784,
+    "valor_total": 894263840940.15,
+    "valor_promedio": 1140642654.2603955,
     "sector": "Salud y Protección Social"
   },
   {
@@ -491,30 +491,30 @@
   },
   {
     "nombre_entidad": "UNP",
-    "total_contratos": 317,
-    "valor_total": 878214233436.25,
-    "valor_promedio": 2770391903.584385,
+    "total_contratos": 318,
+    "valor_total": 881273333436.25,
+    "valor_promedio": 2771299790.6800313,
     "sector": "defensa"
   },
   {
     "nombre_entidad": "ICBF REGIONAL CESAR",
-    "total_contratos": 749,
-    "valor_total": 868512605535.56,
-    "valor_promedio": 1159562891.2357278,
-    "sector": "Salud y Protección Social"
-  },
-  {
-    "nombre_entidad": "ICBF REGIONAL SANTANDER",
-    "total_contratos": 932,
-    "valor_total": 864049766966.13,
-    "valor_promedio": 927092024.6417704,
+    "total_contratos": 753,
+    "valor_total": 868991759631.56,
+    "valor_promedio": 1154039521.4230545,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "ICBF REGIONAL CAUCA",
-    "total_contratos": 902,
-    "valor_total": 863911736203.32,
-    "valor_promedio": 957773543.4626607,
+    "total_contratos": 911,
+    "valor_total": 868206691490.32,
+    "valor_promedio": 953026006.0266958,
+    "sector": "Salud y Protección Social"
+  },
+  {
+    "nombre_entidad": "ICBF REGIONAL SANTANDER",
+    "total_contratos": 933,
+    "valor_total": 864712450685.13,
+    "valor_promedio": 926808628.8157878,
     "sector": "Salud y Protección Social"
   },
   {
@@ -533,30 +533,30 @@
   },
   {
     "nombre_entidad": "SECRETARÍA DISTRITAL DE MOVILIDAD",
-    "total_contratos": 350,
-    "valor_total": 830928797792.22,
-    "valor_promedio": 2374082279.406343,
+    "total_contratos": 351,
+    "valor_total": 839834292782.22,
+    "valor_promedio": 2392690292.8268375,
     "sector": "Transporte"
   },
   {
     "nombre_entidad": "AGENCIA DE DESARROLLO RURAL",
-    "total_contratos": 203,
-    "valor_total": 822446474778.65,
-    "valor_promedio": 4051460466.8899016,
+    "total_contratos": 204,
+    "valor_total": 822840154778.65,
+    "valor_promedio": 4033530170.4835787,
     "sector": "agricultura"
   },
   {
     "nombre_entidad": "ICBF REGIONAL CHOCO",
-    "total_contratos": 666,
-    "valor_total": 809406786876.89,
-    "valor_promedio": 1215325505.8211563,
+    "total_contratos": 669,
+    "valor_total": 813155242156.89,
+    "valor_promedio": 1215478687.8279371,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "GOBERNACION DEL HUILA*",
-    "total_contratos": 828,
-    "valor_total": 796030073275.55,
-    "valor_promedio": 961388977.3859301,
+    "total_contratos": 829,
+    "valor_total": 796070073275.55,
+    "valor_promedio": 960277531.0923402,
     "sector": "Servicio Público"
   },
   {
@@ -568,9 +568,9 @@
   },
   {
     "nombre_entidad": "MUNICIPIO DE PEREIRA- OFICIAL",
-    "total_contratos": 662,
-    "valor_total": 777930814240.79,
-    "valor_promedio": 1175122075.892432,
+    "total_contratos": 664,
+    "valor_total": 778433475860.79,
+    "valor_promedio": 1172339572.079503,
     "sector": "Servicio Público"
   },
   {
@@ -582,16 +582,16 @@
   },
   {
     "nombre_entidad": "AGENCIA NACIONAL DE HIDROCARBUROS**",
-    "total_contratos": 183,
-    "valor_total": 760530511014.3,
-    "valor_promedio": 4155904431.7721314,
+    "total_contratos": 188,
+    "valor_total": 765908748133.3,
+    "valor_promedio": 4073982702.8367023,
     "sector": "Minas y Energía"
   },
   {
     "nombre_entidad": "JEP",
-    "total_contratos": 258,
-    "valor_total": 749844752762.74,
-    "valor_promedio": 2906375010.7082944,
+    "total_contratos": 259,
+    "valor_total": 750229752762.74,
+    "valor_promedio": 2896639972.056911,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -603,30 +603,30 @@
   },
   {
     "nombre_entidad": "CORPORACION AUTONOMA REGIONAL DEL MAGDALENA",
-    "total_contratos": 154,
-    "valor_total": 722928794075.07,
-    "valor_promedio": 4694342818.669286,
+    "total_contratos": 156,
+    "valor_total": 723033615735.07,
+    "valor_promedio": 4634830870.096602,
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
     "nombre_entidad": "MUNICIPIO DE MANIZALES",
-    "total_contratos": 894,
-    "valor_total": 721810369059.4299,
-    "valor_promedio": 807394148.8360513,
+    "total_contratos": 896,
+    "valor_total": 721957194209.4299,
+    "valor_promedio": 805755797.1087388,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "MUNICIPIO DE ENVIGADO*",
-    "total_contratos": 882,
-    "valor_total": 720567449366.99,
-    "valor_promedio": 816969897.2414852,
+    "total_contratos": 883,
+    "valor_total": 721015837594.28,
+    "valor_promedio": 816552477.4567158,
     "sector": "Cultura"
   },
   {
     "nombre_entidad": "Ministerio de las Culturas, las Artes y los Saberes",
-    "total_contratos": 513,
-    "valor_total": 709373615884.77,
-    "valor_promedio": 1382794572.8747954,
+    "total_contratos": 515,
+    "valor_total": 709684720091.77,
+    "valor_promedio": 1378028582.702466,
     "sector": "Cultura"
   },
   {
@@ -638,23 +638,23 @@
   },
   {
     "nombre_entidad": "SUBRED INTEGRADA DE SERVICIOS DE SALUD SUR OCCIDENTE ESE.",
-    "total_contratos": 1352,
-    "valor_total": 695092409362.99,
-    "valor_promedio": 514121604.55842453,
+    "total_contratos": 1353,
+    "valor_total": 695692409362.99,
+    "valor_promedio": 514185077.1345085,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "DEPARTAMENTO DEL META",
-    "total_contratos": 560,
-    "valor_total": 647903819387.82,
-    "valor_promedio": 1156971106.0496786,
+    "total_contratos": 562,
+    "valor_total": 647941405537.8201,
+    "valor_promedio": 1152920650.4231675,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "ALCALDIA DISTRITAL BARRANCABERMEJA",
-    "total_contratos": 316,
-    "valor_total": 647211452274.84,
-    "valor_promedio": 2048137507.1988606,
+    "total_contratos": 317,
+    "valor_total": 647405097027.84,
+    "valor_promedio": 2042287372.327571,
     "sector": "Servicio Público"
   },
   {
@@ -680,30 +680,37 @@
   },
   {
     "nombre_entidad": "ICBF REGIONAL NORTE DE SANTANDER",
-    "total_contratos": 735,
-    "valor_total": 633402263892.29,
-    "valor_promedio": 861771787.6085578,
+    "total_contratos": 739,
+    "valor_total": 634179030281.29,
+    "valor_promedio": 858158363.0328687,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "GOBERNACION DEL MAGDALENA",
-    "total_contratos": 341,
-    "valor_total": 609663191025.28,
-    "valor_promedio": 1787868595.382053,
+    "total_contratos": 343,
+    "valor_total": 610369603101.28,
+    "valor_promedio": 1779503216.0387173,
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "MUNICIPIO DE NEIVA",
+    "total_contratos": 930,
+    "valor_total": 600427425055.68,
+    "valor_promedio": 645620887.1566452,
+    "sector": "Servicio Público"
+  },
+  {
     "nombre_entidad": "ICBF REGIONAL CALDAS",
-    "total_contratos": 603,
-    "valor_total": 590960315221.69,
-    "valor_promedio": 980033690.2515588,
+    "total_contratos": 604,
+    "valor_total": 591476354189.69,
+    "valor_promedio": 979265487.0690231,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "UARIV-UNIDAD PARA LA ATENCION Y REPARACION INTEGRAL A LAS VICTIMAS",
-    "total_contratos": 248,
-    "valor_total": 583418695140.51,
-    "valor_promedio": 2352494738.4697986,
+    "total_contratos": 250,
+    "valor_total": 585704168482.51,
+    "valor_promedio": 2342816673.93004,
     "sector": "Inclusión Social y Reconciliación"
   },
   {
@@ -715,23 +722,23 @@
   },
   {
     "nombre_entidad": "MUNICIPIO DE BUCARAMANGA",
-    "total_contratos": 604,
-    "valor_total": 578134651401.92,
-    "valor_promedio": 957176575.1687418,
+    "total_contratos": 605,
+    "valor_total": 578224651401.92,
+    "valor_promedio": 955743225.4577191,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "FISCALÍA GENERAL DE LA NACIÓN NIVEL CENTRAL.",
-    "total_contratos": 446,
-    "valor_total": 574189614215.95,
-    "valor_promedio": 1287420659.677018,
+    "total_contratos": 450,
+    "valor_total": 576297739571.95,
+    "valor_promedio": 1280661643.493222,
     "sector": "Ley de Justicia"
   },
   {
     "nombre_entidad": "GOBERNACION DE NARIÑO",
-    "total_contratos": 784,
-    "valor_total": 571170471963.89,
-    "valor_promedio": 728533765.2600638,
+    "total_contratos": 789,
+    "valor_total": 574190461993.05,
+    "valor_promedio": 727744565.2636883,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -756,31 +763,24 @@
     "sector": "Hacienda y Crédito Público"
   },
   {
-    "nombre_entidad": "MUNICIPIO DE NEIVA",
-    "total_contratos": 928,
-    "valor_total": 540376973643.68,
-    "valor_promedio": 582302773.322931,
-    "sector": "Servicio Público"
-  },
-  {
     "nombre_entidad": "ICBF REGIONAL SUCRE",
-    "total_contratos": 579,
-    "valor_total": 540234134267.37,
-    "valor_promedio": 933046864.0196373,
+    "total_contratos": 580,
+    "valor_total": 540473873642.37,
+    "valor_promedio": 931851506.2799482,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "PNNC-NC",
-    "total_contratos": 205,
-    "valor_total": 540214839776.82,
-    "valor_promedio": 2635194340.3747315,
+    "total_contratos": 206,
+    "valor_total": 540259839776.82,
+    "valor_promedio": 2622620581.4408736,
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
     "nombre_entidad": "FONDO NACIONAL DEL AHORRO S.A.",
     "total_contratos": 68,
-    "valor_total": 533479492827.33997,
-    "valor_promedio": 7845286659.225588,
+    "valor_total": 533479492827.34,
+    "valor_promedio": 7845286659.225589,
     "sector": "Vivienda, Ciudad y Territorio"
   },
   {
@@ -799,44 +799,44 @@
   },
   {
     "nombre_entidad": "INSTITUTO COLOMBIANO DE BIENESTAR FAMILIAR REGIONAL BOYACA",
-    "total_contratos": 675,
-    "valor_total": 517894829596.56,
-    "valor_promedio": 767251599.4023111,
+    "total_contratos": 679,
+    "valor_total": 520296680050.56,
+    "valor_promedio": 766269042.7843299,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "GOBERNACIÓN DEPARTAMENTO DEL PUTUMAYO",
-    "total_contratos": 526,
-    "valor_total": 514351976434.99,
-    "valor_promedio": 977855468.5075855,
+    "total_contratos": 527,
+    "valor_total": 514616273772.99,
+    "valor_promedio": 976501468.259943,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "BANCO INMOBILIARIO DE FLORIDABLANCA",
     "total_contratos": 64,
-    "valor_total": 509525110142.07996,
-    "valor_promedio": 7961329845.969999,
+    "valor_total": 509525110142.08,
+    "valor_promedio": 7961329845.97,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "ICBF REGIONAL HUILA",
-    "total_contratos": 531,
-    "valor_total": 495790164375.33,
-    "valor_promedio": 933691458.3339548,
+    "total_contratos": 543,
+    "valor_total": 499840561235.33,
+    "valor_promedio": 920516687.3578821,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "AGENCIA PARA LA INFRAESTRUCTURA DEL META",
-    "total_contratos": 505,
-    "valor_total": 487134680834.45,
-    "valor_promedio": 964623130.3652476,
+    "total_contratos": 506,
+    "valor_total": 487667480834.45,
+    "valor_promedio": 963769724.9692688,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "MUNICIPIO DE ARMENIA QUINDIO",
-    "total_contratos": 284,
-    "valor_total": 477529860574.24,
-    "valor_promedio": 1681443171.0360563,
+    "total_contratos": 285,
+    "valor_total": 477532684910.77997,
+    "valor_promedio": 1675553280.3887017,
     "sector": "Servicio Público"
   },
   {
@@ -855,9 +855,9 @@
   },
   {
     "nombre_entidad": "FONDO ROTATORIO DE LA POLICIA NACIONAL",
-    "total_contratos": 482,
-    "valor_total": 469545181910.19,
-    "valor_promedio": 974160128.4443775,
+    "total_contratos": 483,
+    "valor_total": 469546193410.19,
+    "valor_promedio": 972145327.9714079,
     "sector": "defensa"
   },
   {
@@ -883,9 +883,9 @@
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE APARTADO",
-    "total_contratos": 206,
-    "valor_total": 438944210031.56,
-    "valor_promedio": 2130797136.0755339,
+    "total_contratos": 207,
+    "valor_total": 438980591181.56,
+    "valor_promedio": 2120679184.4519806,
     "sector": "Servicio Público"
   },
   {
@@ -897,16 +897,16 @@
   },
   {
     "nombre_entidad": "IGAC Sede Central *",
-    "total_contratos": 441,
-    "valor_total": 410890325206.64,
-    "valor_promedio": 931724093.439093,
+    "total_contratos": 444,
+    "valor_total": 410989825418.93,
+    "valor_promedio": 925652759.952545,
     "sector": "Información Estadística"
   },
   {
     "nombre_entidad": "CGR-NIVEL CENTRAL",
-    "total_contratos": 119,
-    "valor_total": 409278879552.01,
-    "valor_promedio": 3439318315.5631094,
+    "total_contratos": 121,
+    "valor_total": 410012802644.01,
+    "valor_promedio": 3388535559.041405,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -932,9 +932,9 @@
   },
   {
     "nombre_entidad": "SUBRED INTEGRADA DE SERVICIOS DE SALUD SUR E.S.E.**",
-    "total_contratos": 1043,
-    "valor_total": 392153013875.81,
-    "valor_promedio": 375985631.712186,
+    "total_contratos": 1045,
+    "valor_total": 392197319875.81,
+    "valor_promedio": 375308440.07254547,
     "sector": "Salud y Protección Social"
   },
   {
@@ -959,17 +959,17 @@
     "sector": "defensa"
   },
   {
+    "nombre_entidad": "ALCALDÍA MUNICIPIO DE PALMIRA",
+    "total_contratos": 309,
+    "valor_total": 371052969986.83,
+    "valor_promedio": 1200818673.0965374,
+    "sector": "Servicio Público"
+  },
+  {
     "nombre_entidad": "MUNICIPIO DE SAN JOSE DE CUCUTA.",
     "total_contratos": 432,
     "valor_total": 371040583312.52,
     "valor_promedio": 858890239.149352,
-    "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "ALCALDÍA MUNICIPIO DE PALMIRA",
-    "total_contratos": 308,
-    "valor_total": 370735629057.83,
-    "valor_promedio": 1203687107.330617,
     "sector": "Servicio Público"
   },
   {
@@ -1002,9 +1002,9 @@
   },
   {
     "nombre_entidad": "GOBERNACION DEL CASANARE",
-    "total_contratos": 392,
-    "valor_total": 365673208649.58,
-    "valor_promedio": 932839817.9836226,
+    "total_contratos": 393,
+    "valor_total": 366046260371.58,
+    "valor_promedio": 931415420.7928245,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -1031,22 +1031,22 @@
   {
     "nombre_entidad": "CAMARA DE REPRESENTANTES",
     "total_contratos": 68,
-    "valor_total": 351630232874.91,
-    "valor_promedio": 5171032836.395735,
+    "valor_total": 351630232874.91003,
+    "valor_promedio": 5171032836.395736,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "MUNICIPIO DE TOCANCIPA",
     "total_contratos": 186,
-    "valor_total": 344770634548.33997,
-    "valor_promedio": 1853605562.0878494,
+    "valor_total": 344770634548.34,
+    "valor_promedio": 1853605562.0878496,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "CORPORACIÓN AUTÓNOMA REGIONAL DEL CENTRO DE ANTIOQUIA",
-    "total_contratos": 806,
-    "valor_total": 343678758049.15,
-    "valor_promedio": 426400444.2297147,
+    "total_contratos": 807,
+    "valor_total": 343680338049.15,
+    "valor_promedio": 425874024.8440521,
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
@@ -1058,9 +1058,9 @@
   },
   {
     "nombre_entidad": "PROCURADURIA GENERAL DE LA NACION",
-    "total_contratos": 181,
-    "valor_total": 336006427149.27,
-    "valor_promedio": 1856389100.2722101,
+    "total_contratos": 185,
+    "valor_total": 336141357645.27,
+    "valor_promedio": 1816980311.596054,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -1071,6 +1071,13 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "SANTIAGO DE CALI DISTRITO ESPECIAL - SECRETARIA DE INFRAESTRUCTURA",
+    "total_contratos": 80,
+    "valor_total": 331481454931.0,
+    "valor_promedio": 4143518186.6375,
+    "sector": "No aplica/No pertenece"
+  },
+  {
     "nombre_entidad": "FONDO ADAPTACIÓN",
     "total_contratos": 144,
     "valor_total": 328106270007.66,
@@ -1078,18 +1085,18 @@
     "sector": "Hacienda y Crédito Público"
   },
   {
+    "nombre_entidad": "MINVIVIENDA",
+    "total_contratos": 338,
+    "valor_total": 327066283200.55,
+    "valor_promedio": 967651725.4454142,
+    "sector": "Vivienda, Ciudad y Territorio"
+  },
+  {
     "nombre_entidad": "GOBERNACIÓN VALLE DEL CAUCA -SECRETARIA DE SALUD",
     "total_contratos": 569,
     "valor_total": 325920935580.68,
     "valor_promedio": 572796020.3526889,
     "sector": "Salud y Protección Social"
-  },
-  {
-    "nombre_entidad": "MINVIVIENDA",
-    "total_contratos": 336,
-    "valor_total": 324688597281.55,
-    "valor_promedio": 966335110.956994,
-    "sector": "Vivienda, Ciudad y Territorio"
   },
   {
     "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DE REHABILITACIÓN Y MANTENIMIENTO VIAL",
@@ -1100,9 +1107,9 @@
   },
   {
     "nombre_entidad": "INSTITUTO DE DEPORTES Y RECREACION DE MEDELLIN",
-    "total_contratos": 542,
+    "total_contratos": 551,
     "valor_total": 323882088864.0,
-    "valor_promedio": 597568429.6383764,
+    "valor_promedio": 587807783.7822142,
     "sector": "deportes"
   },
   {
@@ -1120,13 +1127,6 @@
     "sector": "Salud y Protección Social"
   },
   {
-    "nombre_entidad": "SANTIAGO DE CALI DISTRITO ESPECIAL - SECRETARIA DE INFRAESTRUCTURA",
-    "total_contratos": 79,
-    "valor_total": 316865187481.0,
-    "valor_promedio": 4010951740.265823,
-    "sector": "No aplica/No pertenece"
-  },
-  {
     "nombre_entidad": "SECRETARIA DE INFRAESTRUCTURA - GOBERNACION DEL VALLE",
     "total_contratos": 94,
     "valor_total": 315771778986.5,
@@ -1135,16 +1135,16 @@
   },
   {
     "nombre_entidad": "ICBF REGIONAL CAQUETA",
-    "total_contratos": 408,
-    "valor_total": 312866021229.67,
-    "valor_promedio": 766828483.4060539,
+    "total_contratos": 411,
+    "valor_total": 315732118010.67,
+    "valor_promedio": 768204666.6926277,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "ESAP SEDE CENTRAL (Cuenta Oficial)",
-    "total_contratos": 520,
-    "valor_total": 310869042299.72003,
-    "valor_promedio": 597825081.3456154,
+    "total_contratos": 522,
+    "valor_total": 310952558049.72,
+    "valor_promedio": 595694555.6508045,
     "sector": "Servicio Público"
   },
   {
@@ -1212,9 +1212,9 @@
   },
   {
     "nombre_entidad": "GOBERNACIÓN DEL DEPARTAMENTO ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA",
-    "total_contratos": 212,
-    "valor_total": 279674473682.3,
-    "valor_promedio": 1319219215.482547,
+    "total_contratos": 213,
+    "valor_total": 279713671682.3,
+    "valor_promedio": 1313209726.207981,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -1226,16 +1226,16 @@
   },
   {
     "nombre_entidad": "INSTITUTO COLOMBIANO AGROPECUARIO - ICA",
-    "total_contratos": 693,
-    "valor_total": 272675313182.58,
-    "valor_promedio": 393470870.3933333,
+    "total_contratos": 695,
+    "valor_total": 272699300182.58,
+    "valor_promedio": 392373093.7878849,
     "sector": "agricultura"
   },
   {
     "nombre_entidad": "MUNICIPIO DE TUNJA/",
-    "total_contratos": 286,
-    "valor_total": 272611530067.38,
-    "valor_promedio": 953187168.0677623,
+    "total_contratos": 287,
+    "valor_total": 272656529917.38,
+    "valor_promedio": 950022752.3253659,
     "sector": "Servicio Público"
   },
   {
@@ -1260,6 +1260,13 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "ALCALDIA MUNICIPAL DE CHIA",
+    "total_contratos": 347,
+    "valor_total": 257338037143.13998,
+    "valor_promedio": 741608176.2050143,
+    "sector": "Servicio Público"
+  },
+  {
     "nombre_entidad": "MUNICIPIO SAN VICENTE DEL CAGUAN",
     "total_contratos": 138,
     "valor_total": 256923499615.12,
@@ -1268,16 +1275,16 @@
   },
   {
     "nombre_entidad": "CVC",
-    "total_contratos": 358,
-    "valor_total": 256381095515.14,
-    "valor_promedio": 716148311.4948045,
+    "total_contratos": 359,
+    "valor_total": 256445313443.14,
+    "valor_promedio": 714332349.4237883,
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
     "nombre_entidad": "MUNICIPIO DE FUNZA - ALCALDÍA DE FUNZA",
-    "total_contratos": 256,
-    "valor_total": 255562544745.02,
-    "valor_promedio": 998291190.4102343,
+    "total_contratos": 257,
+    "valor_total": 255607544395.02,
+    "valor_promedio": 994581884.8055253,
     "sector": "Servicio Público"
   },
   {
@@ -1331,15 +1338,15 @@
   },
   {
     "nombre_entidad": "SENA REGIONAL VALLE Grupo de Apoyo Administrativo Mixto",
-    "total_contratos": 752,
-    "valor_total": 244446193345.24,
-    "valor_promedio": 325061427.32079786,
+    "total_contratos": 753,
+    "valor_total": 244452071945.24,
+    "valor_promedio": 324637545.7440106,
     "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "SANTIAGO DE CALI  DISTRITO ESPECIAL - SECRETARIA DE CULTURA",
     "total_contratos": 206,
-    "valor_total": 244365809911.16998,
+    "valor_total": 244365809911.17,
     "valor_promedio": 1186241795.6852913,
     "sector": "Cultura"
   },
@@ -1381,29 +1388,36 @@
   {
     "nombre_entidad": "ESE HOSPITAL LOCAL CARTAGENA DE INDIAS.*",
     "total_contratos": 188,
-    "valor_total": 228259744726.96,
-    "valor_promedio": 1214147578.3348935,
+    "valor_total": 228259744726.96002,
+    "valor_promedio": 1214147578.3348937,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "Empresa de Desarrollo Urbano de La Ceja",
     "total_contratos": 138,
-    "valor_total": 227465327414.86,
-    "valor_promedio": 1648299474.0207245,
+    "valor_total": 227465327414.86002,
+    "valor_promedio": 1648299474.0207248,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "ALCALDIA DEL MUNICIPIO DE ACACIAS",
-    "total_contratos": 151,
-    "valor_total": 225289848964.33,
-    "valor_promedio": 1491985754.730662,
+    "total_contratos": 152,
+    "valor_total": 225697393694.33002,
+    "valor_promedio": 1484851274.3048027,
     "sector": "Servicio Público"
+  },
+  {
+    "nombre_entidad": "ICBF REGIONAL CASANARE",
+    "total_contratos": 211,
+    "valor_total": 224563837782.92,
+    "valor_promedio": 1064283591.3882465,
+    "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "CORPORACIÓN AUTÓNOMA REGIONAL DEL CANAL DEL DIQUE",
     "total_contratos": 118,
-    "valor_total": 224380276536.86,
-    "valor_promedio": 1901527767.2615254,
+    "valor_total": 224380276536.86002,
+    "valor_promedio": 1901527767.2615256,
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
@@ -1419,13 +1433,6 @@
     "valor_total": 222744327292.42,
     "valor_promedio": 203048611.93474934,
     "sector": "Ambiente y Desarrollo Sostenible"
-  },
-  {
-    "nombre_entidad": "ICBF REGIONAL CASANARE",
-    "total_contratos": 203,
-    "valor_total": 222703119402.92,
-    "valor_promedio": 1097059701.4922168,
-    "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DE GESTION DE RESTITUCION DE TIERRAS DESPOJADAS**",
@@ -1446,13 +1453,6 @@
     "total_contratos": 260,
     "valor_total": 217961911586.7,
     "valor_promedio": 838315044.5642308,
-    "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "ALCALDIA MUNICIPAL DE CHIA",
-    "total_contratos": 345,
-    "valor_total": 217293037143.14,
-    "valor_promedio": 629834890.269971,
     "sector": "Servicio Público"
   },
   {
@@ -1506,16 +1506,16 @@
   },
   {
     "nombre_entidad": "SUPERINTENDENCIA DE NOTARIADO Y REGISTRO",
-    "total_contratos": 582,
-    "valor_total": 202174296867.05,
-    "valor_promedio": 347378516.95369416,
+    "total_contratos": 583,
+    "valor_total": 202269296867.05,
+    "valor_promedio": 346945620.698199,
     "sector": "Ley de Justicia"
   },
   {
     "nombre_entidad": "GOBERNACION DEL VALLE DEL CAUCA - SECRETARIA DE EDUCACION",
     "total_contratos": 203,
-    "valor_total": 202126161977.97998,
-    "valor_promedio": 995695379.2018719,
+    "valor_total": 202126161977.98,
+    "valor_promedio": 995695379.201872,
     "sector": "Educación Nacional"
   },
   {
@@ -1577,7 +1577,7 @@
   {
     "nombre_entidad": "DIRECCION DE BIENESTAR DE LA POLICIA NACIONAL",
     "total_contratos": 160,
-    "valor_total": 186361016013.61,
+    "valor_total": 186361016013.61002,
     "valor_promedio": 1164756350.0850625,
     "sector": "defensa"
   },
@@ -1597,9 +1597,9 @@
   },
   {
     "nombre_entidad": "SANTIAGO DE CALI DISTRITO ESPECIAL - SECRETARIA DISTRITAL DE SALUD DE CALI",
-    "total_contratos": 318,
-    "valor_total": 183633033973.2,
-    "valor_promedio": 577462370.9849057,
+    "total_contratos": 319,
+    "valor_total": 183651415673.2,
+    "valor_promedio": 575709767.000627,
     "sector": "Salud y Protección Social"
   },
   {
@@ -1646,16 +1646,16 @@
   },
   {
     "nombre_entidad": "ASOCIACION DE MUNICIPIOS DEL URABA ANTIOQUEÑO - ASOMURA",
-    "total_contratos": 51,
-    "valor_total": 171669479248.14,
-    "valor_promedio": 3366068220.551765,
+    "total_contratos": 53,
+    "valor_total": 172831334248.14,
+    "valor_promedio": 3260968570.719623,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "ANSV",
-    "total_contratos": 199,
+    "total_contratos": 202,
     "valor_total": 171480402953.1,
-    "valor_promedio": 861710567.6035177,
+    "valor_promedio": 848912885.9064357,
     "sector": "Transporte"
   },
   {
@@ -1674,9 +1674,9 @@
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE DOSQUEBRADAS",
-    "total_contratos": 251,
-    "valor_total": 170035758655.69,
-    "valor_promedio": 677433301.4170916,
+    "total_contratos": 252,
+    "valor_total": 170231219645.69,
+    "valor_promedio": 675520712.8797222,
     "sector": "Servicio Público"
   },
   {
@@ -1744,16 +1744,16 @@
   },
   {
     "nombre_entidad": "MUNICIPIO DE PIEDECUESTA",
-    "total_contratos": 353,
-    "valor_total": 162200132646.73,
-    "valor_promedio": 459490460.7556091,
+    "total_contratos": 354,
+    "valor_total": 162212972646.73,
+    "valor_promedio": 458228736.2901978,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "ALCALDIA DE PASTO",
-    "total_contratos": 580,
-    "valor_total": 159644227505.48,
-    "valor_promedio": 275248668.11289656,
+    "total_contratos": 581,
+    "valor_total": 159692100305.48,
+    "valor_promedio": 274857315.4999656,
     "sector": "Servicio Público"
   },
   {
@@ -1800,9 +1800,9 @@
   },
   {
     "nombre_entidad": "INSTITUTO NACIONAL DE VIGILANCIA DE MEDICAMENTOS Y ALIMENTOS //",
-    "total_contratos": 659,
-    "valor_total": 153794912802.68,
-    "valor_promedio": 233376195.4517147,
+    "total_contratos": 660,
+    "valor_total": 153911492802.68,
+    "valor_promedio": 233199231.5192121,
     "sector": "Salud y Protección Social"
   },
   {
@@ -1842,23 +1842,23 @@
   },
   {
     "nombre_entidad": "ALCALDIA LOCAL DE USAQUEN",
-    "total_contratos": 221,
-    "valor_total": 147813327067.97,
-    "valor_promedio": 668838584.0179638,
+    "total_contratos": 223,
+    "valor_total": 149160172871.97,
+    "valor_promedio": 668879698.9774439,
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "UNIDADES TECNOLOGICAS DE SANTANDER",
-    "total_contratos": 153,
-    "valor_total": 146894914134.32,
-    "valor_promedio": 960097478.0020915,
+    "nombre_entidad": "ALCALDIA MUNICIPAL DE PUERTO BOYACA - BOYACA",
+    "total_contratos": 296,
+    "valor_total": 147089192480.27,
+    "valor_promedio": 496922947.5684797,
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "ALCALDIA MUNICIPAL DE PUERTO BOYACA - BOYACA",
-    "total_contratos": 295,
-    "valor_total": 146856674337.27,
-    "valor_promedio": 497819235.0415932,
+    "nombre_entidad": "UNIDADES TECNOLOGICAS DE SANTANDER",
+    "total_contratos": 154,
+    "valor_total": 146905314134.32,
+    "valor_promedio": 953930611.2618182,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -1904,6 +1904,13 @@
     "sector": "Salud y Protección Social"
   },
   {
+    "nombre_entidad": "SANTIAGO DE CALI DISTRITO ESPECIAL- UNIDAD ADMINISTRATIVA ESPECIAL DE GESTION DE BIENES Y SERVICIOS - CALI",
+    "total_contratos": 237,
+    "valor_total": 144721010788.21,
+    "valor_promedio": 610637176.3215611,
+    "sector": "No aplica/No pertenece"
+  },
+  {
     "nombre_entidad": "RASES - HUILA No.2",
     "total_contratos": 500,
     "valor_total": 144416559071.57,
@@ -1912,23 +1919,16 @@
   },
   {
     "nombre_entidad": "MUNICIPIO DE GUARNE",
-    "total_contratos": 301,
-    "valor_total": 141978711599.01,
-    "valor_promedio": 471690071.75750834,
+    "total_contratos": 304,
+    "valor_total": 142041012203.01,
+    "valor_promedio": 467240171.7204277,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPAL DE FACATATIVA",
     "total_contratos": 226,
-    "valor_total": 141793815086.13998,
-    "valor_promedio": 627406261.4430972,
-    "sector": "No aplica/No pertenece"
-  },
-  {
-    "nombre_entidad": "SANTIAGO DE CALI DISTRITO ESPECIAL- UNIDAD ADMINISTRATIVA ESPECIAL DE GESTION DE BIENES Y SERVICIOS - CALI",
-    "total_contratos": 234,
-    "valor_total": 141077432328.0,
-    "valor_promedio": 602895009.948718,
+    "valor_total": 141793815086.14,
+    "valor_promedio": 627406261.4430974,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -1940,9 +1940,9 @@
   },
   {
     "nombre_entidad": "MUNICIPIO DE GOMEZ PLATA",
-    "total_contratos": 121,
-    "valor_total": 140324071398.69,
-    "valor_promedio": 1159703069.4106612,
+    "total_contratos": 122,
+    "valor_total": 140352059802.69,
+    "valor_promedio": 1150426719.6941803,
     "sector": "Servicio Público"
   },
   {
@@ -1955,8 +1955,8 @@
   {
     "nombre_entidad": "MUNICIPIO DE YOPAL..",
     "total_contratos": 242,
-    "valor_total": 139235661648.08002,
-    "valor_promedio": 575353973.7523968,
+    "valor_total": 139235661648.08,
+    "valor_promedio": 575353973.7523966,
     "sector": "Servicio Público"
   },
   {
@@ -1969,15 +1969,15 @@
   {
     "nombre_entidad": "CONGRESO DE LA REPÚBLICA - HONORABLE SENADO DE LA REPÚBLICA",
     "total_contratos": 101,
-    "valor_total": 137575751120.66998,
-    "valor_promedio": 1362136149.7096038,
+    "valor_total": 137575751120.67,
+    "valor_promedio": 1362136149.709604,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "UNIDAD DE GESTION PENSIONAL Y PARAFISCALES - UGPP",
-    "total_contratos": 148,
-    "valor_total": 135705864216.27,
-    "valor_promedio": 916931514.9747974,
+    "total_contratos": 149,
+    "valor_total": 135898600011.27,
+    "valor_promedio": 912071141.015235,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -2010,9 +2010,9 @@
   },
   {
     "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL MIGRACION COLOMBIA-*",
-    "total_contratos": 403,
-    "valor_total": 132024021135.51,
-    "valor_promedio": 327603030.11292803,
+    "total_contratos": 404,
+    "valor_total": 132058021135.51,
+    "valor_promedio": 326876289.9393812,
     "sector": "Relaciones Exteriores"
   },
   {
@@ -2086,10 +2086,17 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "SIC SUPERINTENDENCIA DE INDUSTRIA Y COMERCIO",
+    "total_contratos": 305,
+    "valor_total": 125537674511.94,
+    "valor_promedio": 411598932.8260328,
+    "sector": "Industria"
+  },
+  {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE CAJICA",
-    "total_contratos": 334,
-    "valor_total": 123204390075.79001,
-    "valor_promedio": 368875419.38859284,
+    "total_contratos": 336,
+    "valor_total": 123234390075.79001,
+    "valor_promedio": 366769018.08270836,
     "sector": "Servicio Público"
   },
   {
@@ -2101,16 +2108,16 @@
   },
   {
     "nombre_entidad": "ANM",
-    "total_contratos": 289,
-    "valor_total": 122056292943.21,
-    "valor_promedio": 422340113.990346,
+    "total_contratos": 290,
+    "valor_total": 122067736760.21,
+    "valor_promedio": 420923230.20762074,
     "sector": "Minas y Energía"
   },
   {
     "nombre_entidad": "MINISTERIO DE COMERCIO INDUSTRIA Y TURISMO - MINCIT",
-    "total_contratos": 168,
-    "valor_total": 121294279309.61,
-    "valor_promedio": 721989757.7952976,
+    "total_contratos": 169,
+    "valor_total": 121794263437.61,
+    "valor_promedio": 720676115.0154438,
     "sector": "Industria"
   },
   {
@@ -2121,17 +2128,10 @@
     "sector": "Minas y Energía"
   },
   {
-    "nombre_entidad": "SIC SUPERINTENDENCIA DE INDUSTRIA Y COMERCIO",
-    "total_contratos": 304,
-    "valor_total": 120692900801.94,
-    "valor_promedio": 397016121.0590132,
-    "sector": "Industria"
-  },
-  {
     "nombre_entidad": "IDARTES",
-    "total_contratos": 3351,
+    "total_contratos": 3356,
     "valor_total": 119942509853.31,
-    "valor_promedio": 35793049.792094894,
+    "valor_promedio": 35739722.8406764,
     "sector": "Cultura"
   },
   {
@@ -2149,10 +2149,17 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "ADRES",
+    "total_contratos": 107,
+    "valor_total": 116376016669.20999,
+    "valor_promedio": 1087626324.0113084,
+    "sector": "Salud y Protección Social"
+  },
+  {
     "nombre_entidad": "REGIONAL DE ASEGURAMIENTO EN SALUD No. 5",
-    "total_contratos": 327,
-    "valor_total": 114993631914.77,
-    "valor_promedio": 351662482.9197859,
+    "total_contratos": 328,
+    "valor_total": 115073631914.77,
+    "valor_promedio": 350834243.6425915,
     "sector": "defensa"
   },
   {
@@ -2170,17 +2177,17 @@
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "ADRES",
-    "total_contratos": 105,
-    "valor_total": 113540516669.20999,
-    "valor_promedio": 1081338253.9924762,
+    "nombre_entidad": "ICBF REGIONAL ARAUCA *",
+    "total_contratos": 169,
+    "valor_total": 112979095950.12,
+    "valor_promedio": 668515360.6515976,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "MUNICIPIO DE CARTAGO",
-    "total_contratos": 269,
-    "valor_total": 111819701215.11,
-    "valor_promedio": 415686621.6175093,
+    "total_contratos": 271,
+    "valor_total": 111925201215.11,
+    "valor_promedio": 413008122.5649816,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -2189,13 +2196,6 @@
     "valor_total": 110967716462.28,
     "valor_promedio": 672531614.9229091,
     "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "ICBF REGIONAL ARAUCA *",
-    "total_contratos": 165,
-    "valor_total": 107944779206.12,
-    "valor_promedio": 654210783.0673939,
-    "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "ORQUESTA FILARMONICA DE BOGOTA",
@@ -2220,9 +2220,9 @@
   },
   {
     "nombre_entidad": "HOSPITAL CENTRAL DE LA POLICIA",
-    "total_contratos": 690,
-    "valor_total": 106139516325.24,
-    "valor_promedio": 153825385.9786087,
+    "total_contratos": 691,
+    "valor_total": 106166016325.24,
+    "valor_promedio": 153641123.48081043,
     "sector": "defensa"
   },
   {
@@ -2248,16 +2248,16 @@
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPAL DE GIRARDOT",
-    "total_contratos": 130,
-    "valor_total": 103373131583.92,
-    "valor_promedio": 795177935.260923,
+    "total_contratos": 131,
+    "valor_total": 103602131583.92,
+    "valor_promedio": 790855966.2894657,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "SUPERINTENDENCIA DE SERVICIOS PÚBLICOS DOMICILIARIOS",
-    "total_contratos": 203,
-    "valor_total": 102940933133.86,
-    "valor_promedio": 507098192.77763546,
+    "total_contratos": 204,
+    "valor_total": 102960183713.86,
+    "valor_promedio": 504706782.91107845,
     "sector": "Planeación"
   },
   {
@@ -2276,9 +2276,9 @@
   },
   {
     "nombre_entidad": "ARMADA NACIONAL BASE NAVAL ARC MALAGA",
-    "total_contratos": 332,
-    "valor_total": 99823325686.47,
-    "valor_promedio": 300672667.7303313,
+    "total_contratos": 333,
+    "valor_total": 99966582194.47,
+    "valor_promedio": 300199946.52993995,
     "sector": "defensa"
   },
   {
@@ -2297,9 +2297,9 @@
   },
   {
     "nombre_entidad": "ICBF REGIONAL AMAZONAS",
-    "total_contratos": 92,
-    "valor_total": 97559922882.98,
-    "valor_promedio": 1060433944.3802173,
+    "total_contratos": 93,
+    "valor_total": 97889808810.98,
+    "valor_promedio": 1052578589.3653764,
     "sector": "Salud y Protección Social"
   },
   {
@@ -2325,9 +2325,9 @@
   },
   {
     "nombre_entidad": "INSTITUCIÓN UNIVERSITARIA ITM",
-    "total_contratos": 520,
-    "valor_total": 96387282426.03,
-    "valor_promedio": 185360158.51159614,
+    "total_contratos": 523,
+    "valor_total": 96452744683.03,
+    "valor_promedio": 184422073.9637285,
     "sector": "Educación Nacional"
   },
   {
@@ -2347,8 +2347,8 @@
   {
     "nombre_entidad": "FONDO DE DESARROLLO LOCAL DE SANTA FE",
     "total_contratos": 128,
-    "valor_total": 94931396828.71,
-    "valor_promedio": 741651537.7242969,
+    "valor_total": 94931396828.70999,
+    "valor_promedio": 741651537.7242968,
     "sector": "Servicio Público"
   },
   {
@@ -2380,18 +2380,18 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "SUPERINTENDENCIA FINANCIERA DE COLOMBIA**",
+    "total_contratos": 299,
+    "valor_total": 94000869090.21,
+    "valor_promedio": 314384177.5592308,
+    "sector": "Hacienda y Crédito Público"
+  },
+  {
     "nombre_entidad": "DIRECCIÓN TERRITORIAL DE SALUD DE CALDAS",
     "total_contratos": 731,
     "valor_total": 93330865553.53,
     "valor_promedio": 127675602.67240766,
     "sector": "Salud y Protección Social"
-  },
-  {
-    "nombre_entidad": "SUPERINTENDENCIA FINANCIERA DE COLOMBIA**",
-    "total_contratos": 298,
-    "valor_total": 93240600692.21,
-    "valor_promedio": 312887921.78593963,
-    "sector": "Hacienda y Crédito Público"
   },
   {
     "nombre_entidad": "ALCALDIA LOCAL DE SUMAPAZ",
@@ -2430,16 +2430,16 @@
   },
   {
     "nombre_entidad": "INSTITUCION UNIVERSITARIA DE ENVIGADO",
-    "total_contratos": 95,
-    "valor_total": 91159763601.58,
-    "valor_promedio": 959576458.964,
+    "total_contratos": 96,
+    "valor_total": 91331082101.58,
+    "valor_promedio": 951365438.558125,
     "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "INSTITUTO DEPARTAMENTAL DE SALUD DE NARIÑO",
-    "total_contratos": 408,
-    "valor_total": 90811553310.07,
-    "valor_promedio": 222577336.54428923,
+    "total_contratos": 409,
+    "valor_total": 91065089266.07,
+    "valor_promedio": 222653029.99039122,
     "sector": "Salud y Protección Social"
   },
   {
@@ -2448,6 +2448,13 @@
     "valor_total": 90645633208.25,
     "valor_promedio": 1105434551.320122,
     "sector": "Educación Nacional"
+  },
+  {
+    "nombre_entidad": "MUNICIPIO DE LA CEJA",
+    "total_contratos": 224,
+    "valor_total": 90372162894.36,
+    "valor_promedio": 403447155.77839285,
+    "sector": "interior"
   },
   {
     "nombre_entidad": "MUNICIPIO DE CHIQUINQUIRA+",
@@ -2471,24 +2478,17 @@
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "MUNICIPIO DE LA CEJA",
-    "total_contratos": 222,
-    "valor_total": 89419276745.36,
-    "valor_promedio": 402789534.889009,
-    "sector": "interior"
-  },
-  {
     "nombre_entidad": "UAE FONDO NACIONAL DE ESTUPEFACIENTES",
-    "total_contratos": 237,
-    "valor_total": 88466029213.79,
-    "valor_promedio": 373274384.8683122,
+    "total_contratos": 238,
+    "valor_total": 88707429213.79,
+    "valor_promedio": 372720290.8142437,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "MUNICIPIO EL RETIRO",
-    "total_contratos": 253,
-    "valor_total": 88451427921.86,
-    "valor_promedio": 349610387.0429249,
+    "total_contratos": 254,
+    "valor_total": 88667734223.86,
+    "valor_promedio": 349085567.8104724,
     "sector": "Servicio Público"
   },
   {
@@ -2506,18 +2506,18 @@
     "sector": "Minas y Energía"
   },
   {
+    "nombre_entidad": "SENA REGIONAL ANTIOQUIA Grupo de Apoyo Administrativo Mixto",
+    "total_contratos": 384,
+    "valor_total": 86993179168.36,
+    "valor_promedio": 226544737.41760418,
+    "sector": "Trabajo"
+  },
+  {
     "nombre_entidad": "UNIDAD PARA LAS VÍCTIMAS - FONDO PARA LA REPARACIÓN DE LAS VÍCTIMAS",
     "total_contratos": 39,
     "valor_total": 86592761975.37,
     "valor_promedio": 2220327230.137692,
     "sector": "Inclusión Social y Reconciliación"
-  },
-  {
-    "nombre_entidad": "SENA REGIONAL ANTIOQUIA Grupo de Apoyo Administrativo Mixto",
-    "total_contratos": 380,
-    "valor_total": 86165052021.36,
-    "valor_promedio": 226750136.8983158,
-    "sector": "Trabajo"
   },
   {
     "nombre_entidad": "Asociacion de Municipios y Esquema Asociativo Territorial denominado Desarrollo Sostenible y Equidad Territorial",
@@ -2563,9 +2563,9 @@
   },
   {
     "nombre_entidad": "INSTITUTO DISTRITAL PARA LA PROTECCIÓN DE LA NIÑEZ Y LA JUVENTUD - IDIPRON*",
-    "total_contratos": 372,
-    "valor_total": 81952328633.38,
-    "valor_promedio": 220301958.69188175,
+    "total_contratos": 373,
+    "valor_total": 82086247647.38,
+    "valor_promedio": 220070369.02782843,
     "sector": "Salud y Protección Social"
   },
   {
@@ -2585,15 +2585,15 @@
   {
     "nombre_entidad": "BASPC Nº 19 *",
     "total_contratos": 199,
-    "valor_total": 81475317302.04001,
-    "valor_promedio": 409423705.0353769,
+    "valor_total": 81475317302.04,
+    "valor_promedio": 409423705.03537685,
     "sector": "defensa"
   },
   {
     "nombre_entidad": "SECRETARIA DISTRITAL DE LA MUJER",
     "total_contratos": 165,
-    "valor_total": 81239177935.56999,
-    "valor_promedio": 492358654.15496963,
+    "valor_total": 81239177935.57,
+    "valor_promedio": 492358654.15496975,
     "sector": "Servicio Público"
   },
   {
@@ -2613,8 +2613,8 @@
   {
     "nombre_entidad": "TERMINAL DE TRANSPORTE S.A",
     "total_contratos": 118,
-    "valor_total": 80476535792.32,
-    "valor_promedio": 682004540.6128814,
+    "valor_total": 80476535792.31999,
+    "valor_promedio": 682004540.6128813,
     "sector": "Transporte"
   },
   {
@@ -2646,18 +2646,18 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "INSTITUTO MUNICIPAL PARA EL DEPORTE Y LA RECREACION DE IBAGUE",
+    "total_contratos": 155,
+    "valor_total": 78755423552.45,
+    "valor_promedio": 508099506.78999996,
+    "sector": "deportes"
+  },
+  {
     "nombre_entidad": "Universidad del Atlántico",
     "total_contratos": 296,
     "valor_total": 78494767116.88,
     "valor_promedio": 265185024.04351354,
     "sector": "Educación Nacional"
-  },
-  {
-    "nombre_entidad": "INSTITUTO MUNICIPAL PARA EL DEPORTE Y LA RECREACION DE IBAGUE",
-    "total_contratos": 154,
-    "valor_total": 78145586463.45,
-    "valor_promedio": 507438873.1392857,
-    "sector": "deportes"
   },
   {
     "nombre_entidad": "AUTORIDAD NACIONAL DE LICENCIAS AMBIENTALES - ANLA",
@@ -2822,9 +2822,9 @@
   },
   {
     "nombre_entidad": "CAJA DE LA VIVIENDA POPULAR//",
-    "total_contratos": 148,
-    "valor_total": 73337450276.54,
-    "valor_promedio": 495523312.67932427,
+    "total_contratos": 149,
+    "valor_total": 73413635334.54,
+    "valor_promedio": 492708961.9767785,
     "sector": "Vivienda, Ciudad y Territorio"
   },
   {
@@ -2849,17 +2849,24 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "SANTIAGO DE CALI DISTRITO ESPECIAL - SECRETARIA DE VIVIENDA SOCIAL Y HABITAT",
+    "total_contratos": 24,
+    "valor_total": 72701381374.0,
+    "valor_promedio": 3029224223.9166665,
+    "sector": "Vivienda, Ciudad y Territorio"
+  },
+  {
     "nombre_entidad": "INSTITUTO DE TURISMO DEL META",
     "total_contratos": 60,
-    "valor_total": 72500776288.57,
-    "valor_promedio": 1208346271.4761667,
+    "valor_total": 72500776288.56999,
+    "valor_promedio": 1208346271.4761665,
     "sector": "Industria"
   },
   {
     "nombre_entidad": "CORPORACION AUTONOMA REGIONAL DE LA FRONTERA NORORIENTAL+",
-    "total_contratos": 127,
-    "valor_total": 72267301987.1,
-    "valor_promedio": 569033873.9141732,
+    "total_contratos": 128,
+    "valor_total": 72305995675.1,
+    "valor_promedio": 564890591.2117188,
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
@@ -2878,9 +2885,9 @@
   },
   {
     "nombre_entidad": "ALCADIA MUNICIPAL DE COPACABANA",
-    "total_contratos": 125,
-    "valor_total": 70841650719.73999,
-    "valor_promedio": 566733205.7579199,
+    "total_contratos": 126,
+    "valor_total": 70846650719.81,
+    "valor_promedio": 562275005.7127777,
     "sector": "Servicio Público"
   },
   {
@@ -2906,10 +2913,17 @@
   },
   {
     "nombre_entidad": "CORPOCESAR",
-    "total_contratos": 52,
-    "valor_total": 69879363373.2,
-    "valor_promedio": 1343833911.0230768,
+    "total_contratos": 53,
+    "valor_total": 70078632191.2,
+    "valor_promedio": 1322238343.2301886,
     "sector": "Ambiente y Desarrollo Sostenible"
+  },
+  {
+    "nombre_entidad": "MUNICIPIO DE YARUMAL",
+    "total_contratos": 220,
+    "valor_total": 69419373552.16,
+    "valor_promedio": 315542607.05527276,
+    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "CORPOAMAZONIA - CORPORACIÓN PARA EL DESARROLLO SOSTENIBLE DEL SUR DE LA AMAZONIA1",
@@ -2920,9 +2934,9 @@
   },
   {
     "nombre_entidad": "RNEC",
-    "total_contratos": 529,
-    "valor_total": 68570862990.99,
-    "valor_promedio": 129623559.52928166,
+    "total_contratos": 530,
+    "valor_total": 68657312990.99,
+    "valor_promedio": 129542099.983,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -2955,9 +2969,9 @@
   },
   {
     "nombre_entidad": "SENA REGIONAL SANTANDER Grupo de Apoyo Administrativo Mixto",
-    "total_contratos": 623,
-    "valor_total": 66584641181.89,
-    "valor_promedio": 106877433.67879614,
+    "total_contratos": 625,
+    "valor_total": 66686229481.89,
+    "valor_promedio": 106697967.171024,
     "sector": "Trabajo"
   },
   {
@@ -2966,13 +2980,6 @@
     "valor_total": 66473757974.0,
     "valor_promedio": 1384869957.7916667,
     "sector": "Trabajo"
-  },
-  {
-    "nombre_entidad": "MUNICIPIO DE YARUMAL",
-    "total_contratos": 218,
-    "valor_total": 66399176872.16,
-    "valor_promedio": 304583380.1475229,
-    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "MUNICIPIO DE PUERTO GAITAN",
@@ -3046,16 +3053,16 @@
   },
   {
     "nombre_entidad": "REGIONAL DE ASEGURAMIENTO EN SALUD No.7",
-    "total_contratos": 289,
-    "valor_total": 63414180244.8,
-    "valor_promedio": 219426229.22076127,
+    "total_contratos": 290,
+    "valor_total": 63502375244.8,
+    "valor_promedio": 218973707.74068967,
     "sector": "defensa"
   },
   {
     "nombre_entidad": "IDS",
-    "total_contratos": 144,
-    "valor_total": 62296557613.96,
-    "valor_promedio": 432614983.43027776,
+    "total_contratos": 145,
+    "valor_total": 62410682613.96,
+    "valor_promedio": 430418500.78593105,
     "sector": "Salud y Protección Social"
   },
   {
@@ -3081,16 +3088,16 @@
   },
   {
     "nombre_entidad": "INDEPORTES CUNDINAMARCA",
-    "total_contratos": 373,
-    "valor_total": 61439458788.79,
-    "valor_promedio": 164717047.69112602,
+    "total_contratos": 374,
+    "valor_total": 61457227788.79,
+    "valor_promedio": 164324138.47270054,
     "sector": "deportes"
   },
   {
     "nombre_entidad": "DIRECCIÓN DE INTELIGENCIA POLICIAL",
-    "total_contratos": 179,
-    "valor_total": 61393760702.75,
-    "valor_promedio": 342981903.36731845,
+    "total_contratos": 180,
+    "valor_total": 61401900302.75,
+    "valor_promedio": 341121668.3486111,
     "sector": "defensa"
   },
   {
@@ -3152,8 +3159,8 @@
   {
     "nombre_entidad": "FISCALÍA GENERAL DE LA NACIÓN REGIONAL CENTRAL",
     "total_contratos": 155,
-    "valor_total": 57945387823.229996,
-    "valor_promedio": 373841211.76277417,
+    "valor_total": 57945387823.23,
+    "valor_promedio": 373841211.7627742,
     "sector": "Servicio Público"
   },
   {
@@ -3214,9 +3221,9 @@
   },
   {
     "nombre_entidad": "DIRECCION DE PROTECCION Y SERVICIOS ESPECIALES",
-    "total_contratos": 152,
-    "valor_total": 56213830396.16,
-    "valor_promedio": 369827831.55368423,
+    "total_contratos": 153,
+    "valor_total": 56411383367.16,
+    "valor_promedio": 368701852.0729412,
     "sector": "defensa"
   },
   {
@@ -3228,9 +3235,9 @@
   },
   {
     "nombre_entidad": "MUNICIPIO DE GALAPA.",
-    "total_contratos": 90,
-    "valor_total": 55695089574.78,
-    "valor_promedio": 618834328.6086667,
+    "total_contratos": 91,
+    "valor_total": 55985089574.78,
+    "valor_promedio": 615220764.558022,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -3243,8 +3250,8 @@
   {
     "nombre_entidad": "SUPERINTENDENCIA DE LA ECONOMIA SOLIDARIA",
     "total_contratos": 67,
-    "valor_total": 55372722154.869995,
-    "valor_promedio": 826458539.6249253,
+    "valor_total": 55372722154.87,
+    "valor_promedio": 826458539.6249254,
     "sector": "Hacienda y Crédito Público"
   },
   {
@@ -3253,6 +3260,13 @@
     "valor_total": 55232585442.0,
     "valor_promedio": 1082991871.4117646,
     "sector": "Vivienda, Ciudad y Territorio"
+  },
+  {
+    "nombre_entidad": "CENTRAL ADMINISTRATIVA Y CONTABLE ESPECIALIZADA CENAC EDUCACIÓN//",
+    "total_contratos": 168,
+    "valor_total": 54903539600.5,
+    "valor_promedio": 326806783.33630955,
+    "sector": "defensa"
   },
   {
     "nombre_entidad": "POLICIA METROPOLITANA DE VILLAVICENCIO",
@@ -3271,8 +3285,8 @@
   {
     "nombre_entidad": "SISTEMA ESTRATEGICO DE TRANSPORTE PUBLICO DE SANTA MARTA S.A.S.",
     "total_contratos": 25,
-    "valor_total": 54586470263.7,
-    "valor_promedio": 2183458810.548,
+    "valor_total": 54586470263.700005,
+    "valor_promedio": 2183458810.5480003,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -3281,13 +3295,6 @@
     "valor_total": 54478514756.1,
     "valor_promedio": 450235659.1413223,
     "sector": "interior"
-  },
-  {
-    "nombre_entidad": "CENTRAL ADMINISTRATIVA Y CONTABLE ESPECIALIZADA CENAC EDUCACIÓN//",
-    "total_contratos": 167,
-    "valor_total": 54424447768.5,
-    "valor_promedio": 325894896.8173653,
-    "sector": "defensa"
   },
   {
     "nombre_entidad": "EDENORTE",
@@ -3313,8 +3320,8 @@
   {
     "nombre_entidad": "SENA REGIONAL CASANARE Grupo Administrativo Mixto",
     "total_contratos": 154,
-    "valor_total": 53484314634.47,
-    "valor_promedio": 347300744.3796753,
+    "valor_total": 53484314634.46999,
+    "valor_promedio": 347300744.37967527,
     "sector": "Trabajo"
   },
   {
@@ -3326,23 +3333,23 @@
   },
   {
     "nombre_entidad": "PARQUES NACIONALES NATURALES DE COLOMBIA - DIRECCION TERRITORIAL CARIBE",
-    "total_contratos": 442,
-    "valor_total": 52987106218.28001,
-    "valor_promedio": 119880330.81058826,
+    "total_contratos": 444,
+    "valor_total": 53000479215.28001,
+    "valor_promedio": 119370448.68306307,
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
     "nombre_entidad": "MUNICIPIO DE EL SANTUARIO ANTIOQUIA",
     "total_contratos": 135,
-    "valor_total": 52937748438.66,
-    "valor_promedio": 392131469.916,
+    "valor_total": 52937748438.659996,
+    "valor_promedio": 392131469.91599995,
     "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "SUPERINTENDENCIA DEL SUBSIDIO FAMILIAR",
     "total_contratos": 114,
-    "valor_total": 52903168261.26,
-    "valor_promedio": 464062879.48473686,
+    "valor_total": 52903168261.259995,
+    "valor_promedio": 464062879.4847368,
     "sector": "Trabajo"
   },
   {
@@ -3367,6 +3374,13 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "UPME",
+    "total_contratos": 255,
+    "valor_total": 52415087130.46,
+    "valor_promedio": 205549361.29592156,
+    "sector": "Minas y Energía"
+  },
+  {
     "nombre_entidad": "MUNICIPIO DE CALDAS ANTIOQUIA",
     "total_contratos": 198,
     "valor_total": 52258236538.97,
@@ -3374,23 +3388,16 @@
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "UPME",
-    "total_contratos": 251,
-    "valor_total": 52124871862.46,
-    "valor_promedio": 207668812.20103586,
-    "sector": "Minas y Energía"
-  },
-  {
     "nombre_entidad": "INSTITUTO DE FINANCIAMIENTO PROMOCIÓN Y DESARROLLO DE MANIZALES - INFI-MANIZALES",
-    "total_contratos": 94,
-    "valor_total": 51683368627.2,
-    "valor_promedio": 549823070.5021276,
+    "total_contratos": 95,
+    "valor_total": 51684228127.2,
+    "valor_promedio": 544044506.6021053,
     "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "ALCALDIA DE MOCOA",
     "total_contratos": 176,
-    "valor_total": 51550543888.69,
+    "valor_total": 51550543888.689995,
     "valor_promedio": 292900817.549375,
     "sector": "No aplica/No pertenece"
   },
@@ -3404,8 +3411,8 @@
   {
     "nombre_entidad": "MUNICIPIO DE SANTA ROSA DE CABAL",
     "total_contratos": 104,
-    "valor_total": 51014823058.229996,
-    "valor_promedio": 490527144.790673,
+    "valor_total": 51014823058.23,
+    "valor_promedio": 490527144.79067314,
     "sector": "Servicio Público"
   },
   {
@@ -3487,9 +3494,9 @@
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE SAN GIL - SANTANDER",
-    "total_contratos": 174,
-    "valor_total": 48989866369.9,
-    "valor_promedio": 281550956.14885056,
+    "total_contratos": 175,
+    "valor_total": 49015068696.77,
+    "valor_promedio": 280086106.8386857,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -3515,9 +3522,9 @@
   },
   {
     "nombre_entidad": "SENA REGIONAL DISTRITO CAPITAL Grupo Administrativo Intercentros CEET",
-    "total_contratos": 261,
-    "valor_total": 48336109940.990005,
-    "valor_promedio": 185195823.52869734,
+    "total_contratos": 263,
+    "valor_total": 48360130090.99,
+    "valor_promedio": 183878821.63874525,
     "sector": "Trabajo"
   },
   {
@@ -3526,6 +3533,13 @@
     "valor_total": 48180750927.92,
     "valor_promedio": 24090375463.96,
     "sector": "No aplica/No pertenece"
+  },
+  {
+    "nombre_entidad": "CENTRO NACIONAL DE MEMORIA  HISTORICA",
+    "total_contratos": 110,
+    "valor_total": 48017274740.13,
+    "valor_promedio": 436520679.4557272,
+    "sector": "Cultura"
   },
   {
     "nombre_entidad": "COMPRADOR ESE CARMEN EMILIA OSPINA PERFIL",
@@ -3544,22 +3558,22 @@
   {
     "nombre_entidad": "FEDERACION COLOMBIANA DE MUNICIPIOS",
     "total_contratos": 60,
-    "valor_total": 47462357751.02,
-    "valor_promedio": 791039295.8503333,
+    "valor_total": 47462357751.020004,
+    "valor_promedio": 791039295.8503335,
     "sector": "No aplica/No pertenece"
+  },
+  {
+    "nombre_entidad": "ICBF REGIONAL VICHADA",
+    "total_contratos": 69,
+    "valor_total": 47262891908.99,
+    "valor_promedio": 684969447.9563768,
+    "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "EMPRESA SOCIAL DEL ESTADO DEL DEPARTAMENTO DEL META E.S.E",
     "total_contratos": 80,
     "valor_total": 47151704464.66,
     "valor_promedio": 589396305.8082501,
-    "sector": "Salud y Protección Social"
-  },
-  {
-    "nombre_entidad": "ICBF REGIONAL VICHADA",
-    "total_contratos": 68,
-    "valor_total": 46943983657.99,
-    "valor_promedio": 690352700.852794,
     "sector": "Salud y Protección Social"
   },
   {
@@ -3613,9 +3627,9 @@
   },
   {
     "nombre_entidad": "ARMADA NACIONAL ESCUELA NAVAL DE CADETES ALMIRANTE PADILLA",
-    "total_contratos": 297,
-    "valor_total": 45840157508.6,
-    "valor_promedio": 154343964.67542088,
+    "total_contratos": 298,
+    "valor_total": 45853017508.6,
+    "valor_promedio": 153869186.27046978,
     "sector": "defensa"
   },
   {
@@ -3661,6 +3675,13 @@
     "sector": "defensa"
   },
   {
+    "nombre_entidad": "ICBF REGIONAL SAN ANDRES",
+    "total_contratos": 101,
+    "valor_total": 44475789428.13,
+    "valor_promedio": 440354350.77356434,
+    "sector": "Salud y Protección Social"
+  },
+  {
     "nombre_entidad": "ARC-BACAIM6",
     "total_contratos": 238,
     "valor_total": 44139259111.83,
@@ -3689,6 +3710,13 @@
     "sector": "Tecnologías de la Información y las Comunicaciones"
   },
   {
+    "nombre_entidad": "EMAVI",
+    "total_contratos": 258,
+    "valor_total": 43400324359.27,
+    "valor_promedio": 168218311.47003874,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "POLICIA METROPOLITANA DE CUCUTA*",
     "total_contratos": 158,
     "valor_total": 43177262928.25,
@@ -3712,22 +3740,15 @@
   {
     "nombre_entidad": "ALCALDIA DE CAUCASIA",
     "total_contratos": 162,
-    "valor_total": 42905508445.520004,
-    "valor_promedio": 264848817.5649383,
+    "valor_total": 42905508445.52,
+    "valor_promedio": 264848817.56493825,
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "EMAVI",
-    "total_contratos": 256,
-    "valor_total": 42739922327.27,
-    "valor_promedio": 166952821.59089842,
-    "sector": "defensa"
-  },
-  {
     "nombre_entidad": "CORPORACIÓN AUTÓNOMA DEL RÍO GRANDE DE LA MAGDALENA**",
-    "total_contratos": 101,
-    "valor_total": 42661734094.729996,
-    "valor_promedio": 422393406.8785148,
+    "total_contratos": 102,
+    "valor_total": 42682369630.73,
+    "valor_promedio": 418454604.22284317,
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
@@ -3743,13 +3764,6 @@
     "valor_total": 42529620379.36,
     "valor_promedio": 253152502.25809523,
     "sector": "defensa"
-  },
-  {
-    "nombre_entidad": "CENTRO NACIONAL DE MEMORIA  HISTORICA",
-    "total_contratos": 108,
-    "valor_total": 42480362781.13,
-    "valor_promedio": 393336692.41787034,
-    "sector": "Cultura"
   },
   {
     "nombre_entidad": "FONDO ESPECIAL PARA LA ADMINISTRACIÓN DE BIENES DE LA FISCALÍA GENERAL DE LA NACIÓN",
@@ -3788,9 +3802,9 @@
   },
   {
     "nombre_entidad": "SENA REGIONAL RISARALDA Grupo de Apoyo Administrativo Mixto//",
-    "total_contratos": 425,
-    "valor_total": 41373159342.39,
-    "valor_promedio": 97348610.21738823,
+    "total_contratos": 426,
+    "valor_total": 41388152107.39,
+    "valor_promedio": 97155286.63706572,
     "sector": "Educación Nacional"
   },
   {
@@ -3827,13 +3841,6 @@
     "valor_total": 40907192418.39,
     "valor_promedio": 119262951.6571137,
     "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "ICBF REGIONAL SAN ANDRES",
-    "total_contratos": 98,
-    "valor_total": 40862029528.13,
-    "valor_promedio": 416959484.98091835,
-    "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "INSTITUTO COLOMBIANO DE CREDITO EDUCATIVO Y ESTUDIO TÉCNICOS EN EL EXTERIOR MARIANO OSPINA PEREZ.",
@@ -3886,16 +3893,16 @@
   },
   {
     "nombre_entidad": "SENA REGIONAL BOLIVAR Grupo de Apoyo Administrativo Mixto",
-    "total_contratos": 279,
-    "valor_total": 39510376341.13,
-    "valor_promedio": 141614252.1187455,
+    "total_contratos": 281,
+    "valor_total": 39614363106.78,
+    "valor_promedio": 140976381.16291815,
     "sector": "Trabajo"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE CALARCA",
     "total_contratos": 161,
-    "valor_total": 39438355813.270004,
-    "valor_promedio": 244958731.75944102,
+    "valor_total": 39438355813.27,
+    "valor_promedio": 244958731.75944096,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -3942,9 +3949,9 @@
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPAL DE OCAÑA",
-    "total_contratos": 182,
+    "total_contratos": 183,
     "valor_total": 38879962384.46,
-    "valor_promedio": 213626166.94758242,
+    "valor_promedio": 212458810.8440437,
     "sector": "Servicio Público"
   },
   {
@@ -3962,6 +3969,13 @@
     "sector": "defensa"
   },
   {
+    "nombre_entidad": "MUNICIPIO DE PUERTO TRIUNFO",
+    "total_contratos": 321,
+    "valor_total": 38418157596.11,
+    "valor_promedio": 119682733.94426791,
+    "sector": "No aplica/No pertenece"
+  },
+  {
     "nombre_entidad": "DEFENSA CIVIL COLOMBIANA",
     "total_contratos": 185,
     "valor_total": 38413977765.75,
@@ -3974,13 +3988,6 @@
     "valor_total": 38259273251.91,
     "valor_promedio": 306074186.01528,
     "sector": "Ley de Justicia"
-  },
-  {
-    "nombre_entidad": "MUNICIPIO DE PUERTO TRIUNFO",
-    "total_contratos": 320,
-    "valor_total": 38258162431.11,
-    "valor_promedio": 119556757.59721875,
-    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "CLUB MILITAR",
@@ -4076,8 +4083,8 @@
   {
     "nombre_entidad": "CORPORACION AUTONOMA REGIONAL DEL QUINDIO",
     "total_contratos": 49,
-    "valor_total": 36435546418.24,
-    "valor_promedio": 743582579.9640816,
+    "valor_total": 36435546418.240005,
+    "valor_promedio": 743582579.9640818,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -4116,6 +4123,13 @@
     "sector": "Vivienda, Ciudad y Territorio"
   },
   {
+    "nombre_entidad": "ALCALDIA MUNICIPIO DE GIRON SANTANDER",
+    "total_contratos": 114,
+    "valor_total": 35791801773.2,
+    "valor_promedio": 313963173.4491228,
+    "sector": "Servicio Público"
+  },
+  {
     "nombre_entidad": "GOBERNACION DEL VALLE - SECRETARIA DE CONVIVENCIA Y SEGURIDAD CIUDADANA",
     "total_contratos": 28,
     "valor_total": 35638185894.0,
@@ -4131,9 +4145,9 @@
   },
   {
     "nombre_entidad": "MUNICIPIO DE UBATE",
-    "total_contratos": 176,
-    "valor_total": 35043746127.82,
-    "valor_promedio": 199112193.90806818,
+    "total_contratos": 177,
+    "valor_total": 35047736127.82,
+    "valor_promedio": 198009808.63175142,
     "sector": "Servicio Público"
   },
   {
@@ -4152,37 +4166,37 @@
   },
   {
     "nombre_entidad": "ARMADA NACIONAL - BASE NAVAL ARC ORINOQUIA",
-    "total_contratos": 189,
-    "valor_total": 34486572593.56,
-    "valor_promedio": 182468638.06116402,
+    "total_contratos": 190,
+    "valor_total": 34494666493.56,
+    "valor_promedio": 181550876.2818947,
     "sector": "defensa"
   },
   {
     "nombre_entidad": "DIRECCION DE SANIDAD EJERCITO DISPENSARIO MEDICO YOPAL",
-    "total_contratos": 96,
-    "valor_total": 34425631456.23,
-    "valor_promedio": 358600327.66906255,
+    "total_contratos": 97,
+    "valor_total": 34445631456.229996,
+    "valor_promedio": 355109602.64154637,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "ESCUELA TECNOLÓGICA INSTITUTO TÉCNICO CENTRAL",
-    "total_contratos": 120,
-    "valor_total": 34392958362.07,
-    "valor_promedio": 286607986.3505833,
+    "total_contratos": 121,
+    "valor_total": 34411813912.07,
+    "valor_promedio": 284395156.29809916,
     "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "ARMADA NACIONAL HOSPITAL NAVAL DE CARTAGENA",
-    "total_contratos": 319,
-    "valor_total": 34130997658.67,
-    "valor_promedio": 106993723.06793103,
+    "total_contratos": 320,
+    "valor_total": 34219289133.67,
+    "valor_promedio": 106935278.54271874,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "Escuela de Postgrados de Policía",
     "total_contratos": 121,
-    "valor_total": 34067663474.03,
-    "valor_promedio": 281550937.8019008,
+    "valor_total": 34067663474.030003,
+    "valor_promedio": 281550937.80190086,
     "sector": "defensa"
   },
   {
@@ -4201,9 +4215,9 @@
   },
   {
     "nombre_entidad": "Central administrativa regional Usaquen",
-    "total_contratos": 260,
-    "valor_total": 33758305357.53,
-    "valor_promedio": 129839635.99049999,
+    "total_contratos": 261,
+    "valor_total": 33769814633.53,
+    "valor_promedio": 129386262.96371648,
     "sector": "defensa"
   },
   {
@@ -4240,13 +4254,6 @@
     "valor_total": 32825869548.66,
     "valor_promedio": 215959668.08328947,
     "sector": "Salud y Protección Social"
-  },
-  {
-    "nombre_entidad": "ALCALDIA MUNICIPIO DE GIRON SANTANDER",
-    "total_contratos": 113,
-    "valor_total": 32683991477.2,
-    "valor_promedio": 289238862.6300885,
-    "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "DIRECCIÓN DE SANIDAD ARMADA NACIONAL",
@@ -4293,15 +4300,15 @@
   {
     "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DE SALUD DE ARAUCA",
     "total_contratos": 131,
-    "valor_total": 31793703125.24,
-    "valor_promedio": 242700023.8567939,
+    "valor_total": 31793703125.239998,
+    "valor_promedio": 242700023.85679388,
     "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "ALCALDIA DE EL PEÑOL",
-    "total_contratos": 199,
-    "valor_total": 31429715867.01,
-    "valor_promedio": 157938270.68849245,
+    "total_contratos": 200,
+    "valor_total": 31455715117.01,
+    "valor_promedio": 157278575.58505,
     "sector": "Servicio Público"
   },
   {
@@ -4328,7 +4335,7 @@
   {
     "nombre_entidad": "CONTRALORIA DE BOGOTA",
     "total_contratos": 159,
-    "valor_total": 31122382611.129997,
+    "valor_total": 31122382611.13,
     "valor_promedio": 195738255.41591194,
     "sector": "No aplica/No pertenece"
   },
@@ -4398,8 +4405,8 @@
   {
     "nombre_entidad": "ICBF REGIONAL VAUPES",
     "total_contratos": 46,
-    "valor_total": 30273753648.01,
-    "valor_promedio": 658125079.3045652,
+    "valor_total": 30273753648.010002,
+    "valor_promedio": 658125079.3045653,
     "sector": "Salud y Protección Social"
   },
   {
@@ -4412,8 +4419,8 @@
   {
     "nombre_entidad": "SERVICIO NACIONAL DE APRENDIZAJE - SENA MAGDALENA",
     "total_contratos": 271,
-    "valor_total": 29911912737.739998,
-    "valor_promedio": 110376061.76287822,
+    "valor_total": 29911912737.74,
+    "valor_promedio": 110376061.76287824,
     "sector": "Trabajo"
   },
   {
@@ -4431,6 +4438,13 @@
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
+    "nombre_entidad": "ECSAN",
+    "total_contratos": 211,
+    "valor_total": 29647985018.73,
+    "valor_promedio": 140511777.33995262,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "ALCALDÍA MUNICIPAL DE EL SOCORRO",
     "total_contratos": 135,
     "valor_total": 29639341403.81,
@@ -4443,13 +4457,6 @@
     "valor_total": 29390131842.0,
     "valor_promedio": 1399530087.7142856,
     "sector": "Salud y Protección Social"
-  },
-  {
-    "nombre_entidad": "ECSAN",
-    "total_contratos": 210,
-    "valor_total": 29367985018.73,
-    "valor_promedio": 139847547.7082381,
-    "sector": "defensa"
   },
   {
     "nombre_entidad": "AGENCIA NACIONAL DEL ESPECTRO",
@@ -4628,9 +4635,9 @@
   },
   {
     "nombre_entidad": "SENA REGIONAL CUNDINAMARCA Grupo de Apoyo Administrativo Mixto+",
-    "total_contratos": 237,
-    "valor_total": 27499199885.63,
-    "valor_promedio": 116030379.2642616,
+    "total_contratos": 238,
+    "valor_total": 27513683732.63,
+    "valor_promedio": 115603713.16231093,
     "sector": "Educación Nacional"
   },
   {
@@ -4823,18 +4830,18 @@
     "sector": "deportes"
   },
   {
+    "nombre_entidad": "INSTITUCIÓN UNIVERSITARIA COLEGIO MAYOR DE ANTIOQUIA",
+    "total_contratos": 329,
+    "valor_total": 25215935117.68,
+    "valor_promedio": 76644179.68899696,
+    "sector": "Educación Nacional"
+  },
+  {
     "nombre_entidad": "SENA Regional Huila Grupo de Apoyo Administrativo Mixto",
     "total_contratos": 217,
     "valor_total": 25212783468.42,
     "valor_promedio": 116187942.2507834,
     "sector": "Trabajo"
-  },
-  {
-    "nombre_entidad": "INSTITUCIÓN UNIVERSITARIA COLEGIO MAYOR DE ANTIOQUIA",
-    "total_contratos": 328,
-    "valor_total": 25181735117.68,
-    "valor_promedio": 76773582.67585365,
-    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPAL SAN PEDRO DE URABA",
@@ -4914,11 +4921,25 @@
     "sector": "defensa"
   },
   {
+    "nombre_entidad": "AUDITORIA GENERAL DE LA REPUBLICA",
+    "total_contratos": 110,
+    "valor_total": 24461028529.84,
+    "valor_promedio": 222372986.6349091,
+    "sector": "No aplica/No pertenece"
+  },
+  {
     "nombre_entidad": "ARMADA NACIONAL BATALLON DE COMANDO Y APOYO DE INFANTERIA DE MARINA No 4",
     "total_contratos": 166,
     "valor_total": 24435762892.71,
     "valor_promedio": 147203390.91993976,
     "sector": "defensa"
+  },
+  {
+    "nombre_entidad": "SENA REGIONAL META Grupo de Apoyo Administrativo Mixto",
+    "total_contratos": 230,
+    "valor_total": 24398494303.85,
+    "valor_promedio": 106080410.01673913,
+    "sector": "Trabajo"
   },
   {
     "nombre_entidad": "INSTITUTO UNIVERSITARIO DE LA PAZ",
@@ -4935,25 +4956,11 @@
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "AUDITORIA GENERAL DE LA REPUBLICA",
-    "total_contratos": 108,
-    "valor_total": 24315537759.84,
-    "valor_promedio": 225143868.14666668,
-    "sector": "No aplica/No pertenece"
-  },
-  {
     "nombre_entidad": "ASMETA",
     "total_contratos": 14,
     "valor_total": 24235726908.97,
     "valor_promedio": 1731123350.6407144,
     "sector": "No aplica/No pertenece"
-  },
-  {
-    "nombre_entidad": "SENA REGIONAL META Grupo de Apoyo Administrativo Mixto",
-    "total_contratos": 227,
-    "valor_total": 24216262457.85,
-    "valor_promedio": 106679570.29889867,
-    "sector": "Trabajo"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE SAN FRANCISCO",
@@ -4977,17 +4984,10 @@
     "sector": "defensa"
   },
   {
-    "nombre_entidad": "SANTIAGO DE CALI DISTRITO ESPECIAL - SECRETARIA DE VIVIENDA SOCIAL Y HABITAT",
-    "total_contratos": 22,
-    "valor_total": 24031107025.0,
-    "valor_promedio": 1092323046.590909,
-    "sector": "Vivienda, Ciudad y Territorio"
-  },
-  {
     "nombre_entidad": "POLICIA METROPOLITANA DE NEIVA",
-    "total_contratos": 142,
-    "valor_total": 23920306042.04,
-    "valor_promedio": 168452859.4509859,
+    "total_contratos": 143,
+    "valor_total": 23924231042.04,
+    "valor_promedio": 167302314.9793007,
     "sector": "defensa"
   },
   {
@@ -5019,18 +5019,18 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "INSTITUTO MUNICIPAL PARA LA RECREACION Y EL DEPORTE DE CUCUTA",
+    "total_contratos": 92,
+    "valor_total": 23664035392.19,
+    "valor_promedio": 257217776.0020652,
+    "sector": "deportes"
+  },
+  {
     "nombre_entidad": "ICANH",
     "total_contratos": 218,
     "valor_total": 23661569996.06,
     "valor_promedio": 108539311.90853211,
     "sector": "Cultura"
-  },
-  {
-    "nombre_entidad": "INSTITUTO MUNICIPAL PARA LA RECREACION Y EL DEPORTE DE CUCUTA",
-    "total_contratos": 91,
-    "valor_total": 23622110392.19,
-    "valor_promedio": 259583630.6834066,
-    "sector": "deportes"
   },
   {
     "nombre_entidad": "HOSPITAL UNIVERSITARIO DE SINCELEJO-ESE",
@@ -5055,9 +5055,9 @@
   },
   {
     "nombre_entidad": "MUNICIPIO DE SAN PEDRO DE LOS MILAGROS",
-    "total_contratos": 144,
-    "valor_total": 23304455788.69,
-    "valor_promedio": 161836498.53256944,
+    "total_contratos": 146,
+    "valor_total": 23359447488.69,
+    "valor_promedio": 159996215.6759589,
     "sector": "Servicio Público"
   },
   {
@@ -5065,6 +5065,20 @@
     "total_contratos": 35,
     "valor_total": 23266837101.0,
     "valor_promedio": 664766774.3142858,
+    "sector": "Servicio Público"
+  },
+  {
+    "nombre_entidad": "FABRICA DE LICORES DEL TOLIMA",
+    "total_contratos": 70,
+    "valor_total": 23092426560.7,
+    "valor_promedio": 329891808.01,
+    "sector": "Industria"
+  },
+  {
+    "nombre_entidad": "ALCALDÍA MUNICIPAL DE ROLDANILLO",
+    "total_contratos": 165,
+    "valor_total": 22918387537.71,
+    "valor_promedio": 138899318.41036364,
     "sector": "Servicio Público"
   },
   {
@@ -5089,17 +5103,17 @@
     "sector": "Industria"
   },
   {
-    "nombre_entidad": "ALCALDÍA MUNICIPAL DE ROLDANILLO",
-    "total_contratos": 164,
-    "valor_total": 22599162078.71,
-    "valor_promedio": 137799768.77262196,
-    "sector": "Servicio Público"
-  },
-  {
     "nombre_entidad": "ESM BATALLÓN ASPC NO. 6",
     "total_contratos": 88,
     "valor_total": 22569224199.27,
     "valor_promedio": 256468456.80988637,
+    "sector": "Servicio Público"
+  },
+  {
+    "nombre_entidad": "ALCALDIA DE CIUDAD BOLIVAR",
+    "total_contratos": 216,
+    "valor_total": 22384407698.18,
+    "valor_promedio": 103631517.1212037,
     "sector": "Servicio Público"
   },
   {
@@ -5117,13 +5131,6 @@
     "sector": "Ley de Justicia"
   },
   {
-    "nombre_entidad": "ALCALDIA DE CIUDAD BOLIVAR",
-    "total_contratos": 214,
-    "valor_total": 22235076658.18,
-    "valor_promedio": 103902227.3746729,
-    "sector": "Servicio Público"
-  },
-  {
     "nombre_entidad": "MUNICIPIO DE TIBASOSA",
     "total_contratos": 155,
     "valor_total": 22233015302.43,
@@ -5139,9 +5146,9 @@
   },
   {
     "nombre_entidad": "INSTITUTO DISTRITAL DE LA PARTICIPACIÓN Y ACCIÓN COMUNAL",
-    "total_contratos": 442,
-    "valor_total": 22161689837.05,
-    "valor_promedio": 50139569.76708145,
+    "total_contratos": 445,
+    "valor_total": 22203108485.05,
+    "valor_promedio": 49894625.80910112,
     "sector": "Inclusión Social y Reconciliación"
   },
   {
@@ -5265,9 +5272,9 @@
   },
   {
     "nombre_entidad": "CENACCALI",
-    "total_contratos": 229,
-    "valor_total": 21638768548.15,
-    "valor_promedio": 94492439.07489084,
+    "total_contratos": 230,
+    "valor_total": 21669487748.15,
+    "valor_promedio": 94215164.12239131,
     "sector": "defensa"
   },
   {
@@ -5328,9 +5335,9 @@
   },
   {
     "nombre_entidad": "SENA REGIONAL ATLANTICO Intercentros",
-    "total_contratos": 211,
-    "valor_total": 21142630139.68,
-    "valor_promedio": 100202038.57668246,
+    "total_contratos": 212,
+    "valor_total": 21157627634.68,
+    "valor_promedio": 99800130.35226415,
     "sector": "Transporte"
   },
   {
@@ -5390,18 +5397,18 @@
     "sector": "defensa"
   },
   {
+    "nombre_entidad": "CACOM-3",
+    "total_contratos": 187,
+    "valor_total": 20650208464.829998,
+    "valor_promedio": 110428922.27181818,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "SUBCUENTA PARA LA ADMON DE LOS RECURSOS Y MANEJO SPN FONAM - DTOR",
     "total_contratos": 215,
     "valor_total": 20646741548.55,
     "valor_promedio": 96031356.03976744,
     "sector": "Ambiente y Desarrollo Sostenible"
-  },
-  {
-    "nombre_entidad": "CACOM-3",
-    "total_contratos": 186,
-    "valor_total": 20628116615.829998,
-    "valor_promedio": 110903852.77327956,
-    "sector": "defensa"
   },
   {
     "nombre_entidad": "ESE SANTIAGO DE TUNJA *",
@@ -5472,13 +5479,6 @@
     "valor_total": 20112067767.88,
     "valor_promedio": 1436576269.1342857,
     "sector": "No aplica/No pertenece"
-  },
-  {
-    "nombre_entidad": "FABRICA DE LICORES DEL TOLIMA",
-    "total_contratos": 69,
-    "valor_total": 20029426560.7,
-    "valor_promedio": 290281544.357971,
-    "sector": "Industria"
   },
   {
     "nombre_entidad": "DIRECCIÓN GENERAL MARÍTIMA- DIMAR",
@@ -5742,8 +5742,8 @@
   {
     "nombre_entidad": "BENEFICENCIA DE CUNDINAMARCA",
     "total_contratos": 57,
-    "valor_total": 17985087024.010002,
-    "valor_promedio": 315527842.5264913,
+    "valor_total": 17985087024.01,
+    "valor_promedio": 315527842.5264912,
     "sector": "Salud y Protección Social"
   },
   {
@@ -5803,6 +5803,13 @@
     "sector": "Salud y Protección Social"
   },
   {
+    "nombre_entidad": "Institución Universitaria de Roldanillo",
+    "total_contratos": 94,
+    "valor_total": 17637512608.0,
+    "valor_promedio": 187633112.85106382,
+    "sector": "Educación Nacional"
+  },
+  {
     "nombre_entidad": "Secretaría de Gobierno, Convivencia y Seguridad - Alcaldía de Tuluá",
     "total_contratos": 47,
     "valor_total": 17628876343.55,
@@ -5838,13 +5845,6 @@
     "sector": "Hacienda y Crédito Público"
   },
   {
-    "nombre_entidad": "Institución Universitaria de Roldanillo",
-    "total_contratos": 93,
-    "valor_total": 17533096471.0,
-    "valor_promedio": 188527919.04301074,
-    "sector": "Educación Nacional"
-  },
-  {
     "nombre_entidad": "INM",
     "total_contratos": 217,
     "valor_total": 17502006878.8,
@@ -5860,10 +5860,17 @@
   },
   {
     "nombre_entidad": "Sena Regional Boyaca Grupo de Apoyo Administrativo Mixto",
-    "total_contratos": 256,
-    "valor_total": 17257440115.37,
-    "valor_promedio": 67411875.45066406,
+    "total_contratos": 257,
+    "valor_total": 17453412234.37,
+    "valor_promedio": 67912109.86136186,
     "sector": "Trabajo"
+  },
+  {
+    "nombre_entidad": "ARMADA NACIONAL-BATALLON DE COMANDO Y APOYO DE INFANTERIA DE MARINA No.1",
+    "total_contratos": 149,
+    "valor_total": 17405035061.74,
+    "valor_promedio": 116812315.85060404,
+    "sector": "defensa"
   },
   {
     "nombre_entidad": "MUNICIPIO DE YONDO",
@@ -5894,18 +5901,18 @@
     "sector": "Vivienda, Ciudad y Territorio"
   },
   {
+    "nombre_entidad": "CENTRAL ADMINISTRATIVA Y CONTABLE - CENAC - ARMENIA",
+    "total_contratos": 176,
+    "valor_total": 16864669067.53,
+    "valor_promedio": 95821983.33823864,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "CONTADURÍA GENERAL DE LA NACIÓN",
     "total_contratos": 91,
     "valor_total": 16861322949.28,
     "valor_promedio": 185289263.1789011,
     "sector": "Hacienda y Crédito Público"
-  },
-  {
-    "nombre_entidad": "ARMADA NACIONAL-BATALLON DE COMANDO Y APOYO DE INFANTERIA DE MARINA No.1",
-    "total_contratos": 148,
-    "valor_total": 16851770894.55,
-    "valor_promedio": 113863316.85506757,
-    "sector": "defensa"
   },
   {
     "nombre_entidad": "MUNICIPIO DE PALERMO HUILA",
@@ -5929,18 +5936,18 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "Rama Judicial - Dirección Seccional de Administración Judicial de Ibagué.",
+    "total_contratos": 84,
+    "valor_total": 16745545066.41,
+    "valor_promedio": 199351726.9810714,
+    "sector": "Ley de Justicia"
+  },
+  {
     "nombre_entidad": "ALCALDÍA MUNICIPIO DE GARAGOA",
     "total_contratos": 77,
     "valor_total": 16684002813.47,
     "valor_promedio": 216675361.2138961,
     "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "Rama Judicial - Dirección Seccional de Administración Judicial de Ibagué.",
-    "total_contratos": 82,
-    "valor_total": 16681072681.41,
-    "valor_promedio": 203427715.62695122,
-    "sector": "Ley de Justicia"
   },
   {
     "nombre_entidad": "SENA REGIONAL CUNDINAMARCA Grupo Administrativo CBA",
@@ -5951,9 +5958,9 @@
   },
   {
     "nombre_entidad": "SENA DISTRITO CAPITAL GRUPO DE APOYO ADMINISTRATIVO - CGI",
-    "total_contratos": 227,
-    "valor_total": 16602400121.93,
-    "valor_promedio": 73138326.52832599,
+    "total_contratos": 228,
+    "valor_total": 16625357968.449999,
+    "valor_promedio": 72918236.70372806,
     "sector": "Trabajo"
   },
   {
@@ -6010,13 +6017,6 @@
     "total_contratos": 117,
     "valor_total": 16397114005.57,
     "valor_promedio": 140146273.55188033,
-    "sector": "defensa"
-  },
-  {
-    "nombre_entidad": "CENTRAL ADMINISTRATIVA Y CONTABLE - CENAC - ARMENIA",
-    "total_contratos": 175,
-    "valor_total": 16357131263.53,
-    "valor_promedio": 93469321.50588572,
     "sector": "defensa"
   },
   {
@@ -6246,8 +6246,8 @@
   {
     "nombre_entidad": "INSTITUCION UNIVERSITARIA BELLAS ARTES Y CIENCIAS DE BOLIVAR",
     "total_contratos": 63,
-    "valor_total": 14836113638.71,
-    "valor_promedio": 235493867.2811111,
+    "valor_total": 14836113638.710001,
+    "valor_promedio": 235493867.28111112,
     "sector": "Educación Nacional"
   },
   {
@@ -6414,8 +6414,8 @@
   {
     "nombre_entidad": "CONSEJO PROFESIONAL NACIONAL DE INGENIERIA",
     "total_contratos": 97,
-    "valor_total": 13791894069.199999,
-    "valor_promedio": 142184474.94020617,
+    "valor_total": 13791894069.2,
+    "valor_promedio": 142184474.9402062,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -6438,6 +6438,13 @@
     "valor_total": 13714524210.57,
     "valor_promedio": 304767204.6793333,
     "sector": "Servicio Público"
+  },
+  {
+    "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD Y CARCELARIO DE ACACIAS",
+    "total_contratos": 309,
+    "valor_total": 13670457964.96,
+    "valor_promedio": 44240964.28789644,
+    "sector": "Ley de Justicia"
   },
   {
     "nombre_entidad": "MESAN",
@@ -6468,11 +6475,11 @@
     "sector": "defensa"
   },
   {
-    "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD Y CARCELARIO DE ACACIAS",
-    "total_contratos": 308,
-    "valor_total": 13570457964.96,
-    "valor_promedio": 44059928.45766234,
-    "sector": "Ley de Justicia"
+    "nombre_entidad": "UAE SETP AVANTE PASTO",
+    "total_contratos": 36,
+    "valor_total": 13444308356.240002,
+    "valor_promedio": 373453009.8955556,
+    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "CATEDRAL DE SAL DE ZIPAQUIRÁ SASEM",
@@ -6487,13 +6494,6 @@
     "valor_total": 13430198981.27,
     "valor_promedio": 152615897.51443183,
     "sector": "Salud y Protección Social"
-  },
-  {
-    "nombre_entidad": "UAE SETP AVANTE PASTO",
-    "total_contratos": 35,
-    "valor_total": 13410304242.240002,
-    "valor_promedio": 383151549.77828574,
-    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPAL DE NOBSA",
@@ -6529,6 +6529,13 @@
     "valor_total": 13319878650.01,
     "valor_promedio": 138748735.93760416,
     "sector": "Servicio Público"
+  },
+  {
+    "nombre_entidad": "SENA REGIONAL ARAUCA Grupo de Apoyo Administrativo Mixto",
+    "total_contratos": 113,
+    "valor_total": 13229297819.3,
+    "valor_promedio": 117073432.02920353,
+    "sector": "Trabajo"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPAL DE PUERTO SALGAR",
@@ -6578,13 +6585,6 @@
     "valor_total": 12997238765.89,
     "valor_promedio": 282548668.82369566,
     "sector": "No aplica/No pertenece"
-  },
-  {
-    "nombre_entidad": "SENA REGIONAL ARAUCA Grupo de Apoyo Administrativo Mixto",
-    "total_contratos": 112,
-    "valor_total": 12973481852.3,
-    "valor_promedio": 115834659.39553571,
-    "sector": "Trabajo"
   },
   {
     "nombre_entidad": "E.S.E. HOSPITAL SAN JUAN DE DIOS DE SANTA FE DE ANTIOQUIA",
@@ -6741,6 +6741,13 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "DIVRI",
+    "total_contratos": 169,
+    "valor_total": 12136027121.45,
+    "valor_promedio": 71810811.36952662,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "ALCALDÍA MUNICIPAL DE LA PINTADA",
     "total_contratos": 69,
     "valor_total": 12126260088.59,
@@ -6769,6 +6776,13 @@
     "sector": "defensa"
   },
   {
+    "nombre_entidad": "ESCUELA DE POLICIA DE PROVINCIA DE SUMAPAZ INTENDENTE MARITZA BONILLA RUIZ",
+    "total_contratos": 115,
+    "valor_total": 12023018197.36,
+    "valor_promedio": 104547984.32486957,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "MUNICIPIO DE ABEJORRAL",
     "total_contratos": 125,
     "valor_total": 12004046422.91,
@@ -6776,18 +6790,11 @@
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "ESCUELA DE POLICIA DE PROVINCIA DE SUMAPAZ INTENDENTE MARITZA BONILLA RUIZ",
-    "total_contratos": 114,
-    "valor_total": 11994323597.36,
-    "valor_promedio": 105213364.88912281,
-    "sector": "defensa"
-  },
-  {
-    "nombre_entidad": "DIVRI",
-    "total_contratos": 168,
-    "valor_total": 11976924121.45,
-    "valor_promedio": 71291215.00863096,
-    "sector": "defensa"
+    "nombre_entidad": "Sena - Centro Agropecuario de Buga",
+    "total_contratos": 106,
+    "valor_total": 11980848786.619999,
+    "valor_promedio": 113026875.3454717,
+    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE MANZANARES",
@@ -6795,13 +6802,6 @@
     "valor_total": 11961747005.43,
     "valor_promedio": 92726720.97232558,
     "sector": "Presidencia de la República"
-  },
-  {
-    "nombre_entidad": "Sena - Centro Agropecuario de Buga",
-    "total_contratos": 105,
-    "valor_total": 11957811576.62,
-    "valor_promedio": 113883919.77733333,
-    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "LICEOS DEL  EJERCITO",
@@ -6888,11 +6888,25 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "CENTRAL ADMINISTRATIVA Y CONTABLE-CENAC-POPAYAN*",
+    "total_contratos": 182,
+    "valor_total": 11678854863.45,
+    "valor_promedio": 64169532.216758244,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "IDUVI",
     "total_contratos": 26,
     "valor_total": 11641856957.06,
     "valor_promedio": 447763729.1176923,
     "sector": "Vivienda, Ciudad y Territorio"
+  },
+  {
+    "nombre_entidad": "CENTRAL ADMINISTRATIVA Y CONTABLE - CENAC - PASTO",
+    "total_contratos": 123,
+    "valor_total": 11579457648.96,
+    "valor_promedio": 94141932.10536584,
+    "sector": "defensa"
   },
   {
     "nombre_entidad": "AGENCIA DISTRITAL DE INFRAESTRUCTURA DEL DISTRITO DE BARRANQUILLA",
@@ -6909,24 +6923,10 @@
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "CENTRAL ADMINISTRATIVA Y CONTABLE-CENAC-POPAYAN*",
-    "total_contratos": 181,
-    "valor_total": 11503667598.45,
-    "valor_promedio": 63556174.57707183,
-    "sector": "defensa"
-  },
-  {
     "nombre_entidad": "SUPERVIGILANCIA - MD",
     "total_contratos": 101,
     "valor_total": 11492105290.15,
     "valor_promedio": 113783220.69455445,
-    "sector": "defensa"
-  },
-  {
-    "nombre_entidad": "CENTRAL ADMINISTRATIVA Y CONTABLE - CENAC - PASTO",
-    "total_contratos": 122,
-    "valor_total": 11491781616.96,
-    "valor_promedio": 94194931.28655738,
     "sector": "defensa"
   },
   {
@@ -6986,6 +6986,13 @@
     "sector": "deportes"
   },
   {
+    "nombre_entidad": "DMORI",
+    "total_contratos": 170,
+    "valor_total": 11064605151.66,
+    "valor_promedio": 65085912.65682353,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "Instituto Departamental de Recreación y Deporte INDERSANTANDER SITIO OFICIAL",
     "total_contratos": 125,
     "valor_total": 10981027364.5,
@@ -7026,13 +7033,6 @@
     "valor_total": 10671394487.44,
     "valor_promedio": 426855779.4976,
     "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "DMORI",
-    "total_contratos": 169,
-    "valor_total": 10634605151.66,
-    "valor_promedio": 62926657.702130176,
-    "sector": "defensa"
   },
   {
     "nombre_entidad": "NUEVA EMPRESA SOCIAL DEL ESTADO HOSPITAL DEPARTAMENTAL SAN FRANCISCO DE ASÍS",
@@ -7079,8 +7079,8 @@
   {
     "nombre_entidad": "POLICIA METROPOLITANA DE CARTAGENA DE INDIAS",
     "total_contratos": 79,
-    "valor_total": 10374234820.789999,
-    "valor_promedio": 131319428.11126581,
+    "valor_total": 10374234820.79,
+    "valor_promedio": 131319428.11126584,
     "sector": "defensa"
   },
   {
@@ -7105,6 +7105,13 @@
     "sector": "Transporte"
   },
   {
+    "nombre_entidad": "MUNICIPIO DE SEVILLA",
+    "total_contratos": 85,
+    "valor_total": 10312013385.17,
+    "valor_promedio": 121317804.53141177,
+    "sector": "No aplica/No pertenece"
+  },
+  {
     "nombre_entidad": "RUTA N MEDELLIN",
     "total_contratos": 11,
     "valor_total": 10287601640.76,
@@ -7117,13 +7124,6 @@
     "valor_total": 10270635781.98,
     "valor_promedio": 155615693.66636363,
     "sector": "Transporte"
-  },
-  {
-    "nombre_entidad": "MUNICIPIO DE SEVILLA",
-    "total_contratos": 83,
-    "valor_total": 10218413385.17,
-    "valor_promedio": 123113414.27915663,
-    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE CAMPOALEGRE",
@@ -7231,18 +7231,18 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "COMANDO GAULA MILITARES (COGAM)",
+    "total_contratos": 109,
+    "valor_total": 9902241929.81,
+    "valor_promedio": 90846256.23678899,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "EMPRESA VIAL DEL MUNICIPIO DE ARAUQUITA EVIMAR E.I.C.E",
     "total_contratos": 1,
     "valor_total": 9870639090.0,
     "valor_promedio": 9870639090.0,
     "sector": "Transporte"
-  },
-  {
-    "nombre_entidad": "COMANDO GAULA MILITARES (COGAM)",
-    "total_contratos": 108,
-    "valor_total": 9840685929.81,
-    "valor_promedio": 91117462.31305555,
-    "sector": "defensa"
   },
   {
     "nombre_entidad": "INSTITUTO DEPARTAMENTAL DE BELLAS ARTES",
@@ -7267,9 +7267,9 @@
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE ANOLAIMA",
-    "total_contratos": 137,
-    "valor_total": 9700083645.57,
-    "valor_promedio": 70803530.25963503,
+    "total_contratos": 138,
+    "valor_total": 9701272583.57,
+    "valor_promedio": 70299076.69253623,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -7287,6 +7287,13 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "UNIDAD PRESTADORA DE SALUD SANTANDER",
+    "total_contratos": 109,
+    "valor_total": 9627668863.58,
+    "valor_promedio": 88327237.28055046,
+    "sector": "Salud y Protección Social"
+  },
+  {
     "nombre_entidad": "CORPORACION PARA EL DESARROLLO SOSTENIBLE DEL ARCHIPIELAGO DE SAN ANDRES PROVIDENCIA Y SANTA CATALINA - CORALINA",
     "total_contratos": 34,
     "valor_total": 9624473846.0,
@@ -7299,13 +7306,6 @@
     "valor_total": 9578639627.779999,
     "valor_promedio": 957863962.7779999,
     "sector": "Industria"
-  },
-  {
-    "nombre_entidad": "UNIDAD PRESTADORA DE SALUD SANTANDER",
-    "total_contratos": 108,
-    "valor_total": 9567668863.58,
-    "valor_promedio": 88589526.51462963,
-    "sector": "Salud y Protección Social"
   },
   {
     "nombre_entidad": "FISCALÍA GENERAL DE LA NACIÓN REGIONAL NORORIENTAL",
@@ -7337,9 +7337,9 @@
   },
   {
     "nombre_entidad": "UNIDAD AESPE",
-    "total_contratos": 65,
-    "valor_total": 9377092766.71,
-    "valor_promedio": 144262965.64169228,
+    "total_contratos": 66,
+    "valor_total": 9378592766.71,
+    "valor_promedio": 142099890.40469694,
     "sector": "Trabajo"
   },
   {
@@ -7355,6 +7355,13 @@
     "valor_total": 9357418124.99,
     "valor_promedio": 3119139374.9966664,
     "sector": "Salud y Protección Social"
+  },
+  {
+    "nombre_entidad": "SENA HOTELERIA TURISMO Y ALIMENTOS",
+    "total_contratos": 79,
+    "valor_total": 9342447645.09,
+    "valor_promedio": 118258830.95050633,
+    "sector": "Trabajo"
   },
   {
     "nombre_entidad": "TRANSCARIBE S.A.",
@@ -7404,13 +7411,6 @@
     "valor_total": 9296500790.52,
     "valor_promedio": 79457271.71384616,
     "sector": "defensa"
-  },
-  {
-    "nombre_entidad": "SENA HOTELERIA TURISMO Y ALIMENTOS",
-    "total_contratos": 78,
-    "valor_total": 9253183442.09,
-    "valor_promedio": 118630556.9498718,
-    "sector": "Trabajo"
   },
   {
     "nombre_entidad": "E.S.E CLINICA MATERNIDAD RAFAEL CALVO C.",
@@ -7511,6 +7511,13 @@
     "sector": "Salud y Protección Social"
   },
   {
+    "nombre_entidad": "DEPARTAMENTO DE POLICIA SUCRE",
+    "total_contratos": 137,
+    "valor_total": 8910186920.06,
+    "valor_promedio": 65037860.730364956,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "ESE HOSPITAL DEPARTAMENTAL SAN RAFAEL",
     "total_contratos": 1,
     "valor_total": 8870749793.9,
@@ -7518,11 +7525,11 @@
     "sector": "Salud y Protección Social"
   },
   {
-    "nombre_entidad": "DEPARTAMENTO DE POLICIA SUCRE",
-    "total_contratos": 136,
-    "valor_total": 8854700618.06,
-    "valor_promedio": 65108092.779852934,
-    "sector": "defensa"
+    "nombre_entidad": "AREA METROPOLITANA DE BUCARAMANGA",
+    "total_contratos": 39,
+    "valor_total": 8831552271.24,
+    "valor_promedio": 226450058.23692307,
+    "sector": "Planeación"
   },
   {
     "nombre_entidad": "ALCALDIA DE FLORENCIA CAUCA",
@@ -7651,18 +7658,18 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "ESTABLECIMIENTO PUBLICO AMBIENTAL BARRANQUILLA VERDE",
+    "total_contratos": 41,
+    "valor_total": 8440073392.52,
+    "valor_promedio": 205855448.5980488,
+    "sector": "Ambiente y Desarrollo Sostenible"
+  },
+  {
     "nombre_entidad": "BOMBEROS DE BUCARAMANGA",
     "total_contratos": 41,
     "valor_total": 8435491142.87,
     "valor_promedio": 205743686.4114634,
     "sector": "No aplica/No pertenece"
-  },
-  {
-    "nombre_entidad": "ESTABLECIMIENTO PUBLICO AMBIENTAL BARRANQUILLA VERDE",
-    "total_contratos": 40,
-    "valor_total": 8361060328.52,
-    "valor_promedio": 209026508.213,
-    "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
     "nombre_entidad": "CENTRAL ADMINISTRATIVA Y CONTABLE REGIONAL YOPAL",
@@ -7677,13 +7684,6 @@
     "valor_total": 8319935837.72,
     "valor_promedio": 136392390.78229508,
     "sector": "Educación Nacional"
-  },
-  {
-    "nombre_entidad": "AREA METROPOLITANA DE BUCARAMANGA",
-    "total_contratos": 38,
-    "valor_total": 8291388531.24,
-    "valor_promedio": 218194435.03263158,
-    "sector": "Planeación"
   },
   {
     "nombre_entidad": "MUNICIPIO DE TIMBIO",
@@ -7735,6 +7735,13 @@
     "sector": "deportes"
   },
   {
+    "nombre_entidad": "IDEP",
+    "total_contratos": 77,
+    "valor_total": 8238820438.47,
+    "valor_promedio": 106997668.03207792,
+    "sector": "Educación Nacional"
+  },
+  {
     "nombre_entidad": "Rama Judicial – Dirección Seccional de Administración Judicial de Armenia",
     "total_contratos": 69,
     "valor_total": 8236342129.110001,
@@ -7747,13 +7754,6 @@
     "valor_total": 8149212374.92,
     "valor_promedio": 239682716.90941176,
     "sector": "Transporte"
-  },
-  {
-    "nombre_entidad": "IDEP",
-    "total_contratos": 76,
-    "valor_total": 8121820438.47,
-    "valor_promedio": 106866058.40092106,
-    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "SENA REGIONAL CUNDINAMARCA Grupo Administrativo CTDPE",
@@ -8142,9 +8142,9 @@
   },
   {
     "nombre_entidad": "UNGRD",
-    "total_contratos": 68,
-    "valor_total": 6950735968.04,
-    "valor_promedio": 102216705.41235293,
+    "total_contratos": 69,
+    "valor_total": 6970735968.04,
+    "valor_promedio": 101025158.95710145,
     "sector": "Presidencia de la República"
   },
   {
@@ -8219,9 +8219,9 @@
   },
   {
     "nombre_entidad": "INSTITUTO CARO Y CUERVO",
-    "total_contratos": 199,
-    "valor_total": 6762753082.78,
-    "valor_promedio": 33983683.83306532,
+    "total_contratos": 200,
+    "valor_total": 6766253082.78,
+    "valor_promedio": 33831265.413899995,
     "sector": "Cultura"
   },
   {
@@ -8575,18 +8575,18 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "SENA REGIONAL BOLIVAR Grupo Administrativo CINFP",
+    "total_contratos": 82,
+    "valor_total": 5943125436.29,
+    "valor_promedio": 72477139.46695122,
+    "sector": "Trabajo"
+  },
+  {
     "nombre_entidad": "MUNICIPIO DE MIRAFLORES GUAVIARE",
     "total_contratos": 61,
     "valor_total": 5937728700.29,
     "valor_promedio": 97339814.75885245,
     "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "SENA REGIONAL BOLIVAR Grupo Administrativo CINFP",
-    "total_contratos": 81,
-    "valor_total": 5913656836.29,
-    "valor_promedio": 73008109.09,
-    "sector": "Trabajo"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPIAL DE SIMACOTA",
@@ -8625,9 +8625,9 @@
   },
   {
     "nombre_entidad": "LOTERIA DE BOGOTA",
-    "total_contratos": 52,
-    "valor_total": 5849250532.51,
-    "valor_promedio": 112485587.16365385,
+    "total_contratos": 53,
+    "valor_total": 5851062233.51,
+    "valor_promedio": 110397400.63226415,
     "sector": "Hacienda y Crédito Público"
   },
   {
@@ -8919,9 +8919,9 @@
   },
   {
     "nombre_entidad": "DTAO-FONAM",
-    "total_contratos": 285,
-    "valor_total": 5215263132.3,
-    "valor_promedio": 18299168.88526316,
+    "total_contratos": 286,
+    "valor_total": 5219263132.3,
+    "valor_promedio": 18249171.79125874,
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
@@ -9101,9 +9101,9 @@
   },
   {
     "nombre_entidad": "CÁRCEL Y PENITENCIARIA DE MEDIA SEGURIDAD DE MANIZALES",
-    "total_contratos": 96,
-    "valor_total": 4865181314.34,
-    "valor_promedio": 50678972.024375,
+    "total_contratos": 97,
+    "valor_total": 4873041314.34,
+    "valor_promedio": 50237539.32309279,
     "sector": "Ley de Justicia"
   },
   {
@@ -9114,18 +9114,18 @@
     "sector": "Vivienda, Ciudad y Territorio"
   },
   {
+    "nombre_entidad": "POLICIA METROPOLITANA DE MANIZALES-UPRES CALDAS",
+    "total_contratos": 111,
+    "valor_total": 4835795996.91,
+    "valor_promedio": 43565729.70189189,
+    "sector": "defensa"
+  },
+  {
     "nombre_entidad": "ASOCIACION DE AUTORIDADES TRADICIONALES WAYUU SAINMAA WAYUU1",
     "total_contratos": 3,
     "valor_total": 4832521955.99,
     "valor_promedio": 1610840651.9966667,
     "sector": "interior"
-  },
-  {
-    "nombre_entidad": "POLICIA METROPOLITANA DE MANIZALES-UPRES CALDAS",
-    "total_contratos": 110,
-    "valor_total": 4830420176.91,
-    "valor_promedio": 43912910.69918182,
-    "sector": "defensa"
   },
   {
     "nombre_entidad": "ALCALDIA MUNICIPAL DE SUESCA +",
@@ -9303,6 +9303,13 @@
     "sector": "Ambiente y Desarrollo Sostenible"
   },
   {
+    "nombre_entidad": "Instituto Superior de Educacion Rural",
+    "total_contratos": 55,
+    "valor_total": 4553146826.91,
+    "valor_promedio": 82784487.762,
+    "sector": "Educación Nacional"
+  },
+  {
     "nombre_entidad": "ALCALDiA MUNICIPIO DE CURITI",
     "total_contratos": 58,
     "valor_total": 4537591288.98,
@@ -9315,13 +9322,6 @@
     "valor_total": 4532198543.43,
     "valor_promedio": 71939659.41952382,
     "sector": "defensa"
-  },
-  {
-    "nombre_entidad": "Instituto Superior de Educacion Rural",
-    "total_contratos": 53,
-    "valor_total": 4498977542.91,
-    "valor_promedio": 84886368.73415095,
-    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "MUNICIPIO DE HELICONIA",
@@ -9793,6 +9793,13 @@
     "sector": "Trabajo"
   },
   {
+    "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD Y CARCELARIO DE YOPAL - INPEC",
+    "total_contratos": 114,
+    "valor_total": 3802058266.04,
+    "valor_promedio": 33351388.29859649,
+    "sector": "Ley de Justicia"
+  },
+  {
     "nombre_entidad": "MUNICIPIO  DE PIJAO",
     "total_contratos": 28,
     "valor_total": 3801201846.02,
@@ -9805,13 +9812,6 @@
     "valor_total": 3797654642.51,
     "valor_promedio": 172620665.5686364,
     "sector": "No aplica/No pertenece"
-  },
-  {
-    "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD Y CARCELARIO DE YOPAL - INPEC",
-    "total_contratos": 113,
-    "valor_total": 3792874516.04,
-    "valor_promedio": 33565261.2038938,
-    "sector": "Ley de Justicia"
   },
   {
     "nombre_entidad": "SENA REGIONAL DISTRITO CAPITAL Grupo Administrativo Intercentros CTCM",
@@ -10010,6 +10010,13 @@
     "sector": "Industria"
   },
   {
+    "nombre_entidad": "INSTITUTO DEPARTAMENTAL DEL DEPORTE Y LA RECREACIÓN DEL DEPARTAMENTO DE ARAUCA",
+    "total_contratos": 22,
+    "valor_total": 3519290610.56,
+    "valor_promedio": 159967755.02545455,
+    "sector": "deportes"
+  },
+  {
     "nombre_entidad": "MUNICIPIO VILLA CARO",
     "total_contratos": 20,
     "valor_total": 3516553076.31,
@@ -10029,13 +10036,6 @@
     "valor_total": 3506431428.34,
     "valor_promedio": 106255497.82848485,
     "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "INSTITUTO DEPARTAMENTAL DEL DEPORTE Y LA RECREACIÓN DEL DEPARTAMENTO DE ARAUCA",
-    "total_contratos": 21,
-    "valor_total": 3499250610.56,
-    "valor_promedio": 166630981.4552381,
-    "sector": "deportes"
   },
   {
     "nombre_entidad": "FONAM - DTAN",
@@ -10131,8 +10131,8 @@
   {
     "nombre_entidad": "SENA REGIONAL GUAINÍA Grupo de Apoyo Administrativo Mixto",
     "total_contratos": 41,
-    "valor_total": 3407825225.7200003,
-    "valor_promedio": 83117688.43219513,
+    "valor_total": 3407825225.72,
+    "valor_promedio": 83117688.43219511,
     "sector": "Trabajo"
   },
   {
@@ -10614,8 +10614,8 @@
   {
     "nombre_entidad": "EMPRESA SOCIAL DEL ESTADO HOSPITAL SAN ANTONIO DE SOATA",
     "total_contratos": 52,
-    "valor_total": 2824617935.61,
-    "valor_promedio": 54319575.684807695,
+    "valor_total": 2824617935.6099997,
+    "valor_promedio": 54319575.68480769,
     "sector": "Salud y Protección Social"
   },
   {
@@ -10816,9 +10816,9 @@
   },
   {
     "nombre_entidad": "INDER GIRARDOTA",
-    "total_contratos": 17,
-    "valor_total": 2559276689.0,
-    "valor_promedio": 150545687.5882353,
+    "total_contratos": 18,
+    "valor_total": 2566806689.0,
+    "valor_promedio": 142600371.6111111,
     "sector": "deportes"
   },
   {
@@ -10929,8 +10929,8 @@
   {
     "nombre_entidad": "IDERF",
     "total_contratos": 47,
-    "valor_total": 2443898086.4900002,
-    "valor_promedio": 51997831.627446815,
+    "valor_total": 2443898086.49,
+    "valor_promedio": 51997831.6274468,
     "sector": "deportes"
   },
   {
@@ -10967,6 +10967,13 @@
     "valor_total": 2404708802.4700003,
     "valor_promedio": 480941760.4940001,
     "sector": "Ambiente y Desarrollo Sostenible"
+  },
+  {
+    "nombre_entidad": "MEGABÚS S.A.",
+    "total_contratos": 53,
+    "valor_total": 2396618352.62,
+    "valor_promedio": 45219214.20037736,
+    "sector": "Transporte"
   },
   {
     "nombre_entidad": "MUNICIPIO DE APIA",
@@ -11109,6 +11116,13 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "Universidad Pontificia Bolivariana",
+    "total_contratos": 136,
+    "valor_total": 2299939563.2,
+    "valor_promedio": 16911320.31764706,
+    "sector": "Educación Nacional"
+  },
+  {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE GIRALDO",
     "total_contratos": 28,
     "valor_total": 2297547609.36,
@@ -11130,18 +11144,18 @@
     "sector": "Salud y Protección Social"
   },
   {
+    "nombre_entidad": "DEPARTAMENTO ADMINISTRATIVO NACIONAL DE ESTADISTICA-SUROCCIDENTE",
+    "total_contratos": 38,
+    "valor_total": 2268314024.47,
+    "valor_promedio": 59692474.32815789,
+    "sector": "Información Estadística"
+  },
+  {
     "nombre_entidad": "INSTITUTO COLOMBIANO AGROPECUARIO - SECCIONAL TOLIMA",
     "total_contratos": 32,
     "valor_total": 2244417598.0,
     "valor_promedio": 70138049.9375,
     "sector": "agricultura"
-  },
-  {
-    "nombre_entidad": "MEGABÚS S.A.",
-    "total_contratos": 51,
-    "valor_total": 2236844135.54,
-    "valor_promedio": 43859688.93215686,
-    "sector": "Transporte"
   },
   {
     "nombre_entidad": "EMPRESA DE DESARROLLO Y RENOVACIÓN MUNICIPAL DE BURITICÁ ENTIDAD",
@@ -11177,13 +11191,6 @@
     "valor_total": 2221098675.12,
     "valor_promedio": 76589609.48689654,
     "sector": "deportes"
-  },
-  {
-    "nombre_entidad": "Universidad Pontificia Bolivariana",
-    "total_contratos": 135,
-    "valor_total": 2213499986.2,
-    "valor_promedio": 16396296.194074072,
-    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "INSTITUTO DE FOMENTO Y DESARROLLO DE BOYACA",
@@ -11431,13 +11438,6 @@
     "sector": "defensa"
   },
   {
-    "nombre_entidad": "DEPARTAMENTO ADMINISTRATIVO NACIONAL DE ESTADISTICA-SUROCCIDENTE",
-    "total_contratos": 36,
-    "valor_total": 2002633732.37,
-    "valor_promedio": 55628714.788055554,
-    "sector": "Información Estadística"
-  },
-  {
     "nombre_entidad": "ASOCIACION DE MUNICIPIO DEL NORDESTE Y MAGDALENA MEDIO ANTIOQUEÑO ZONA NUS",
     "total_contratos": 4,
     "valor_total": 2001267516.0,
@@ -11545,8 +11545,8 @@
   {
     "nombre_entidad": "INSTITUTO DISTRITAL DE SANTA MARTA PARA LA RECREACIÓN Y EL DEPORTE",
     "total_contratos": 38,
-    "valor_total": 1906392073.89,
-    "valor_promedio": 50168212.47078948,
+    "valor_total": 1906392073.8899999,
+    "valor_promedio": 50168212.47078947,
     "sector": "deportes"
   },
   {
@@ -12217,8 +12217,8 @@
   {
     "nombre_entidad": "GOBERNACION DEL VALLE - SECRETARIA DE ASUNTOS ETNICOS",
     "total_contratos": 6,
-    "valor_total": 1457767639.34,
-    "valor_promedio": 242961273.22333333,
+    "valor_total": 1457767639.3400002,
+    "valor_promedio": 242961273.22333336,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -12908,18 +12908,18 @@
     "sector": "Ley de Justicia"
   },
   {
+    "nombre_entidad": "CENTRAL DE TRANSPORTES ESTACION CUCUTA",
+    "total_contratos": 22,
+    "valor_total": 998196975.0,
+    "valor_promedio": 45372589.77272727,
+    "sector": "Transporte"
+  },
+  {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE SAN JOSE DE PARE",
     "total_contratos": 6,
     "valor_total": 995144134.22,
     "valor_promedio": 165857355.70333335,
     "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "CENTRAL DE TRANSPORTES ESTACION CUCUTA",
-    "total_contratos": 21,
-    "valor_total": 994253672.0,
-    "valor_promedio": 47345412.952380955,
-    "sector": "Transporte"
   },
   {
     "nombre_entidad": "UNIDAD PRESTADORA DE SALUD ARAUCA",
@@ -13176,8 +13176,8 @@
   {
     "nombre_entidad": "DANE CENTRO OCCIDENTE",
     "total_contratos": 39,
-    "valor_total": 891736084.68,
-    "valor_promedio": 22865027.81230769,
+    "valor_total": 891736084.6800001,
+    "valor_promedio": 22865027.812307693,
     "sector": "Servicio Público"
   },
   {
@@ -14015,9 +14015,9 @@
   },
   {
     "nombre_entidad": "CARCEL Y PENITENCIARIA DE MEDIANA  SEGURIDAD DE CHOCONTA",
-    "total_contratos": 78,
-    "valor_total": 632848880.26,
-    "valor_promedio": 8113447.182820513,
+    "total_contratos": 79,
+    "valor_total": 634347030.26,
+    "valor_promedio": 8029709.243797468,
     "sector": "Ley de Justicia"
   },
   {
@@ -14184,8 +14184,8 @@
   {
     "nombre_entidad": "COMISION COLOMBIANA DEL OCEANO",
     "total_contratos": 30,
-    "valor_total": 603657596.06,
-    "valor_promedio": 20121919.868666664,
+    "valor_total": 603657596.0600001,
+    "valor_promedio": 20121919.868666667,
     "sector": "defensa"
   },
   {
@@ -14560,6 +14560,13 @@
     "sector": "Salud y Protección Social"
   },
   {
+    "nombre_entidad": "IMDECUR",
+    "total_contratos": 15,
+    "valor_total": 509864152.13,
+    "valor_promedio": 33990943.47533333,
+    "sector": "Cultura"
+  },
+  {
     "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD Y CARCELARIO DE JERICO",
     "total_contratos": 99,
     "valor_total": 509696706.0,
@@ -14579,13 +14586,6 @@
     "valor_total": 509265681.0,
     "valor_promedio": 509265681.0,
     "sector": "Salud y Protección Social"
-  },
-  {
-    "nombre_entidad": "IMDECUR",
-    "total_contratos": 14,
-    "valor_total": 508971652.13,
-    "valor_promedio": 36355118.00928571,
-    "sector": "Cultura"
   },
   {
     "nombre_entidad": "PERSONERIA MUNICIPAL DE YUMBO",
@@ -14910,6 +14910,13 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD CARCELARIO SALAMINA",
+    "total_contratos": 45,
+    "valor_total": 454870520.2,
+    "valor_promedio": 10108233.782222223,
+    "sector": "Ley de Justicia"
+  },
+  {
     "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD DE RAMIRIQUI - INPEC",
     "total_contratos": 46,
     "valor_total": 454157938.0,
@@ -14957,13 +14964,6 @@
     "valor_total": 446035401.56,
     "valor_promedio": 55754425.195,
     "sector": "No aplica/No pertenece"
-  },
-  {
-    "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD CARCELARIO SALAMINA",
-    "total_contratos": 44,
-    "valor_total": 445939583.2,
-    "valor_promedio": 10134990.527272727,
-    "sector": "Ley de Justicia"
   },
   {
     "nombre_entidad": "EPGA S.A E.S.P",
@@ -15619,8 +15619,8 @@
   {
     "nombre_entidad": "EPMSC FRESNO",
     "total_contratos": 54,
-    "valor_total": 345046306.34,
-    "valor_promedio": 6389746.413703703,
+    "valor_total": 345046306.34000003,
+    "valor_promedio": 6389746.413703704,
     "sector": "Ley de Justicia"
   },
   {
@@ -16086,6 +16086,13 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD Y CARCELARIO DE TUMACO",
+    "total_contratos": 76,
+    "valor_total": 300500561.16,
+    "valor_promedio": 3953954.7521052635,
+    "sector": "Ley de Justicia"
+  },
+  {
     "nombre_entidad": "ALCALDIA MUNICIPIO DE CUITIVA",
     "total_contratos": 3,
     "valor_total": 300184158.98,
@@ -16126,13 +16133,6 @@
     "valor_total": 298204200.0,
     "valor_promedio": 298204200.0,
     "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "ESTABLECIMIENTO PENITENCIARIO DE MEDIANA SEGURIDAD Y CARCELARIO DE TUMACO",
-    "total_contratos": 75,
-    "valor_total": 296021661.16,
-    "valor_promedio": 3946955.4821333336,
-    "sector": "Ley de Justicia"
   },
   {
     "nombre_entidad": "MUNICIPIO SAN CALIXTO",
@@ -16431,8 +16431,8 @@
   {
     "nombre_entidad": "CONTRALORIA MUNICIPAL DE ARMENIA QUINDIO",
     "total_contratos": 15,
-    "valor_total": 263392722.01999998,
-    "valor_promedio": 17559514.80133333,
+    "valor_total": 263392722.02,
+    "valor_promedio": 17559514.801333334,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -16989,6 +16989,13 @@
     "sector": "Trabajo"
   },
   {
+    "nombre_entidad": "INSTITUTO NACIONAL PENITENCIARIO Y CARCELARIO SILVA",
+    "total_contratos": 69,
+    "valor_total": 215635665.0,
+    "valor_promedio": 3125154.565217391,
+    "sector": "Ley de Justicia"
+  },
+  {
     "nombre_entidad": "Departamento Administrativo de Movilidad y Seguridad Vial - Alcaldía de Tuluá",
     "total_contratos": 1,
     "valor_total": 215342400.0,
@@ -17029,13 +17036,6 @@
     "valor_total": 213072187.95,
     "valor_promedio": 23674687.549999997,
     "sector": "Servicio Público"
-  },
-  {
-    "nombre_entidad": "INSTITUTO NACIONAL PENITENCIARIO Y CARCELARIO SILVA",
-    "total_contratos": 68,
-    "valor_total": 212857265.0,
-    "valor_promedio": 3130253.8970588236,
-    "sector": "Ley de Justicia"
   },
   {
     "nombre_entidad": "MUNICIPIO DE VENECIA CUNDINAMARCA",
@@ -17992,8 +17992,8 @@
   {
     "nombre_entidad": "ESE CENTRO DE SALUD DE ZETAQUIRA",
     "total_contratos": 14,
-    "valor_total": 151723016.42,
-    "valor_promedio": 10837358.315714285,
+    "valor_total": 151723016.42000002,
+    "valor_promedio": 10837358.315714287,
     "sector": "Salud y Protección Social"
   },
   {
@@ -18387,6 +18387,13 @@
     "valor_total": 121544434.0,
     "valor_promedio": 15193054.25,
     "sector": "deportes"
+  },
+  {
+    "nombre_entidad": "CONTRALORIA MUNICIPAL DE GIRON",
+    "total_contratos": 9,
+    "valor_total": 121422531.2,
+    "valor_promedio": 13491392.355555557,
+    "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "PERSONERIA MUNICIPAL DE SINCELEJO",
@@ -18884,13 +18891,6 @@
     "valor_total": 99543500.0,
     "valor_promedio": 99543500.0,
     "sector": "Salud y Protección Social"
-  },
-  {
-    "nombre_entidad": "CONTRALORIA MUNICIPAL DE GIRON",
-    "total_contratos": 8,
-    "valor_total": 99433689.2,
-    "valor_promedio": 12429211.15,
-    "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "INSTITUTCION EDUCATIVA JOSE AGUSTIN MACKENCIE",
@@ -19698,13 +19698,6 @@
     "sector": "Educación Nacional"
   },
   {
-    "nombre_entidad": "ALCALDIA MUNICIPAL DE GALERAS",
-    "total_contratos": 1,
-    "valor_total": 70000000.0,
-    "valor_promedio": 70000000.0,
-    "sector": "Servicio Público"
-  },
-  {
     "nombre_entidad": "ALCALDIA MUNICIPAL DE SAMANIEGO",
     "total_contratos": 1,
     "valor_total": 70000000.0,
@@ -19717,6 +19710,13 @@
     "valor_total": 70000000.0,
     "valor_promedio": 17500000.0,
     "sector": "No aplica/No pertenece"
+  },
+  {
+    "nombre_entidad": "ALCALDIA MUNICIPAL DE GALERAS",
+    "total_contratos": 1,
+    "valor_total": 70000000.0,
+    "valor_promedio": 70000000.0,
+    "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "COLEGIO CENTRO DE COMERCIO",
@@ -20475,6 +20475,13 @@
     "sector": "Educación Nacional"
   },
   {
+    "nombre_entidad": "ALCALDÍA MUNICIPIO DE ICONONZO",
+    "total_contratos": 1,
+    "valor_total": 50495000.0,
+    "valor_promedio": 50495000.0,
+    "sector": "Servicio Público"
+  },
+  {
     "nombre_entidad": "INSTITUCION EDUCATIVA TECNICA EMPRESARIAL LLANO LINDO",
     "total_contratos": 1,
     "valor_total": 50400000.0,
@@ -20517,17 +20524,17 @@
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "INSTITUCION EDUCATIVA JOSE JOAQUIN VELEZ",
-    "total_contratos": 3,
-    "valor_total": 50000000.0,
-    "valor_promedio": 16666666.666666666,
-    "sector": "Educación Nacional"
-  },
-  {
     "nombre_entidad": "INSTITUCION EDUCATIVA MUNICIPAL MARCO FIDEL SUAREZ",
     "total_contratos": 1,
     "valor_total": 50000000.0,
     "valor_promedio": 50000000.0,
+    "sector": "Educación Nacional"
+  },
+  {
+    "nombre_entidad": "INSTITUCION EDUCATIVA JOSE JOAQUIN VELEZ",
+    "total_contratos": 3,
+    "valor_total": 50000000.0,
+    "valor_promedio": 16666666.666666666,
     "sector": "Educación Nacional"
   },
   {
@@ -21182,18 +21189,18 @@
     "sector": "Vivienda, Ciudad y Territorio"
   },
   {
-    "nombre_entidad": "INSTITUCION EDUCATIVA LAS MARIAS",
-    "total_contratos": 1,
-    "valor_total": 39000000.0,
-    "valor_promedio": 39000000.0,
-    "sector": "Educación Nacional"
-  },
-  {
     "nombre_entidad": "Concejo Municipal de Turbaco",
     "total_contratos": 1,
     "valor_total": 39000000.0,
     "valor_promedio": 39000000.0,
     "sector": "No aplica/No pertenece"
+  },
+  {
+    "nombre_entidad": "INSTITUCION EDUCATIVA LAS MARIAS",
+    "total_contratos": 1,
+    "valor_total": 39000000.0,
+    "valor_promedio": 39000000.0,
+    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "CONCEJO MUNICIPAL DE GUAMAL - META",
@@ -21420,18 +21427,18 @@
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "INSTITUCION EDUCATIVA TECNICO AGROPECUARIO CARLOS ARTURO VERBEL VERGARA",
-    "total_contratos": 1,
-    "valor_total": 35000000.0,
-    "valor_promedio": 35000000.0,
-    "sector": "Educación Nacional"
-  },
-  {
     "nombre_entidad": "INSTITUTO DE TRANSITO Y TRANSPORTE DE CHARALA.",
     "total_contratos": 1,
     "valor_total": 35000000.0,
     "valor_promedio": 35000000.0,
     "sector": "No aplica/No pertenece"
+  },
+  {
+    "nombre_entidad": "INSTITUCION EDUCATIVA TECNICO AGROPECUARIO CARLOS ARTURO VERBEL VERGARA",
+    "total_contratos": 1,
+    "valor_total": 35000000.0,
+    "valor_promedio": 35000000.0,
+    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "Area Metropolitana Centro Sur de Caldas",
@@ -21546,18 +21553,18 @@
     "sector": "Educación Nacional"
   },
   {
-    "nombre_entidad": "INSTITUCION EDUCATIVA FATIMA",
-    "total_contratos": 1,
-    "valor_total": 33000000.0,
-    "valor_promedio": 33000000.0,
-    "sector": "Educación Nacional"
-  },
-  {
     "nombre_entidad": "CONCEJO MUNICIPAL DE TIBASOSA",
     "total_contratos": 3,
     "valor_total": 33000000.0,
     "valor_promedio": 11000000.0,
     "sector": "No aplica/No pertenece"
+  },
+  {
+    "nombre_entidad": "INSTITUCION EDUCATIVA FATIMA",
+    "total_contratos": 1,
+    "valor_total": 33000000.0,
+    "valor_promedio": 33000000.0,
+    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "MUNICIPIO DE JUNIN CUNDINAMARCA",
@@ -22484,17 +22491,17 @@
     "sector": "Educación Nacional"
   },
   {
-    "nombre_entidad": "EMPRESA DE SERVICIOS DE GUALIVA EMSERGUALIVA S.A.S.E.S.P",
-    "total_contratos": 1,
-    "valor_total": 21000000.0,
-    "valor_promedio": 21000000.0,
-    "sector": "No aplica/No pertenece"
-  },
-  {
     "nombre_entidad": "EMPRESA DE SERVICIOS PUBLICOS RIO ABURRA SAS ESP",
     "total_contratos": 2,
     "valor_total": 21000000.0,
     "valor_promedio": 10500000.0,
+    "sector": "No aplica/No pertenece"
+  },
+  {
+    "nombre_entidad": "EMPRESA DE SERVICIOS DE GUALIVA EMSERGUALIVA S.A.S.E.S.P",
+    "total_contratos": 1,
+    "valor_total": 21000000.0,
+    "valor_promedio": 21000000.0,
     "sector": "No aplica/No pertenece"
   },
   {
@@ -22659,17 +22666,17 @@
     "sector": "Educación Nacional"
   },
   {
-    "nombre_entidad": "CENTRO EDUCATIVO RURAL MADRESECA",
-    "total_contratos": 1,
-    "valor_total": 19000000.0,
-    "valor_promedio": 19000000.0,
-    "sector": "Educación Nacional"
-  },
-  {
     "nombre_entidad": "INSTITUCION EDUCATIVA TECNICA INDUSTRIAL Y COMERCIAL DE SOLEDAD",
     "total_contratos": 3,
     "valor_total": 19000000.0,
     "valor_promedio": 6333333.333333333,
+    "sector": "Educación Nacional"
+  },
+  {
+    "nombre_entidad": "CENTRO EDUCATIVO RURAL MADRESECA",
+    "total_contratos": 1,
+    "valor_total": 19000000.0,
+    "valor_promedio": 19000000.0,
     "sector": "Educación Nacional"
   },
   {
@@ -22695,9 +22702,9 @@
   },
   {
     "nombre_entidad": "ESAP TERRITORIAL NARIÑO ALTO PUTUMAYO",
-    "total_contratos": 21,
+    "total_contratos": 22,
     "valor_total": 18591446.34,
-    "valor_promedio": 885306.9685714286,
+    "valor_promedio": 845065.7427272727,
     "sector": "Educación Nacional"
   },
   {
@@ -22848,18 +22855,18 @@
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "ALCALDIA MUNICIPAL DE GUAYABAL DE SÍQUIMA",
-    "total_contratos": 1,
-    "valor_total": 16000000.0,
-    "valor_promedio": 16000000.0,
-    "sector": "No aplica/No pertenece"
-  },
-  {
     "nombre_entidad": "EMPRESA SOCIAL DEL ESTADO CENTRO SALUD RICAURTE",
     "total_contratos": 1,
     "valor_total": 16000000.0,
     "valor_promedio": 16000000.0,
     "sector": "Salud y Protección Social"
+  },
+  {
+    "nombre_entidad": "ALCALDIA MUNICIPAL DE GUAYABAL DE SÍQUIMA",
+    "total_contratos": 1,
+    "valor_total": 16000000.0,
+    "valor_promedio": 16000000.0,
+    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "CONCEJO MUNICIPAL DE PALMIRA",
@@ -22995,13 +23002,6 @@
     "sector": "agricultura"
   },
   {
-    "nombre_entidad": "CONCEJO MUNICIPAL BRICEÑO ANTIOQUIA",
-    "total_contratos": 1,
-    "valor_total": 15000000.0,
-    "valor_promedio": 15000000.0,
-    "sector": "No aplica/No pertenece"
-  },
-  {
     "nombre_entidad": "CONCEJO MUNICIPAL DE VILLANUEVA CASANARE",
     "total_contratos": 1,
     "valor_total": 15000000.0,
@@ -23009,14 +23009,21 @@
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "CONCEJO MUNICIPAL DE PLATO MAGDALENA",
+    "nombre_entidad": "CONCEJO MUNICIPAL BRICEÑO ANTIOQUIA",
+    "total_contratos": 1,
+    "valor_total": 15000000.0,
+    "valor_promedio": 15000000.0,
+    "sector": "No aplica/No pertenece"
+  },
+  {
+    "nombre_entidad": "CONCEJO MUNICIPAL DE GUATAPÉ",
     "total_contratos": 1,
     "valor_total": 15000000.0,
     "valor_promedio": 15000000.0,
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "CONCEJO MUNICIPAL DE GUATAPÉ",
+    "nombre_entidad": "CONCEJO MUNICIPAL DE PLATO MAGDALENA",
     "total_contratos": 1,
     "valor_total": 15000000.0,
     "valor_promedio": 15000000.0,
@@ -23121,21 +23128,7 @@
     "sector": "Salud y Protección Social"
   },
   {
-    "nombre_entidad": "CONCEJO MUNICIPAL DE SILVANIA",
-    "total_contratos": 1,
-    "valor_total": 14000000.0,
-    "valor_promedio": 14000000.0,
-    "sector": "No aplica/No pertenece"
-  },
-  {
     "nombre_entidad": "CONCEJO MUNICIPAL DE PUERTO BERRÍO EN ANTIOQUIA",
-    "total_contratos": 1,
-    "valor_total": 14000000.0,
-    "valor_promedio": 14000000.0,
-    "sector": "No aplica/No pertenece"
-  },
-  {
-    "nombre_entidad": "promueve mas sas",
     "total_contratos": 1,
     "valor_total": 14000000.0,
     "valor_promedio": 14000000.0,
@@ -23147,6 +23140,20 @@
     "valor_total": 14000000.0,
     "valor_promedio": 14000000.0,
     "sector": "Servicio Público"
+  },
+  {
+    "nombre_entidad": "CONCEJO MUNICIPAL DE SILVANIA",
+    "total_contratos": 1,
+    "valor_total": 14000000.0,
+    "valor_promedio": 14000000.0,
+    "sector": "No aplica/No pertenece"
+  },
+  {
+    "nombre_entidad": "promueve mas sas",
+    "total_contratos": 1,
+    "valor_total": 14000000.0,
+    "valor_promedio": 14000000.0,
+    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "CONCEJO MUNICIPAL DE GACHANCIPÁ",
@@ -24122,11 +24129,11 @@
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "MUNICIPIO DE QUIPAMA",
+    "nombre_entidad": "PERSONERIA MUNICIPAL DE LA CUMBRE",
     "total_contratos": 1,
     "valor_total": 6000000.0,
     "valor_promedio": 6000000.0,
-    "sector": "Servicio Público"
+    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "CONCEJO MUNICIPAL DE GUACA",
@@ -24136,18 +24143,18 @@
     "sector": "No aplica/No pertenece"
   },
   {
+    "nombre_entidad": "MUNICIPIO DE QUIPAMA",
+    "total_contratos": 1,
+    "valor_total": 6000000.0,
+    "valor_promedio": 6000000.0,
+    "sector": "Servicio Público"
+  },
+  {
     "nombre_entidad": "INSTITUCION EDUCATIVA GUARINOCITO",
     "total_contratos": 2,
     "valor_total": 6000000.0,
     "valor_promedio": 3000000.0,
     "sector": "Educación Nacional"
-  },
-  {
-    "nombre_entidad": "PERSONERIA MUNICIPAL DE LA CUMBRE",
-    "total_contratos": 1,
-    "valor_total": 6000000.0,
-    "valor_promedio": 6000000.0,
-    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "Asamblea Departamental de La Guajira",
@@ -24325,18 +24332,18 @@
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "CONCEJO MUNICIPAL SALENTO.",
-    "total_contratos": 1,
-    "valor_total": 5000000.0,
-    "valor_promedio": 5000000.0,
-    "sector": "Servicio Público"
-  },
-  {
     "nombre_entidad": "INSTITUTO COLOMBIANO AGROPECUARIO (ICA) - SECCIONAL SAN ANDRES",
     "total_contratos": 1,
     "valor_total": 5000000.0,
     "valor_promedio": 5000000.0,
     "sector": "agricultura"
+  },
+  {
+    "nombre_entidad": "CONCEJO MUNICIPAL SALENTO.",
+    "total_contratos": 1,
+    "valor_total": 5000000.0,
+    "valor_promedio": 5000000.0,
+    "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "INSTITUTO TECNICO MERCEDES ABREGO",
@@ -24500,18 +24507,18 @@
     "sector": "Ley de Justicia"
   },
   {
-    "nombre_entidad": "CONCEJO MUNICIPAL DE AGUADAS",
-    "total_contratos": 1,
-    "valor_total": 4000000.0,
-    "valor_promedio": 4000000.0,
-    "sector": "Servicio Público"
-  },
-  {
     "nombre_entidad": "INSTITUCION EDUCATIVA ANTONIO ROLDAN BETANCUR",
     "total_contratos": 1,
     "valor_total": 4000000.0,
     "valor_promedio": 4000000.0,
     "sector": "Educación Nacional"
+  },
+  {
+    "nombre_entidad": "CONCEJO MUNICIPAL DE AGUADAS",
+    "total_contratos": 1,
+    "valor_total": 4000000.0,
+    "valor_promedio": 4000000.0,
+    "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "PERSONERIA MUNICIPAL DE GUASCA",
@@ -24591,18 +24598,18 @@
     "sector": "Educación Nacional"
   },
   {
-    "nombre_entidad": "PERSONERIA DEL MUNICIPIO DE RAQUIRA",
-    "total_contratos": 2,
-    "valor_total": 3500000.0,
-    "valor_promedio": 1750000.0,
-    "sector": "Servicio Público"
-  },
-  {
     "nombre_entidad": "INSTITUCION EDUCATIVA CENTRAL DE BACHILLERATO INTEGRADO",
     "total_contratos": 1,
     "valor_total": 3500000.0,
     "valor_promedio": 3500000.0,
     "sector": "Educación Nacional"
+  },
+  {
+    "nombre_entidad": "PERSONERIA DEL MUNICIPIO DE RAQUIRA",
+    "total_contratos": 2,
+    "valor_total": 3500000.0,
+    "valor_promedio": 1750000.0,
+    "sector": "Servicio Público"
   },
   {
     "nombre_entidad": "PERSONERIA MUNICIPAL CALIMA EL DARIEN",
@@ -24696,6 +24703,13 @@
     "sector": "Servicio Público"
   },
   {
+    "nombre_entidad": "INSTITUCION EDUCATIVA GUSTAVO VILLA DIAZ",
+    "total_contratos": 1,
+    "valor_total": 3000000.0,
+    "valor_promedio": 3000000.0,
+    "sector": "Educación Nacional"
+  },
+  {
     "nombre_entidad": "Concejo Municipal de Altamira",
     "total_contratos": 2,
     "valor_total": 3000000.0,
@@ -24704,13 +24718,6 @@
   },
   {
     "nombre_entidad": "INSTITUCION EDUCATIVA TECNICA MICROEMPRESARIAL DE SOLEDAD",
-    "total_contratos": 1,
-    "valor_total": 3000000.0,
-    "valor_promedio": 3000000.0,
-    "sector": "Educación Nacional"
-  },
-  {
-    "nombre_entidad": "INSTITUCION EDUCATIVA GUSTAVO VILLA DIAZ",
     "total_contratos": 1,
     "valor_total": 3000000.0,
     "valor_promedio": 3000000.0,
@@ -25235,14 +25242,14 @@
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "Personeria Municipal de Guateque",
+    "nombre_entidad": "CONCEJO MUNICIPAL CHIVATA",
     "total_contratos": 1,
     "valor_total": 963900.0,
     "valor_promedio": 963900.0,
     "sector": "Servicio Público"
   },
   {
-    "nombre_entidad": "CONCEJO MUNICIPAL CHIVATA",
+    "nombre_entidad": "Personeria Municipal de Guateque",
     "total_contratos": 1,
     "valor_total": 963900.0,
     "valor_promedio": 963900.0,
@@ -25284,18 +25291,18 @@
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "PERSONERIA MUNICIPAL DE MONTENEGRO",
-    "total_contratos": 1,
-    "valor_total": 900000.0,
-    "valor_promedio": 900000.0,
-    "sector": "No aplica/No pertenece"
-  },
-  {
     "nombre_entidad": "Personería Municipal de La Virginia Risaralda",
     "total_contratos": 1,
     "valor_total": 900000.0,
     "valor_promedio": 900000.0,
     "sector": "Ley de Justicia"
+  },
+  {
+    "nombre_entidad": "PERSONERIA MUNICIPAL DE MONTENEGRO",
+    "total_contratos": 1,
+    "valor_total": 900000.0,
+    "valor_promedio": 900000.0,
+    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "FONDO DE BIENESTAR SOCIAL DE EMPLEADOS Y LA ESCUELA DE CAPACITACIO DE ALTOS ESTUDIOS FISCALES",
@@ -25340,18 +25347,18 @@
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "PERSONERIA DISTRITAL DE RIOHACHA",
-    "total_contratos": 1,
-    "valor_total": 714000.0,
-    "valor_promedio": 714000.0,
-    "sector": "Presidencia de la República"
-  },
-  {
     "nombre_entidad": "CONCEJO DISTRITAL DE RIOHACHA",
     "total_contratos": 1,
     "valor_total": 714000.0,
     "valor_promedio": 714000.0,
     "sector": "Ley de Justicia"
+  },
+  {
+    "nombre_entidad": "PERSONERIA DISTRITAL DE RIOHACHA",
+    "total_contratos": 1,
+    "valor_total": 714000.0,
+    "valor_promedio": 714000.0,
+    "sector": "Presidencia de la República"
   },
   {
     "nombre_entidad": "CONCEJO MUNICIPAL DE VIOTA",
@@ -25466,18 +25473,18 @@
     "sector": "No aplica/No pertenece"
   },
   {
-    "nombre_entidad": "CONCEJO MUNICIPAL DE LA LLANADA",
-    "total_contratos": 1,
-    "valor_total": 202300.0,
-    "valor_promedio": 202300.0,
-    "sector": "No aplica/No pertenece"
-  },
-  {
     "nombre_entidad": "CONCEJO MUNICIPAL POLICARPA",
     "total_contratos": 1,
     "valor_total": 202300.0,
     "valor_promedio": 202300.0,
     "sector": "Servicio Público"
+  },
+  {
+    "nombre_entidad": "CONCEJO MUNICIPAL DE LA LLANADA",
+    "total_contratos": 1,
+    "valor_total": 202300.0,
+    "valor_promedio": 202300.0,
+    "sector": "No aplica/No pertenece"
   },
   {
     "nombre_entidad": "CONCEJO MUNICIPAL DE LOS ANDES NARIÑO",
@@ -25494,32 +25501,11 @@
     "sector": "Salud y Protección Social"
   },
   {
-    "nombre_entidad": "ELECTRIFICADORA DE SANTANDER SA ESP",
-    "total_contratos": 1,
-    "valor_total": 0.0,
-    "valor_promedio": 0.0,
-    "sector": "Minas y Energía"
-  },
-  {
-    "nombre_entidad": "COMANDO DE INGENIEROS",
-    "total_contratos": 3,
-    "valor_total": 0.0,
-    "valor_promedio": 0.0,
-    "sector": "defensa"
-  },
-  {
     "nombre_entidad": "Universidad de La Sabana",
     "total_contratos": 1,
     "valor_total": 0.0,
     "valor_promedio": 0.0,
     "sector": "Ciencia Tecnología"
-  },
-  {
-    "nombre_entidad": "INSTITUCION ETNOEDUCATIVA TECNICA NASAWE'SX FI'ZÑI.",
-    "total_contratos": 1,
-    "valor_total": 0.0,
-    "valor_promedio": 0.0,
-    "sector": "Educación Nacional"
   },
   {
     "nombre_entidad": "SEGUNDO COMANDO ARMADA NACIONAL",
@@ -25529,8 +25515,29 @@
     "sector": "defensa"
   },
   {
+    "nombre_entidad": "INSTITUCION ETNOEDUCATIVA TECNICA NASAWE'SX FI'ZÑI.",
+    "total_contratos": 1,
+    "valor_total": 0.0,
+    "valor_promedio": 0.0,
+    "sector": "Educación Nacional"
+  },
+  {
+    "nombre_entidad": "ELECTRIFICADORA DE SANTANDER SA ESP",
+    "total_contratos": 1,
+    "valor_total": 0.0,
+    "valor_promedio": 0.0,
+    "sector": "Minas y Energía"
+  },
+  {
     "nombre_entidad": "INDUSTRIA MILITAR",
     "total_contratos": 1,
+    "valor_total": 0.0,
+    "valor_promedio": 0.0,
+    "sector": "defensa"
+  },
+  {
+    "nombre_entidad": "COMANDO DE INGENIEROS",
+    "total_contratos": 3,
     "valor_total": 0.0,
     "valor_promedio": 0.0,
     "sector": "defensa"
