@@ -11,18 +11,18 @@
     "nuevos_o_actualizados_esta_corrida": 0,
     "aptos_modelo": 265143,
     "entidades_distintas": 3666,
-    "valor_total_acumulado_cop": 273402539628332.78,
+    "valor_total_acumulado_cop": 273402539628332.75,
     "sectores_distintos": 25,
     "fecha_firma_min": "2015-07-07",
     "fecha_firma_max": "2026-08-24"
   },
   "modelo": {
     "algoritmo": "IsolationForest",
-    "anomalias_detectadas": 13226,
+    "anomalias_detectadas": 13258,
     "red_flags": 627
   },
   "red_flags_resumen": {
-    "valor_total_cop": 13372594583869.47,
+    "valor_total_cop": 13372594583869.469,
     "desviacion_promedio_dias": 615.835725677831
   }
 }
