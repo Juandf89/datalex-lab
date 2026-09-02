@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los abogados y las matemáticas son como el agua y el aceite? | DataLex Lab</title>
+    <meta name="description" content="Siempre nos dijeron que los lenguajes de programación de software, las matemáticas eran como el agua y el aceite, eso es mito, les cuento que el derecho y…">
+    <meta name="author" content="Juan Pablo López Mejia">
+    <link rel="canonical" href="https://datalexlab.com/bitacora/abogados-y-matematicas">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DataLex Lab">
+    <meta property="og:locale" content="es_CO">
+    <meta property="og:title" content="Los abogados y las matemáticas son como el agua y el aceite?">
+    <meta property="og:description" content="Siempre nos dijeron que los lenguajes de programación de software, las matemáticas eran como el agua y el aceite, eso es mito, les cuento que el derecho y…">
+    <meta property="og:url" content="https://datalexlab.com/bitacora/abogados-y-matematicas">
+    <meta property="og:image" content="https://datalexlab.com/assets/og-datalexlab.png">
+    <meta property="article:published_time" content="2026-08-15">
+    <meta property="article:author" content="Juan Pablo López Mejia">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Los abogados y las matemáticas son como el agua y el aceite?">
+    <meta name="twitter:description" content="Siempre nos dijeron que los lenguajes de programación de software, las matemáticas eran como el agua y el aceite, eso es mito, les cuento que el derecho y…">
+    <meta name="twitter:image" content="https://datalexlab.com/assets/og-datalexlab.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Sin esto, la utilidad .font-serif de Tailwind (inyectada en runtime,
+        // o sea después del <style> de abajo y con la misma especificidad)
+        // gana sobre la regla de tipografía y los títulos salen en Georgia en
+        // vez de Merriweather. Se le enseña la familia a Tailwind en vez de
+        // pelear la cascada a base de !important.
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ["Merriweather", "Georgia", "serif"],
+                        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0f172a;
+            color: #cbd5e1;
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, h4, .font-serif { font-family: 'Merriweather', serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #818cf8 0%, #22d3ee 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-500 selection:text-white">
+
+    <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-700">
+        <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/" class="font-serif font-bold text-lg text-white">DataLex <span class="gradient-text">Lab</span></a>
+            <a href="/#bitacora" class="text-slate-400 hover:text-indigo-400 text-xs font-bold uppercase tracking-widest transition-colors">&#8592; Bitácora</a>
+        </div>
+    </nav>
+
+    <article class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+        <header class="mb-12">
+            <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest">AUTOR: JUAN PABLO LÓPEZ MEJIA</span>
+            <h1 class="text-3xl md:text-5xl font-serif font-bold text-white mt-4 mb-6 leading-tight">Los abogados y las matemáticas son como el agua y el aceite?</h1>
+            <div class="flex flex-wrap items-center gap-3 text-xs">
+                <span class="text-slate-300 font-bold bg-slate-900 px-3 py-1.5 rounded-full border border-slate-700 tracking-wider">
+                    <time datetime="2026-08-15">15/08/2026</time>
+                </span>
+                <span class="text-slate-400 uppercase tracking-widest font-bold">Juan Pablo López Mejia</span>
+            </div>
+        </header>
+
+        <div class="article-body">
+<h1 id="rompamos-el-mito" class="text-3xl md:text-4xl font-serif font-bold text-white mt-14 mb-5">¡ROMPAMOS EL MITO!</h1>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Siempre nos dijeron que los lenguajes de programación de software, las matemáticas eran como el agua y el aceite, eso es mito, les cuento que el derecho y las matemáticas, son como un buen vaso de Coca Cola con hielo, el casado perfecto, tal como lo pudieron ver en datalexlab.com lanzamos dos nuevas herramientas y como lo prometido es deuda, les dejo, el siguiente artículo para que lo lean:</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Durante el diseño e implementación del pipeline de ingesta de datos cuya fuente es SECOP II a través de la API de Datos Abiertos de Colombia (Socrata), uno de los primeros retos técnicos consistió en la heterogeneidad y volumen de la información. El objetivo principal de nuestro pipeline de ETL (<em>Extract, Transform, Load</em>) no es simplemente descargar archivos masivos, sino <strong class="text-white font-bold">seleccionar las columnas verdaderamente relevantes, estandarizar formatos y tipos de datos, y estructurar la información para una ingesta limpia y eficiente</strong>.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Los datos públicos abiertos, aunque accesibles vía API, reflejan la complejidad de la gestión contractual del país. Múltiples formatos de fechas, campos opcionales vacíos, valores no estandarizados y categorías heterogéneas conviven en una misma fuente. Para un modelo de analítica avanzada o detección de anomalías, consumir los datos crudos sin un tratamiento previo generaría ruido estadístico y sesgos insostenibles.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">En la ingeniería legal (<em>Legal Engineering</em>), la estandarización del dato es el verdadero punto de partida. Como planteaba cuando analizamos <em>Tomorrow&#39;s Lawyer</em>, la ingeniería legal busca precisamente que evolucionemos: <strong class="text-white font-bold">pasar de la gestión artesanal e imprecisa de la información jurídica a ser verdaderos arquitectos de sistemas y decisiones legales</strong>.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">En la práctica, esto exige proyectar únicamente las variables necesarias, homogenizar tipos de datos en la ingesta, aplicar mallas de validación preventivas y transformar datos dispares en información estructurada, confiable y accionable.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Hoy quiero contarles cómo resolvemos dos problemas fundamentales: diseñar un pipeline robusto de ETL sobre millones de contratos públicos en SECOP II y mapear las citaciones de la Corte Constitucional en tiempo real sin ahogarnos en infraestructura masiva.</p>
+<h2 id="el-pipeline-de-secop-ii-o-el-arte-de-filtrar-el-ruido" class="text-2xl md:text-3xl font-serif font-bold text-white mt-12 mb-4">El Pipeline de SECOP II o el Arte de Filtrar el Ruido</h2>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Imagina, que entras a una plaza de mercado gigantesca, donde se realizan miles de transacciones por segundo. Quieres detectar cuáles compras tienen precios inflados o plazos sospechosos. Pero hay un problema: el 88% de las personas en esa plaza solo están comprando el café de la mañana.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Eso ocurre con el dataset de SECOP II al cual puedes conectar vía API a través de la plataforma www.datos.gov.co.</p>
+<h3 id="separar-la-paja-del-trigo-el-contexto-juridico" class="text-xl md:text-2xl font-serif font-bold text-white mt-10 mb-3">Separar la paja del trigo (El contexto jurídico)</h3>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Cuando se carga la base completa de contratación pública a traves de la Api Socrata, te encuentras con que la inmensa mayoría corresponde a contratos de <strong class="text-white font-bold">Prestación de Servicios</strong> o contratación directa con entidades sin ánimo de lucro bajo el <strong class="text-white font-bold">Decreto 092 de 2017 o por las razones previstas en el Estatuto General de Contratación</strong>. Aunque vienen bajo dos etiquetas distintas en el sistema, en la realidad jurídica representan exactamente lo mismo: contratación de personas naturales, apoyo a la gestión profesional o contratación directa.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Recordando una valiosa lección que me enseñó una antigua jefa, intentar analizar la contratación del Estado sin filtrar estos datos es como evaluar el comercio exterior colombiano sin desindexar del análisis las exportaciones de flores: podrías ver un volumen astronómico y un dinamismo impresionante por el conteo de cajas enviadas, pero tendrías un sesgo enorme si pretendes usar esa muestra para entender la balanza comercial o el comportamiento de la industria nacional.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">En SECOP II ocurre exactamente eso: las prestaciones de servicios representan el <strong class="text-white font-bold">88.7% del total de registros por conteo</strong>, pero solo el <strong class="text-white font-bold">40.7% del presupuesto total</strong>.</p>
+<ul class="list-disc list-outside pl-6 mb-6 space-y-2 text-slate-300 text-base md:text-lg leading-relaxed marker:text-indigo-400"><li><strong class="text-white font-bold">La decisión de diseño:</strong> Excluir la prestación de servicios y persona natural del modelo de riesgo. Aplicamos este filtro directamente en la consulta de ingesta (SoQL) a la API Socrata. No porque no sea importante, sino porque distorsiona el benchmarking de cuantía, duración y riesgo contractual.</li></ul>
+<h3 id="2-proyeccion-de-columnas-y-estandarizacion-limpieza-de-datos-y-outliers" class="text-xl md:text-2xl font-serif font-bold text-white mt-10 mb-3">2. Proyección de columnas y estandarización (Limpieza de datos y Outliers)</h3>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">El script de ingesta (scripts/generar_json.py) selecciona mediante la consulta API únicamente los atributos relevantes para la auditoría (identificadores, entidad, cuantía, fechas de ejecución, adiciones de tiempo y sector). Durante esta transformación en Python:</p>
+<ul class="list-disc list-outside pl-6 mb-6 space-y-2 text-slate-300 text-base md:text-lg leading-relaxed marker:text-indigo-400"><li>Estandarizamos formatos de moneda, texto y fechas a tipos nativos para análisis informático.</li><li>Filtramos valores atípicos que superen el percentil de la muestra, aislando inconsistencias extremas de registro para garantizar que los indicadores representen la distribución real de la contratación.</li></ul>
+<h3 id="3-compensar-la-infraestructura-backfill-por-ventanas-de-90-dias" class="text-xl md:text-2xl font-serif font-bold text-white mt-10 mb-3">3. Compensar la infraestructura: Backfill por ventanas de 90 días</h3>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">El pipeline de DataLex Lab se ejecuta automáticamente mediante <strong class="text-white font-bold">GitHub Actions</strong>. Sin embargo, la infraestructura cloud no siempre ejecuta los <em>crons</em> programados con puntualidad de reloj suizo (un cron horario en GitHub Actions puede ejecutarse realmente cada 2 o 3 horas).</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Para garantizar la integridad histórica sin depender de la frecuencia exacta del servidor, diseñamos una estrategia de <strong class="text-white font-bold">backfill retrospectivo</strong>: en cada corrida, el script no solo trae lo más reciente, sino que retrocede <strong class="text-white font-bold">5 ventanas de 90 días hacia atrás en el tiempo</strong> (llegando hasta 2015). Así compensamos la latencia de la nube cubriendo más terreno por ejecución.</p>
+<h3 id="4-la-metrica-real-de-tiempo-dias-adicionados" class="text-xl md:text-2xl font-serif font-bold text-white mt-10 mb-3">4. La métrica real de tiempo: dias_adicionados</h3>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Al analizar el dataset de SECOP II, descubrimos una restricción técnica clave: <strong class="text-white font-bold">no existe un campo explícito de fecha de liquidación real</strong>.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Como ingenieros legales, no podemos inventar datos que la fuente no proporciona, pero sí podemos modelar el riesgo con el indicador más cercano y jurídicamente relevante: la <strong class="text-white font-bold">desviación temporal basada en dias_adicionados</strong> (los días de plazo sumados formalmente al contrato mediante otrosí o adendas de tiempo).</p>
+<h3 id="5-el-motor-de-anomalias-isolation-forest" class="text-xl md:text-2xl font-serif font-bold text-white mt-10 mb-3">5. El motor de anomalías: Isolation Forest</h3>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Con los datos limpios y estructurados, alimentamos un modelo de <strong class="text-white font-bold">Isolation Forest</strong>. En términos sencillos, este algoritmo no busca lo que es &quot;malo&quot;, sino lo que es <strong class="text-white font-bold">raro</strong>. Evalúa cuatro variables clave:</p>
+<ol class="list-decimal list-outside pl-6 mb-6 space-y-2 text-slate-300 text-base md:text-lg leading-relaxed marker:text-indigo-400"><li>Desviación temporal (calculada a partir de los dias_adicionados).</li><li>Valor total del contrato.</li><li>Duración prevista.</li><li>Sector de la entidad.</li></ol>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Si un contrato en el sector salud dura 10 veces más que la media de su categoría y acumula cientos de días adicionados vía otrosí, el modelo le asigna una puntuación de anomalía alta y enciende las alarmas en el dashboard.</p>
+<h3 id="6-absorcion-hibrida-en-dos-fases-fetch-confirm" class="text-xl md:text-2xl font-serif font-bold text-white mt-10 mb-3">6. Absorción Híbrida en Dos Fases (Fetch / Confirm)</h3>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">No podemos almacenar <em>todos</em> los millones de contratos de la historia colombiana en un servidor estático sin pagar una fortuna en almacenamiento. ¿Cómo lo resolvemos?</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Con un patrón de <strong class="text-white font-bold">Absorción Híbrida</strong>:</p>
+<ul class="list-disc list-outside pl-6 mb-6 space-y-2 text-slate-300 text-base md:text-lg leading-relaxed marker:text-indigo-400"><li>Mantenemos una muestra estática optimizada que se actualiza periódicamente vía <strong class="text-white font-bold">GitHub Actions</strong>.</li><li>Si un usuario busca en el dashboard una entidad o contrato que no está en la muestra local, nuestro backend en Node.js (server/app.mjs) hace un <em>fallback</em> en vivo a la API completa de Socrata.</li><li><strong class="text-white font-bold">El patrón Fetch/Confirm:</strong> Esa búsqueda se guarda en una cola de pendientes (pendientes-secop en JSON local). En la siguiente ejecución, el script de absorción (scripts/absorber_pendientes_secop.mjs, autenticado con ABSORBER_TOKEN) recoge los pendientes, los procesa y <strong class="text-white font-bold">solo confirma el borrado de la cola si la fusión al histórico estático se completó con éxito</strong>. Si algo falla a mitad de camino, ningún dato se pierde.</li></ul>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Es un sistema que aprende y expande su memoria basándose en las consultas reales de los usuarios.</p>
+<h2 id="jurisprudencia-y-la-red-de-citas-de-la-busqueda-artesanal-a-la-busqueda" class="text-2xl md:text-3xl font-serif font-bold text-white mt-12 mb-4">Jurisprudencia y la Red de Citas: De la Búsqueda Artesanal a la Búsqueda Estructurada</h2>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Cuando abordamos la jurisprudencia de la Corte Constitucional, la primera aproximación arquitectónica suele ser el enfoque de indexación exhaustiva: <em>&quot;Descargar las decenas de miles de sentencias desde 1992, construir un índice vectorial masivo y precalcular el grafo de citas de toda la historia jurídica colombiana&quot;</em>.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Si bien esa arquitectura es técnicamente viable y atractiva en el papel, en la práctica introduce costos de almacenamiento, latencia de sincronización y una complejidad de mantenimiento desproporcionada para el patrón de consulta real de un investigador.</p>
+<h3 id="del-universo-a-la-tierra-con-el-algoritmo-hnsw" class="text-xl md:text-2xl font-serif font-bold text-white mt-10 mb-3">Del Universo a la Tierra con el Algoritmo (HNSW)</h3>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">En DataLex Lab adoptamos una decisión de arquitectura consciente: <strong class="text-white font-bold">no mantenemos un índice acumulado ni un grafo global precalculado</strong>. ¿Por qué? Porque cuando un abogado investiga una línea jurisprudencial sobre la tutela contra providencias judiciales, no necesita procesar todo el universo del derecho constitucional a la vez; necesita entender el <strong class="text-white font-bold">vecindario directo</strong> de esa sentencia específica.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Así funciona nuestro explorador en tiempo real:</p>
+<ol class="list-decimal list-outside pl-6 mb-6 space-y-2 text-slate-300 text-base md:text-lg leading-relaxed marker:text-indigo-400"><li><strong class="text-white font-bold">Resolución directa por convención de citación:</strong> Las sentencias en Colombia siguen un estándar estricto (ej. T-021-2019, C-055-2022, mínimo tres dígitos). Nuestro servidor entiende esa convención y resuelve la URL exacta en la Relatoría de la Corte Constitucional sin necesidad de un buscador intermedio; también es posible realizar esta búsqueda por palabra clave.</li><li><strong class="text-white font-bold">Lectura e interpretación en tiempo real:</strong> En lugar de procesar previamente millones de folios, cuando el usuario solicita explorar una providencia, el servidor consulta la fuente original en vivo, descarga el documento y escanea el texto buscando patrones estándar de citación. En cuestión de milisegundos, identifica y extrae únicamente las decisiones citadas.</li><li><strong class="text-white font-bold">Mapeo de vecindario:</strong> En segundos, el sistema renderiza la sentencia central y los nodos de las sentencias que ella cita.</li></ol>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Este enfoque se inspira en los principios de las redes de &quot;mundo pequeño&quot; (<em>Small World Networks</em>) y modelos de indexación por capas como <strong class="text-white font-bold">HNSW (Hierarchical Navigable Small World)</strong>: en lugar de precalcular y mantener de forma densa y global todas las interconexiones del universo de datos, la navegación se enfoca en resolver con alta eficiencia la vecindidad local del nodo de interés.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">De esta manera, el explorador navega directamente hacia el entorno jurisprudencial relevante de la sentencia sin necesidad de materializar ni procesar previamente la matriz global de todo el sistema.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Aprender <em>LegalTech</em> o <em>Legal Engineering</em> no es sentarse a consumir tecnología empaquetada como si fuera magia, ni andar entregándole el pensamiento crítico a una caja negra (AI), como si uno no pensara. Se trata de dejar ver el árbol y empezar a ver del bosque, con esto me refiero: A <strong class="text-white font-bold">perderle el miedo a una línea de código en Python, a un modelo estadístico y a las matemáticas que hay detrás.</strong></p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Durante décadas nos dijeron que el derecho era un bache aislado de las ciencias exactas. La realidad es otra: sin probabilidad, sin teoría de grafos y sin estadística applied, es imposible auditar el volumen salvaje de datos que manejamos hoy. Conceptos como <em>Isolation Forest</em> para ver anomalías en los datos o los principios de <em>HNSW</em> para no perderse en redes complejas, no son cosas que se escapen a la comprensión de nadie; son, literalmente, superpoderes.</p>
+<p class="text-slate-300 text-base md:text-lg leading-relaxed mb-6">Necesitamos con urgencia romper ese mito de que &quot;los números y el código no son para nosotros&quot;. ¡Debemos unir el rigor hermenéutico con el rigor matemático!! ¡Rompamos el mito!</p>
+        </div>
+
+        <footer class="mt-16 pt-8 border-t border-slate-700">
+            <a href="/#bitacora" class="inline-block text-indigo-400 hover:text-indigo-300 text-xs font-bold uppercase tracking-wider">&#8592; Volver a la Bitácora</a>
+            <p class="text-slate-500 text-[10px] mt-6 tracking-widest uppercase font-bold">Bogotá, 2026 · DataLex Lab</p>
+        </footer>
+    </article>
+
+</body>
+</html>

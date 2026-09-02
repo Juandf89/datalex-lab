@@ -62,6 +62,11 @@ const RUTA_ESTADO = path.join(DIR_API, "estado.json");
 const VERSION_PLANTILLA = 1;
 
 const MAX_BYTES_IMAGEN = 15 * 1024 * 1024;
+// Umbral de aviso, no de rechazo. Notion sirve las portadas al tamaño
+// original: una foto de Unsplash entra a 4000 px y 1,2 MB, que es peso de
+// más en la página, en la vista previa al compartir, y para siempre en el
+// historial de git. Se avisa para poder cambiarla en origen.
+const AVISO_BYTES_IMAGEN = 400 * 1024;
 const LARGO_DESCRIPCION = 155;
 
 // Bloques que esta primera versión no renderiza a propósito (tablas, bases
@@ -542,6 +547,12 @@ async function rehospedarImagen(url, estadoImagenes) {
     // Nombre derivado del hash del contenido: si la misma imagen aparece en dos
     // artículos, o si Notion vuelve a firmar la misma URL, se reutiliza el
     // archivo que ya está en el repo en vez de duplicarlo.
+    if (bytes.length > AVISO_BYTES_IMAGEN) {
+      console.log(
+        `[aviso] imagen pesada (${Math.round(bytes.length / 1024)} KB): ${clave} — ` +
+        "conviene subirla a Notion ya redimensionada (1200 px de ancho basta para portada y og:image).",
+      );
+    }
     const hash = createHash("sha256").update(bytes).digest("hex").slice(0, 16);
     const archivo = hash + extensionDe(url, resp.headers.get("content-type"));
     mkdirSync(DIR_IMAGENES, { recursive: true });
