@@ -1,0 +1,7 @@
+# Los artefactos de la Bitácora los escribe scripts/generar_bitacora.mjs siempre
+# con LF. Sin esto, en un checkout de Windows git los convierte a CRLF y el
+# generador los encuentra distintos de lo que produce: reescribiría los tres
+# artículos en cada corrida tras un clon nuevo, rompiendo la idempotencia que
+# el cron da por supuesta.
+bitacora/**/index.html text eol=lf
+api/bitacora/*.json    text eol=lf
