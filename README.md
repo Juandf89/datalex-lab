@@ -99,12 +99,18 @@ log). Las filas sin título se ignoran.
 
 ### Qué se renderiza
 
-Párrafo, encabezados 1 a 3, listas con y sin viñeta (incluidas anidadas), cita, código, divisor e
-imagen; en línea, negrita, cursiva, enlace y código.
+Párrafo, encabezados 1 a 3, listas con y sin viñeta (incluidas anidadas), cita, código, divisor,
+imagen y tabla; en línea, negrita, cursiva, enlace y código.
 
-Fuera de alcance en esta versión: tablas, bases de datos embebidas, columnas, toggles anidados y
+Las tablas respetan la cabecera de columna y de fila que traigan de Notion, y van dentro de un
+contenedor con scroll horizontal propio: una tabla ancha no puede hacer que la página entera se
+desplace en un teléfono.
+
+Fuera de alcance en esta versión: bases de datos embebidas, columnas, toggles anidados y
 ecuaciones. **No rompen el build**: se cuentan y se reportan en un `[info]` al final de la corrida,
-y se omiten del HTML. Si uno de esos empieza a hacer falta, se agrega un `case` en `renderBloque`.
+y se omiten del HTML, nombrando el artículo donde aparecieron. Si uno de esos empieza a hacer
+falta, se agrega un `case` en `renderBloque` **y se sube `VERSION_PLANTILLA`** — así se añadió
+el soporte de tablas.
 
 Todo el texto que sale de Notion pasa por `escaparHtml` antes de entrar al HTML, atributos
 incluidos: el contenido viene de un editor y no puede inyectar marcado. Los enlaces con esquema

@@ -59,7 +59,7 @@ const RUTA_ESTADO = path.join(DIR_API, "estado.json");
 // o el renderizador de bloques, o los artículos viejos se quedarían con el
 // HTML antiguo (la sincronización incremental mira last_edited_time, que no
 // cambia cuando el que cambia es nuestro código).
-const VERSION_PLANTILLA = 1;
+const VERSION_PLANTILLA = 2;
 
 const MAX_BYTES_IMAGEN = 15 * 1024 * 1024;
 // Umbral de aviso, no de rechazo. Notion sirve las portadas al tamaño
@@ -358,6 +358,12 @@ const C = {
   imagen: "w-full h-auto rounded-2xl border border-slate-700",
   pie: "text-slate-400 text-xs mt-3 text-center italic",
   enlace: "text-indigo-400 hover:text-indigo-300 underline underline-offset-4 decoration-indigo-400/40",
+  // La tabla va dentro de un contenedor con scroll propio: una tabla ancha
+  // no puede hacer que la página entera se desplace en horizontal.
+  tablaEnvoltura: "overflow-x-auto my-8 rounded-2xl border border-slate-700",
+  tabla: "w-full text-left text-sm border-collapse",
+  th: "bg-slate-800 text-white font-bold px-4 py-3 border-b border-slate-700 align-top",
+  td: "text-slate-300 px-4 py-3 border-b border-slate-700 align-top",
 };
 
 // Un enlace interno de Notion (href que empieza por "/") apunta a otra página
@@ -483,8 +489,39 @@ async function renderBloque(bloque, ctx) {
       const pie = pieTexto ? `<figcaption class="${C.pie}">${pieHtml}</figcaption>` : "";
       return `<figure class="${C.figura}"><img src="${escaparHtml(local)}" alt="${alt}" loading="lazy" class="${C.imagen}">${pie}</figure>`;
     }
+    case "table": {
+      // Notion entrega la tabla como un bloque contenedor y sus filas como
+      // hijos (table_row), cada uno con un array de celdas; cada celda es a su
+      // vez un array de rich text, así que pasa por el mismo renderizador que
+      // el resto del texto — y por tanto por el mismo escapado.
+      const filas = (bloque.hijos || []).filter((h) => h.type === "table_row");
+      if (!filas.length) return "";
+
+      const encabezadoColumna = datos.has_column_header === true;
+      const encabezadoFila = datos.has_row_header === true;
+
+      const filasHtml = filas.map((fila, i) => {
+        const celdas = (fila.table_row?.cells || []).map((celda, j) => {
+          const contenido = renderRichText(celda, ctx.mapaSlugs);
+          const esCabecera = (encabezadoColumna && i === 0) || (encabezadoFila && j === 0);
+          if (!esCabecera) return `<td class="${C.td}">${contenido}</td>`;
+          const alcance = encabezadoColumna && i === 0 ? "col" : "row";
+          return `<th scope="${alcance}" class="${C.th}">${contenido}</th>`;
+        });
+        return `<tr>${celdas.join("")}</tr>`;
+      });
+
+      const interior = encabezadoColumna
+        ? `<thead>${filasHtml[0]}</thead><tbody>${filasHtml.slice(1).join("")}</tbody>`
+        : `<tbody>${filasHtml.join("")}</tbody>`;
+      return `<div class="${C.tablaEnvoltura}"><table class="${C.tabla}">${interior}</table></div>`;
+    }
+    case "table_row":
+      // Las consume el caso "table" de arriba; si una llega suelta no es un
+      // bloque no soportado, simplemente no le corresponde salida propia.
+      return "";
     default:
-      // Tablas, bases embebidas, columnas, toggles y ecuaciones caen aquí a
+      // Bases embebidas, columnas, toggles y ecuaciones caen aquí a
       // propósito (fuera del alcance de esta primera versión): se anotan y se
       // omiten, nunca tumban el build.
       anotarOmitido(tipo, ctx.titulo);
