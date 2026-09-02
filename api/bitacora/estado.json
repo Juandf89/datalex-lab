@@ -10,22 +10,24 @@
     },
     "3aeebde2b5888069ac1af947571b14ee": {
       "descripcion": "Imagínate esta pelicula: Tenes un chicharrón legal gravísimo encima. Para ahorrarte el camello de organizar todo desde cero, abrís la versión gratuita o…",
-      "lastEdited": "2026-09-02T03:08:00.000Z",
-      "portada": null,
+      "lastEdited": "2026-09-02T03:31:00.000Z",
+      "portada": "/assets/bitacora/b96af83c5379fa93.png",
       "ruta": "/bitacora/arquitectura-de-la-confidencialidad",
       "slug": "arquitectura-de-la-confidencialidad",
       "versionPlantilla": 2
     },
     "3b3ebde2b588805b93ace12874434980": {
       "descripcion": "Siempre nos dijeron que los lenguajes de programación de software, las matemáticas eran como el agua y el aceite, eso es mito, les cuento que el derecho y…",
-      "lastEdited": "2026-09-02T03:06:00.000Z",
-      "portada": null,
+      "lastEdited": "2026-09-02T03:31:00.000Z",
+      "portada": "/assets/bitacora/836edca1e9d75ff0.png",
       "ruta": "/bitacora/abogados-y-matematicas",
       "slug": "abogados-y-matematicas",
       "versionPlantilla": 2
     }
   },
   "imagenes": {
-    "https://images.unsplash.com/photo-1645570990200-2701a49d45ca": "3b4e185bf959e99d.jpg"
+    "https://images.unsplash.com/photo-1645570990200-2701a49d45ca": "3b4e185bf959e99d.jpg",
+    "https://prod-files-secure.s3.us-west-2.amazonaws.com/274ebde2-b588-819d-8bc7-0003acac1c8f/00a69961-a19c-4c76-9c3c-c3faef511018/portadaconfidencialidad.png": "b96af83c5379fa93.png",
+    "https://prod-files-secure.s3.us-west-2.amazonaws.com/274ebde2-b588-819d-8bc7-0003acac1c8f/7216e3f0-4f8c-4a3f-96f4-5f6aebb837ac/portadamatematicas.png": "836edca1e9d75ff0.png"
   }
 }
