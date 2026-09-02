@@ -68,10 +68,15 @@ const LARGO_DESCRIPCION = 155;
 // embebidas, columnas, toggles, ecuaciones). No revientan el build: se anotan
 // aquí para poder reportarlos al final en un solo resumen en vez de un log por
 // bloque.
+// tipo de bloque -> (título del artículo -> cuántas veces). Se guarda el
+// artículo, no solo el tipo: saber que "hay una tabla" sin saber dónde obliga a
+// abrir los tres artículos en Notion para encontrarla.
 const bloquesOmitidos = new Map();
 
-function anotarOmitido(tipo) {
-  bloquesOmitidos.set(tipo, (bloquesOmitidos.get(tipo) || 0) + 1);
+function anotarOmitido(tipo, titulo) {
+  if (!bloquesOmitidos.has(tipo)) bloquesOmitidos.set(tipo, new Map());
+  const porArticulo = bloquesOmitidos.get(tipo);
+  porArticulo.set(titulo, (porArticulo.get(titulo) || 0) + 1);
 }
 
 // ---------------------------------------------------------------------------
@@ -477,7 +482,7 @@ async function renderBloque(bloque, ctx) {
       // Tablas, bases embebidas, columnas, toggles y ecuaciones caen aquí a
       // propósito (fuera del alcance de esta primera versión): se anotan y se
       // omiten, nunca tumban el build.
-      anotarOmitido(tipo);
+      anotarOmitido(tipo, ctx.titulo);
       return "";
   }
 }
@@ -955,9 +960,9 @@ async function main() {
   const cambioIndice = escribirSiCambia(RUTA_INDICE, jsonEstable(indice));
   const cambioEstado = escribirSiCambia(RUTA_ESTADO, jsonEstable(nuevoEstado));
 
-  if (bloquesOmitidos.size) {
-    const resumen = [...bloquesOmitidos.entries()].map(([t, n]) => `${t} x${n}`).join(", ");
-    console.log(`[info] bloques no soportados omitidos (fuera del alcance de esta versión): ${resumen}`);
+  for (const [tipo, porArticulo] of bloquesOmitidos) {
+    const detalle = [...porArticulo].map(([t, n]) => `"${t}"${n > 1 ? ` x${n}` : ""}`).join(", ");
+    console.log(`[info] bloque "${tipo}" no soportado en esta versión, omitido en: ${detalle}`);
   }
 
   console.log(
