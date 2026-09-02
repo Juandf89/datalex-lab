@@ -171,14 +171,38 @@ function credenciales() {
   // El secret del repo se llama TOKEN_NOTION; se acepta NOTION_TOKEN como
   // alias por si alguien lo exporta con el nombre que usa la documentación
   // oficial al correr esto en local.
-  const token = process.env.TOKEN_NOTION || process.env.NOTION_TOKEN;
-  const baseDatos = process.env.NOTION_DATABASE_ID;
+  const token = (process.env.TOKEN_NOTION || process.env.NOTION_TOKEN || "").trim();
+  const baseDatos = normalizarIdBase(process.env.NOTION_DATABASE_ID);
   if (!token || !baseDatos) {
     throw new Error(
       "faltan TOKEN_NOTION y/o NOTION_DATABASE_ID — se configuran como secrets del repo, nunca en el código",
     );
   }
   return { token, baseDatos };
+}
+
+// El ID de la base se copia a mano de la URL de Notion, y en la práctica llega
+// de todo: la URL entera, el `?v=<vista>` pegado detrás, comillas alrededor, o
+// un salto de línea del portapapeles. Notion responde a eso con un 400
+// `invalid_request_url` que no dice nada útil (y en GitHub Actions el valor sale
+// enmascarado como ***, así que ni se ve qué se mandó). Aquí se extrae el ID de
+// verdad y, si no aparece, se falla con un mensaje que sí orienta.
+function normalizarIdBase(valor) {
+  const crudo = String(valor ?? "").trim().replace(/^['"]|['"]$/g, "");
+  if (!crudo) return "";
+
+  // Si viene una URL con vista, el ID es el que va ANTES del `?v=`; hay que
+  // descartar la query primero o se acabaría cogiendo el id de la vista.
+  const sinQuery = crudo.split("?")[0];
+  const candidatos = sinQuery.match(/[0-9a-fA-F]{8}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{12}/g);
+
+  if (!candidatos) {
+    throw new Error(
+      `NOTION_DATABASE_ID no contiene un identificador válido (recibidos ${crudo.length} caracteres). ` +
+      "Debe ser el bloque hexadecimal de 32 caracteres de la URL de la base, el que va ANTES del \"?v=\".",
+    );
+  }
+  return candidatos[candidatos.length - 1].replace(/-/g, "");
 }
 
 const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
