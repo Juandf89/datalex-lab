@@ -26,12 +26,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
+      # v5 de las acciones y Node 24: las v4 corren sobre Node 20, que GitHub
+      # dejó obsoleto y ya fuerza a 24 en los runners con un aviso en cada
+      # corrida. Node 24 es además la versión sobre la que se probó el
+      # generador en local.
       - name: Configurar Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "24"
 
       # Sin paso de "npm ci": el generador usa fetch() nativo de Node y el
       # módulo crypto de la librería estándar, sin dependencias externas.
