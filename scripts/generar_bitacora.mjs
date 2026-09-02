@@ -724,16 +724,27 @@ function leerFila(fila, hayColumnaEstado) {
 
   const propTitulo = Object.values(props).find((p) => p?.type === "title");
   const titulo = valorTexto(propTitulo);
-  if (!titulo) return null;
+  if (!titulo) {
+    console.log("[info] fila sin título — se omite.");
+    return null;
+  }
 
   if (hayColumnaEstado) {
     const estado = valorTexto(propiedad(props, "Estado", "Status", "Estado de publicacion"));
-    if (clavePropiedad(estado) !== "publicado") return null;
+    if (clavePropiedad(estado) !== "publicado") {
+      // Decir POR QUÉ se omite: sin esto una base recién creada produce
+      // un índice vacío sin ninguna pista de qué falta rellenar.
+      console.log(`[info] "${titulo}": Estado es "${estado || "(vacío)"}" y no "Publicado" — se omite.`);
+      return null;
+    }
   }
 
   const slugManual = valorTexto(propiedad(props, "Slug", "Ruta", "URL"));
   const slug = slugificar(slugManual) || slugificar(titulo);
-  if (!slug) return null;
+  if (!slug) {
+    console.log(`[info] "${titulo}" no produce un slug utilizable — se omite.`);
+    return null;
+  }
 
   const autor = valorTexto(propiedad(props, "Autor", "Author")) || AUTOR_DEFECTO;
   const etiquetaManual = valorTexto(propiedad(props, "Etiqueta", "Categoria", "Seccion"));
