@@ -15,14 +15,24 @@ constitucional. Desplegado en Hostinger.
 - `jurisprudencia.html` — explorador de jurisprudencia constitucional. Sin índice acumulado a
   propósito (ver sección abajo): cada búsqueda consulta la Relatoría de la Corte Constitucional
   en tiempo real, por tema o por número de sentencia.
+- `bitacora/<slug>/index.html` — artículos del blog, generados desde Notion. No se editan a mano:
+  los sobrescribe `scripts/generar_bitacora.mjs` en cada corrida.
 - `api/secop/*.json` — API estática con los resultados ya calculados del pipeline de SECOP. Se
   regeneran solos cada hora.
+- `api/bitacora/index.json` — índice de artículos publicados que consume `loadBitacora()` en
+  `index.html`. `api/bitacora/estado.json` es el estado de sincronización (no tocar a mano).
+- `assets/bitacora/` — imágenes de los artículos, rehospedadas desde Notion.
+  `assets/og-datalexlab.png` es la imagen por defecto para compartir en redes.
 - `scripts/generar_json.py` — pipeline que ingiere datos de la API Socrata (Datos Abiertos
   Colombia, dataset `jbjy-vk9h`), limpia, calcula riesgo temporal y corre el modelo de anomalías.
+- `scripts/generar_bitacora.mjs` — generador de la Bitácora a partir de la base de datos de Notion
+  (ver sección abajo).
 - `server/` — Node.js Web App (Express) desplegado en `api.datalexlab.com`: búsqueda en vivo para
   SECOP y jurisprudencia, con estado (contadores de rate-limit, colas de absorción) en disco local.
 - `.github/workflows/actualizar-secop.yml` — cron horario que corre el pipeline de SECOP y hace
   commit de los JSON actualizados solo si algo cambió realmente.
+- `.github/workflows/actualizar-bitacora.yml` — cron cada 6 horas que sincroniza la Bitácora desde
+  Notion. Comparte el grupo de `concurrency` con el de SECOP a propósito: los dos pushean a `main`.
 - `.htaccess` — bloquea acceso público a `scripts/`, `server/`, `netlify/`, `.github/`, `docs/` en
   el hosting estático (el deploy por Git copia el repo completo a `public_html`).
 
@@ -46,6 +56,110 @@ constitucional. Desplegado en Hostinger.
 - Migración a Hostinger confirmada estable (2026-08-08): `netlify.toml` y `netlify/functions/`
   eliminados del repo, ambos dominios sirven desde Hostinger (`platform: hostinger` en las
   cabeceras HTTP).
+
+## Bitácora: Notion como editor, no como destino
+
+Los artículos se escriben en Notion y se publican **dentro de datalexlab.com**, en
+`/bitacora/<slug>`. Antes la tarjeta de la Bitácora redirigía a `notion.so`: el lector salía del
+dominio, la vista previa al compartir la generaba Notion (título con sufijo "| Notion" y el nombre
+del espacio de trabajo personal como `og:site_name`) y se perdían los parámetros UTM.
+
+`scripts/generar_bitacora.mjs` consulta la base de datos de Notion, lee los bloques de cada página
+publicada y escribe el HTML ya renderizado en el repo. Hostinger solo sirve archivos —no hay build
+step en el hosting—, así que el HTML tiene que llegar commiteado, igual que los JSON de SECOP.
+
+### La base de datos en Notion
+
+Una fila por artículo. Los nombres de columna se buscan sin distinguir tildes ni mayúsculas, y
+cada una acepta varios tipos (texto, select, status, etc.):
+
+| Columna | Tipo sugerido | Para qué sirve |
+|---|---|---|
+| Nombre | Título | Título del artículo y, si no hay `Slug`, origen de la URL |
+| Estado | Select o Status | Solo se publica lo que diga `Publicado` |
+| Fecha | Fecha | Píldora de fecha en la tarjeta y `article:published_time` |
+| Slug | Texto | Opcional. Si está, manda sobre el título |
+| Autor | Texto, select o persona | Por defecto, `AUTOR_POR_DEFECTO` |
+| Etiqueta | Texto o select | Línea en versalitas de la tarjeta. Por defecto, `AUTOR: <autor>` |
+| Tipo | Select | `DOCUMENTO` o `VIDEO`; decide el ícono de la tarjeta |
+| Descripción | Texto | Opcional. Si falta, se usa el primer párrafo del artículo |
+| Portada | Archivo | Opcional. Manda sobre la portada de la página de Notion |
+
+Si la base no tiene columna `Estado`, se publican todas las filas con título (y se avisa en el
+log). Las filas sin título se ignoran.
+
+### Puesta en marcha
+
+1. Crear una integración interna en `notion.so/my-integrations` y copiar su token (`ntn_…`).
+2. **Compartir la base de datos con la integración** desde el menú `···` de la página. Sin este
+   paso la API devuelve 404 aunque la página sea pública en la web — es el error más común.
+3. Guardar en los secrets del repo: `TOKEN_NOTION` y `NOTION_DATABASE_ID` (el ID es el bloque
+   hexadecimal de la URL de la base). **Ningún token va versionado.**
+4. Correr el workflow `Actualizar Bitácora desde Notion` a mano la primera vez.
+
+### Qué se renderiza
+
+Párrafo, encabezados 1 a 3, listas con y sin viñeta (incluidas anidadas), cita, código, divisor e
+imagen; en línea, negrita, cursiva, enlace y código.
+
+Fuera de alcance en esta versión: tablas, bases de datos embebidas, columnas, toggles anidados y
+ecuaciones. **No rompen el build**: se cuentan y se reportan en un `[info]` al final de la corrida,
+y se omiten del HTML. Si uno de esos empieza a hacer falta, se agrega un `case` en `renderBloque`.
+
+Todo el texto que sale de Notion pasa por `escaparHtml` antes de entrar al HTML, atributos
+incluidos: el contenido viene de un editor y no puede inyectar marcado. Los enlaces con esquema
+distinto de `http`, `https` o `mailto` se descartan y queda solo el texto. Un enlace interno de
+Notion a otro artículo publicado se reescribe a su ruta en datalexlab.com.
+
+### Imágenes: por qué se rehospedan
+
+Notion firma las URLs de archivo y la firma caduca en ~1 hora. Un `<img>` apuntando ahí se ve bien
+el día del build y aparece roto al siguiente. Se descargan en tiempo de build a
+`assets/bitacora/<sha256-16>.<ext>`, con el nombre derivado del hash del **contenido**: la misma
+imagen usada en dos artículos ocupa un solo archivo.
+
+La clave de caché no es la URL completa (cambia en cada consulta por la firma) sino la URL sin
+query string, que sí es estable. Por eso una segunda corrida no vuelve a bajar nada.
+
+### Sincronización incremental e idempotencia
+
+Correr el proceso dos veces seguidas no produce ni un byte de diferencia. Se regenera un artículo
+solo si cambió su `last_edited_time` en Notion, cambió su slug, o subió `VERSION_PLANTILLA`.
+
+**`VERSION_PLANTILLA` hay que subirla a mano cada vez que se toque la plantilla o el renderizador
+de bloques.** El `last_edited_time` de Notion no cambia cuando el que cambia es nuestro código, así
+que sin ese salto los artículos viejos se quedarían con el HTML antiguo. Verificado en desarrollo:
+es exactamente lo que pasa si se olvida.
+
+Ninguna salida lleva marca de tiempo de generación, y `estado.json` se serializa con las claves
+ordenadas — si algo de eso cambia, la idempotencia se rompe y el cron empieza a commitear ruido
+cada 6 horas.
+
+### Qué pasa cuando algo falla
+
+- **La API de Notion no responde, el token venció o la base se movió**: el script sale con código 1
+  sin escribir nada. El job se detiene antes del commit y el sitio conserva los artículos que ya
+  estaban publicados.
+- **Falla una página concreta**: se conserva su HTML anterior y su entrada de estado, y el resto
+  del lote sigue. Un artículo solo entra al índice si su archivo existe de verdad en disco, para
+  que ninguna tarjeta apunte a un 404.
+- **Un artículo cambia de slug**: la ruta vieja no se borra, se reemplaza por un stub de
+  redirección (`meta refresh` + `canonical`), el mismo mecanismo de `datalex_lab.html`.
+- **Un artículo sale de la base o deja de estar `Publicado`**: se retira del índice pero el HTML se
+  conserva en disco, para no romper enlaces ya compartidos.
+
+### Correr el generador en local
+
+```bash
+TOKEN_NOTION=ntn_... NOTION_DATABASE_ID=... node scripts/generar_bitacora.mjs
+```
+
+Para tocar la plantilla sin gastar llamadas a la API ni necesitar el token, hay un modo de prueba
+con respuestas enlatadas: `BITACORA_FIXTURE_DIR` apuntando a una carpeta con `base.json` (la
+respuesta de `/databases/{id}/query`) y `bloques/<id>.json` (la de `/blocks/{id}/children`).
+`BITACORA_OUTPUT_DIR` permite escribir fuera del repo mientras se prueba.
+
+Otras variables opcionales: `SITIO_BASE_URL`, `AUTOR_POR_DEFECTO`, `OG_IMAGE_DEFECTO`.
 
 ## SECOP II: pipeline de datos
 

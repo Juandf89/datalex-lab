@@ -294,11 +294,14 @@
         window.addEventListener('DOMContentLoaded', () => {
             initRadarChart();
             cargarStatsProyectoSecop();
+            // La Bitácora ya no depende de Google Script: los artículos son
+            // páginas de este mismo dominio, generadas desde Notion por
+            // scripts/generar_bitacora.mjs. El Apps Script sigue siendo la
+            // fuente del ágora (comentarios) y de la captura de leads.
+            loadBitacora();
             if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "TU_URL_DE_IMPLEMENTACION_AQUI") {
-                loadBitacora();
                 loadComentarios(); // Cargar comentarios al inicio
             } else {
-                document.getElementById('bitacora-grid').innerHTML = `<div class="text-yellow-500 italic py-10 col-span-3 text-sm">Falta configurar la URL de Google Script en el código.</div>`;
                 document.getElementById('comments-feed').innerHTML = `<div class="text-yellow-600 text-sm italic mt-10 text-center">Conecta la URL para ver la comunidad.</div>`;
             }
         });
@@ -363,19 +366,31 @@
             });
         }
 
+        // El texto de los artículos viene de un editor (Notion), así que se
+        // escapa antes de entrar al innerHTML de la tarjeta.
+        function esc(texto) {
+            return String(texto ?? "")
+                .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+        }
+
         async function loadBitacora() {
             const grid = document.getElementById('bitacora-grid');
             try {
-                const res = await fetch(GOOGLE_SCRIPT_URL + "?action=getContenidos");
+                // Índice estático generado en cada corrida del cron a partir de
+                // la base de datos de Notion. Las tarjetas apuntan a páginas de
+                // datalexlab.com, no a notion.so.
+                const res = await fetch('api/bitacora/index.json');
+                if (!res.ok) throw new Error('respuesta no válida');
                 const data = await res.json();
                 grid.innerHTML = "";
 
                 data.forEach(item => {
                     const card = document.createElement('div');
                     card.className = "group bg-slate-800 rounded-3xl p-8 hover:bg-slate-700 transition-all border border-slate-700 hover:border-indigo-500 flex flex-col";
-                    
+
                     const iconType = (item.tipo && item.tipo.toLowerCase() === 'video') ? '▶' : '📄';
-                    const fechaDisplay = item["fecha de lanzamiento"] || "Próximamente";
+                    const fechaDisplay = esc(item.fecha || "Próximamente");
 
                     card.innerHTML = `
                         <div class="flex justify-between items-start mb-6">
@@ -386,10 +401,10 @@
                                 ${fechaDisplay}
                             </span>
                         </div>
-                        <span class="text-cyan-400 text-[10px] font-bold uppercase tracking-widest">${item.etiqueta || 'Sesión'}</span>
-                        <h4 class="text-xl font-serif font-bold mt-2 mb-3 text-white">${item.titulo || 'Sin título'}</h4>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">${item.descripcion || ''}</p>
-                        <a href="${item.link || '#'}" target="_blank" class="inline-block text-indigo-400 text-xs font-bold hover:text-indigo-300 uppercase tracking-wider mt-auto">Acceder ➔</a>
+                        <span class="text-cyan-400 text-[10px] font-bold uppercase tracking-widest">${esc(item.etiqueta || 'Sesión')}</span>
+                        <h4 class="text-xl font-serif font-bold mt-2 mb-3 text-white">${esc(item.titulo || 'Sin título')}</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">${esc(item.descripcion || '')}</p>
+                        <a href="${esc(item.ruta || '#')}" class="inline-block text-indigo-400 text-xs font-bold hover:text-indigo-300 uppercase tracking-wider mt-auto">Acceder ➔</a>
                     `;
                     grid.appendChild(card);
                 });

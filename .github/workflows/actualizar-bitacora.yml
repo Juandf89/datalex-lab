@@ -1,0 +1,74 @@
+name: Actualizar Bitácora desde Notion
+
+on:
+  schedule:
+    # Cada 6 horas. La Bitácora no es un feed de datos en vivo como SECOP: se
+    # publica un artículo cada dos semanas, así que consultar la API de Notion
+    # cada hora sería gasto sin contrapartida. Para ver un artículo nuevo
+    # publicado ya mismo está el disparo manual de abajo.
+    - cron: "20 */6 * * *"
+  workflow_dispatch: {}
+
+# MISMO grupo que actualizar-secop.yml a propósito, aunque sea otro workflow:
+# los dos hacen commit y push a main, y `concurrency` en GitHub Actions es por
+# repositorio, no por workflow. Compartir la cadena serializa ambos crones
+# entre sí y evita la carrera de `git push` (non-fast-forward) que ya se dio en
+# producción con dos corridas solapadas.
+concurrency:
+  group: actualizar-secop
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sincronizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Sin paso de "npm ci": el generador usa fetch() nativo de Node y el
+      # módulo crypto de la librería estándar, sin dependencias externas.
+      #
+      # Si esto falla (API de Notion caída, token vencido, base movida), el
+      # script sale con código 1 sin escribir nada y el job se detiene aquí:
+      # no hay commit, y el sitio conserva los artículos que ya estaban
+      # publicados. Es el comportamiento deseado, no un descuido.
+      - name: Generar artículos de la Bitácora
+        env:
+          TOKEN_NOTION: ${{ secrets.TOKEN_NOTION }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+        run: node scripts/generar_bitacora.mjs
+
+      # Mismo mecanismo de reintentos que actualizar-secop.yml: si un push
+      # manual a main aterriza a mitad de la corrida, el push final se rechaza
+      # por non-fast-forward. Aquí sí se usa `rebase` en vez de `reset --soft`:
+      # a diferencia de api/secop/*.json, estos archivos (index.html, .htaccess
+      # de la raíz, artículos viejos) pueden convivir con cambios ajenos, así
+      # que reintegrar preservando lo del otro commit es lo correcto.
+      - name: Commit y push si hay cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bitacora assets api/bitacora
+          if git diff --cached --quiet; then
+            echo "Sin cambios en la Bitácora, nada que commitear."
+            exit 0
+          fi
+          git commit -m "chore: actualizar Bitácora desde Notion ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          for intento in 1 2 3 4 5; do
+            if git push; then
+              exit 0
+            fi
+            echo "push rechazado (intento $intento/5) — reintegrando sobre origin/main y reintentando"
+            git pull --rebase origin main
+            sleep $((intento * 5))
+          done
+          echo "::error::no se pudo pushear tras 5 intentos"
+          exit 1
