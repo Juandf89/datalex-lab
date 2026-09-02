@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auditoría SECOP II | DataLex Lab</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Sin esto, la utilidad .font-serif de Tailwind (inyectada en runtime,
+        // o sea después del <style> de abajo y con la misma especificidad) gana
+        // sobre la regla de tipografía: los títulos salían en Georgia pese a
+        // que Merriweather sí se estaba cargando. Se le enseña la familia a
+        // Tailwind en vez de pelear la cascada a base de !important.
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ["Merriweather", "Georgia", "serif"],
+                        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.min.js"></script>
     <style>
