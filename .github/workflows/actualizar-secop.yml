@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configurar Python
         uses: actions/setup-python@v5
@@ -38,10 +38,15 @@ jobs:
       - name: Instalar dependencias Python
         run: pip install -r scripts/requirements.txt
 
+      # v5 de las acciones y Node 24: las v4 corren sobre Node 20, que GitHub
+      # dejó obsoleto y ya fuerza a 24 en los runners con un aviso en cada
+      # corrida. absorber_pendientes_secop.mjs solo usa fetch() nativo, así que
+      # no depende de nada propio de Node 20. setup-python@v5 ya está en la
+      # generación correcta y no hace falta tocarlo.
       - name: Configurar Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "24"
 
       # Recoge los contratos que la gente encontró en vivo (búsquedas que no
       # estaban en la muestra local, resueltas por server/app.mjs en Hostinger)
