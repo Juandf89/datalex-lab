@@ -272,6 +272,17 @@ function textoPlano(richText) {
 // Así la tabla puede usar select, texto o persona para "Autor" sin que el
 // generador tenga que saberlo de antemano.
 function valorTexto(prop) {
+  return normalizarEspacios(valorTextoCrudo(prop));
+}
+
+// Los campos de la base se teclean a mano y llegan con dobles espacios o saltos
+// de línea sueltos: son metadatos cortos (título, autor, etiqueta), así que se
+// colapsan a un espacio antes de usarlos.
+function normalizarEspacios(texto) {
+  return String(texto ?? "").replace(/\s+/g, " ").trim();
+}
+
+function valorTextoCrudo(prop) {
   if (!prop) return "";
   switch (prop.type) {
     case "title":
@@ -884,10 +895,22 @@ async function main() {
 
         // Si el slug cambió, la ruta vieja no se borra: se deja un stub de
         // redirección para no romper lo que ya se compartió.
+        //
+        // Salvo que esa ruta pertenezca hoy a OTRO artículo publicado. Pasó en
+        // producción: se corrigió a mano el Slug de un artículo que tenía por
+        // error el de otro, y la redirección sobrescribió el HTML legítimo del
+        // segundo con un stub que apuntaba al primero. `slugsVistos` se arma
+        // completo antes de este bucle, así que la comprobación no depende del
+        // orden en que se procesen los artículos.
         if (previo && previo.slug && previo.slug !== art.slug) {
-          const rutaVieja = path.join(DIR_ARTICULOS, previo.slug, "index.html");
-          escribirSiCambia(rutaVieja, plantillaRedireccion(`/bitacora/${art.slug}`));
-          console.log(`[ok] slug cambiado (${previo.slug} -> ${art.slug}): redirección dejada en la ruta anterior.`);
+          const duenoActual = slugsVistos.get(previo.slug);
+          if (duenoActual) {
+            console.log(`[info] la ruta anterior de "${art.titulo}" (/bitacora/${previo.slug}) hoy pertenece a "${duenoActual}" — no se deja redirección.`);
+          } else {
+            const rutaVieja = path.join(DIR_ARTICULOS, previo.slug, "index.html");
+            escribirSiCambia(rutaVieja, plantillaRedireccion(`/bitacora/${art.slug}`));
+            console.log(`[ok] slug cambiado (${previo.slug} -> ${art.slug}): redirección dejada en la ruta anterior.`);
+          }
         }
       } catch (e) {
         // Un fallo puntual no borra el artículo del sitio: se conserva el HTML
