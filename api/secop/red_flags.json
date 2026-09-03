@@ -11,22 +11,11 @@
     "puntaje_anomalia": -0.2488845945
   },
   {
-    "id_contrato": "CO1.PCCNTR.274049",
+    "id_contrato": "CO1.PCCNTR.273868",
     "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DE SERVICIOS PÚBLICOS.",
     "sector": "Ambiente y Desarrollo Sostenible",
     "anio": 2018,
-    "valor_del_contrato": 1551385999414.17,
-    "duracion_contrato_dias": 3578,
-    "desviacion_temporal_real": 657.0,
-    "ratio_desviacion_temporal": 0.1836221353,
-    "puntaje_anomalia": -0.2357086358
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.274050",
-    "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DE SERVICIOS PÚBLICOS.",
-    "sector": "Ambiente y Desarrollo Sostenible",
-    "anio": 2018,
-    "valor_del_contrato": 727746320370.0,
+    "valor_del_contrato": 1106090120607.0,
     "duracion_contrato_dias": 3578,
     "desviacion_temporal_real": 657.0,
     "ratio_desviacion_temporal": 0.1836221353,
@@ -44,11 +33,22 @@
     "puntaje_anomalia": -0.2357086358
   },
   {
-    "id_contrato": "CO1.PCCNTR.273868",
+    "id_contrato": "CO1.PCCNTR.274049",
     "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DE SERVICIOS PÚBLICOS.",
     "sector": "Ambiente y Desarrollo Sostenible",
     "anio": 2018,
-    "valor_del_contrato": 1106090120607.0,
+    "valor_del_contrato": 1551385999414.17,
+    "duracion_contrato_dias": 3578,
+    "desviacion_temporal_real": 657.0,
+    "ratio_desviacion_temporal": 0.1836221353,
+    "puntaje_anomalia": -0.2357086358
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.274050",
+    "nombre_entidad": "UNIDAD ADMINISTRATIVA ESPECIAL DE SERVICIOS PÚBLICOS.",
+    "sector": "Ambiente y Desarrollo Sostenible",
+    "anio": 2018,
+    "valor_del_contrato": 727746320370.0,
     "duracion_contrato_dias": 3578,
     "desviacion_temporal_real": 657.0,
     "ratio_desviacion_temporal": 0.1836221353,
@@ -286,17 +286,6 @@
     "puntaje_anomalia": -0.2151918154
   },
   {
-    "id_contrato": "CO1.PCCNTR.3773708",
-    "nombre_entidad": "MINISTERIO DE AGRICULTURA Y DESARROLLO RURAL",
-    "sector": "agricultura",
-    "anio": 2022,
-    "valor_del_contrato": 186988613332.0,
-    "duracion_contrato_dias": 1798,
-    "desviacion_temporal_real": 428.0,
-    "ratio_desviacion_temporal": 0.2380422692,
-    "puntaje_anomalia": -0.214841164
-  },
-  {
     "id_contrato": "CO1.PCCNTR.1563747",
     "nombre_entidad": "INSTITUTO DE DESARROLLO URBANO",
     "sector": "No aplica/No pertenece",
@@ -305,6 +294,17 @@
     "duracion_contrato_dias": 4534,
     "desviacion_temporal_real": 608.0,
     "ratio_desviacion_temporal": 0.1340979268,
+    "puntaje_anomalia": -0.214841164
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.3773708",
+    "nombre_entidad": "MINISTERIO DE AGRICULTURA Y DESARROLLO RURAL",
+    "sector": "agricultura",
+    "anio": 2022,
+    "valor_del_contrato": 186988613332.0,
+    "duracion_contrato_dias": 1798,
+    "desviacion_temporal_real": 428.0,
+    "ratio_desviacion_temporal": 0.2380422692,
     "puntaje_anomalia": -0.214841164
   },
   {
@@ -528,17 +528,6 @@
     "puntaje_anomalia": -0.1990073157
   },
   {
-    "id_contrato": "CO1.PCCNTR.2089301",
-    "nombre_entidad": "MINISTERIO DEL INTERIOR",
-    "sector": "interior",
-    "anio": 2020,
-    "valor_del_contrato": 15932755200.69,
-    "duracion_contrato_dias": 1729,
-    "desviacion_temporal_real": 514.0,
-    "ratio_desviacion_temporal": 0.2972816657,
-    "puntaje_anomalia": -0.1982106171
-  },
-  {
     "id_contrato": "CO1.PCCNTR.4342474",
     "nombre_entidad": "AGENCIA PARA LA GESTIÓN DEL PAISAJE, EL PATRIMONIO Y LAS ALIANZAS PÚBLICO PRIVADAS - APP",
     "sector": "Ciencia Tecnología",
@@ -547,6 +536,17 @@
     "duracion_contrato_dias": 1834,
     "desviacion_temporal_real": 914.0,
     "ratio_desviacion_temporal": 0.4983642312,
+    "puntaje_anomalia": -0.1982106171
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.2089301",
+    "nombre_entidad": "MINISTERIO DEL INTERIOR",
+    "sector": "interior",
+    "anio": 2020,
+    "valor_del_contrato": 15932755200.69,
+    "duracion_contrato_dias": 1729,
+    "desviacion_temporal_real": 514.0,
+    "ratio_desviacion_temporal": 0.2972816657,
     "puntaje_anomalia": -0.1982106171
   },
   {
@@ -1331,17 +1331,6 @@
     "puntaje_anomalia": -0.17729919
   },
   {
-    "id_contrato": "CO1.PCCNTR.7158181",
-    "nombre_entidad": "DISTRITO ESPECIAL DE CIENCIA TECNOLOGIA E INNOVACION DE MEDELLIN",
-    "sector": "Servicio Público",
-    "anio": 2024,
-    "valor_del_contrato": 117732798693.0,
-    "duracion_contrato_dias": 919,
-    "desviacion_temporal_real": 370.0,
-    "ratio_desviacion_temporal": 0.4026115343,
-    "puntaje_anomalia": -0.1772528819
-  },
-  {
     "id_contrato": "CO1.PCCNTR.2092127",
     "nombre_entidad": "MUNICIPIO DE SINCELEJO",
     "sector": "Servicio Público",
@@ -1350,6 +1339,17 @@
     "duracion_contrato_dias": 1826,
     "desviacion_temporal_real": 624.0,
     "ratio_desviacion_temporal": 0.3417305586,
+    "puntaje_anomalia": -0.1772528819
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.7158181",
+    "nombre_entidad": "DISTRITO ESPECIAL DE CIENCIA TECNOLOGIA E INNOVACION DE MEDELLIN",
+    "sector": "Servicio Público",
+    "anio": 2024,
+    "valor_del_contrato": 117732798693.0,
+    "duracion_contrato_dias": 919,
+    "desviacion_temporal_real": 370.0,
+    "ratio_desviacion_temporal": 0.4026115343,
     "puntaje_anomalia": -0.1772528819
   },
   {
@@ -1672,17 +1672,6 @@
     "puntaje_anomalia": -0.1715843957
   },
   {
-    "id_contrato": "CO1.PCCNTR.2608008",
-    "nombre_entidad": "SECRETARIA GENERAL Y DE CERCANIA AL CIUDADANO",
-    "sector": "No aplica/No pertenece",
-    "anio": 2021,
-    "valor_del_contrato": 580479561.0,
-    "duracion_contrato_dias": 2921,
-    "desviacion_temporal_real": 1106.0,
-    "ratio_desviacion_temporal": 0.3786374529,
-    "puntaje_anomalia": -0.1712860177
-  },
-  {
     "id_contrato": "CO1.PCCNTR.2452246",
     "nombre_entidad": "SECRETARIA GENERAL Y DE CERCANIA AL CIUDADANO",
     "sector": "No aplica/No pertenece",
@@ -1691,6 +1680,17 @@
     "duracion_contrato_dias": 2921,
     "desviacion_temporal_real": 1096.0,
     "ratio_desviacion_temporal": 0.3752139678,
+    "puntaje_anomalia": -0.1712860177
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.2608008",
+    "nombre_entidad": "SECRETARIA GENERAL Y DE CERCANIA AL CIUDADANO",
+    "sector": "No aplica/No pertenece",
+    "anio": 2021,
+    "valor_del_contrato": 580479561.0,
+    "duracion_contrato_dias": 2921,
+    "desviacion_temporal_real": 1106.0,
+    "ratio_desviacion_temporal": 0.3786374529,
     "puntaje_anomalia": -0.1712860177
   },
   {
@@ -2079,6 +2079,17 @@
     "puntaje_anomalia": -0.166509868
   },
   {
+    "id_contrato": "CO1.PCCNTR.4304301",
+    "nombre_entidad": "GOBERNACIÓN DEL CAUCA",
+    "sector": "Servicio Público",
+    "anio": 2022,
+    "valor_del_contrato": 378698430.0,
+    "duracion_contrato_dias": 2192,
+    "desviacion_temporal_real": 1096.0,
+    "ratio_desviacion_temporal": 0.5,
+    "puntaje_anomalia": -0.1662129276
+  },
+  {
     "id_contrato": "CO1.PCCNTR.4280254",
     "nombre_entidad": "GOBERNACIÓN DEL CAUCA",
     "sector": "Servicio Público",
@@ -2098,17 +2109,6 @@
     "duracion_contrato_dias": 2192,
     "desviacion_temporal_real": 1095.0,
     "ratio_desviacion_temporal": 0.4995437956,
-    "puntaje_anomalia": -0.1662129276
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.4304301",
-    "nombre_entidad": "GOBERNACIÓN DEL CAUCA",
-    "sector": "Servicio Público",
-    "anio": 2022,
-    "valor_del_contrato": 378698430.0,
-    "duracion_contrato_dias": 2192,
-    "desviacion_temporal_real": 1096.0,
-    "ratio_desviacion_temporal": 0.5,
     "puntaje_anomalia": -0.1662129276
   },
   {
@@ -2321,14 +2321,14 @@
     "puntaje_anomalia": -0.164273654
   },
   {
-    "id_contrato": "CO1.PCCNTR.3107101",
+    "id_contrato": "CO1.PCCNTR.3098461",
     "nombre_entidad": "MINCIENCIAS",
     "sector": "Ciencia Tecnología",
     "anio": 2021,
-    "valor_del_contrato": 999095178.0,
+    "valor_del_contrato": 994044278.0,
     "duracion_contrato_dias": 1643,
-    "desviacion_temporal_real": 546.0,
-    "ratio_desviacion_temporal": 0.3323189288,
+    "desviacion_temporal_real": 547.0,
+    "ratio_desviacion_temporal": 0.3329275715,
     "puntaje_anomalia": -0.1641839557
   },
   {
@@ -2343,14 +2343,14 @@
     "puntaje_anomalia": -0.1641839557
   },
   {
-    "id_contrato": "CO1.PCCNTR.3098461",
+    "id_contrato": "CO1.PCCNTR.3107101",
     "nombre_entidad": "MINCIENCIAS",
     "sector": "Ciencia Tecnología",
     "anio": 2021,
-    "valor_del_contrato": 994044278.0,
+    "valor_del_contrato": 999095178.0,
     "duracion_contrato_dias": 1643,
-    "desviacion_temporal_real": 547.0,
-    "ratio_desviacion_temporal": 0.3329275715,
+    "desviacion_temporal_real": 546.0,
+    "ratio_desviacion_temporal": 0.3323189288,
     "puntaje_anomalia": -0.1641839557
   },
   {
@@ -2365,17 +2365,6 @@
     "puntaje_anomalia": -0.1641300784
   },
   {
-    "id_contrato": "CO1.PCCNTR.703023",
-    "nombre_entidad": "MINCIENCIAS",
-    "sector": "Ciencia Tecnología",
-    "anio": 2018,
-    "valor_del_contrato": 339226380.0,
-    "duracion_contrato_dias": 1695,
-    "desviacion_temporal_real": 599.0,
-    "ratio_desviacion_temporal": 0.3533923304,
-    "puntaje_anomalia": -0.1640045466
-  },
-  {
     "id_contrato": "CO1.PCCNTR.693694",
     "nombre_entidad": "MINCIENCIAS",
     "sector": "Ciencia Tecnología",
@@ -2384,6 +2373,17 @@
     "duracion_contrato_dias": 1684,
     "desviacion_temporal_real": 588.0,
     "ratio_desviacion_temporal": 0.3491686461,
+    "puntaje_anomalia": -0.1640045466
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.703023",
+    "nombre_entidad": "MINCIENCIAS",
+    "sector": "Ciencia Tecnología",
+    "anio": 2018,
+    "valor_del_contrato": 339226380.0,
+    "duracion_contrato_dias": 1695,
+    "desviacion_temporal_real": 599.0,
+    "ratio_desviacion_temporal": 0.3533923304,
     "puntaje_anomalia": -0.1640045466
   },
   {
@@ -2717,17 +2717,6 @@
     "puntaje_anomalia": -0.1609828319
   },
   {
-    "id_contrato": "CO1.PCCNTR.702999",
-    "nombre_entidad": "MINCIENCIAS",
-    "sector": "Ciencia Tecnología",
-    "anio": 2018,
-    "valor_del_contrato": 241988500.0,
-    "duracion_contrato_dias": 1676,
-    "desviacion_temporal_real": 580.0,
-    "ratio_desviacion_temporal": 0.3460620525,
-    "puntaje_anomalia": -0.1609644042
-  },
-  {
     "id_contrato": "CO1.PCCNTR.1574240",
     "nombre_entidad": "MINCIENCIAS",
     "sector": "Ciencia Tecnología",
@@ -2736,6 +2725,17 @@
     "duracion_contrato_dias": 1645,
     "desviacion_temporal_real": 550.0,
     "ratio_desviacion_temporal": 0.3343465046,
+    "puntaje_anomalia": -0.1609644042
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.702999",
+    "nombre_entidad": "MINCIENCIAS",
+    "sector": "Ciencia Tecnología",
+    "anio": 2018,
+    "valor_del_contrato": 241988500.0,
+    "duracion_contrato_dias": 1676,
+    "desviacion_temporal_real": 580.0,
+    "ratio_desviacion_temporal": 0.3460620525,
     "puntaje_anomalia": -0.1609644042
   },
   {
@@ -3146,6 +3146,17 @@
     "puntaje_anomalia": -0.1569756044
   },
   {
+    "id_contrato": "CO1.PCCNTR.705959",
+    "nombre_entidad": "MINCIENCIAS",
+    "sector": "Ciencia Tecnología",
+    "anio": 2018,
+    "valor_del_contrato": 341871420.0,
+    "duracion_contrato_dias": 1517,
+    "desviacion_temporal_real": 421.0,
+    "ratio_desviacion_temporal": 0.2775214239,
+    "puntaje_anomalia": -0.1566786073
+  },
+  {
     "id_contrato": "CO1.PCCNTR.704540",
     "nombre_entidad": "MINCIENCIAS",
     "sector": "Ciencia Tecnología",
@@ -3165,17 +3176,6 @@
     "duracion_contrato_dias": 1515,
     "desviacion_temporal_real": 419.0,
     "ratio_desviacion_temporal": 0.2765676568,
-    "puntaje_anomalia": -0.1566786073
-  },
-  {
-    "id_contrato": "CO1.PCCNTR.705959",
-    "nombre_entidad": "MINCIENCIAS",
-    "sector": "Ciencia Tecnología",
-    "anio": 2018,
-    "valor_del_contrato": 341871420.0,
-    "duracion_contrato_dias": 1517,
-    "desviacion_temporal_real": 421.0,
-    "ratio_desviacion_temporal": 0.2775214239,
     "puntaje_anomalia": -0.1566786073
   },
   {
@@ -3300,17 +3300,6 @@
     "puntaje_anomalia": -0.155297106
   },
   {
-    "id_contrato": "CO1.PCCNTR.4066202",
-    "nombre_entidad": "INSTITUTO DE CAMINOS Y CONSTRUCCIONES DE CUNDINAMARCA - ICCU",
-    "sector": "Transporte",
-    "anio": 2022,
-    "valor_del_contrato": 100000000.0,
-    "duracion_contrato_dias": 1049,
-    "desviacion_temporal_real": 749.0,
-    "ratio_desviacion_temporal": 0.714013346,
-    "puntaje_anomalia": -0.1552144284
-  },
-  {
     "id_contrato": "CO1.PCCNTR.3997807",
     "nombre_entidad": "INSTITUTO DE CAMINOS Y CONSTRUCCIONES DE CUNDINAMARCA - ICCU",
     "sector": "Transporte",
@@ -3319,6 +3308,17 @@
     "duracion_contrato_dias": 1063,
     "desviacion_temporal_real": 760.0,
     "ratio_desviacion_temporal": 0.714957667,
+    "puntaje_anomalia": -0.1552144284
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.4066202",
+    "nombre_entidad": "INSTITUTO DE CAMINOS Y CONSTRUCCIONES DE CUNDINAMARCA - ICCU",
+    "sector": "Transporte",
+    "anio": 2022,
+    "valor_del_contrato": 100000000.0,
+    "duracion_contrato_dias": 1049,
+    "desviacion_temporal_real": 749.0,
+    "ratio_desviacion_temporal": 0.714013346,
     "puntaje_anomalia": -0.1552144284
   },
   {
@@ -3586,7 +3586,7 @@
     "puntaje_anomalia": -0.1539185498
   },
   {
-    "id_contrato": "CO1.PCCNTR.4011341",
+    "id_contrato": "CO1.PCCNTR.4011336",
     "nombre_entidad": "INSTITUTO DE CAMINOS Y CONSTRUCCIONES DE CUNDINAMARCA - ICCU",
     "sector": "Transporte",
     "anio": 2022,
@@ -3597,7 +3597,7 @@
     "puntaje_anomalia": -0.1538963741
   },
   {
-    "id_contrato": "CO1.PCCNTR.4011336",
+    "id_contrato": "CO1.PCCNTR.4011341",
     "nombre_entidad": "INSTITUTO DE CAMINOS Y CONSTRUCCIONES DE CUNDINAMARCA - ICCU",
     "sector": "Transporte",
     "anio": 2022,
@@ -6248,17 +6248,6 @@
     "puntaje_anomalia": -0.1330003829
   },
   {
-    "id_contrato": "CO1.PCCNTR.5687343",
-    "nombre_entidad": "GOBIERNO DEPARTAMENTAL",
-    "sector": "Servicio Público",
-    "anio": 2023,
-    "valor_del_contrato": 49965720.0,
-    "duracion_contrato_dias": 484,
-    "desviacion_temporal_real": 484.0,
-    "ratio_desviacion_temporal": 1.0,
-    "puntaje_anomalia": -0.1329997168
-  },
-  {
     "id_contrato": "CO1.PCCNTR.4351782",
     "nombre_entidad": "ALCALDÍA MUNICIPAL DE EL ESPINAL",
     "sector": "Servicio Público",
@@ -6267,6 +6256,17 @@
     "duracion_contrato_dias": 486,
     "desviacion_temporal_real": 484.0,
     "ratio_desviacion_temporal": 0.9958847737,
+    "puntaje_anomalia": -0.1329997168
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.5687343",
+    "nombre_entidad": "GOBIERNO DEPARTAMENTAL",
+    "sector": "Servicio Público",
+    "anio": 2023,
+    "valor_del_contrato": 49965720.0,
+    "duracion_contrato_dias": 484,
+    "desviacion_temporal_real": 484.0,
+    "ratio_desviacion_temporal": 1.0,
     "puntaje_anomalia": -0.1329997168
   },
   {
@@ -6787,22 +6787,22 @@
     "puntaje_anomalia": -0.126749312
   },
   {
-    "id_contrato": "CO1.PCCNTR.6779270",
+    "id_contrato": "CO1.PCCNTR.6749171",
     "nombre_entidad": "INVIAS",
     "sector": "Transporte",
     "anio": 2024,
-    "valor_del_contrato": 204575706.0,
+    "valor_del_contrato": 204341202.0,
     "duracion_contrato_dias": 722,
     "desviacion_temporal_real": 421.0,
     "ratio_desviacion_temporal": 0.5831024931,
     "puntaje_anomalia": -0.1266703414
   },
   {
-    "id_contrato": "CO1.PCCNTR.6749171",
+    "id_contrato": "CO1.PCCNTR.6779270",
     "nombre_entidad": "INVIAS",
     "sector": "Transporte",
     "anio": 2024,
-    "valor_del_contrato": 204341202.0,
+    "valor_del_contrato": 204575706.0,
     "duracion_contrato_dias": 722,
     "desviacion_temporal_real": 421.0,
     "ratio_desviacion_temporal": 0.5831024931,
@@ -6864,7 +6864,7 @@
     "puntaje_anomalia": -0.125847684
   },
   {
-    "id_contrato": "CO1.PCCNTR.2487515",
+    "id_contrato": "CO1.PCCNTR.2488833",
     "nombre_entidad": "ALCALDIA MUNICIPAL FUSAGASUGA",
     "sector": "No aplica/No pertenece",
     "anio": 2021,
@@ -6875,11 +6875,11 @@
     "puntaje_anomalia": -0.1258259356
   },
   {
-    "id_contrato": "CO1.PCCNTR.2487625",
+    "id_contrato": "CO1.PCCNTR.2487717",
     "nombre_entidad": "ALCALDIA MUNICIPAL FUSAGASUGA",
     "sector": "No aplica/No pertenece",
     "anio": 2021,
-    "valor_del_contrato": 39347461.0,
+    "valor_del_contrato": 39347491.76,
     "duracion_contrato_dias": 1322,
     "desviacion_temporal_real": 366.0,
     "ratio_desviacion_temporal": 0.2768532526,
@@ -6897,7 +6897,7 @@
     "puntaje_anomalia": -0.1258259356
   },
   {
-    "id_contrato": "CO1.PCCNTR.2488833",
+    "id_contrato": "CO1.PCCNTR.2487515",
     "nombre_entidad": "ALCALDIA MUNICIPAL FUSAGASUGA",
     "sector": "No aplica/No pertenece",
     "anio": 2021,
@@ -6919,11 +6919,11 @@
     "puntaje_anomalia": -0.1258259356
   },
   {
-    "id_contrato": "CO1.PCCNTR.2487727",
+    "id_contrato": "CO1.PCCNTR.2487509",
     "nombre_entidad": "ALCALDIA MUNICIPAL FUSAGASUGA",
     "sector": "No aplica/No pertenece",
     "anio": 2021,
-    "valor_del_contrato": 39347461.76,
+    "valor_del_contrato": 39347462.0,
     "duracion_contrato_dias": 1322,
     "desviacion_temporal_real": 366.0,
     "ratio_desviacion_temporal": 0.2768532526,
@@ -6941,22 +6941,22 @@
     "puntaje_anomalia": -0.1258259356
   },
   {
-    "id_contrato": "CO1.PCCNTR.2487717",
+    "id_contrato": "CO1.PCCNTR.2487625",
     "nombre_entidad": "ALCALDIA MUNICIPAL FUSAGASUGA",
     "sector": "No aplica/No pertenece",
     "anio": 2021,
-    "valor_del_contrato": 39347491.76,
+    "valor_del_contrato": 39347461.0,
     "duracion_contrato_dias": 1322,
     "desviacion_temporal_real": 366.0,
     "ratio_desviacion_temporal": 0.2768532526,
     "puntaje_anomalia": -0.1258259356
   },
   {
-    "id_contrato": "CO1.PCCNTR.2487509",
+    "id_contrato": "CO1.PCCNTR.2487727",
     "nombre_entidad": "ALCALDIA MUNICIPAL FUSAGASUGA",
     "sector": "No aplica/No pertenece",
     "anio": 2021,
-    "valor_del_contrato": 39347462.0,
+    "valor_del_contrato": 39347461.76,
     "duracion_contrato_dias": 1322,
     "desviacion_temporal_real": 366.0,
     "ratio_desviacion_temporal": 0.2768532526,
@@ -7469,22 +7469,22 @@
     "puntaje_anomalia": -0.1182312645
   },
   {
-    "id_contrato": "CO1.PCCNTR.2826762",
+    "id_contrato": "CO1.PCCNTR.2826376",
     "nombre_entidad": "SUBRED INTEGRADA DE SERVICIOS DE SALUD SUR OCCIDENTE ESE.",
     "sector": "Salud y Protección Social",
     "anio": 2021,
-    "valor_del_contrato": 4722748.0,
+    "valor_del_contrato": 61735.0,
     "duracion_contrato_dias": 829,
     "desviacion_temporal_real": 465.0,
     "ratio_desviacion_temporal": 0.5609167672,
     "puntaje_anomalia": -0.1182248352
   },
   {
-    "id_contrato": "CO1.PCCNTR.2826376",
+    "id_contrato": "CO1.PCCNTR.2826762",
     "nombre_entidad": "SUBRED INTEGRADA DE SERVICIOS DE SALUD SUR OCCIDENTE ESE.",
     "sector": "Salud y Protección Social",
     "anio": 2021,
-    "valor_del_contrato": 61735.0,
+    "valor_del_contrato": 4722748.0,
     "duracion_contrato_dias": 829,
     "desviacion_temporal_real": 465.0,
     "ratio_desviacion_temporal": 0.5609167672,
@@ -7843,17 +7843,6 @@
     "puntaje_anomalia": -0.1063370537
   },
   {
-    "id_contrato": "CO1.PCCNTR.6098125",
-    "nombre_entidad": "MUNICIPIO DE PITALITO",
-    "sector": "Servicio Público",
-    "anio": 2024,
-    "valor_del_contrato": 66096845.0,
-    "duracion_contrato_dias": 753,
-    "desviacion_temporal_real": 389.0,
-    "ratio_desviacion_temporal": 0.5166002656,
-    "puntaje_anomalia": -0.1053634356
-  },
-  {
     "id_contrato": "CO1.PCCNTR.963003",
     "nombre_entidad": "FISCALÍA GENERAL DE LA NACIÓN REGIONAL CENTRAL",
     "sector": "Servicio Público",
@@ -7862,6 +7851,17 @@
     "duracion_contrato_dias": 758,
     "desviacion_temporal_real": 391.0,
     "ratio_desviacion_temporal": 0.5158311346,
+    "puntaje_anomalia": -0.1053634356
+  },
+  {
+    "id_contrato": "CO1.PCCNTR.6098125",
+    "nombre_entidad": "MUNICIPIO DE PITALITO",
+    "sector": "Servicio Público",
+    "anio": 2024,
+    "valor_del_contrato": 66096845.0,
+    "duracion_contrato_dias": 753,
+    "desviacion_temporal_real": 389.0,
+    "ratio_desviacion_temporal": 0.5166002656,
     "puntaje_anomalia": -0.1053634356
   },
   {
