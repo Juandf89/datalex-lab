@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-09-04T13:19:56.442785+00:00",
+  "generado_en": "2026-09-04T17:30:38.336877+00:00",
   "fuente": {
     "dataset": "jbjy-vk9h",
     "dominio": "www.datos.gov.co",
@@ -7,22 +7,22 @@
   },
   "muestra": {
     "ingeridos_esta_corrida": 20000,
-    "acumulados_total": 323861,
-    "nuevos_o_actualizados_esta_corrida": 2214,
-    "aptos_modelo": 300613,
-    "entidades_distintas": 3788,
-    "valor_total_acumulado_cop": 319155809111180.3,
+    "acumulados_total": 325132,
+    "nuevos_o_actualizados_esta_corrida": 1271,
+    "aptos_modelo": 301768,
+    "entidades_distintas": 3789,
+    "valor_total_acumulado_cop": 320534465959039.6,
     "sectores_distintos": 25,
     "fecha_firma_min": "2015-07-07",
     "fecha_firma_max": "2026-09-03"
   },
   "modelo": {
     "algoritmo": "IsolationForest",
-    "anomalias_detectadas": 15031,
-    "red_flags": 751
+    "anomalias_detectadas": 15089,
+    "red_flags": 752
   },
   "red_flags_resumen": {
-    "valor_total_cop": 15023404725281.16,
-    "desviacion_promedio_dias": 607.2569906790945
+    "valor_total_cop": 15080084448011.16,
+    "desviacion_promedio_dias": 607.3085106382979
   }
 }
