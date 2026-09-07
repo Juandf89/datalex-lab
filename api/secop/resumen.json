@@ -8,10 +8,10 @@
   "muestra": {
     "ingeridos_esta_corrida": 20000,
     "acumulados_total": 338472,
-    "nuevos_o_actualizados_esta_corrida": 66,
+    "nuevos_o_actualizados_esta_corrida": 0,
     "aptos_modelo": 313999,
     "entidades_distintas": 3816,
-    "valor_total_acumulado_cop": 335431423220359.25,
+    "valor_total_acumulado_cop": 335431423220359.3,
     "sectores_distintos": 25,
     "fecha_firma_min": "2015-07-07",
     "fecha_firma_max": "2026-09-05"
@@ -22,7 +22,7 @@
     "red_flags": 780
   },
   "red_flags_resumen": {
-    "valor_total_cop": 15602168879414.46,
+    "valor_total_cop": 15602168879414.459,
     "desviacion_promedio_dias": 605.3653846153846
   }
 }
