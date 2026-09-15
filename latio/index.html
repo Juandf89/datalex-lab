@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DataLex Lab · LATIO API Console & Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+/* Paleta armonizada con datalexlab.com (verificada 2026-09-11 contra las
+   tarjetas/páginas de "Auditoría automatizada SECOP II" y "Grafo de
+   Jurisprudencia Constitucional"): Merriweather + Plus Jakarta Sans,
+   gradiente indigo-600 a cyan-500, superficies slate. --bg-dark y
+   --border-dark quedan para la columna de consola técnica (un registro
+   visual "developer console" deliberadamente distinto, común en
+   herramientas de API — no forman parte del sistema de marca de DataLex
+   Lab en sí). */
+:root {
+  --bg-page: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-dark: #0B132B;
+  --bg-dark-surface: #131E3D;
+  --border-light: #E2E8F0;
+  --border-dark: #223158;
+  --text-main: #0F172A;
+  --text-muted: #475569;
+  --text-dark-muted: #94A3B8;
+  --accent-primary: #4F46E5;
+  --accent-secondary: #06B6D4;
+  --accent-gradient: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%);
+  --accent-hover: #4338CA;
+  --accent-glow: rgba(79, 70, 229, 0.12);
+  --badge-get: #10B981;
+  --badge-get-bg: #ECFDF5;
+  --badge-post: #4F46E5;
+  --badge-post-bg: #EEF2FF;
+  --tag-hohfeld: #8B5CF6;
+  --tag-hohfeld-bg: #F5F3FF;
+  --tag-warn: #D97706;
+  --tag-warn-bg: #FFFBEB;
+  --tag-fail: #DC2626;
+  --tag-fail-bg: #FEF2F2;
+  --font-serif: "Merriweather", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "Fira Code", monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Header */
+header {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-light);
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+}
+.header-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.logo-badge {
+  background: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  padding: 7px 11px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25);
+}
+.brand-titles h1 {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+.brand-titles p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--badge-get-bg);
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--badge-get);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-link-btn {
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 5px;
+  transition: all 0.15s ease;
+}
+.nav-link-btn:hover {
+  color: var(--text-main);
+  background: #F1F5F9;
+}
+.btn-primary-sm {
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  transition: background 0.15s ease;
+}
+.btn-primary-sm:hover {
+  background: var(--accent-hover);
+}
+
+/* Hero editorial — mismo patrón que las páginas de proyecto de
+   datalexlab.com (eyebrow cyan + h1 serif con tramo en gradiente itálico +
+   párrafo slate-600), para que LATIO se sienta parte de la misma familia
+   que SECOP II / Grafo de Jurisprudencia en vez de una consola aparte. */
+.hero-block {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 28px 32px;
+}
+.eyebrow {
+  color: var(--accent-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.hero-h1 {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-main);
+  margin: 14px 0 18px;
+}
+.hero-h1 em {
+  font-style: italic;
+  background: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-desc {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+/* Main Studio Layout (3 columns) */
+.studio-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 1.15fr;
+  min-height: calc(100vh - 64px);
+}
+
+/* Column 1: Sidebar Navigator */
+.col-nav {
+  background: var(--bg-card);
+  border-right: 1px solid var(--border-light);
+  padding: 24px 16px;
+  overflow-y: auto;
+}
+.nav-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 18px 8px 8px;
+}
+.nav-section-title:first-child { margin-top: 0; }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--text-main);
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+.nav-item:hover {
+  background: var(--bg-page);
+  border-color: var(--border-light);
+}
+.nav-item.active {
+  background: var(--accent-glow);
+  color: var(--accent-primary);
+  font-weight: 600;
+  border-color: #BFDBFE;
+}
+.badge-method {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 4px;
+  min-width: 40px;
+  text-align: center;
+}
+.badge-post { background: var(--badge-post-bg); color: #1D4ED8; }
+.badge-get { background: var(--badge-get-bg); color: #047857; }
+
+.preset-chip {
+  display: block;
+  background: #F8FAFC;
+  border: 1px solid var(--border-light);
+  border-radius: 5px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.preset-chip strong { display: block; color: var(--accent-primary); margin-bottom: 2px; font-size: 12.5px; }
+.preset-chip:hover {
+  background: #EFF6FF;
+  border-color: #93C5FD;
+}
+
+/* Column 2: Parameters & Request Builder */
+.col-builder {
+  padding: 28px 32px;
+  overflow-y: auto;
+  border-right: 1px solid var(--border-light);
+  background: var(--bg-page);
+}
+.endpoint-hero {
+  margin-bottom: 24px;
+}
+.endpoint-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+.endpoint-method-url {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.endpoint-url-text {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+.endpoint-desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.builder-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 22px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  margin-bottom: 20px;
+}
+.builder-card h3 {
+  font-size: 13.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.param-row {
+  margin-bottom: 16px;
+}
+.param-row:last-child { margin-bottom: 0; }
+.param-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+.param-type {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 13.5px;
+  border: 1px solid var(--border-light);
+  border-radius: 5px;
+  background: #F8FAFC;
+  color: var(--text-main);
+  transition: all 0.15s ease;
+  font-family: var(--font-sans);
+}
+.form-textarea {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 130px;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.btn-execute {
+  width: 100%;
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  border: none;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(28, 69, 135, 0.25);
+  transition: all 0.15s ease;
+}
+.btn-execute:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+.btn-execute:active { transform: translateY(0); }
+.btn-secondary-sm {
+  background: #F1F5F9;
+  color: var(--accent-primary);
+  border: 1px solid var(--border-light);
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+.btn-secondary-sm:hover { background: #E2E8F0; }
+
+/* Column 3: Live Developer Console & Response */
+.col-console {
+  background: var(--bg-dark);
+  color: #F8FAFC;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.console-card {
+  background: var(--bg-dark-surface);
+  border: 1px solid var(--border-dark);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.console-tabs-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0D1630;
+  border-bottom: 1px solid var(--border-dark);
+  padding: 4px 12px;
+}
+.tab-buttons {
+  display: flex;
+  gap: 4px;
+}
+.c-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-dark-muted);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.c-tab:hover { color: #FFFFFF; }
+.c-tab.active {
+  color: #60A5FA;
+  background: rgba(96, 165, 250, 0.12);
+  font-weight: 600;
+}
+.btn-copy-code {
+  background: transparent;
+  border: 1px solid var(--border-dark);
+  color: var(--text-dark-muted);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-copy-code:hover {
+  color: #FFFFFF;
+  border-color: #64748B;
+}
+
+.code-pre-box {
+  padding: 16px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #E2E8F0;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Response Box */
+.response-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0D1630;
+  border-bottom: 1px solid var(--border-dark);
+  padding: 8px 16px;
+}
+.res-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badge-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: #064E3B;
+  color: #34D399;
+}
+.res-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dark-muted);
+}
+.view-switch {
+  display: flex;
+  gap: 4px;
+}
+.v-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dark-muted);
+  font-size: 11.5px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.v-btn.active {
+  background: #1E293B;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* Visual Tree View */
+.visual-tree-container {
+  padding: 18px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+.v-statement-card {
+  background: #0F1935;
+  border: 1px solid var(--border-dark);
+  border-left: 4px solid #3B82F6;
+  border-radius: 6px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.v-statement-card.is-exc {
+  border-left-color: var(--tag-warn);
+}
+.v-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.v-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+.vt-type { background: #1E3A8A; color: #93C5FD; }
+.vt-hohfeld { background: #4C1D95; color: #DDD6FE; }
+.vt-deontic { background: #064E3B; color: #A7F3D0; }
+.vt-dest { background: #78350F; color: #FDE68A; }
+.vt-exc { background: #7F1D1D; color: #FECACA; }
+
+.v-text {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  line-height: 1.5;
+  color: #F1F5F9;
+  font-style: italic;
+  margin-bottom: 8px;
+}
+.v-burden {
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #FCA5A5;
+  margin-top: 6px;
+}
+
+@media(max-width: 1100px) {
+  .studio-layout { grid-template-columns: 1fr; }
+  .col-nav, .col-builder, .col-console { border: none; border-bottom: 1px solid var(--border-light); }
+  /* En una sola columna, el formulario de análisis y su resultado van
+     PRIMERO — la lista de ejemplos/atajos (col-nav) es secundaria y no
+     debe obligar a hacer scroll por ella antes de llegar a la herramienta
+     principal (incluido el botón "Confirmar"). */
+  .col-builder { order: 1; max-height: none; overflow-y: visible; }
+  .col-console { order: 2; max-height: none; overflow-y: visible; }
+  .col-nav { order: 3; max-height: none; overflow-y: visible; }
+}
+
+/* Demo data banner */
+.demo-banner {
+  background: var(--tag-warn-bg);
+  border-bottom: 1px solid #FDE68A;
+  color: #92400E;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 8px 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  justify-content: center;
+}
+.demo-banner strong { font-weight: 700; }
+.mock-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #92400E;
+  background: var(--tag-warn-bg);
+  border: 1px solid #FDE68A;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.real-tag, .error-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.real-tag { color: #065F46; background: var(--badge-get-bg); border: 1px solid #A7F3D0; }
+.error-tag { color: #991B1B; background: var(--tag-fail-bg); border: 1px solid #FECACA; }
+.reasoning-banner {
+  background: var(--badge-get-bg);
+  border-bottom: 1px solid #A7F3D0;
+  color: #065F46;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 8px 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  justify-content: center;
+}
+.reasoning-banner strong { font-weight: 700; }
+.proof-verdict {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.proof-verdict.is-proved { background: #052e21; border: 1px solid #065F46; color: #34D399; }
+.proof-verdict.is-not-proved { background: #2a1414; border: 1px solid #7F1D1D; color: #FCA5A5; }
+.trace-step {
+  display: flex;
+  gap: 10px;
+  padding: 7px 10px;
+  border-left: 3px solid var(--border-dark);
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: var(--text-dark-muted);
+}
+.trace-step .ts-actor { color: #93C5FD; font-weight: 600; }
+.trace-step.ts-good { border-left-color: #10B981; }
+.trace-step.ts-bad { border-left-color: #DC2626; }
+.trace-step.ts-neutral { border-left-color: #3B82F6; }
+.api-conn-error {
+  padding: 14px;
+  background: #2a1414;
+  border: 1px solid #7F1D1D;
+  border-radius: 6px;
+  color: #FCA5A5;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.api-conn-error code { background: rgba(0,0,0,0.25); padding: 1px 5px; border-radius: 3px; }
+.docs-link-pending {
+  position: relative;
+}
+.docs-link-pending .pending-flag {
+  font-size: 9.5px;
+  font-weight: 700;
+  margin-left: 4px;
+  opacity: 0.85;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-wrapper">
+    <a href="https://www.datalexlab.com" class="brand-group" style="text-decoration:none;">
+      <div class="logo-badge">DL</div>
+      <div class="brand-titles">
+        <h1>DataLex <span style="font-weight:300;color:var(--text-muted);">Lab</span> · LATIO</h1>
+      </div>
+    </a>
+
+    <div class="status-pill" id="connection-status-pill" title="Verificando conexión con el analizador…">
+      <div class="pulse-dot"></div>
+      <span id="connection-status-text">Verificando conexión…</span>
+    </div>
+
+    <div class="header-actions">
+      <a href="https://github.com/Juandf89/TOOL-KIT-CIIVL" target="_blank" class="btn-primary-sm">Ver Repo</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero-block">
+  <span class="eyebrow">LegalTech · Ontología y Razonamiento del Civil Law</span>
+  <h1 class="hero-h1">Analizador <em>ontológico</em> del civil law latinoamericano</h1>
+  <p class="hero-desc">
+    Elegí un código civil y un artículo real de los 8 disponibles (22.110 artículos), y el analizador calcula su
+    tipo de norma, su modalidad deóntica (Von Wright), su posición jurídica (Hohfeld) y, cuando corresponde, muestra
+    en vivo cómo el motor de razonamiento derrotable (PROLEG) resolvería una excepción.
+  </p>
+</div>
+
+<div class="studio-layout">
+
+  <!-- Columna 1: Navegador de Endpoints & Presets -->
+  <aside class="col-nav">
+    <div class="nav-section-title">Analizar</div>
+    <div class="preset-chip" onclick="selectEndpoint('labeling')">
+      <strong>🏷 Analizar un artículo</strong>
+      <span>Elegí un código civil y un artículo real</span>
+    </div>
+
+    <div class="nav-section-title">Ejemplos con análisis completo</div>
+    <div class="preset-chip" onclick="loadCase('art-66-co')">
+      <strong>⚖ Presunción Derrotable</strong>
+      <span>Art. 66 Colombia · Carga de prueba</span>
+    </div>
+    <div class="preset-chip" onclick="loadCase('art-150-cl')">
+      <strong>⚡ Potestad y Capacidad</strong>
+      <span>Art. 150 Chile · Patrimonio reservado</span>
+    </div>
+    <div class="preset-chip" onclick="loadCase('art-1362-pe')">
+      <strong>📜 Deber de Buena Fe</strong>
+      <span>Art. 1362 Perú · Concepto indeterminado</span>
+    </div>
+    <div class="preset-chip" onclick="loadCase('art-1710-ar')">
+      <strong>🛡 Prevención del Daño</strong>
+      <span>Art. 1710 Argentina CCyC · Deber general</span>
+    </div>
+
+    <div class="nav-section-title">Razonamiento jurídico (PROLEG)</div>
+    <div class="preset-chip" onclick="loadReasoningGoldenCase()">
+      <strong>🧩 Art. 612 · Código Civil Japonés</strong>
+      <span>Caso de oro del motor de razonamiento</span>
+    </div>
+    <div class="preset-chip" onclick="loadReasoningCase256(false)">
+      <strong>👪 Art. 256 CO · Visitas concedidas</strong>
+      <span>Primer artículo LATAM real · sin condena</span>
+    </div>
+    <div class="preset-chip" onclick="loadReasoningCase256(true)">
+      <strong>🚫 Art. 256 CO · Excepción de victimario</strong>
+      <span>Mismo artículo · derecho derrotado</span>
+    </div>
+
+    <div class="nav-section-title">Buscar en los códigos civiles</div>
+    <div class="preset-chip" onclick="loadCorporaList()">
+      <strong>📚 Los 8 códigos civiles</strong>
+      <span>CL/CO/AR×2/BR/MX×2/PE · 22.110 artículos</span>
+    </div>
+    <div class="preset-chip" onclick="loadCorpusArticles('CO-CC')">
+      <strong>🇨🇴 Artículos de Colombia</strong>
+      <span>Ley 57 de 1887 · texto real paginado</span>
+    </div>
+  </aside>
+
+  <!-- Columna 2: Request Builder & Parámetros -->
+  <section class="col-builder">
+    <div class="endpoint-hero">
+      <h2 class="endpoint-title" id="current-title">Analizar un artículo</h2>
+      <p class="endpoint-desc" id="current-desc">
+        Elegí un código civil y un artículo real, o pegá tu propio texto. El analizador determina el tipo de norma,
+        su modalidad deóntica (Von Wright) y su posición jurídica (Hohfeld).
+      </p>
+    </div>
+
+    <div id="dynamic-params-container">
+      <!-- Inyectado dinámicamente según endpoint seleccionado -->
+    </div>
+
+    <button class="btn-execute" onclick="executeApiCall()">
+      <span>Confirmar</span>
+      <span style="opacity:0.6;font-size:12px;font-family:var(--font-mono)">Ctrl + ↵</span>
+    </button>
+  </section>
+
+  <!-- Columna 3: Resultado del análisis -->
+  <aside class="col-console">
+
+    <div class="console-card" style="flex:1;display:flex;flex-direction:column;">
+      <div class="response-header-bar">
+        <div class="res-meta">
+          <span class="mock-tag" id="res-mode-tag" title="Todavía no ejecutaste una consulta contra el analizador.">Sin ejecutar</span>
+          <span id="res-status-badge" style="display:none;"></span>
+          <span id="res-time-text" style="display:none;"></span>
+        </div>
+      </div>
+
+      <div id="res-tree-view" class="visual-tree-container">
+        <!-- Renderizado visual del resultado -->
+      </div>
+      <pre id="res-json-view" class="code-pre-box" style="display:none;max-height:520px;"></pre>
+    </div>
+
+  </aside>
+
+</div>
+
+<script>
+// Estado de la consola
+let currentEndpoint = 'labeling';
+let lastResponseData = null;
+
+// Estado del análisis de artículos — reglas léxicas deterministas
+// (src/labeling/rules.py), sin LLM ni servicio externo. `proposal` guarda
+// la última respuesta de /v1/statements/propose para saber qué campos
+// vinieron determinados por reglas vs. completados a mano.
+let labelingState = {
+  text: "Se presume de derecho que el menor de diez años es incapaz, salvo lo dispuesto en el artículo 45.",
+  proposal: null,
+};
+
+// Nombres de campo reales (los que usa la API) -> etiqueta en español llano.
+// Se usa tanto para traducir errores de validación como el resumen
+// "detectado / sin determinar" que se muestra antes del formulario.
+const LABELING_FIELD_LABELS_ES = {
+  text_span: 'Texto del artículo',
+  statement_type: 'Tipo de norma',
+  structure: 'Estructura',
+  deontic_modality: 'Deóntica (Von Wright)',
+  hohfeldian_position: 'Posición (Hohfeld)',
+  addressee: 'Destinatario',
+  antecedent_operator: 'Operador del antecedente',
+  exception_present: '¿Tiene excepción?',
+  exception_marker: 'Marcador de la excepción',
+  exception_scope: '¿Dónde está la excepción?',
+  generality_n_conditions: 'Cantidad de condiciones',
+  generality_has_enumeration: '¿Tiene una lista/enumeración?',
+  generality_enumeration_closed: '¿La lista es cerrada?',
+  presumption_rebuttable: '¿Admite prueba en contrario?',
+  generality: 'Generalidad',
+};
+
+function labelingFieldNamesEs(fields) {
+  return (fields || []).map(f => LABELING_FIELD_LABELS_ES[f] || f).join(', ') || '(ninguno)';
+}
+
+async function checkAnalyzerConnection() {
+  const pill = document.getElementById('connection-status-pill');
+  const text = document.getElementById('connection-status-text');
+  try {
+    const res = await fetch(`${currentApiBase()}/health`);
+    if (res.ok) {
+      pill.title = 'El analizador está corriendo y respondiendo en vivo.';
+      text.innerText = 'Analizador conectado';
+      pill.style.background = '#ECFDF5';
+      pill.style.borderColor = '#A7F3D0';
+    } else {
+      throw new Error(`HTTP ${res.status}`);
+    }
+  } catch (e) {
+    pill.title = 'No se pudo conectar al analizador local. Revisá los detalles técnicos en la sección "Analizar un artículo".';
+    text.innerText = 'Sin conexión al analizador';
+  }
+}
+
+// Inicializar vistas
+function init() {
+  selectEndpoint('labeling', false);
+  proposeLabels();
+  checkAnalyzerConnection();
+}
+
+function selectEndpoint(ep, autoExec = true) {
+  currentEndpoint = ep;
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const navBtn = document.getElementById(`btn-ep-${ep}`);
+  if (navBtn) navBtn.classList.add('active');
+
+  const title = document.getElementById('current-title');
+  const desc = document.getElementById('current-desc');
+
+  if (ep === 'reasoning') {
+    title.innerText = 'Razonamiento jurídico derrotable (PROLEG)';
+    desc.innerText = 'Reglas por defecto, excepciones y carga de la prueba: el motor determina si un derecho queda probado o derrotado, con la traza completa del razonamiento.';
+  } else if (ep === 'corpora') {
+    title.innerText = 'Los 8 códigos civiles';
+    desc.innerText = 'Cada código real ya extraído, con su cobertura (cuántos artículos se leyeron correctamente) y sus controles de calidad.';
+  } else if (ep === 'corpora-articles') {
+    title.innerText = 'Artículos de un código civil';
+    desc.innerText = 'Texto real, tal como aparece en la fuente oficial, paginado. Elegí un código y navegá sus artículos.';
+  } else if (ep === 'labeling') {
+    title.innerText = 'Analizar un artículo';
+    desc.innerText = 'Elegí un código civil y un artículo real, o pegá tu propio texto. El analizador determina el tipo de norma, su modalidad deóntica (Von Wright) y su posición jurídica (Hohfeld).';
+  }
+
+  renderParamsForm();
+  updateCodeSnippet();
+  if (autoExec) executeApiCall();
+}
+
+function renderParamsForm() {
+  const container = document.getElementById('dynamic-params-container');
+
+  if (currentEndpoint === 'reasoning') {
+    container.innerHTML = `
+      <div class="builder-card">
+        <h3>Conexión</h3>
+        <div class="param-row">
+          <div class="param-label"><span>Dirección del analizador</span></div>
+          <input type="text" id="param-api-base" class="form-input" value="${getStoredApiBase()}" oninput="onReasoningBaseChange()" placeholder="https://api-latio.datalexlab.com">
+        </div>
+        <details style="margin-top:8px;">
+          <summary style="cursor:pointer;font-size:11.5px;color:var(--text-muted);">Detalles técnicos para levantar el analizador</summary>
+          <p style="font-size:11.5px;color:var(--text-muted);line-height:1.6;margin-top:8px;">
+            Corré <code>uvicorn src.api:app --reload --port 8000</code> desde <code>latio-kit/</code>. Serví este archivo con un servidor local (p. ej. <code>python -m http.server 5500</code> dentro de <code>toolkit-api/</code>) en vez de abrirlo con <code>file://</code>, para que CORS lo permita.
+          </p>
+        </details>
+      </div>
+      <div class="builder-card">
+        <h3>Conjunto de reglas</h3>
+        <div class="param-row">
+          <div class="param-label"><span>Cuál usar</span></div>
+          <select id="param-rulebase" class="form-select" onchange="updateCodeSnippet()">
+            <option value="jp-civil-612-sublease-demo">Caso de oro (Art. 612 japonés)</option>
+            <option value="co-civil-256-visitas">Art. 256 CO · Visitas</option>
+          </select>
+        </div>
+        <button class="btn-secondary-sm" onclick="refreshRulebases()">🔄 Actualizar lista</button>
+      </div>
+      <div class="builder-card">
+        <h3>Caso</h3>
+        <button class="btn-secondary-sm" onclick="loadReasoningGoldenCase()" style="margin-bottom:16px;">🧩 Cargar caso de oro (Art. 612 japonés)</button>
+        <div class="param-row">
+          <div class="param-label"><span>¿Quién representás?</span></div>
+          <select id="param-party" class="form-select" onchange="updateCodeSnippet()">
+            <option value="plaintiff">demandante</option>
+            <option value="defendant">demandado</option>
+          </select>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>¿Qué querés probar?</span></div>
+          <input type="text" id="param-goal" class="form-input" value="" placeholder="ej. contract_end" oninput="updateCodeSnippet()">
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Hechos del caso</span></div>
+          <textarea id="param-facts" class="form-textarea" style="font-family:var(--font-mono);font-size:12px;min-height:220px;" oninput="updateCodeSnippet()">[]</textarea>
+        </div>
+      </div>
+    `;
+  } else if (currentEndpoint === 'corpora') {
+    container.innerHTML = `
+      <div class="builder-card">
+        <h3>Conexión</h3>
+        <div class="param-row">
+          <div class="param-label"><span>Dirección del analizador</span></div>
+          <input type="text" id="param-api-base" class="form-input" value="${getStoredApiBase()}" oninput="onReasoningBaseChange()" placeholder="https://api-latio.datalexlab.com">
+        </div>
+        <details style="margin-top:8px;">
+          <summary style="cursor:pointer;font-size:11.5px;color:var(--text-muted);">Detalles técnicos para levantar el analizador</summary>
+          <p style="font-size:11.5px;color:var(--text-muted);line-height:1.6;margin-top:8px;">
+            Corré <code>uvicorn src.api:app --reload --port 8000</code> desde <code>latio-kit/</code>. Serví este archivo con un servidor local (p. ej. <code>python -m http.server 5500</code> dentro de <code>toolkit-api/</code>) en vez de abrirlo con <code>file://</code>, para que CORS lo permita.
+          </p>
+        </details>
+      </div>
+      <div class="builder-card">
+        <h3>Sin parámetros</h3>
+        <p style="color:var(--text-muted);font-size:13px;">Esta consulta no necesita nada más. Ejecutá directamente para listar los 8 códigos reales con su cobertura y controles de calidad.</p>
+      </div>
+    `;
+  } else if (currentEndpoint === 'corpora-articles') {
+    container.innerHTML = `
+      <div class="builder-card">
+        <h3>Conexión</h3>
+        <div class="param-row">
+          <div class="param-label"><span>Dirección del analizador</span></div>
+          <input type="text" id="param-api-base" class="form-input" value="${getStoredApiBase()}" oninput="onReasoningBaseChange()" placeholder="https://api-latio.datalexlab.com">
+        </div>
+        <details style="margin-top:8px;">
+          <summary style="cursor:pointer;font-size:11.5px;color:var(--text-muted);">Detalles técnicos para levantar el analizador</summary>
+          <p style="font-size:11.5px;color:var(--text-muted);line-height:1.6;margin-top:8px;">
+            Corré <code>uvicorn src.api:app --reload --port 8000</code> desde <code>latio-kit/</code>. Serví este archivo con un servidor local (p. ej. <code>python -m http.server 5500</code> dentro de <code>toolkit-api/</code>) en vez de abrirlo con <code>file://</code>, para que CORS lo permita.
+          </p>
+        </details>
+      </div>
+      <div class="builder-card">
+        <h3>Código civil y página</h3>
+        <div class="param-row">
+          <div class="param-label"><span>Código civil</span></div>
+          <select id="param-corpus-id" class="form-select" onchange="updateCodeSnippet()">
+            <option value="CL-CC">CL-CC — Código Civil de Chile</option>
+            <option value="CO-CC" selected>CO-CC — Código Civil de Colombia</option>
+            <option value="AR-CC">AR-CC — Código Civil de Argentina (1869)</option>
+            <option value="AR-CCYC">AR-CCYC — Código Civil y Comercial (Argentina, 2015)</option>
+            <option value="BR-CC">BR-CC — Código Civil brasileiro</option>
+            <option value="MX-CCF">MX-CCF — Código Civil Federal de México</option>
+            <option value="MX-CDMX">MX-CDMX — Código Civil CDMX</option>
+            <option value="PE-CC">PE-CC — Código Civil de Perú</option>
+          </select>
+          <button class="btn-secondary-sm" onclick="refreshCorporaOptions()">🔄 Actualizar lista</button>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Cuántos artículos mostrar</span><span class="param-type">máx 200</span></div>
+          <input type="number" id="param-articles-limit" class="form-input" value="20" min="1" max="200" oninput="updateCodeSnippet()">
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Desde cuál empezar</span></div>
+          <input type="number" id="param-articles-offset" class="form-input" value="0" min="0" oninput="updateCodeSnippet()">
+        </div>
+      </div>
+    `;
+  } else if (currentEndpoint === 'labeling') {
+    container.innerHTML = `
+      <div class="builder-card">
+        <h3>Conexión</h3>
+        <div class="param-row">
+          <div class="param-label"><span>Dirección del analizador</span></div>
+          <input type="text" id="param-api-base" class="form-input" value="${getStoredApiBase()}" oninput="onReasoningBaseChange()" placeholder="https://api-latio.datalexlab.com">
+        </div>
+        <details style="margin-top:8px;">
+          <summary style="cursor:pointer;font-size:11.5px;color:var(--text-muted);">Detalles técnicos para levantar el analizador</summary>
+          <p style="font-size:11.5px;color:var(--text-muted);line-height:1.6;margin-top:8px;">
+            Corré <code>uvicorn src.api:app --reload --port 8000</code> desde <code>latio-kit/</code>. Serví este archivo con un servidor local (p. ej. <code>python -m http.server 5500</code> dentro de <code>toolkit-api/</code>) en vez de abrirlo con <code>file://</code>, para que CORS lo permita.
+          </p>
+        </details>
+      </div>
+      <div class="builder-card">
+        <h3>Elegí un artículo real</h3>
+        <div class="param-row">
+          <div class="param-label"><span>Código civil</span></div>
+          <select id="lbl-corpus-id" class="form-select" onchange="loadCorpusArticlesForLabeling()">
+            <option value="CL-CC">🇨🇱 Chile — Código Civil</option>
+            <option value="CO-CC" selected>🇨🇴 Colombia — Código Civil</option>
+            <option value="AR-CC">🇦🇷 Argentina — Código Civil (1869)</option>
+            <option value="AR-CCYC">🇦🇷 Argentina — Código Civil y Comercial (2015)</option>
+            <option value="BR-CC">🇧🇷 Brasil — Código Civil</option>
+            <option value="MX-CCF">🇲🇽 México — Código Civil Federal</option>
+            <option value="MX-CDMX">🇲🇽 México — Código Civil CDMX</option>
+            <option value="PE-CC">🇵🇪 Perú — Código Civil</option>
+          </select>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Artículo</span></div>
+          <select id="lbl-article-uid" class="form-select" onchange="loadArticleForLabeling()">
+            <option value="">— elegí un código civil arriba —</option>
+          </select>
+        </div>
+        <p id="lbl-article-status" style="font-size:11.5px;color:var(--text-muted);margin-top:6px;"></p>
+      </div>
+      <div class="builder-card">
+        <h3>Texto a analizar</h3>
+        <textarea id="lbl-text" class="form-textarea" oninput="updateCodeSnippet()">${labelingState.text}</textarea>
+        <button class="btn-execute" style="margin-top:10px;" onclick="proposeLabels()">Analizar artículo</button>
+        <div id="lbl-proposal-notes" style="margin-top:10px;"></div>
+      </div>
+      <div class="builder-card">
+        <h3>Etiquetado <span class="param-type">completá lo que el análisis no determinó</span></h3>
+        <div class="param-row">
+          <div class="param-label"><span>Tipo de norma</span> <span id="lbl-badge-statement_type"></span></div>
+          <select id="lbl-statement_type" class="form-select" onchange="onLabelingFieldChange()">
+            <option value="">— elegí uno —</option>
+            <option value="regla">regla</option>
+            <option value="principio">principio</option>
+            <option value="definicion">definicion</option>
+            <option value="remision">remision</option>
+            <option value="presuncion">presuncion</option>
+            <option value="ficcion">ficcion</option>
+            <option value="regla_interpretativa">regla_interpretativa</option>
+            <option value="norma_organica">norma_organica</option>
+          </select>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Estructura</span> <span id="lbl-badge-structure"></span></div>
+          <select id="lbl-structure" class="form-select" onchange="updateCodeSnippet()">
+            <option value="">— elegí una —</option>
+            <option value="supuesto_consecuencia">supuesto_consecuencia</option>
+            <option value="supuesto_consecuencia_con_excepcion">supuesto_consecuencia_con_excepcion</option>
+            <option value="definicion_pura">definicion_pura</option>
+            <option value="enumeracion_taxativa">enumeracion_taxativa</option>
+            <option value="enumeracion_enunciativa">enumeracion_enunciativa</option>
+            <option value="remision_pura">remision_pura</option>
+            <option value="principio_abierto">principio_abierto</option>
+          </select>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Deóntica (Von Wright)</span> <span id="lbl-badge-deontic_modality"></span></div>
+          <select id="lbl-deontic_modality" class="form-select" onchange="onLabelingFieldChange()">
+            <option value="ninguno">ninguno</option>
+            <option value="obligacion">obligación</option>
+            <option value="prohibicion">prohibición</option>
+            <option value="permiso">permiso</option>
+          </select>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Posición (Hohfeld)</span><span class="param-type">correlato por defecto</span> <span id="lbl-badge-hohfeldian_position"></span></div>
+          <select id="lbl-hohfeldian_position" class="form-select" onchange="updateCodeSnippet()">
+            <option value="ninguno">ninguno</option>
+            <option value="deber">deber</option>
+            <option value="derecho_subjetivo">derecho_subjetivo</option>
+            <option value="privilegio">privilegio (libertad)</option>
+            <option value="potestad">potestad</option>
+            <option value="sujecion">sujeción</option>
+            <option value="inmunidad">inmunidad</option>
+          </select>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Destinatario</span> <span id="lbl-badge-addressee"></span></div>
+          <select id="lbl-addressee" class="form-select" onchange="updateCodeSnippet()">
+            <option value="">— elegí uno —</option>
+            <option value="partes">partes</option>
+            <option value="juez">juez</option>
+            <option value="funcionario_o_notario">funcionario_o_notario</option>
+            <option value="tercero">tercero</option>
+            <option value="indeterminado">indeterminado</option>
+          </select>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Operador del antecedente</span> <span id="lbl-badge-antecedent_operator"></span></div>
+          <select id="lbl-antecedent_operator" class="form-select" onchange="updateCodeSnippet()">
+            <option value="ninguno_explicito">ninguno_explicito</option>
+            <option value="si">si</option>
+            <option value="cuando">cuando</option>
+            <option value="siempre_que">siempre_que</option>
+            <option value="en_caso_de">en_caso_de</option>
+          </select>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>¿Tiene excepción?</span> <span id="lbl-badge-exception_present"></span></div>
+          <select id="lbl-exception_present" class="form-select" onchange="onLabelingFieldChange()">
+            <option value="false">no</option>
+            <option value="true">sí</option>
+          </select>
+        </div>
+        <div class="param-row" id="lbl-row-exception-details" style="display:none;">
+          <div class="param-label"><span>Marcador de la excepción</span></div>
+          <input type="text" id="lbl-exception_marker" class="form-input" placeholder="ej. salvo que" oninput="updateCodeSnippet()">
+          <div class="param-label" style="margin-top:8px;"><span>¿Dónde está la excepción?</span></div>
+          <select id="lbl-exception_scope" class="form-select" onchange="updateCodeSnippet()">
+            <option value="interna">en el mismo artículo</option>
+            <option value="por_remision">remite a otro artículo</option>
+          </select>
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>Cantidad de condiciones</span></div>
+          <input type="number" id="lbl-generality_n_conditions" class="form-input" value="1" min="0" oninput="updateCodeSnippet()">
+        </div>
+        <div class="param-row">
+          <div class="param-label"><span>¿Tiene una lista/enumeración?</span></div>
+          <select id="lbl-generality_has_enumeration" class="form-select" onchange="onLabelingFieldChange()">
+            <option value="false">no</option>
+            <option value="true">sí</option>
+          </select>
+        </div>
+        <div class="param-row" id="lbl-row-enumeration-closed" style="display:none;">
+          <div class="param-label"><span>¿La lista es cerrada?</span></div>
+          <select id="lbl-generality_enumeration_closed" class="form-select" onchange="updateCodeSnippet()">
+            <option value="true">sí, taxativa (solo esos casos)</option>
+            <option value="false">no, enunciativa (ejemplos, no cierra la lista)</option>
+          </select>
+        </div>
+        <div class="param-row" id="lbl-row-presumption" style="display:none;">
+          <div class="param-label"><span>¿Admite prueba en contrario?</span><span class="param-type">solo si es presunción</span> <span id="lbl-badge-presumption_rebuttable"></span></div>
+          <select id="lbl-presumption_rebuttable" class="form-select" onchange="updateCodeSnippet()">
+            <option value="true">sí (presunción legal)</option>
+            <option value="false">no (presunción de derecho)</option>
+          </select>
+        </div>
+      </div>
+      <div id="lbl-proleg-preview"></div>
+    `;
+    onLabelingFieldChange();
+  } else {
+    container.innerHTML = `
+      <div class="builder-card">
+        <h3>Parámetros de Consulta</h3>
+        <p style="color:var(--text-muted);font-size:13px;">Este endpoint no requiere parámetros obligatorios. Ejecuta directamente para obtener la matriz agregada.</p>
+      </div>
+    `;
+  }
+}
+
+const CANONICAL_CASES = {
+  'art-66-co': "Se permitirá probar la no existencia del hecho que legalmente se presume, aunque sean ciertos los antecedentes de que lo infiere la ley; a menos que la misma ley rechace expresamente esta prueba.",
+  'art-150-cl': "La mujer casada de cualquier edad podrá dedicarse libremente al ejercicio de un empleo, oficio o industria, y administrará su patrimonio de manera independiente.",
+  'art-1362-pe': "Los contratos deben negociarse, celebrarse y ejecutarse según las reglas de la buena fe y común intención de las partes.",
+  'art-1710-ar': "Toda persona tiene el deber, en cuanto de ella dependa, de evitar causar un daño no justificado y adoptar de buena fe las medidas razonables.",
+};
+
+function loadCase(caseKey) {
+  selectEndpoint('labeling', false);
+  const text = CANONICAL_CASES[caseKey];
+  document.getElementById('lbl-text').value = text;
+  labelingState.text = text;
+  proposeLabels();
+}
+
+// ---------------------------------------------------------------------
+// Motor de razonamiento (real) — a diferencia de todo lo anterior, esta
+// sección hace fetch() de verdad contra src/api.py (/v1/reasoning/*).
+// No hay MOCK_* acá: si el backend no está corriendo, se muestra un
+// error de conexión explícito, nunca una respuesta simulada.
+// ---------------------------------------------------------------------
+
+function getStoredApiBase() {
+  try {
+    return localStorage.getItem('latio_reasoning_api_base') || 'https://api-latio.datalexlab.com';
+  } catch (e) {
+    return 'https://api-latio.datalexlab.com';
+  }
+}
+
+function persistApiBase(v) {
+  try { localStorage.setItem('latio_reasoning_api_base', v); } catch (e) { /* localStorage no disponible; degradar en silencio */ }
+}
+
+function onReasoningBaseChange() {
+  const input = document.getElementById('param-api-base');
+  if (input) persistApiBase(input.value.trim());
+  updateCodeSnippet();
+}
+
+function currentApiBase() {
+  const input = document.getElementById('param-api-base');
+  return (input ? input.value.trim() : getStoredApiBase()) || 'https://api-latio.datalexlab.com';
+}
+
+// ---------------------------------------------------------------------
+// Etiquetado Asistido — reglas léxicas deterministas (src/labeling/),
+// sin LLM ni servicio externo. Flujo en dos pasos: proposeLabels() llama
+// a /v1/statements/propose y pre-llena lo que las reglas determinan;
+// "Ejecutar Petición" (executeLabelingValidate) manda el formulario
+// completo a /v1/statements/validate, la única fuente de verdad sobre
+// si la combinación es jurídicamente válida.
+// ---------------------------------------------------------------------
+
+function fieldBadge(proposal, field) {
+  if (!proposal) return '';
+  if ((proposal.determined_fields || []).includes(field)) return '<span class="real-tag">detectado</span>';
+  if ((proposal.default_fields || []).includes(field)) return '<span class="mock-tag">por defecto</span>';
+  return '';
+}
+
+// Limpia el formulario de etiquetado a un estado neutro "todavía sin
+// analizar" — se llama al cargar un artículo nuevo (o texto nuevo), para
+// que ningún campo quede mostrando la etiqueta del artículo ANTERIOR
+// mientras el usuario no aprieta "Analizar artículo".
+function resetLabelingForm() {
+  labelingState.proposal = null;
+  document.getElementById('lbl-statement_type').value = '';
+  document.getElementById('lbl-structure').value = '';
+  document.getElementById('lbl-deontic_modality').value = 'ninguno';
+  document.getElementById('lbl-hohfeldian_position').value = 'ninguno';
+  document.getElementById('lbl-addressee').value = '';
+  document.getElementById('lbl-antecedent_operator').value = 'ninguno_explicito';
+  document.getElementById('lbl-exception_present').value = 'false';
+  document.getElementById('lbl-exception_marker').value = '';
+  document.getElementById('lbl-exception_scope').value = 'interna';
+  ['statement_type', 'structure', 'deontic_modality', 'hohfeldian_position', 'addressee', 'antecedent_operator', 'exception_present', 'presumption_rebuttable'].forEach(f => {
+    const badgeEl = document.getElementById(`lbl-badge-${f}`);
+    if (badgeEl) badgeEl.innerHTML = '';
+  });
+  document.getElementById('lbl-proposal-notes').innerHTML = '';
+  renderProlegPreview(null);
+  onLabelingFieldChange();
+}
+
+function renderProlegPreview(preview) {
+  const el = document.getElementById('lbl-proleg-preview');
+  if (!el) return;
+  if (!preview) {
+    el.innerHTML = '';
+    return;
+  }
+  const w = preview.without_exception;
+  const e = preview.with_exception;
+  el.innerHTML = `
+    <div class="builder-card" style="border-color:var(--accent-primary);">
+      <h3>⚖ Vista previa PROLEG <span class="param-type">motor real, sin simular</span></h3>
+      <p style="font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:10px;">${preview.note}</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:180px;padding:10px;border-radius:6px;background:${w.proved ? '#ECFDF5' : '#FEF2F2'};border:1px solid ${w.proved ? '#A7F3D0' : '#FECACA'};">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:${w.proved ? '#065F46' : '#991B1B'};">Sin la excepción probada</div>
+          <div style="font-size:13px;margin-top:4px;">${w.proved ? '✅ La regla se aplica' : '❌ La regla no se aplica'}</div>
+        </div>
+        <div style="flex:1;min-width:180px;padding:10px;border-radius:6px;background:${e.proved ? '#ECFDF5' : '#FEF2F2'};border:1px solid ${e.proved ? '#A7F3D0' : '#FECACA'};">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:${e.proved ? '#065F46' : '#991B1B'};">Con la excepción probada</div>
+          <div style="font-size:13px;margin-top:4px;">${e.proved ? '✅ La regla se aplica igual' : '❌ La regla queda derrotada'}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function onLabelingFieldChange() {
+  const excPresent = document.getElementById('lbl-exception_present').value === 'true';
+  document.getElementById('lbl-row-exception-details').style.display = excPresent ? 'block' : 'none';
+
+  const hasEnum = document.getElementById('lbl-generality_has_enumeration').value === 'true';
+  document.getElementById('lbl-row-enumeration-closed').style.display = hasEnum ? 'block' : 'none';
+
+  const isPresumption = document.getElementById('lbl-statement_type').value === 'presuncion';
+  document.getElementById('lbl-row-presumption').style.display = isPresumption ? 'block' : 'none';
+
+  updateCodeSnippet();
+}
+
+async function proposeLabels() {
+  const text = document.getElementById('lbl-text').value.trim();
+  const notesEl = document.getElementById('lbl-proposal-notes');
+  labelingState.text = text;
+
+  if (!text) {
+    notesEl.innerHTML = '<div class="api-conn-error">⚠️ Pegá el texto de un artículo primero.</div>';
+    return;
+  }
+
+  const base = currentApiBase();
+  notesEl.innerHTML = '<p style="font-size:12px;color:var(--text-muted);">Aplicando reglas léxicas…</p>';
+
+  let proposal;
+  try {
+    const res = await fetch(`${base}/v1/statements/propose`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text_span: text })
+    });
+    if (!res.ok) {
+      const errBody = await res.text();
+      notesEl.innerHTML = `<div class="api-conn-error">⚠️ HTTP ${res.status}: ${errBody}</div>`;
+      return;
+    }
+    proposal = await res.json();
+  } catch (e) {
+    notesEl.innerHTML = `<div class="api-conn-error">⚠️ No se pudo conectar con el analizador en ${base}. Revisá la dirección de conexión arriba, o los detalles técnicos si sos quien lo está configurando.</div>`;
+    return;
+  }
+
+  labelingState.proposal = proposal;
+
+  // Siempre resetear (nunca dejar pegado el valor del artículo anterior)
+  // cuando el análisis no determina el campo — "" activa el placeholder
+  // "— elegí uno —", que fuerza a completar a mano en vez de heredar una
+  // etiqueta que en realidad corresponde a otro texto.
+  document.getElementById('lbl-statement_type').value = proposal.statement_type || '';
+  document.getElementById('lbl-structure').value = proposal.structure || '';
+  document.getElementById('lbl-deontic_modality').value = proposal.deontic_modality || 'ninguno';
+  document.getElementById('lbl-hohfeldian_position').value = proposal.hohfeldian_position || 'ninguno';
+  document.getElementById('lbl-addressee').value = proposal.addressee || '';
+  if (proposal.antecedent_operator) document.getElementById('lbl-antecedent_operator').value = proposal.antecedent_operator;
+  document.getElementById('lbl-exception_present').value = proposal.exception_present ? 'true' : 'false';
+  if (proposal.exception_marker) document.getElementById('lbl-exception_marker').value = proposal.exception_marker;
+  if (proposal.exception_scope) document.getElementById('lbl-exception_scope').value = proposal.exception_scope;
+  if (proposal.presumption_rebuttable !== null && proposal.presumption_rebuttable !== undefined) {
+    document.getElementById('lbl-presumption_rebuttable').value = proposal.presumption_rebuttable ? 'true' : 'false';
+  }
+
+  ['statement_type', 'structure', 'deontic_modality', 'hohfeldian_position', 'addressee', 'antecedent_operator', 'exception_present', 'presumption_rebuttable'].forEach(f => {
+    const badgeEl = document.getElementById(`lbl-badge-${f}`);
+    if (badgeEl) badgeEl.innerHTML = fieldBadge(proposal, f);
+  });
+
+  onLabelingFieldChange();
+  renderProlegPreview(proposal.proleg_preview);
+
+  notesEl.innerHTML = `
+    <div style="font-size:11.5px;color:var(--text-muted);line-height:1.6;">
+      <strong>Detectado por reglas:</strong> ${labelingFieldNamesEs(proposal.determined_fields)}<br>
+      <strong>Completado por defecto (revisar):</strong> ${labelingFieldNamesEs(proposal.default_fields)}<br>
+      <strong>Sin determinar (completá a mano):</strong> ${labelingFieldNamesEs(proposal.undetermined_fields)}
+      ${(proposal.notes || []).length ? '<ul style="margin:6px 0 0 16px;">' + proposal.notes.map(n => `<li>${n}</li>`).join('') + '</ul>' : ''}
+    </div>
+  `;
+}
+
+function buildLabelingPayload() {
+  const excPresent = document.getElementById('lbl-exception_present').value === 'true';
+  const hasEnum = document.getElementById('lbl-generality_has_enumeration').value === 'true';
+  const statementType = document.getElementById('lbl-statement_type').value;
+
+  const payload = {
+    text_span: document.getElementById('lbl-text').value,
+    statement_type: statementType,
+    structure: document.getElementById('lbl-structure').value,
+    deontic_modality: document.getElementById('lbl-deontic_modality').value,
+    hohfeldian_position: document.getElementById('lbl-hohfeldian_position').value,
+    addressee: document.getElementById('lbl-addressee').value,
+    antecedent_operator: document.getElementById('lbl-antecedent_operator').value,
+    exception_present: excPresent,
+    generality_n_conditions: parseInt(document.getElementById('lbl-generality_n_conditions').value || '0', 10),
+    generality_has_enumeration: hasEnum,
+    annotated_by: 'heuristica_local',
+  };
+  if (excPresent) {
+    payload.exception_marker = document.getElementById('lbl-exception_marker').value || null;
+    payload.exception_scope = document.getElementById('lbl-exception_scope').value;
+  }
+  if (hasEnum) {
+    payload.generality_enumeration_closed = document.getElementById('lbl-generality_enumeration_closed').value === 'true';
+  }
+  if (statementType === 'presuncion') {
+    payload.presumption_rebuttable = document.getElementById('lbl-presumption_rebuttable').value === 'true';
+  }
+  return payload;
+}
+
+function friendlyLabelingRequestError(status, bodyText) {
+  if (status === 422) {
+    try {
+      const parsed = JSON.parse(bodyText);
+      const fields = (parsed.detail || [])
+        .map(d => LABELING_FIELD_LABELS_ES[d.loc[d.loc.length - 1]] || d.loc[d.loc.length - 1])
+        .filter((v, i, arr) => arr.indexOf(v) === i);
+      if (fields.length) return `Completá estos campos antes de analizar: ${fields.join(', ')}.`;
+    } catch (e) { /* si no se puede interpretar, cae al mensaje genérico de abajo */ }
+  }
+  return `El analizador respondió con un error (código ${status}). Detalle: ${bodyText}`;
+}
+
+async function executeLabelingValidate(start) {
+  const base = currentApiBase();
+  const modeTag = document.getElementById('res-mode-tag');
+  const statusBadge = document.getElementById('res-status-badge');
+  const timeText = document.getElementById('res-time-text');
+  const payload = buildLabelingPayload();
+
+  try {
+    const res = await fetch(`${base}/v1/statements/validate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const duration = Math.round(performance.now() - start);
+    timeText.innerText = `${duration} ms`;
+
+    if (!res.ok) {
+      const errBody = await res.text();
+      lastResponseData = { __error: true, message: friendlyLabelingRequestError(res.status, errBody) };
+      modeTag.className = 'error-tag';
+      modeTag.innerText = `🔴 Faltan datos`;
+      statusBadge.innerText = `${res.status}`;
+      renderResponse();
+      return;
+    }
+
+    lastResponseData = await res.json();
+    modeTag.className = 'real-tag';
+    modeTag.innerText = '🟢 Respuesta real (API local)';
+    modeTag.title = `Respuesta obtenida en vivo de ${base}/v1/statements/validate — no es un dato de ejemplo.`;
+    statusBadge.innerText = `${res.status} OK`;
+    renderResponse();
+  } catch (e) {
+    const duration = Math.round(performance.now() - start);
+    timeText.innerText = `${duration} ms`;
+    lastResponseData = {
+      __error: true,
+      message: `No se pudo conectar con el analizador en ${base}. Revisá la dirección de conexión arriba, o los detalles técnicos si sos quien lo está configurando.`
+    };
+    modeTag.className = 'error-tag';
+    modeTag.innerText = '🔴 Sin conexión';
+    statusBadge.innerText = 'ERROR';
+    renderResponse();
+  }
+}
+
+// Selector de corpus + artículo real: conecta las funciones YA reales de
+// GET /v1/corpora/{corpus_id}/articles (lista, texto truncado) y
+// GET /v1/corpora/{corpus_id}/articles/{uid} (texto completo) con el
+// análisis, para no depender de que alguien pegue texto a mano.
+
+async function loadCorpusArticlesForLabeling() {
+  const corpusId = document.getElementById('lbl-corpus-id').value;
+  const articleSelect = document.getElementById('lbl-article-uid');
+  const status = document.getElementById('lbl-article-status');
+  const base = currentApiBase();
+
+  articleSelect.innerHTML = '<option value="">Cargando…</option>';
+  status.innerText = '';
+
+  try {
+    const res = await fetch(`${base}/v1/corpora/${encodeURIComponent(corpusId)}/articles?limit=100&offset=0`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const articles = data.articles || [];
+    articleSelect.innerHTML = articles.map(a => {
+      const preview = (a.text_raw || '').replace(/\s+/g, ' ').slice(0, 70);
+      return `<option value="${a.uid}">Art. ${a.number ?? '?'}${a.suffix || ''} — ${preview}…</option>`;
+    }).join('');
+    status.innerText = `${data.total} artículos en ${corpusId} (mostrando ${articles.length}).`;
+  } catch (e) {
+    articleSelect.innerHTML = '<option value="">(no se pudo cargar)</option>';
+    status.innerHTML = `<span style="color:#991B1B;">⚠️ No se pudo conectar al analizador. Revisá la dirección de conexión arriba. Detalle: ${e.message}</span>`;
+  }
+}
+
+async function loadArticleForLabeling() {
+  const corpusId = document.getElementById('lbl-corpus-id').value;
+  const uid = document.getElementById('lbl-article-uid').value;
+  const status = document.getElementById('lbl-article-status');
+  if (!uid) return;
+
+  const base = currentApiBase();
+  status.innerText = 'Cargando texto completo…';
+
+  try {
+    const res = await fetch(`${base}/v1/corpora/${encodeURIComponent(corpusId)}/articles/${encodeURIComponent(uid)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const article = await res.json();
+    document.getElementById('lbl-text').value = article.text_raw;
+    labelingState.text = article.text_raw;
+    resetLabelingForm();
+    status.innerText = `Artículo ${uid} cargado. Hacé clic en "Analizar artículo" para procesarlo.`;
+  } catch (e) {
+    status.innerHTML = `<span style="color:#991B1B;">⚠️ No se pudo cargar el artículo. Detalle: ${e.message}</span>`;
+  }
+}
+
+// Caso de oro: el ejemplo completo del Apéndice A/B del paper PROLEG
+// (Satoh et al. 2010) tal como está codificado en
+// src/reasoning/rulesets/jp_civil_612_sublease.py — nombres de hechos
+// exactos, no parafraseados.
+const REASONING_GOLDEN_CASE = {
+  rulebase_id: "jp-civil-612-sublease-demo",
+  goal: "contract_end",
+  party: "plaintiff",
+  facts: [
+    { action: "admission", fact: "agreement_of_lease_contract", party: "defendant" },
+    { action: "admission", fact: "handover_to_lessee", party: "defendant" },
+    { action: "admission", fact: "agreement_of_sublease_contract", party: "defendant" },
+    { action: "admission", fact: "handover_to_sublessee", party: "defendant" },
+    { action: "admission", fact: "using_leased_thing", party: "defendant" },
+    { action: "admission", fact: "manifestation_cancellation", party: "defendant" },
+    { action: "allege", fact: "approval_of_sublease", party: "defendant" },
+    { action: "provide_evidence", fact: "approval_of_sublease", party: "defendant" },
+    { action: "allege", fact: "approval_before_cancellation", party: "defendant" },
+    { action: "provide_evidence", fact: "approval_before_cancellation", party: "defendant" },
+    { action: "allege", fact: "fact_of_nonabuse_of_confidence", party: "defendant" },
+    { action: "provide_evidence", fact: "fact_of_nonabuse_of_confidence", party: "defendant" },
+    { action: "plausible", fact: "fact_of_nonabuse_of_confidence" },
+    { action: "allege", fact: "fact_of_abuse_of_confidence", party: "plaintiff" },
+    { action: "provide_evidence", fact: "fact_of_abuse_of_confidence", party: "plaintiff" },
+    { action: "plausible", fact: "fact_of_abuse_of_confidence" }
+  ]
+};
+
+function loadReasoningGoldenCase() {
+  selectEndpoint('reasoning', false);
+  document.getElementById('param-rulebase').value = REASONING_GOLDEN_CASE.rulebase_id;
+  document.getElementById('param-party').value = REASONING_GOLDEN_CASE.party;
+  document.getElementById('param-goal').value = REASONING_GOLDEN_CASE.goal;
+  document.getElementById('param-facts').value = JSON.stringify(REASONING_GOLDEN_CASE.facts, null, 2);
+  updateCodeSnippet();
+  executeApiCall();
+}
+
+// Primer artículo LATAM real conectado al motor (ver
+// src/reasoning/rulesets/co_civil_256_visitas.py para el texto fuente
+// citado). Dos variantes del mismo caso: sin condena (se concede el
+// derecho) y con condena por victimario (excepción absoluta lo derrota) —
+// demuestran que el motor razona de verdad, no que siempre da el mismo
+// resultado.
+const REASONING_CO_256_BASE_FACTS = [
+  { action: "admission", fact: "no_tiene_cuidado_personal_hijos", party: "defendant" }
+];
+const REASONING_CO_256_VICTIMARIO_FACTS = [
+  { action: "allege", fact: "condena_ejecutoriada_violencia_intrafamiliar", party: "defendant" },
+  { action: "provide_evidence", fact: "condena_ejecutoriada_violencia_intrafamiliar", party: "defendant" },
+  { action: "plausible", fact: "condena_ejecutoriada_violencia_intrafamiliar" },
+  { action: "allege", fact: "es_victima_o_hermano_del_solicitante", party: "defendant" },
+  { action: "provide_evidence", fact: "es_victima_o_hermano_del_solicitante", party: "defendant" },
+  { action: "plausible", fact: "es_victima_o_hermano_del_solicitante" }
+];
+
+function loadReasoningCase256(withVictimario) {
+  selectEndpoint('reasoning', false);
+  document.getElementById('param-rulebase').value = 'co-civil-256-visitas';
+  document.getElementById('param-party').value = 'plaintiff';
+  document.getElementById('param-goal').value = 'derecho_de_visitas_progenitor';
+  const facts = withVictimario
+    ? REASONING_CO_256_BASE_FACTS.concat(REASONING_CO_256_VICTIMARIO_FACTS)
+    : REASONING_CO_256_BASE_FACTS;
+  document.getElementById('param-facts').value = JSON.stringify(facts, null, 2);
+  updateCodeSnippet();
+  executeApiCall();
+}
+
+// ---------------------------------------------------------------------
+// Corpus Reales (real) — al igual que la sección de razonamiento, esta
+// hace fetch() de verdad contra src/api.py (/v1/corpora/*), que sirve
+// contenido genuino de data/processed/ + reports/manifest.json. Sin
+// MOCK_* acá tampoco: sin backend corriendo se muestra un error de
+// conexión explícito.
+// ---------------------------------------------------------------------
+
+function loadCorporaList() {
+  selectEndpoint('corpora');
+}
+
+function loadCorpusArticles(corpusId) {
+  selectEndpoint('corpora-articles', false);
+  const select = document.getElementById('param-corpus-id');
+  if (select) select.value = corpusId;
+  updateCodeSnippet();
+  executeApiCall();
+}
+
+async function refreshCorporaOptions() {
+  const select = document.getElementById('param-corpus-id');
+  if (!select) return;
+  const base = currentApiBase();
+  try {
+    const res = await fetch(`${base}/v1/corpora`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const current = select.value;
+    select.innerHTML = data
+      .map(c => `<option value="${c.corpus_id}">${c.corpus_id} — ${c.display_name}</option>`)
+      .join('');
+    if (data.some(c => c.corpus_id === current)) select.value = current;
+  } catch (e) {
+    alert(`No se pudo conectar con el analizador en ${base}. Revisá la dirección de conexión arriba, o los detalles técnicos si sos quien lo está configurando.`);
+  }
+}
+
+async function refreshRulebases() {
+  const select = document.getElementById('param-rulebase');
+  if (!select) return;
+  const base = currentApiBase();
+  try {
+    const res = await fetch(`${base}/v1/reasoning/rulebases`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const current = select.value;
+    select.innerHTML = data.map(rb => `<option value="${rb.id}">${rb.id}</option>`).join('');
+    if (data.some(rb => rb.id === current)) select.value = current;
+  } catch (e) {
+    alert(`No se pudo conectar con el analizador en ${base}. Revisá la dirección de conexión arriba, o los detalles técnicos si sos quien lo está configurando.`);
+  }
+}
+
+function partyLabel(p) {
+  return p === 'plaintiff' ? 'demandante' : (p === 'defendant' ? 'demandado' : (p || '—'));
+}
+
+const TRACE_KIND_META = {
+  try_prove:            { icon: '🔍', css: 'ts-neutral', text: s => `intenta probar "${s.subject}"` },
+  rule_matched:         { icon: '📘', css: 'ts-neutral', text: s => `encontró una regla para "${s.subject}" y evalúa sus requisitos procesales` },
+  no_rule:              { icon: '🚫', css: 'ts-bad',     text: s => `no alegó+evidenció (ni la contraria admitió) todos los hechos requeridos para intentar "${s.subject}"` },
+  admitted:             { icon: '🤝', css: 'ts-good',    text: s => `admitió "${s.subject}"` },
+  plausible_true:       { icon: '⚖️', css: 'ts-good',    text: s => `el juez determina plausible "${s.subject}"` },
+  failed_ultimate_fact: { icon: '❌', css: 'ts-bad',     text: s => `no logró probar el hecho último "${s.subject}" (sin admisión ni plausibilidad)` },
+  alleges_defense:      { icon: '🛡️', css: 'ts-neutral', text: s => `alega "${s.subject}" como defensa contra "${s.against}"` },
+  defense_succeeded:    { icon: '✅', css: 'ts-good',    text: s => `probó "${s.subject}" — la defensa contra "${s.against}" tiene éxito` },
+  defense_failed:       { icon: '❌', css: 'ts-bad',     text: s => `no pudo probar "${s.subject}" — la defensa contra "${s.against}" falla` },
+  proved:               { icon: '✅', css: 'ts-good',    text: s => `probó "${s.subject}"` },
+  failed:               { icon: '❌', css: 'ts-bad',     text: s => `no pudo probar "${s.subject}"` }
+};
+
+function renderTraceSteps(trace) {
+  return trace.map(step => {
+    const meta = TRACE_KIND_META[step.kind] || { icon: '•', css: 'ts-neutral', text: s => s.kind };
+    return `
+      <div class="trace-step ${meta.css}">
+        <span>${meta.icon}</span>
+        <span>${step.actor ? `<span class="ts-actor">${partyLabel(step.actor)}</span> ` : ''}${meta.text(step)}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+// updateCodeSnippet() ya no genera nada (se retiró el panel de código para
+// desarrolladores) — queda como no-op para no tener que tocar cada campo
+// del formulario que todavía la llama en su oninput/onchange.
+function updateCodeSnippet() {}
+
+async function executeReasoningCall(start) {
+  const base = currentApiBase();
+  const modeTag = document.getElementById('res-mode-tag');
+  const statusBadge = document.getElementById('res-status-badge');
+  const timeText = document.getElementById('res-time-text');
+
+  const rulebaseId = document.getElementById('param-rulebase').value;
+  const party = document.getElementById('param-party').value;
+  const goal = document.getElementById('param-goal').value.trim();
+
+  if (!goal) {
+    lastResponseData = { __error: true, message: 'Completá el campo "goal" (p. ej. contract_end) o hacé click en "Cargar caso de oro".' };
+    modeTag.className = 'error-tag';
+    modeTag.innerText = '🔴 Falta el goal';
+    statusBadge.innerText = '—';
+    timeText.innerText = '';
+    renderResponse();
+    return;
+  }
+
+  let facts;
+  try {
+    facts = JSON.parse(document.getElementById('param-facts').value || '[]');
+  } catch (e) {
+    lastResponseData = { __error: true, message: `El campo "facts" no es JSON válido: ${e.message}` };
+    modeTag.className = 'error-tag';
+    modeTag.innerText = '🔴 JSON inválido';
+    statusBadge.innerText = '—';
+    timeText.innerText = '';
+    renderResponse();
+    return;
+  }
+
+  const body = { rulebase_id: rulebaseId, goal, party, facts };
+
+  try {
+    const res = await fetch(`${base}/v1/reasoning/prove`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const duration = Math.round(performance.now() - start);
+    timeText.innerText = `${duration} ms`;
+
+    if (!res.ok) {
+      const errBody = await res.text();
+      lastResponseData = { __error: true, message: `HTTP ${res.status} de ${base}/v1/reasoning/prove: ${errBody}` };
+      modeTag.className = 'error-tag';
+      modeTag.innerText = `🔴 HTTP ${res.status}`;
+      statusBadge.innerText = `${res.status}`;
+      renderResponse();
+      return;
+    }
+
+    lastResponseData = await res.json();
+    modeTag.className = 'real-tag';
+    modeTag.innerText = '🟢 Respuesta real (API local)';
+    modeTag.title = `Respuesta obtenida en vivo de ${base}/v1/reasoning/prove — no es un dato de ejemplo.`;
+    statusBadge.innerText = `${res.status} OK`;
+    renderResponse();
+  } catch (e) {
+    const duration = Math.round(performance.now() - start);
+    timeText.innerText = `${duration} ms`;
+    lastResponseData = {
+      __error: true,
+      message: `No se pudo conectar con el analizador en ${base}. Revisá la dirección de conexión arriba, o los detalles técnicos si sos quien lo está configurando.`
+    };
+    modeTag.className = 'error-tag';
+    modeTag.innerText = '🔴 Sin conexión';
+    statusBadge.innerText = 'ERROR';
+    renderResponse();
+  }
+}
+
+async function executeCorporaCall(start) {
+  const base = currentApiBase();
+  const modeTag = document.getElementById('res-mode-tag');
+  const statusBadge = document.getElementById('res-status-badge');
+  const timeText = document.getElementById('res-time-text');
+
+  let url;
+  if (currentEndpoint === 'corpora') {
+    url = `${base}/v1/corpora`;
+  } else {
+    const corpusId = document.getElementById('param-corpus-id') ? document.getElementById('param-corpus-id').value : 'CO-CC';
+    const limit = document.getElementById('param-articles-limit') ? document.getElementById('param-articles-limit').value : 20;
+    const offset = document.getElementById('param-articles-offset') ? document.getElementById('param-articles-offset').value : 0;
+    url = `${base}/v1/corpora/${encodeURIComponent(corpusId)}/articles?limit=${encodeURIComponent(limit)}&offset=${encodeURIComponent(offset)}`;
+  }
+
+  try {
+    const res = await fetch(url);
+    const duration = Math.round(performance.now() - start);
+    timeText.innerText = `${duration} ms`;
+
+    if (!res.ok) {
+      const errBody = await res.text();
+      lastResponseData = { __error: true, message: `HTTP ${res.status} de ${url}: ${errBody}` };
+      modeTag.className = 'error-tag';
+      modeTag.innerText = `🔴 HTTP ${res.status}`;
+      statusBadge.innerText = `${res.status}`;
+      renderResponse();
+      return;
+    }
+
+    lastResponseData = await res.json();
+    modeTag.className = 'real-tag';
+    modeTag.innerText = '🟢 Respuesta real (API local)';
+    modeTag.title = `Respuesta obtenida en vivo de ${url} — no es un dato de ejemplo.`;
+    statusBadge.innerText = `${res.status} OK`;
+    renderResponse();
+  } catch (e) {
+    const duration = Math.round(performance.now() - start);
+    timeText.innerText = `${duration} ms`;
+    lastResponseData = {
+      __error: true,
+      message: `No se pudo conectar con el analizador en ${base}. Revisá la dirección de conexión arriba, o los detalles técnicos si sos quien lo está configurando.`
+    };
+    modeTag.className = 'error-tag';
+    modeTag.innerText = '🔴 Sin conexión';
+    statusBadge.innerText = 'ERROR';
+    renderResponse();
+  }
+}
+
+async function executeApiCall() {
+  const start = performance.now();
+
+  if (currentEndpoint === 'reasoning') {
+    await executeReasoningCall(start);
+    return;
+  }
+
+  if (currentEndpoint === 'corpora' || currentEndpoint === 'corpora-articles') {
+    await executeCorporaCall(start);
+    return;
+  }
+
+  if (currentEndpoint === 'labeling') {
+    await executeLabelingValidate(start);
+    return;
+  }
+}
+
+function renderResponse() {
+  document.getElementById('res-json-view').innerText = JSON.stringify(lastResponseData, null, 2);
+
+  const tree = document.getElementById('res-tree-view');
+
+  if (currentEndpoint === 'reasoning') {
+    if (lastResponseData && lastResponseData.__error) {
+      tree.innerHTML = `<div class="api-conn-error">⚠️ ${lastResponseData.message}</div>`;
+      return;
+    }
+    const proved = lastResponseData.proved;
+    tree.innerHTML = `
+      <div class="proof-verdict ${proved ? 'is-proved' : 'is-not-proved'}">
+        <span>${proved ? '✅' : '❌'}</span>
+        <span>${partyLabel(lastResponseData.party)} ${proved ? 'PROBÓ' : 'NO PUDO PROBAR'} "${lastResponseData.goal}"</span>
+      </div>
+      <div style="font-size:11px;color:var(--text-dark-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;">Traza de argumentación (${lastResponseData.trace.length} pasos)</div>
+      ${renderTraceSteps(lastResponseData.trace)}
+    `;
+    return;
+  }
+
+  if (currentEndpoint === 'corpora' || currentEndpoint === 'corpora-articles') {
+    if (lastResponseData && lastResponseData.__error) {
+      tree.innerHTML = `<div class="api-conn-error">⚠️ ${lastResponseData.message}</div>`;
+      return;
+    }
+
+    if (currentEndpoint === 'corpora') {
+      const corpora = Array.isArray(lastResponseData) ? lastResponseData : [];
+      tree.innerHTML = corpora.map(c => `
+        <div class="v-statement-card">
+          <div class="v-tags">
+            <span class="v-tag vt-type">${c.corpus_id}</span>
+            <span class="v-tag vt-hohfeld">${c.jurisdiction}</span>
+            <span class="v-tag ${c.recall >= 1 ? 'vt-deontic' : 'vt-dest'}">RECALL: ${(c.recall * 100).toFixed(1)}%</span>
+          </div>
+          <div class="v-text" style="font-style:normal;">${c.display_name}</div>
+          <div style="font-size:12px;color:var(--text-dark-muted);">artículos extraídos: ${c.articles_parsed} · esperados: ${c.expected_article_count}</div>
+        </div>
+      `).join('');
+    } else {
+      const data = lastResponseData || {};
+      const articles = data.articles || [];
+      tree.innerHTML = `
+        <div style="font-size:11px;color:var(--text-dark-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;">${data.corpus_id} · ${data.total} artículos totales · mostrando ${articles.length} (offset ${data.offset})</div>
+        ${articles.map(a => `
+          <div class="v-statement-card">
+            <div class="v-tags">
+              <span class="v-tag vt-type">${a.uid}</span>
+              ${a.path && a.path.length ? `<span class="v-tag vt-hohfeld">${a.path.map(p => p.label || p.level_type).join(' › ')}</span>` : ''}
+            </div>
+            <div class="v-text">"${a.text_raw}${a.truncated ? '…' : ''}"</div>
+          </div>
+        `).join('')}
+      `;
+    }
+    return;
+  }
+
+  if (currentEndpoint === 'labeling') {
+    if (lastResponseData && lastResponseData.__error) {
+      tree.innerHTML = `<div class="api-conn-error">⚠️ ${lastResponseData.message}</div>`;
+      return;
+    }
+    const data = lastResponseData || {};
+    if (data.valid === false) {
+      tree.innerHTML = `
+        <div class="v-statement-card is-exc">
+          <div class="v-tags"><span class="v-tag vt-exc">RECHAZADO POR EL ESQUEMA REAL</span></div>
+          <div class="v-text" style="font-style:normal;">${data.error}</div>
+        </div>
+      `;
+      return;
+    }
+    const n = data.normalized || {};
+    const c = data.computed || {};
+    // Repite acá la misma distinción "detectado / por defecto" que ya se
+    // muestra en el formulario (fieldBadge()), para que no desaparezca
+    // justo en el resultado — donde más importa que el usuario sepa si
+    // "Hohfeld" es un correlato asumido o un marcador leído del texto.
+    const p = labelingState.proposal;
+    const confidenceSuffix = (field) => {
+      if (!p) return '';
+      if ((p.determined_fields || []).includes(field)) return ' (detectado)';
+      if ((p.default_fields || []).includes(field)) return ' (por defecto)';
+      return '';
+    };
+    tree.innerHTML = `
+      <div class="v-statement-card ${n.exception && n.exception.present ? 'is-exc' : ''}">
+        <div class="v-tags">
+          <span class="v-tag vt-type">${n.statement_type}${confidenceSuffix('statement_type')}</span>
+          <span class="v-tag vt-deontic">${n.structure}${confidenceSuffix('structure')}</span>
+          <span class="v-tag vt-deontic">VON WRIGHT: ${n.deontic_modality}${confidenceSuffix('deontic_modality')}</span>
+          <span class="v-tag vt-hohfeld">HOHFELD: ${n.hohfeldian_position}${confidenceSuffix('hohfeldian_position')}</span>
+          <span class="v-tag vt-dest">DESTINATARIO: ${n.addressee}${confidenceSuffix('addressee')}</span>
+          ${n.exception && n.exception.present ? '<span class="v-tag vt-exc">CARGA DE LA PRUEBA (EXCEPCIÓN)</span>' : ''}
+        </div>
+        <div class="v-text" style="font-style:normal;">"${n.text_span || ''}"</div>
+        <div style="font-size:12px;color:var(--text-dark-muted);">generalidad: ${c.generality_level} · derogabilidad: ${n.derogability}</div>
+        ${n.exception && n.exception.present ? `<div class="v-burden">⚖ Excepción: ${n.exception.marker} (scope: ${n.exception.scope})</div>` : ''}
+        ${(p && (p.default_fields || []).includes('hohfeldian_position')) ? '<p style="margin-top:8px;font-size:11px;color:var(--text-dark-muted);">⚠ La posición jurídica es un correlato por defecto de la deóntica detectada, no un análisis bilateral completo (no identifica a la contraparte).</p>' : ''}
+      </div>
+      <p style="margin-top:10px;font-size:11.5px;color:var(--text-dark-muted);">✅ Esta aceptación o rechazo se validó contra el modelo ontológico real del proyecto — no es simulado.</p>
+    `;
+    return;
+  }
+
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 'Enter') executeApiCall();
+});
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
