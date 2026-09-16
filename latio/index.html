@@ -584,6 +584,59 @@ header {
   margin-top: 6px;
 }
 
+/* Esquema PROLEG: regla general, excepción y a quién le toca probar cada una. */
+.proleg-schema { margin-top: 16px; }
+.proleg-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-dark-muted);
+  margin-bottom: 10px;
+}
+.proleg-node {
+  background: var(--bg-dark-surface);
+  border: 1px solid var(--border-dark);
+  border-left: 4px solid var(--accent-secondary);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.proleg-node.is-exception { border-left-color: #F87171; }
+.proleg-node.is-muted { border-left-color: var(--border-dark); }
+.proleg-node-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--accent-secondary);
+}
+.proleg-node.is-exception .proleg-node-label { color: #FCA5A5; }
+.proleg-node.is-muted .proleg-node-label { color: var(--text-dark-muted); }
+.proleg-node-body { font-size: 13px; color: #E2E8F0; margin-top: 4px; line-height: 1.55; }
+.proleg-node-burden { font-size: 12px; color: var(--text-dark-muted); margin-top: 6px; }
+.proleg-node-burden strong { color: #E2E8F0; font-weight: 600; }
+.proleg-link {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #FCA5A5;
+  padding: 6px 0 6px 18px;
+}
+.proleg-results { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.proleg-result {
+  flex: 1;
+  min-width: 170px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid;
+}
+.proleg-result.is-ok { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.4); color: #6EE7B7; }
+.proleg-result.is-ko { background: rgba(220, 38, 38, 0.12); border-color: rgba(220, 38, 38, 0.4); color: #FCA5A5; }
+.proleg-result-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.proleg-result-value { font-size: 13px; margin-top: 3px; color: #F1F5F9; }
+.proleg-footnote { font-size: 11.5px; color: var(--text-dark-muted); line-height: 1.6; margin-top: 10px; }
+
 @media(max-width: 1100px) {
   .studio-layout { grid-template-columns: 1fr; }
   .col-nav, .col-builder, .col-console { border: none; border-bottom: 1px solid var(--border-light); }
@@ -1139,36 +1192,145 @@ function renderAnalysisResult(proposal) {
         ${hasException ? '<span class="v-tag vt-exc">CARGA DE LA PRUEBA (EXCEPCIÓN)</span>' : ''}
       </div>
       <div class="v-text">"${proposal.text_span || labelingState.text || ''}"</div>
-      ${hasException && proposal.exception_marker ? `<div class="v-burden">⚖ La excepción se introduce con "${proposal.exception_marker}"${proposal.exception_scope === 'por_remision' ? ', y remite a otro artículo' : ', dentro del mismo artículo'}.</div>` : ''}
     </div>
     <div id="res-proleg-preview"></div>
   `;
-  renderProlegPreview(proposal.proleg_preview);
+  renderProlegSchema(proposal);
 }
 
-function renderProlegPreview(preview) {
+// El esquema PROLEG se muestra SIEMPRE, no solo cuando hay excepción: antes
+// la sección aparecía en ~5% de los artículos (los que traen "salvo que",
+// "a menos que"…) y en el resto desaparecía sin explicación. Lo que muestra
+// es la estructura de la norma en términos de PROLEG —regla general,
+// excepción y a quién le toca probar cada una—, más el cálculo real del
+// motor cuando hay una excepción que calcular. Sin excepción no se inventa
+// un resultado del motor: se dice que no hay nada que derrotar en el texto.
+function renderProlegSchema(proposal) {
   const el = document.getElementById('res-proleg-preview');
   if (!el) return;
-  if (!preview) {
-    el.innerHTML = '';
-    return;
-  }
-  const w = preview.without_exception;
-  const e = preview.with_exception;
-  el.innerHTML = `
-    <div style="margin-top:14px;">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-dark-muted);margin-bottom:8px;">⚖ Razonamiento derrotable (PROLEG)</div>
-      <p style="font-size:11.5px;color:var(--text-dark-muted);line-height:1.6;margin-bottom:10px;">${preview.note}</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:180px;padding:10px;border-radius:6px;background:${w.proved ? '#ECFDF5' : '#FEF2F2'};border:1px solid ${w.proved ? '#A7F3D0' : '#FECACA'};">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:${w.proved ? '#065F46' : '#991B1B'};">Sin la excepción probada</div>
-          <div style="font-size:13px;margin-top:4px;color:#111827;">${w.proved ? '✅ La regla se aplica' : '❌ La regla no se aplica'}</div>
-        </div>
-        <div style="flex:1;min-width:180px;padding:10px;border-radius:6px;background:${e.proved ? '#ECFDF5' : '#FEF2F2'};border:1px solid ${e.proved ? '#A7F3D0' : '#FECACA'};">
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:${e.proved ? '#065F46' : '#991B1B'};">Con la excepción probada</div>
-          <div style="font-size:13px;margin-top:4px;color:#111827;">${e.proved ? '✅ La regla se aplica igual' : '❌ La regla queda derrotada'}</div>
+  if (!proposal) { el.innerHTML = ''; return; }
+
+  const type = proposal.statement_type;
+  const hasException = !!proposal.exception_present;
+  const preview = proposal.proleg_preview;
+  const title = '<div class="proleg-title">⚖ Esquema PROLEG — razonamiento derrotable</div>';
+
+  if (!hasException && (type === 'definicion' || type === 'remision')) {
+    el.innerHTML = `
+      <div class="proleg-schema">
+        ${title}
+        <div class="proleg-node is-muted">
+          <div class="proleg-node-label">${type === 'definicion' ? 'Definición' : 'Remisión'}</div>
+          <div class="proleg-node-body">${type === 'definicion'
+            ? 'El artículo define un concepto: no impone una consecuencia jurídica que alguien deba probar ni que pueda quedar derrotada.'
+            : 'El artículo remite a otra norma: el esquema PROLEG corresponde a la norma de destino, no a este texto.'}</div>
         </div>
       </div>
+    `;
+    return;
+  }
+
+  const isPresumption = type === 'presuncion';
+  const ruleNode = isPresumption
+    ? `<div class="proleg-node">
+         <div class="proleg-node-label">Presunción</div>
+         <div class="proleg-node-body">La ley tiene por cierto el hecho presumido, sin que haga falta demostrarlo.</div>
+         <div class="proleg-node-burden">Debe probar: <strong>quien invoca la presunción</strong>, solo los hechos en que se apoya.</div>
+       </div>`
+    : `<div class="proleg-node">
+         <div class="proleg-node-label">Regla general</div>
+         <div class="proleg-node-body">Si se prueba el supuesto de hecho, se aplica la consecuencia jurídica.</div>
+         <div class="proleg-node-burden">Debe probarlo: <strong>quien invoca la norma</strong>.</div>
+       </div>`;
+
+  // Una presunción legal admite prueba en contrario por ley, lo diga o no el
+  // artículo; una presunción de derecho no la admite nunca. El detector ya
+  // distingue las dos (presumption_rebuttable), así que el esquema no depende
+  // de que el texto traiga un "salvo prueba en contrario" literal.
+  if (!hasException && isPresumption && proposal.presumption_rebuttable === true) {
+    el.innerHTML = `
+      <div class="proleg-schema">
+        ${title}
+        ${ruleNode}
+        <div class="proleg-link">↓ salvo que se pruebe lo contrario</div>
+        <div class="proleg-node is-exception">
+          <div class="proleg-node-label">Prueba en contrario</div>
+          <div class="proleg-node-body">Es una presunción legal: admite prueba en contrario aunque el artículo no lo diga. Si se prueba lo contrario, la presunción cae.</div>
+          <div class="proleg-node-burden">Debe probarlo: <strong>quien quiere desvirtuar la presunción</strong>. Esa es la inversión de la carga de la prueba.</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  if (!hasException && isPresumption && proposal.presumption_rebuttable === false) {
+    el.innerHTML = `
+      <div class="proleg-schema">
+        ${title}
+        ${ruleNode}
+        <div class="proleg-node is-muted" style="margin-top:10px;">
+          <div class="proleg-node-label">Sin prueba en contrario</div>
+          <div class="proleg-node-body">Es una presunción de derecho: no admite prueba en contrario. Probados los hechos en que se apoya, la consecuencia no puede quedar derrotada.</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  if (!hasException) {
+    el.innerHTML = `
+      <div class="proleg-schema">
+        ${title}
+        ${ruleNode}
+        <div class="proleg-node is-muted" style="margin-top:10px;">
+          <div class="proleg-node-label">Excepción</div>
+          <div class="proleg-node-body">No hay una excepción expresa en el texto ("salvo que", "a menos que", "excepto"…): el artículo no trae, por sí mismo, un hecho que derrote la consecuencia. Otra norma del código podría hacerlo; eso queda fuera de este análisis.</div>
+        </div>
+        <p class="proleg-footnote">El motor calcula la derrota de la regla cuando el artículo trae una excepción. Probá, por ejemplo, con un artículo que diga "salvo que".</p>
+      </div>
+    `;
+    return;
+  }
+
+  const marker = proposal.exception_marker ? `«${proposal.exception_marker}»` : '';
+  const whereIs = proposal.exception_scope === 'por_remision'
+    ? 'La excepción remite a otro artículo.'
+    : 'La excepción está en el mismo artículo.';
+  const counterProof = isPresumption && proposal.presumption_rebuttable !== false;
+  const exceptionNode = `
+    <div class="proleg-node is-exception">
+      <div class="proleg-node-label">${counterProof ? 'Prueba en contrario' : 'Excepción'} ${marker}</div>
+      <div class="proleg-node-body">${counterProof
+        ? 'Si se prueba lo contrario, la presunción cae.'
+        : 'Si se prueba, derrota la consecuencia aunque el supuesto de hecho esté probado.'} ${whereIs}</div>
+      <div class="proleg-node-burden">Debe probarlo: <strong>${counterProof ? 'quien quiere desvirtuar la presunción' : 'quien se opone a la aplicación de la norma'}</strong>.</div>
+    </div>`;
+
+  let results = '';
+  if (preview) {
+    const w = preview.without_exception;
+    const e = preview.with_exception;
+    results = `
+      <div class="proleg-results">
+        <div class="proleg-result ${w.proved ? 'is-ok' : 'is-ko'}">
+          <div class="proleg-result-label">Sin la excepción probada</div>
+          <div class="proleg-result-value">${w.proved ? '✅ La consecuencia se aplica' : '❌ La consecuencia no se aplica'}</div>
+        </div>
+        <div class="proleg-result ${e.proved ? 'is-ok' : 'is-ko'}">
+          <div class="proleg-result-label">Con la excepción probada</div>
+          <div class="proleg-result-value">${e.proved ? '✅ La consecuencia se aplica igual' : '❌ La consecuencia queda derrotada'}</div>
+        </div>
+      </div>
+      <p class="proleg-footnote">${preview.note}</p>
+    `;
+  }
+
+  el.innerHTML = `
+    <div class="proleg-schema">
+      ${title}
+      ${ruleNode}
+      <div class="proleg-link">↓ salvo que se pruebe</div>
+      ${exceptionNode}
+      ${results}
     </div>
   `;
 }
@@ -1207,7 +1369,6 @@ async function proposeLabels() {
   labelingState.proposal = proposal;
 
   renderAnalysisResult(proposal);
-  renderProlegPreview(proposal.proleg_preview);
 
   // El analizador devuelve además notas de campos que quedan fuera de los
   // tres pilares (deóntica, Hohfeld, PROLEG) y que pedirían completarse a
