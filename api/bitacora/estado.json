@@ -2,7 +2,7 @@
   "articulos": {
     "3cfebde2b5888020be11fc750ccd3869": {
       "descripcion": "DEL PAPEL AL CODIGO: ANALISIS ONTOLOGICO, TEORIA RACIONAL Y RAZONAMIENTO FORMAL",
-      "lastEdited": "2026-09-16T20:53:00.000Z",
+      "lastEdited": "2026-09-16T21:43:00.000Z",
       "portada": "/assets/bitacora/c4c7360d7727c958.png",
       "ruta": "/bitacora/latio-toolkit",
       "slug": "latio-toolkit",
@@ -14,6 +14,14 @@
       "portada": "/assets/bitacora/b96af83c5379fa93.png",
       "ruta": "/bitacora/arquitectura-conficialidad",
       "slug": "arquitectura-conficialidad",
+      "versionPlantilla": 2
+    },
+    "3ddebde2b588803db4cbc6cbacb12e1f": {
+      "descripcion": "Siempre nos dijeron que los lenguajes de programación de software, las matemáticas eran como el agua y el aceite, eso es mito, les cuento que el derecho y…",
+      "lastEdited": "2026-09-16T21:42:00.000Z",
+      "portada": "/assets/bitacora/836edca1e9d75ff0.png",
+      "ruta": "/bitacora/matematicas-abogados",
+      "slug": "matematicas-abogados",
       "versionPlantilla": 2
     },
     "3ddebde2b5888062a494f4dda437fe6a": {
@@ -41,6 +49,7 @@
     "https://prod-files-secure.s3.us-west-2.amazonaws.com/274ebde2-b588-819d-8bc7-0003acac1c8f/5501dd56-053f-4bd4-be8b-579dedf21d7f/portadaconfidencialidad.png": "b96af83c5379fa93.png",
     "https://prod-files-secure.s3.us-west-2.amazonaws.com/274ebde2-b588-819d-8bc7-0003acac1c8f/716da9f9-b58d-4389-8dd0-1886f01af810/portada-latio.png": "b01ed4874994110c.png",
     "https://prod-files-secure.s3.us-west-2.amazonaws.com/274ebde2-b588-819d-8bc7-0003acac1c8f/7216e3f0-4f8c-4a3f-96f4-5f6aebb837ac/portadamatematicas.png": "836edca1e9d75ff0.png",
+    "https://prod-files-secure.s3.us-west-2.amazonaws.com/274ebde2-b588-819d-8bc7-0003acac1c8f/d6aa9e9a-1519-4671-8f64-29d7ad4510c9/portadamatematicas.png": "836edca1e9d75ff0.png",
     "https://prod-files-secure.s3.us-west-2.amazonaws.com/274ebde2-b588-819d-8bc7-0003acac1c8f/dbd66ec8-505f-4d0c-a9d6-3254abcc02ea/Portada_Bitacora_-_Del_Papel_al_Codigo_%28Teoria_Racional%29_-_DataLex_Lab.png": "c4c7360d7727c958.png"
   }
 }
