@@ -1192,6 +1192,9 @@ function renderAnalysisResult(proposal) {
         ${hasException ? '<span class="v-tag vt-exc">CARGA DE LA PRUEBA (EXCEPCIÓN)</span>' : ''}
       </div>
       <div class="v-text">"${proposal.text_span || labelingState.text || ''}"</div>
+      ${proposal.hohfeldian_position === 'derecho_subjetivo' && proposal.deontic_modality === 'ninguno'
+        ? '<p class="proleg-footnote" style="margin-top:6px;">El artículo afirma un derecho ("tiene derecho a"): no manda una conducta, por eso no tiene modalidad de Von Wright. Su correlativo es un deber de la otra parte.</p>'
+        : ''}
     </div>
     <div id="res-proleg-preview"></div>
   `;
@@ -1255,7 +1258,7 @@ function renderProlegSchema(proposal) {
         <div class="proleg-link">↓ salvo que se pruebe lo contrario</div>
         <div class="proleg-node is-exception">
           <div class="proleg-node-label">Prueba en contrario</div>
-          <div class="proleg-node-body">Es una presunción legal: admite prueba en contrario aunque el artículo no lo diga. Si se prueba lo contrario, la presunción cae.</div>
+          <div class="proleg-node-body">El texto no la declara absoluta, así que se trata como presunción legal: admite prueba en contrario, salvo que otra norma disponga lo contrario. Si se prueba lo contrario, la presunción cae.</div>
           <div class="proleg-node-burden">Debe probarlo: <strong>quien quiere desvirtuar la presunción</strong>. Esa es la inversión de la carga de la prueba.</div>
         </div>
       </div>
@@ -1269,7 +1272,7 @@ function renderProlegSchema(proposal) {
         ${ruleNode}
         <div class="proleg-node is-muted" style="margin-top:10px;">
           <div class="proleg-node-label">Sin prueba en contrario</div>
-          <div class="proleg-node-body">Es una presunción de derecho: no admite prueba en contrario. Probados los hechos en que se apoya, la consecuencia no puede quedar derrotada.</div>
+          <div class="proleg-node-body">El texto la declara absoluta (presunción de derecho): no admite prueba en contrario. Probados los hechos en que se apoya, la consecuencia no puede quedar derrotada.</div>
         </div>
       </div>
     `;
