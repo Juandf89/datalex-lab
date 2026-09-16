@@ -636,6 +636,17 @@ header {
 .proleg-result-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
 .proleg-result-value { font-size: 13px; margin-top: 3px; color: #F1F5F9; }
 .proleg-footnote { font-size: 11.5px; color: var(--text-dark-muted); line-height: 1.6; margin-top: 10px; }
+.proleg-generic-warning {
+  background: rgba(217, 119, 6, 0.12);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #FCD34D;
+  margin: 12px 0 10px;
+}
+.proleg-generic-warning strong { display: block; margin-bottom: 4px; color: #FDE68A; }
 
 @media(max-width: 1100px) {
   .studio-layout { grid-template-columns: 1fr; }
@@ -934,7 +945,7 @@ function selectEndpoint(ep, autoExec = true) {
 
   if (ep === 'reasoning') {
     title.innerText = 'Razonamiento jurídico derrotable (PROLEG)';
-    desc.innerText = 'Reglas por defecto, excepciones y carga de la prueba: el motor determina si un derecho queda probado o derrotado, con la traza completa del razonamiento.';
+    desc.innerText = 'Reglas por defecto, excepciones y carga de la prueba: el motor determina si un derecho queda probado o derrotado, con la traza completa del razonamiento. Estos dos casos tienen contenido jurídico real codificado a mano (el resto de los 22.110 artículos solo lo usan para demostrar la mecánica de la derrotabilidad, no su contenido — ver "Analizar un artículo").';
   } else if (ep === 'corpora') {
     title.innerText = 'Los 8 códigos civiles';
     desc.innerText = 'Cada código real ya extraído, con su cobertura (cuántos artículos se leyeron correctamente) y sus controles de calidad.';
@@ -1312,7 +1323,17 @@ function renderProlegSchema(proposal) {
   if (preview) {
     const w = preview.without_exception;
     const e = preview.with_exception;
+    // El motor corre sobre una regla GENÉRICA con la misma forma que el
+    // artículo (antecedente + excepción), no sobre el contenido real de ESTE
+    // artículo — eso solo existe para dos artículos codificados a mano
+    // (ver "Razonamiento jurídico" en el menú). Esta advertencia va ANTES de
+    // los resultados, no como nota al pie: los recuadros verde/rojo de abajo
+    // se leen como una conclusión sobre el artículo si no se aclara antes.
     results = `
+      <div class="proleg-generic-warning">
+        <strong>Prueba con una estructura genérica, no con el contenido de este artículo.</strong>
+        ${preview.note}
+      </div>
       <div class="proleg-results">
         <div class="proleg-result ${w.proved ? 'is-ok' : 'is-ko'}">
           <div class="proleg-result-label">Sin la excepción probada</div>
@@ -1323,7 +1344,6 @@ function renderProlegSchema(proposal) {
           <div class="proleg-result-value">${e.proved ? '✅ La consecuencia se aplica igual' : '❌ La consecuencia queda derrotada'}</div>
         </div>
       </div>
-      <p class="proleg-footnote">${preview.note}</p>
     `;
   }
 
