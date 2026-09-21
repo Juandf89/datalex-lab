@@ -125,6 +125,9 @@ try {
     const g = cuerpoLimiteDiario("global", 20, 3);
     afirmar("el 429 global lo dice, sin afirmar que fue culpa del usuario",
       /para todos los visitantes/.test(g.error) && g.limite_diario_global === 3 && g.busquedas_restantes_hoy === 0);
+    // El frontend (jurisprudencia.html) lee `datos.limite_diario` en el 429: sin él, "undefined/día".
+    afirmar("y trae limite_diario, que el frontend lee: si falta, el visitante ve 'undefined/día'",
+      typeof g.limite_diario === "number" && g.limite_diario === 3);
     const i = cuerpoLimiteDiario("ip", 20, 3);
     afirmar("el 429 por IP conserva su forma de siempre",
       /Alcanzaste el límite/.test(i.error) && i.limite_diario === 20 && i.busquedas_restantes_hoy === 0);

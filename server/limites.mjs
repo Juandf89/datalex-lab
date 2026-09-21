@@ -165,6 +165,9 @@ export function cuerpoLimiteDiario(motivo, limitePorIP, limiteGlobal) {
   if (motivo === "global") {
     return {
       error: "La búsqueda en vivo gratuita alcanzó su tope de hoy para todos los visitantes. Vuelve a intentarlo mañana.",
+      // jurisprudencia.html arma "(límite: N/día)" con `limite_diario`. Sin este campo el
+      // visitante veía "undefined/día". Se conserva el nombre explícito además.
+      limite_diario: limiteGlobal,
       limite_diario_global: limiteGlobal,
       busquedas_restantes_hoy: 0,
     };
