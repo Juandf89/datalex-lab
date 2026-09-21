@@ -4,7 +4,8 @@
   "type": "module",
   "main": "app.mjs",
   "scripts": {
-    "start": "node app.mjs"
+    "start": "node app.mjs",
+    "probar": "node probar_limites.mjs"
   },
   "dependencies": {
     "cheerio": "^1.0.0",

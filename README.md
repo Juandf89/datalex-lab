@@ -44,7 +44,13 @@ constitucional. Desplegado en Hostinger.
   (`process.env.LSNODE_SOCKET`), no por un puerto TCP fijo.
 - Variables de entorno del backend: `ABSORBER_TOKEN` (autentica los endpoints `/internal/*` que usa
   GitHub Actions), `ALLOWED_ORIGIN` (`https://datalexlab.com`, para CORS), `SOCRATA_APP_TOKEN`
-  (opcional), `LIMITE_DIARIO_SECOP` / `LIMITE_DIARIO_JURISPRUDENCIA` (opcionales).
+  (opcional), `LIMITE_DIARIO_SECOP` / `LIMITE_DIARIO_JURISPRUDENCIA` (opcionales; por IP: 5 y 20).
+  `LIMITE_GLOBAL_DIARIO_SECOP` / `LIMITE_GLOBAL_DIARIO_JURISPRUDENCIA` (opcionales; **para todos los
+  visitantes juntos**: 300 y 600, números del autor sin medir — ajustarlos con el tráfico real). Existen
+  porque `X-Forwarded-For` **no es confiable** detrás de LiteSpeed (medido el 2026-09-21: con un valor
+  distinto en cada petición, el límite por IP no frena nada), así que el de por IP solo no alcanza.
+  Si un valor no es un número positivo se ignora, se usa el por defecto y se avisa en el log (sin
+  imprimir el valor). Ver `server/limites.mjs`.
 - **Al escribir variables en el panel: valor crudo, sin comillas y una por campo.** Incidente real
   (2026-08-05): `ALLOWED_ORIGIN` quedó guardada como
   `'https://datalexlab.com'SECOP_MYSQL_HOST=srv1456.hstgr.io` — dos variables fusionadas y con

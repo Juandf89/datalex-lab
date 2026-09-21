@@ -8,6 +8,7 @@
 import express from "express";
 import * as cheerio from "cheerio";
 import { actualizar, leer } from "./store.mjs";
+import { crearLimiteDeRafaga, crearLimiteDiario, cuerpoLimiteDiario, numeroDeEntorno } from "./limites.mjs";
 import { obtenerPool } from "./db.mjs";
 import { clasificarSalud } from "./salud.mjs";
 
@@ -63,13 +64,25 @@ if (ORIGEN_CONFIGURADO && !origenValido(ORIGEN_CONFIGURADO)) {
 }
 console.log(`[cors] origen permitido: ${ORIGEN_PERMITIDO}`);
 const TOKEN_INTERNO = process.env.ABSORBER_TOKEN;
-const LIMITE_DIARIO_SECOP = Number(process.env.LIMITE_DIARIO_SECOP || 5);
+// `numeroDeEntorno`, no `Number(env || 5)`: con un valor mal pegado en el panel eso
+// daba NaN y el límite quedaba DESACTIVADO en silencio (ver limites.mjs).
+const LIMITE_DIARIO_SECOP = numeroDeEntorno("LIMITE_DIARIO_SECOP", 5);
 // Antes cada "búsqueda" era una sola acción (una consulta = un resultado).
 // Ahora, sin índice acumulado, explorar el grafo (clic en una cita para ver
 // sus propias citas) también consulta la Relatoría en vivo — una sesión
 // normal de exploración fácilmente hace varias consultas encadenadas, así
 // que el límite por defecto sube para no frustrar el uso normal del feature.
-const LIMITE_DIARIO_JURISPRUDENCIA = Number(process.env.LIMITE_DIARIO_JURISPRUDENCIA || 20);
+const LIMITE_DIARIO_JURISPRUDENCIA = numeroDeEntorno("LIMITE_DIARIO_JURISPRUDENCIA", 20);
+// Tope GLOBAL por servicio, para TODOS los visitantes juntos. El de por IP no
+// alcanza: `X-Forwarded-For` no es confiable detrás de LiteSpeed (medido el
+// 2026-09-21), así que cada IP inventada traía una cuota nueva. Ver limites.mjs,
+// que también explica el costo: quien rote IPs puede agotarlo por el resto del día.
+// 300 y 600 son números MÍOS, sin medir: no hay datos de tráfico real. Se ajustan
+// con LIMITE_GLOBAL_DIARIO_SECOP / LIMITE_GLOBAL_DIARIO_JURISPRUDENCIA.
+const LIMITES_GLOBALES = {
+  secop: numeroDeEntorno("LIMITE_GLOBAL_DIARIO_SECOP", 300),
+  jurisprudencia: numeroDeEntorno("LIMITE_GLOBAL_DIARIO_JURISPRUDENCIA", 600),
+};
 const USER_AGENT = "DataLexLab-fallback-bot/0.1 (contacto: juanpablo.lopez.mejia@gmail.com)";
 
 const RUTA_RATE_LIMITS = new URL("./data/rate-limits.json", import.meta.url);
@@ -98,32 +111,21 @@ app.use((req, res, next) => {
 // --- Rate limit de ráfaga (equivalente al `config.rateLimit` nativo que tenían
 // las Netlify Functions: 10 req/60s por IP). Ventana deslizante en memoria —
 // suficiente con un solo proceso/1 vCPU, no necesita persistir a disco. ---
-const VENTANA_MS = 60_000;
-const LIMITE_VENTANA = 10;
-const historialPorIP = new Map();
+// La lógica vive en limites.mjs: este archivo arranca el servidor al importarse y
+// por eso no se podía probar. Ahí está también el porqué del tope global diario,
+// de la poda de las claves de días anteriores (antes se acumulaban para siempre en
+// rate-limits.json) y del barrido del mapa de ráfaga (antes nunca borraba nada).
+const limiteRafaga = crearLimiteDeRafaga();
+const limiteDiario = crearLimiteDiario({ ruta: RUTA_RATE_LIMITS, globales: LIMITES_GLOBALES });
 
 function limiteDeRafagaSuperado(ip) {
-  const ahora = Date.now();
-  const historial = (historialPorIP.get(ip) || []).filter((t) => ahora - t < VENTANA_MS);
-  historial.push(ahora);
-  historialPorIP.set(ip, historial);
-  return historial.length > LIMITE_VENTANA;
+  return limiteRafaga.superado(ip);
 }
 
-async function verificarLimiteDiario(servicio, ip, limiteDiario) {
-  const hoy = new Date().toISOString().slice(0, 10);
-  const clave = `${ip}:${hoy}:${servicio}`;
-  const datos = await leer(RUTA_RATE_LIMITS, {});
-  const usoActual = Number(datos[clave] || 0);
-  return { clave, usoActual, alcanzado: usoActual >= limiteDiario };
-}
-
-async function incrementarLimiteDiario(clave) {
-  const nuevos = await actualizar(RUTA_RATE_LIMITS, {}, (datos) => ({
-    ...datos,
-    [clave]: Number(datos[clave] || 0) + 1,
-  }));
-  return nuevos[clave];
+// Devuelve { usoActual, alcanzado, motivo, confirmar }. `confirmar()` consume la
+// cuota de la IP y la global, y se llama SOLO cuando la búsqueda salió bien.
+function verificarLimiteDiario(servicio, ip, limitePorIP) {
+  return limiteDiario.verificar(servicio, ip, limitePorIP);
 }
 
 // ============================== SECOP ==============================
@@ -147,13 +149,9 @@ app.get("/fallback-secop", async (req, res) => {
     return res.status(400).json({ error: "Falta el parámetro de búsqueda (q, mínimo 3 caracteres)." });
   }
 
-  const { clave, usoActual, alcanzado } = await verificarLimiteDiario("secop", ip, LIMITE_DIARIO_SECOP);
+  const { usoActual, alcanzado, motivo, confirmar } = await verificarLimiteDiario("secop", ip, LIMITE_DIARIO_SECOP);
   if (alcanzado) {
-    return res.status(429).json({
-      error: "Alcanzaste el límite de búsquedas en vivo gratis por hoy.",
-      limite_diario: LIMITE_DIARIO_SECOP,
-      busquedas_restantes_hoy: 0,
-    });
+    return res.status(429).json(cuerpoLimiteDiario(motivo, LIMITE_DIARIO_SECOP, LIMITES_GLOBALES.secop));
   }
 
   const params = new URLSearchParams({
@@ -184,7 +182,7 @@ app.get("/fallback-secop", async (req, res) => {
     return res.status(502).json({ error: "No se pudo consultar Datos Abiertos Colombia en este momento. Intenta de nuevo más tarde." });
   }
 
-  await incrementarLimiteDiario(clave);
+  await confirmar();
 
   // Cada contrato encontrado en vivo se guarda para que el workflow de GitHub
   // Actions lo absorba (scripts/absorber_pendientes_secop.mjs) y
@@ -411,13 +409,9 @@ app.get("/fallback-jurisprudencia", async (req, res) => {
     return res.status(400).json({ error: "Falta el parámetro de búsqueda (q, mínimo 3 caracteres)." });
   }
 
-  const { clave, usoActual, alcanzado } = await verificarLimiteDiario("jurisprudencia", ip, LIMITE_DIARIO_JURISPRUDENCIA);
+  const { usoActual, alcanzado, motivo, confirmar } = await verificarLimiteDiario("jurisprudencia", ip, LIMITE_DIARIO_JURISPRUDENCIA);
   if (alcanzado) {
-    return res.status(429).json({
-      error: "Alcanzaste el límite de búsquedas en vivo gratis por hoy.",
-      limite_diario: LIMITE_DIARIO_JURISPRUDENCIA,
-      busquedas_restantes_hoy: 0,
-    });
+    return res.status(429).json(cuerpoLimiteDiario(motivo, LIMITE_DIARIO_JURISPRUDENCIA, LIMITES_GLOBALES.jurisprudencia));
   }
 
   const cuerpo = new URLSearchParams({
@@ -447,7 +441,7 @@ app.get("/fallback-jurisprudencia", async (req, res) => {
     return res.status(502).json({ error: "No se pudo consultar la Corte Constitucional en este momento. Intenta de nuevo más tarde." });
   }
 
-  await incrementarLimiteDiario(clave);
+  await confirmar();
 
   res.json({ resultados, busquedas_restantes_hoy: LIMITE_DIARIO_JURISPRUDENCIA - (usoActual + 1) });
 });
@@ -543,13 +537,9 @@ app.get("/jurisprudencia/grafo", async (req, res) => {
     return res.status(400).json({ error: "Falta el parámetro id, o no tiene el formato de una sentencia (ej. T-388-2019)." });
   }
 
-  const { clave, usoActual, alcanzado } = await verificarLimiteDiario("jurisprudencia", ip, LIMITE_DIARIO_JURISPRUDENCIA);
+  const { usoActual, alcanzado, motivo, confirmar } = await verificarLimiteDiario("jurisprudencia", ip, LIMITE_DIARIO_JURISPRUDENCIA);
   if (alcanzado) {
-    return res.status(429).json({
-      error: "Alcanzaste el límite de búsquedas en vivo gratis por hoy.",
-      limite_diario: LIMITE_DIARIO_JURISPRUDENCIA,
-      busquedas_restantes_hoy: 0,
-    });
+    return res.status(429).json(cuerpoLimiteDiario(motivo, LIMITE_DIARIO_JURISPRUDENCIA, LIMITES_GLOBALES.jurisprudencia));
   }
 
   let html;
@@ -559,7 +549,7 @@ app.get("/jurisprudencia/grafo", async (req, res) => {
     return res.status(502).json({ error: "No se pudo consultar la Corte Constitucional en este momento. Intenta de nuevo más tarde." });
   }
 
-  await incrementarLimiteDiario(clave);
+  await confirmar();
   const restantes = LIMITE_DIARIO_JURISPRUDENCIA - (usoActual + 1);
 
   if (!html) {
