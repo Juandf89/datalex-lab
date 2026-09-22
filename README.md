@@ -28,7 +28,8 @@ constitucional. Desplegado en Hostinger.
 - `scripts/generar_bitacora.mjs` — generador de la Bitácora a partir de la base de datos de Notion
   (ver sección abajo).
 - `server/` — Node.js Web App (Express) desplegado en `api.datalexlab.com`: búsqueda en vivo para
-  SECOP y jurisprudencia, con estado (contadores de rate-limit, colas de absorción) en disco local.
+  SECOP y jurisprudencia, con estado (contadores de rate-limit, colas de absorción) en MySQL
+  (tabla `estado_servidor`; ver «Estado que sobrevive a un despliegue» abajo).
 - `.github/workflows/actualizar-secop.yml` — cron horario que corre el pipeline de SECOP y hace
   commit de los JSON actualizados solo si algo cambió realmente.
 - `.github/workflows/actualizar-bitacora.yml` — cron cada 6 horas que sincroniza la Bitácora desde
@@ -59,6 +60,25 @@ constitucional. Desplegado en Hostinger.
   entonces `app.mjs` valida el origen al arrancar (`origenValido`): si no es un origen bien formado
   lo ignora, usa el valor por defecto y escribe un `[cors]` de error en el log. Tras cambiar
   variables hay que **reiniciar la app** para que Node relea el entorno.
+- **Estado que sobrevive a un despliegue.** El disco de la app **no es persistente**: cada push crea una
+  versión nueva (`hbuilds/versions/<uuid>`, con `current` apuntando a la activa) y lo que la app escribió
+  en tiempo de ejecución puede perderse (soporte de Hostinger, 2026-09-22; ese día no existía
+  `server/data/` en la versión desplegada). Como el workflow de SECOP empuja cada hora, las cuotas diarias
+  y la cola de absorción se perdían a lo largo del día. Ahora viven en el MySQL que el servidor ya usa,
+  en la tabla `estado_servidor` (clave → JSON: `rate-limits`, `pendientes-secop`), que `server/estado.mjs`
+  crea al arrancar. **Cómo comprobarlo tras desplegar:** en los logs de ejecución debe aparecer
+  `[estado] cuotas y cola en MySQL (tabla estado_servidor)`. Si en cambio dice
+  `[estado] MySQL no disponible (<CÓDIGO>)`, el servidor sigue funcionando con el disco, como antes; con
+  `ER_TABLEACCESS_DENIED_ERROR` o similar, el usuario de MySQL no puede crear tablas y hay que crearla una
+  vez en phpMyAdmin:
+  ```sql
+  CREATE TABLE IF NOT EXISTS estado_servidor (
+    clave VARCHAR(64) NOT NULL PRIMARY KEY,
+    valor MEDIUMTEXT NOT NULL,
+    actualizado_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  ```
+  `rate-limits` guarda IPs de visitantes (dato personal); solo las del día en curso, las anteriores se podan.
 - Migración a Hostinger confirmada estable (2026-08-08): `netlify.toml` y `netlify/functions/`
   eliminados del repo, ambos dominios sirven desde Hostinger (`platform: hostinger` en las
   cabeceras HTTP).

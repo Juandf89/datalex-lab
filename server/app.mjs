@@ -2,14 +2,16 @@
 // para el Node.js Web App de Hostinger. La lógica de negocio (filtros de Socrata,
 // parseo de la Relatoría, normalización de IDs) es la misma ya verificada en
 // producción — lo único que cambia es el transporte de estado: @netlify/blobs
-// (KV externo, necesario porque las Functions no tienen disco persistente) pasa
-// a ser JSON en disco local (./store.mjs), porque este sí es un proceso
-// persistente con su propio filesystem.
+// (KV externo, necesario porque las Functions no tienen disco persistente) pasó
+// primero a JSON en disco local, suponiendo que este era un proceso con disco
+// propio y persistente. No lo es: cada despliegue crea una versión nueva de la
+// app y el disco no sobrevive (Hostinger, 2026-09-22). Ahora el estado vive en
+// el MySQL que este servidor ya usa (./estado.mjs), con el disco como respaldo.
 import express from "express";
 import * as cheerio from "cheerio";
-import { actualizar, leer } from "./store.mjs";
 import { crearLimiteDeRafaga, crearLimiteDiario, cuerpoLimiteDiario, numeroDeEntorno } from "./limites.mjs";
 import { obtenerPool } from "./db.mjs";
+import { crearEstado } from "./estado.mjs";
 import { clasificarSalud } from "./salud.mjs";
 
 // El Node.js Web App de Hostinger corre detrás del módulo propio de LiteSpeed
@@ -85,8 +87,19 @@ const LIMITES_GLOBALES = {
 };
 const USER_AGENT = "DataLexLab-fallback-bot/0.1 (contacto: juanpablo.lopez.mejia@gmail.com)";
 
-const RUTA_RATE_LIMITS = new URL("./data/rate-limits.json", import.meta.url);
-const RUTA_PENDIENTES_SECOP = new URL("./data/pendientes-secop.json", import.meta.url);
+// Cuotas diarias y cola de absorción de SECOP: en MySQL, para que sobrevivan a los
+// despliegues (uno por hora, por el workflow de SECOP). Si MySQL no está al
+// arrancar, en server/data/ como antes, y el log lo dice (ver estado.mjs).
+const estado = crearEstado({
+  obtenerPool,
+  carpetaDisco: new URL("./data/", import.meta.url),
+  hayMysql: Boolean(process.env.SECOP_MYSQL_HOST && process.env.SECOP_MYSQL_USER && process.env.SECOP_MYSQL_DATABASE),
+});
+// Se decide al arrancar, no en la primera búsqueda: así la línea `[estado]` sale en
+// el log de ejecución junto a `[cors]` y `[db]`, y se puede comprobar sin buscar nada.
+estado.almacen();
+const ESTADO_RATE_LIMITS = estado.celda("rate-limits");
+const ESTADO_PENDIENTES_SECOP = estado.celda("pendientes-secop");
 
 function obtenerIP(req) {
   const xff = req.headers["x-forwarded-for"];
@@ -116,7 +129,7 @@ app.use((req, res, next) => {
 // de la poda de las claves de días anteriores (antes se acumulaban para siempre en
 // rate-limits.json) y del barrido del mapa de ráfaga (antes nunca borraba nada).
 const limiteRafaga = crearLimiteDeRafaga();
-const limiteDiario = crearLimiteDiario({ ruta: RUTA_RATE_LIMITS, globales: LIMITES_GLOBALES });
+const limiteDiario = crearLimiteDiario({ almacen: ESTADO_RATE_LIMITS, globales: LIMITES_GLOBALES });
 
 function limiteDeRafagaSuperado(ip) {
   return limiteRafaga.superado(ip);
@@ -191,7 +204,7 @@ app.get("/fallback-secop", async (req, res) => {
   // calcular_desviacion_temporal() en Python necesitan fecha_de_inicio,
   // fecha_de_fin, dias_adicionados, proveedor_adjudicado — solo están en el
   // crudo). Sin id_contrato no hay clave válida, se descartan esos registros.
-  await actualizar(RUTA_PENDIENTES_SECOP, {}, (datos) => {
+  await ESTADO_PENDIENTES_SECOP.actualizar({}, (datos) => {
     const nuevos = { ...datos };
     for (const r of registrosCrudos) {
       if (r.id_contrato) nuevos[r.id_contrato] = r;
@@ -584,15 +597,15 @@ function exigirTokenInterno(req, res, next) {
   next();
 }
 
-function registrarRutasInternas(servicio, ruta) {
+function registrarRutasInternas(servicio, celda) {
   app.get(`/internal/pendientes-${servicio}`, exigirTokenInterno, async (req, res) => {
-    const datos = await leer(ruta, {});
+    const datos = await celda.leer({});
     res.json({ registros: Object.values(datos), claves: Object.keys(datos) });
   });
 
   app.post(`/internal/pendientes-${servicio}/confirmar`, express.json(), exigirTokenInterno, async (req, res) => {
     const claves = Array.isArray(req.body?.claves) ? req.body.claves : [];
-    await actualizar(ruta, {}, (datos) => {
+    await celda.actualizar({}, (datos) => {
       const nuevos = { ...datos };
       for (const clave of claves) delete nuevos[clave];
       return nuevos;
@@ -601,7 +614,7 @@ function registrarRutasInternas(servicio, ruta) {
   });
 }
 
-registrarRutasInternas("secop", RUTA_PENDIENTES_SECOP);
+registrarRutasInternas("secop", ESTADO_PENDIENTES_SECOP);
 
 app.listen(PUERTO, () => {
   console.log(`[ok] servidor de fallbacks escuchando en ${PUERTO}`);

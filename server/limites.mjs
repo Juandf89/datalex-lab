@@ -95,7 +95,7 @@ export function crearLimiteDeRafaga({
 }
 
 /* ------------------------------------------------------------------
-   Cuota diaria: por IP y global, en el JSON de store.mjs
+   Cuota diaria: por IP y global, en una celda de estado.mjs (MySQL) o en un JSON de store.mjs
    ------------------------------------------------------------------ */
 
 // Las claves son `${ip}:${dia}:${servicio}` y `global:${dia}:${servicio}`. La IP
@@ -103,11 +103,17 @@ export function crearLimiteDeRafaga({
 const esDeEseDia = (clave, dia) => clave.split(":").at(-2) === dia;
 
 /**
- * @param {{ruta: string|URL, globales: Record<string, number>,
- *          ahora?: () => Date, aviso?: (m: string) => void}} opciones
+ * @param {{ruta?: string|URL, almacen?: {leer: Function, actualizar: Function},
+ *          globales: Record<string, number>, ahora?: () => Date, aviso?: (m: string) => void}} opciones
  *        `globales` es el tope global por servicio, ej. { secop: 300, jurisprudencia: 600 }.
+ *        `almacen` es una celda de estado.mjs (MySQL, o disco si MySQL no está); sin ella,
+ *        un archivo JSON en `ruta` (así lo usan las pruebas).
  */
-export function crearLimiteDiario({ ruta, globales, ahora = () => new Date(), aviso = console.warn }) {
+export function crearLimiteDiario({ ruta, almacen, globales, ahora = () => new Date(), aviso = console.warn }) {
+  const celda = almacen ?? {
+    leer: (valorInicial) => leer(ruta, valorInicial),
+    actualizar: (valorInicial, mutador) => actualizar(ruta, valorInicial, mutador),
+  };
   const dia = () => ahora().toISOString().slice(0, 10); // el día UTC, como antes
 
   return {
@@ -120,7 +126,7 @@ export function crearLimiteDiario({ ruta, globales, ahora = () => new Date(), av
       const hoy = dia();
       const clave = `${ip}:${hoy}:${servicio}`;
       const claveGlobal = `global:${hoy}:${servicio}`;
-      const datos = await leer(ruta, {});
+      const datos = await celda.leer({});
       const usoActual = Number(datos[clave] || 0);
       const usoGlobal = Number(datos[claveGlobal] || 0);
       const limiteGlobal = globales[servicio];
@@ -139,7 +145,7 @@ export function crearLimiteDiario({ ruta, globales, ahora = () => new Date(), av
         /** Consume una búsqueda de la cuota de esta IP y de la global. */
         async confirmar() {
           const dHoy = dia();
-          const nuevos = await actualizar(ruta, {}, (actuales) => {
+          const nuevos = await celda.actualizar({}, (actuales) => {
             // Se descartan las claves de días anteriores: no sirven para nada
             // (el límite se reinicia cada día) y antes se acumulaban para siempre.
             const vigentes = {};

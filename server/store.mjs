@@ -3,6 +3,8 @@
 // KV externo), este es un proceso Node persistente con disco local propio — así
 // que el estado (contadores de rate-limit, colas "pendientes-*") se guarda
 // directo en archivos JSON bajo server/data/ (gitignored).
+// OJO: el disco NO sobrevive a un despliegue (Hostinger, 2026-09-22). Hoy este
+// archivo es el respaldo de estado.mjs, que guarda el estado en MySQL.
 //
 // `actualizar()` serializa lecturas+escrituras por archivo con una cola de
 // promesas en memoria, para que dos requests concurrentes no se pisen la
