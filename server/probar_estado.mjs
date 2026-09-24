@@ -145,7 +145,9 @@ try {
   console.log("\n=== Si MySQL no está al arrancar: disco, y una línea en el log sin secretos ===");
   {
     const lineas = [];
-    const e = Object.assign(new Error("Access denied for user 'u129464025_secop'@'srv1456.hstgr.io' (using password: YES)"),
+    // Usuario y host INVENTADOS: la prueba solo necesita que el mensaje los traiga. Nunca usar
+    // aquí los reales de la cuenta: este repo es público.
+    const e = Object.assign(new Error("Access denied for user 'u000000000_ejemplo'@'srv0000.ejemplo.invalid' (using password: YES)"),
       { code: "ER_TABLEACCESS_DENIED_ERROR" });
     const estado = crearEstado({ obtenerPool: () => poolFalso({ fallaAlCrear: e }), carpetaDisco: carpetaNueva(), log: (m) => lineas.push(m) });
     afirmar("cae al disco", (await estado.almacen()) === "disco");
@@ -153,7 +155,7 @@ try {
     const log = lineas.join("\n");
     afirmar("el log dice qué pasó, con el código del error", /MySQL no disponible \(ER_TABLEACCESS_DENIED_ERROR\)/.test(log));
     afirmar("y advierte que en disco se pierde en cada despliegue", /Se PIERDEN en cada despliegue/.test(log));
-    afirmar("el log NO lleva usuario ni host (el mensaje de mysql2 sí los trae)", !/u129464025|hstgr|srv1456|Access denied/.test(log));
+    afirmar("el log NO lleva usuario ni host (el mensaje de mysql2 sí los trae)", !/u000000000|ejemplo\.invalid|srv0000|Access denied/.test(log));
     afirmar("una sola línea, no una por petición", lineas.length === 1);
   }
   {
