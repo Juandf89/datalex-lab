@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-09-26T01:19:47.027752+00:00",
+  "generado_en": "2026-09-26T07:19:30.328058+00:00",
   "fuente": {
     "dataset": "jbjy-vk9h",
     "dominio": "www.datos.gov.co",
@@ -18,11 +18,11 @@
   },
   "modelo": {
     "algoritmo": "IsolationForest",
-    "anomalias_detectadas": 19025,
+    "anomalias_detectadas": 19026,
     "red_flags": 1016
   },
   "red_flags_resumen": {
-    "valor_total_cop": 18024385700040.58,
+    "valor_total_cop": 18024385700040.582,
     "desviacion_promedio_dias": 595.1122047244095
   }
 }
