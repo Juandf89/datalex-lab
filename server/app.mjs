@@ -7,6 +7,7 @@
 // propio y persistente. No lo es: cada despliegue crea una versión nueva de la
 // app y el disco no sobrevive (Hostinger, 2026-09-22). Ahora el estado vive en
 // el MySQL que este servidor ya usa (./estado.mjs), con el disco como respaldo.
+import crypto from "node:crypto";
 import express from "express";
 import * as cheerio from "cheerio";
 import { crearLimiteDeRafaga, crearLimiteDiario, cuerpoLimiteDiario, numeroDeEntorno } from "./limites.mjs";
@@ -26,7 +27,8 @@ const PUERTO = process.env.LSNODE_SOCKET || process.env.PORT || 3000;
 // Incidente real en producción (2026-08-05): al guardar las variables en el
 // panel, el valor de ALLOWED_ORIGIN quedó pegado con el de la siguiente
 // variable y terminó siendo
-// `'https://datalexlab.com'SECOP_MYSQL_HOST=srv1456.hstgr.io`. Consecuencias:
+// `'https://datalexlab.com'SECOP_MYSQL_HOST=srv0000.ejemplo.invalid` (host real
+// omitido). Consecuencias:
 // (1) el navegador rechazó la cabecera y TODA la búsqueda en vivo dejó de
 // funcionar para los visitantes, (2) el servidor no se enteró — seguía
 // respondiendo 200 sin un solo error en el log, así que el fallo fue
@@ -110,6 +112,15 @@ function obtenerIP(req) {
 const app = express();
 app.disable("x-powered-by");
 
+// Express 4 no atrapa una promesa rechazada dentro de una ruta `async`: queda como
+// rechazo sin manejar, y Node (>= 15) TERMINA el proceso. Varias rutas hacen `await`
+// a MySQL fuera de un try (la cuota diaria, la cola de absorción), así que un fallo
+// de la base a mitad de una petición tumbaba el servidor entero (revisión del
+// 28-09). `seguro` pasa el error al manejador de abajo, que responde 500 en JSON.
+function seguro(ruta) {
+  return (req, res, next) => Promise.resolve(ruta(req, res, next)).catch(next);
+}
+
 // --- CORS: solo el dominio del sitio, nada de "*" (el endpoint hace fetch en
 // nombre del visitante y escribe en el store, no queremos que cualquier otro
 // sitio pueda dispararlo desde el navegador de un visitante). ---
@@ -151,7 +162,7 @@ function verificarLimiteDiario(servicio, ip, limitePorIP) {
 const DOMINIO_SECOP = "https://www.datos.gov.co";
 const DATASET_ID_SECOP = "jbjy-vk9h";
 
-app.get("/fallback-secop", async (req, res) => {
+app.get("/fallback-secop", seguro(async (req, res) => {
   const ip = obtenerIP(req);
   const termino = (req.query.q || "").toString().trim();
 
@@ -213,7 +224,7 @@ app.get("/fallback-secop", async (req, res) => {
   });
 
   res.json({ resultados, busquedas_restantes_hoy: LIMITE_DIARIO_SECOP - (usoActual + 1) });
-});
+}));
 
 // Reemplaza la carga completa de expediente_contratos.json (76MB) en el
 // navegador — antes se descargaba el detalle de ~145,000 contratos para
@@ -222,7 +233,7 @@ app.get("/fallback-secop", async (req, res) => {
 // (por_entidad.json, que sí se queda estático por ser pequeño). Sin límite
 // diario propio (no consume cupo de una API externa, solo nuestra propia
 // base de datos) — el rate limit de ráfaga ya existente basta para evitar abuso.
-app.get("/secop/buscar", async (req, res) => {
+app.get("/secop/buscar", seguro(async (req, res) => {
   const ip = obtenerIP(req);
   const termino = (req.query.q || "").toString().trim();
 
@@ -233,7 +244,9 @@ app.get("/secop/buscar", async (req, res) => {
     return res.status(400).json({ error: "Falta el parámetro de búsqueda (q, mínimo 3 caracteres)." });
   }
 
-  const comodin = `%${termino}%`;
+  // `%` y `_` del usuario se escapan: sin eso, "__%" obligaba a MySQL a recorrer
+  // la tabla entera con un patrón que coincide con todo (revisión del 28-09).
+  const comodin = `%${termino.replace(/[\\%_]/g, "\\$&")}%`;
   try {
     const pool = obtenerPool();
     const [filas] = await pool.query(
@@ -258,7 +271,7 @@ app.get("/secop/buscar", async (req, res) => {
     console.error("[secop/buscar] error de conexión/consulta MySQL:", e.message);
     res.status(502).json({ error: "No se pudo consultar la base de datos en este momento. Intenta de nuevo más tarde." });
   }
-});
+}));
 
 // "¿Tiene contratos atípicos?" en la tarjeta de una entidad (secop-clm.html)
 // necesita el conteo real sobre TODOS sus contratos, no la muestra acotada de
@@ -288,7 +301,7 @@ async function obtenerTasaGlobalAlertas(pool) {
   return tasa;
 }
 
-app.get("/secop/riesgo-entidad", async (req, res) => {
+app.get("/secop/riesgo-entidad", seguro(async (req, res) => {
   const ip = obtenerIP(req);
   const entidad = (req.query.entidad || "").toString().trim();
 
@@ -324,14 +337,14 @@ app.get("/secop/riesgo-entidad", async (req, res) => {
     console.error("[secop/riesgo-entidad] error de conexión/consulta MySQL:", e.message);
     res.status(502).json({ error: "No se pudo consultar la base de datos en este momento." });
   }
-});
+}));
 
 // Perfil de riesgo por proveedor — el análisis existente está centrado en la
 // entidad contratante, pero un proveedor que concentra contratos en varias
 // entidades distintas es una señal que no se veía en ninguna parte.
 // Señales acordadas: total de contratos, valor total, % con alerta y número
 // de entidades distintas (proxy de concentración).
-app.get("/secop/riesgo-proveedor", async (req, res) => {
+app.get("/secop/riesgo-proveedor", seguro(async (req, res) => {
   const ip = obtenerIP(req);
   const proveedor = (req.query.proveedor || "").toString().trim();
 
@@ -371,7 +384,7 @@ app.get("/secop/riesgo-proveedor", async (req, res) => {
     console.error("[secop/riesgo-proveedor] error de conexión/consulta MySQL:", e.message);
     res.status(502).json({ error: "No se pudo consultar la base de datos en este momento." });
   }
-});
+}));
 
 // ========================= JURISPRUDENCIA =========================
 // OJO: searchOption=texto (texto completo) vía POST, no searchOption=prov_sentencia
@@ -411,7 +424,7 @@ export function extraerResultados(html) {
   return resultados;
 }
 
-app.get("/fallback-jurisprudencia", async (req, res) => {
+app.get("/fallback-jurisprudencia", seguro(async (req, res) => {
   const ip = obtenerIP(req);
   const termino = (req.query.q || "").toString().trim();
 
@@ -457,7 +470,7 @@ app.get("/fallback-jurisprudencia", async (req, res) => {
   await confirmar();
 
   res.json({ resultados, busquedas_restantes_hoy: LIMITE_DIARIO_JURISPRUDENCIA - (usoActual + 1) });
-});
+}));
 
 // --- Grafo en vivo (sin acumular nada en disco) ---
 // Decisión de producto: este servicio se consume directo de la Relatoría en
@@ -529,7 +542,7 @@ async function obtenerSentencia(url) {
 // pedir las citas. Así cuesta 1 sola búsqueda del límite diario en vez de 2
 // (resolver URL + pedir grafo por separado) — el visitante no nota ni le
 // importa que internamente sean dos peticiones a la Relatoría.
-app.get("/jurisprudencia/grafo", async (req, res) => {
+app.get("/jurisprudencia/grafo", seguro(async (req, res) => {
   const ip = obtenerIP(req);
   const id = (req.query.id || "").toString().trim();
   let url = (req.query.url || "").toString().trim() || null;
@@ -575,7 +588,7 @@ app.get("/jurisprudencia/grafo", async (req, res) => {
     aristas: citas.map((destino) => ({ origen: id, destino })),
     busquedas_restantes_hoy: restantes,
   });
-});
+}));
 
 // ============================ INTERNAS ============================
 // Reemplaza el modo "manual" del SDK de @netlify/blobs que usaba
@@ -587,23 +600,31 @@ app.get("/jurisprudencia/grafo", async (req, res) => {
 //   2. POST /internal/pendientes-<servicio>/confirmar   → borra solo las claves
 //      confirmadas (no todo lo que haya en ese momento — si llegó algo nuevo
 //      entre el paso 1 y el 2, no se pierde).
+// En tiempo constante: `!==` corta en el primer carácter distinto. Se comparan las
+// huellas para que las dos entradas midan lo mismo sin delatar el largo del token.
+function tokenIgual(recibido, esperado) {
+  if (typeof recibido !== "string" || typeof esperado !== "string" || !esperado) return false;
+  const huella = (t) => crypto.createHash("sha256").update(t).digest();
+  return crypto.timingSafeEqual(huella(recibido), huella(esperado));
+}
+
 function exigirTokenInterno(req, res, next) {
   if (!TOKEN_INTERNO) {
     return res.status(503).json({ error: "ABSORBER_TOKEN no configurado en el servidor." });
   }
-  if (req.headers["x-internal-token"] !== TOKEN_INTERNO) {
+  if (!tokenIgual(req.headers["x-internal-token"], TOKEN_INTERNO)) {
     return res.status(401).json({ error: "Token inválido." });
   }
   next();
 }
 
 function registrarRutasInternas(servicio, celda) {
-  app.get(`/internal/pendientes-${servicio}`, exigirTokenInterno, async (req, res) => {
+  app.get(`/internal/pendientes-${servicio}`, exigirTokenInterno, seguro(async (req, res) => {
     const datos = await celda.leer({});
     res.json({ registros: Object.values(datos), claves: Object.keys(datos) });
-  });
+  }));
 
-  app.post(`/internal/pendientes-${servicio}/confirmar`, express.json(), exigirTokenInterno, async (req, res) => {
+  app.post(`/internal/pendientes-${servicio}/confirmar`, express.json(), exigirTokenInterno, seguro(async (req, res) => {
     const claves = Array.isArray(req.body?.claves) ? req.body.claves : [];
     await celda.actualizar({}, (datos) => {
       const nuevos = { ...datos };
@@ -611,10 +632,25 @@ function registrarRutasInternas(servicio, celda) {
       return nuevos;
     });
     res.json({ borradas: claves.length });
-  });
+  }));
 }
 
 registrarRutasInternas("secop", ESTADO_PENDIENTES_SECOP);
+
+// El último middleware: errores en JSON genérico. Sin él, Express respondía con su
+// página HTML de desarrollo, con el stack y las rutas absolutas del servidor (que en
+// Hostinger llevan el usuario de la cuenta). Se provocaba sin token: el JSON de
+// /internal/.../confirmar se lee ANTES de revisar el token (revisión del 28-09).
+// En el log, el tipo y el estado; no el mensaje, que puede repetir lo que mandó el cliente.
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, _next) => {
+  const estado = Number(err?.status || err?.statusCode);
+  const delCliente = Number.isInteger(estado) && estado >= 400 && estado < 500;
+  console.error(`[error] ${req.method} ${req.path}: ${delCliente ? estado : 500} ${err?.type || err?.code || err?.name || "desconocido"}`);
+  if (res.headersSent) return res.end();
+  if (delCliente) return res.status(estado).json({ error: "La petición no se pudo procesar." });
+  res.status(500).json({ error: "Error interno. Intenta de nuevo más tarde." });
+});
 
 app.listen(PUERTO, () => {
   console.log(`[ok] servidor de fallbacks escuchando en ${PUERTO}`);

@@ -54,7 +54,7 @@ constitucional. Desplegado en Hostinger.
   imprimir el valor). Ver `server/limites.mjs`.
 - **Al escribir variables en el panel: valor crudo, sin comillas y una por campo.** Incidente real
   (2026-08-05): `ALLOWED_ORIGIN` quedó guardada como
-  `'https://datalexlab.com'SECOP_MYSQL_HOST=srv1456.hstgr.io` — dos variables fusionadas y con
+  `'https://datalexlab.com'SECOP_MYSQL_HOST=srv0000.ejemplo.invalid` (host real omitido) — dos variables fusionadas y con
   comillas. El navegador rechazó la cabecera CORS y la búsqueda en vivo dejó de funcionar para todos
   los visitantes, mientras el servidor seguía respondiendo 200 sin ningún error en el log. Desde
   entonces `app.mjs` valida el origen al arrancar (`origenValido`): si no es un origen bien formado
