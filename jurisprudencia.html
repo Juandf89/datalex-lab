@@ -118,33 +118,22 @@
 
         let cy = null;
 
-        // Todo texto que venga de fuera (la relatoría de la Corte, el servidor) se
-        // escapa antes de entrar a innerHTML: un tema con `<img onerror=…>` se
-        // ejecutaría en esta página (revisión de seguridad del 28-09).
-        function esc(v) {
-            return String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-        }
-        // Un enlace solo si es https: un `javascript:` en el href correría al hacer clic.
-        function urlSegura(u) {
-            return typeof u === 'string' && /^https:\/\//i.test(u) ? u : null;
-        }
-
         function tarjetaDetalle(nodo, esSemilla) {
             const cuerpoTema = nodo.tema
                 ? `<div>
                         <dt class="text-xs text-slate-400 uppercase tracking-wide font-semibold">Tema</dt>
-                        <dd class="text-sm text-slate-700 mt-1">${esc(nodo.tema)}</dd>
+                        <dd class="text-sm text-slate-700 mt-1">${nodo.tema}</dd>
                    </div>`
                 : esSemilla
                     ? `<p class="text-sm text-slate-500 italic mt-1">No encontramos un resumen para esta sentencia — abre el texto completo para leerla.</p>`
                     : `<p class="text-sm text-slate-500 italic mt-1">Citada por la sentencia que buscaste — explórala para ver su propio texto y sus citas.</p>`;
             return `
                 <span class="text-[10px] uppercase tracking-wider font-bold text-indigo-500">Sentencia</span>
-                <h4 class="font-serif font-bold text-lg text-slate-900 mb-3">${esc(nodo.id)}</h4>
+                <h4 class="font-serif font-bold text-lg text-slate-900 mb-3">${nodo.id}</h4>
                 <dl class="space-y-3">${cuerpoTema}</dl>
                 <div class="flex flex-col items-start gap-3 mt-4">
-                    ${urlSegura(nodo.url) ? `<a href="${esc(urlSegura(nodo.url))}" target="_blank" rel="noopener" class="text-xs font-bold text-indigo-600 hover:underline">Ver sentencia completa en la Corte ➔</a>` : ''}
-                    ${esSemilla ? '' : `<button data-explorar="${esc(nodo.id)}" class="text-xs font-bold text-cyan-600 hover:underline">Explorar sus citas ➔</button>`}
+                    ${nodo.url ? `<a href="${nodo.url}" target="_blank" class="text-xs font-bold text-indigo-600 hover:underline">Ver sentencia completa en la Corte ➔</a>` : ''}
+                    ${esSemilla ? '' : `<button data-explorar="${nodo.id}" class="text-xs font-bold text-cyan-600 hover:underline">Explorar sus citas ➔</button>`}
                 </div>`;
         }
 
@@ -229,12 +218,12 @@
 
             function pintarSugerencias(resultados, restantesHoy) {
                 const pieRestantes = restantesHoy !== null
-                    ? `<div class="px-5 py-2 bg-slate-50 text-slate-400 text-[10px] uppercase tracking-wider font-bold border-t border-slate-100">${esc(restantesHoy)} búsquedas en vivo gratis restantes hoy</div>`
+                    ? `<div class="px-5 py-2 bg-slate-50 text-slate-400 text-[10px] uppercase tracking-wider font-bold border-t border-slate-100">${restantesHoy} búsquedas en vivo gratis restantes hoy</div>`
                     : '';
                 sugerenciasEl.innerHTML = resultados.map((r, i) => `
                     <button data-idx="${i}" class="w-full text-left px-5 py-3 hover:bg-indigo-50 border-b border-slate-100 last:border-0">
-                        <span class="text-xs font-mono text-indigo-600 block">${esc(r.id)}</span>
-                        <span class="text-xs text-slate-500 line-clamp-2">${esc((r.tema || '').slice(0, 140))}</span>
+                        <span class="text-xs font-mono text-indigo-600 block">${r.id}</span>
+                        <span class="text-xs text-slate-500 line-clamp-2">${(r.tema || '').slice(0, 140)}</span>
                     </button>`).join('') + pieRestantes;
                 sugerenciasEl.classList.remove('hidden');
 
@@ -255,7 +244,7 @@
                     const resp = await fetch(`${FALLBACK_API_BASE}/fallback-jurisprudencia?q=${encodeURIComponent(termino)}`);
                     const datos = await resp.json();
                     if (resp.status === 429) {
-                        sugerenciasEl.innerHTML = `<div class="px-5 py-3 text-sm text-amber-600">${esc(datos.error)} (límite: ${esc(datos.limite_diario)}/día)</div>`;
+                        sugerenciasEl.innerHTML = `<div class="px-5 py-3 text-sm text-amber-600">${datos.error} (límite: ${datos.limite_diario}/día)</div>`;
                         return;
                     }
                     if (!resp.ok || !datos.resultados?.length) {
