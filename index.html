@@ -498,7 +498,10 @@
                 }
                 b.appendChild(icono(esCimiento ? 'cimiento' : p.id));
                 b.appendChild(nodo('span', p.nombre, 'flex-1'));
-                b.appendChild(nodo('span', esCimiento ? 'Cimiento innegociable' : 'Toca para construir', 'text-xs font-medium'));
+                const estado = nodo('span', '', 'text-xs font-medium text-right');
+                b.appendChild(estado);
+                b._estado = estado;
+                b._esCimiento = esCimiento;
                 b.addEventListener('click', () => {
                     if (esCimiento) seleccionado = 'cimiento';
                     else if (construidos[p.id] && seleccionado === p.id) { construidos[p.id] = false; seleccionado = null; }
@@ -511,6 +514,17 @@
             pisos.forEach(p => boton(p, false));
             boton(cimiento, true);
 
+            // En pantallas angostas la invitación se acorta a "Toca": completa, se partía
+            // en dos líneas dentro del piso más estrecho.
+            function estadoDe(b, hecho) {
+                const e = b._estado;
+                e.textContent = '';
+                if (b._esCimiento) { e.textContent = 'Cimiento innegociable'; return; }
+                if (hecho) { e.textContent = 'Construido'; return; }
+                e.appendChild(nodo('span', 'Toca', 'sm:hidden'));
+                e.appendChild(nodo('span', 'Toca para construir', 'hidden sm:inline'));
+            }
+
             function pintar() {
                 let n = 0;
                 pisos.forEach(p => {
@@ -520,8 +534,9 @@
                     b.className = hecho ? CONSTRUIDO : SIN_CONSTRUIR;
                     if (seleccionado === p.id) b.classList.add(...ANILLO);
                     b.setAttribute('aria-pressed', hecho ? 'true' : 'false');
-                    b.lastChild.textContent = hecho ? 'Construido' : 'Toca para construir';
+                    estadoDe(b, hecho);
                 });
+                estadoDe(botones.cimiento, false);
                 botones.cimiento.className = CLASE_CIMIENTO;
                 if (seleccionado === 'cimiento') botones.cimiento.classList.add(...ANILLO_CIMIENTO);
 
