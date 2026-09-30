@@ -59,7 +59,7 @@ const RUTA_ESTADO = path.join(DIR_API, "estado.json");
 // o el renderizador de bloques, o los artículos viejos se quedarían con el
 // HTML antiguo (la sincronización incremental mira last_edited_time, que no
 // cambia cuando el que cambia es nuestro código).
-const VERSION_PLANTILLA = 2;
+const VERSION_PLANTILLA = 3;
 
 const MAX_BYTES_IMAGEN = 15 * 1024 * 1024;
 // Umbral de aviso, no de rechazo. Notion sirve las portadas al tamaño
