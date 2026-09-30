@@ -93,28 +93,33 @@ jobs:
       # main (p.ej. un fix de código) que aterriza mientras el job ya hizo el checkout.
       # Ese día un push manual llegó a mitad de una corrida y el `git push` final se
       # rechazó (non-fast-forward), perdiendo la actualización de datos de esa hora.
-      # Con reintentos: si el push falla, se reintegra el commit sobre el origin/main
-      # más reciente con `reset --soft` (no rebase/merge) y se recommitea — como
-      # api/secop/*.json es 100% output regenerado por este mismo job, no hay nada que
-      # mezclar línea por línea: el archivo recién generado siempre gana sobre lo que
-      # haya en el commit ajeno.
+      # Con reintentos: si el push falla, se rehace el commit sobre el origin/main más
+      # reciente con SOLO api/secop — como api/secop/*.json es 100% output regenerado por
+      # este mismo job, el archivo recién generado siempre gana sobre lo que haya en el
+      # commit ajeno.
+      #
+      # Encontrado en producción (2026-09-29): antes esto era `reset --soft`, que deja en el
+      # índice el árbol ENTERO del checkout viejo; el recommit deshizo todo lo que se había
+      # empujado a mitad de la corrida (f5a0a3c revirtió 69da8a0 y 7d7fbd2: undici, la
+      # revisión de seguridad y los XSS). `reset` a secas (--mixed) deja el índice igual a
+      # origin/main y el disco intacto; luego solo se vuelve a añadir api/secop.
       - name: Commit y push si hay cambios
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add api/secop
-          if git diff --cached --quiet; then
-            echo "Sin cambios en los datos, nada que commitear."
-            exit 0
-          fi
           for intento in 1 2 3 4 5; do
+            git add api/secop
+            if git diff --cached --quiet; then
+              echo "Sin cambios en los datos, nada que commitear."
+              exit 0
+            fi
             git commit -m "chore: actualizar datos SECOP II ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
             if git push; then
               exit 0
             fi
-            echo "push rechazado (intento $intento/5) — reintegrando sobre origin/main y reintentando"
+            echo "push rechazado (intento $intento/5) — rehaciendo el commit sobre origin/main y reintentando"
             git fetch origin main
-            git reset --soft origin/main
+            git reset origin/main
             sleep $((intento * 5))
           done
           echo "::error::no se pudo pushear tras 5 intentos"
