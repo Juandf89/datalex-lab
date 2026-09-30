@@ -5,3 +5,9 @@
 # el cron da por supuesta.
 bitacora/**/index.html text eol=lf
 api/bitacora/*.json    text eol=lf
+
+# La consola de LATIO se copia desde otro repositorio (scripts/sincronizar_consola_latio.sh)
+# y el script compara byte a byte: que un checkout de Windows no la convierta a CRLF.
+# Los .sh deben quedarse en LF o bash falla en el runner.
+latio/index.html text eol=lf
+*.sh              text eol=lf
