@@ -83,6 +83,41 @@
             border-radius: 12px;
             overflow: hidden;
         }
+        /* Las secciones con id quedaban tapadas por la barra fija al saltar desde el menú. */
+        section[id], header[id], footer[id] { scroll-margin-top: 72px; }
+
+        /* Anillo de foco visible. Los campos usaban `outline-none` y sin nada que lo
+           reemplazara, así que quien navega con teclado no veía dónde estaba. */
+        :focus-visible { outline: 2px solid #4f46e5; outline-offset: 2px; }
+        .on-dark :focus-visible, #bitacora :focus-visible, #ai-lab :focus-visible { outline-color: #a5b4fc; }
+        input:focus-visible, textarea:focus-visible { outline: 2px solid #4f46e5; outline-offset: 0; }
+        #ai-lab input:focus-visible { outline-color: #a5b4fc; }
+
+        .skip-link {
+            position: absolute; left: 1rem; top: -4rem; z-index: 100;
+            background: #4f46e5; color: #fff; padding: .75rem 1rem; border-radius: .75rem;
+            font-weight: 700; font-size: .875rem; transition: top .15s ease;
+        }
+        .skip-link:focus { top: 1rem; }
+
+        /* Enlace que cubre toda la tarjeta sin anidar un <a> dentro de otro. */
+        .card-link::after { content: ""; position: absolute; inset: 0; border-radius: 1.5rem; }
+        .card-link:focus-visible { outline: none; }
+        .group:has(.card-link:focus-visible) { outline: 2px solid #a5b4fc; outline-offset: 3px; }
+
+        h1, h2, h3, h4 { text-wrap: balance; }
+        .clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .nav-link[aria-current="true"] { color: #4f46e5; }
+        .nav-link[aria-current="true"]::after { content: ""; display: block; height: 2px; margin-top: 2px; background: currentColor; border-radius: 2px; }
+
+        #menu-movil .nav-link[aria-current="true"]::after { display: none; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html, body { scroll-behavior: auto !important; }
+            *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+        }
+
         #chat-response::-webkit-scrollbar, #comments-feed::-webkit-scrollbar { width: 4px; }
         #chat-response::-webkit-scrollbar-track, #comments-feed::-webkit-scrollbar-track { background: transparent; }
         #chat-response::-webkit-scrollbar-thumb, #comments-feed::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -90,30 +125,51 @@
 </head>
 <body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
 
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-xl font-bold tracking-tight flex items-center gap-2">
-                <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white text-xs italic">DL</div>
-                <span>DataLex <span class="font-light text-slate-400">Lab</span></span>
+    <a href="#contenido" class="skip-link">Saltar al contenido</a>
+
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200" aria-label="Principal">
+        <div class="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center gap-4">
+            <a href="#inicio" class="text-xl font-bold tracking-tight flex items-center gap-2" aria-label="DataLex Lab, inicio">
+                <span class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white text-xs italic" aria-hidden="true">DL</span>
+                <span>DataLex <span class="font-light text-slate-500">Lab</span></span>
+            </a>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                <a href="#inicio" class="nav-link hover:text-indigo-600 transition-colors py-2">Inicio</a>
+                <a href="#pilares" class="nav-link hover:text-indigo-600 transition-colors py-2">Pilares</a>
+                <a href="#bitacora" class="nav-link hover:text-indigo-600 transition-colors py-2">Bitácora</a>
+                <a href="#proyectos" class="nav-link hover:text-indigo-600 transition-colors py-2">Proyectos</a>
+                <a href="#agora" class="nav-link hover:text-indigo-600 transition-colors py-2">Comunidad</a>
             </div>
-            <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
-                <a href="#inicio" class="hover:text-indigo-600 transition-colors">Inicio</a>
-                <a href="#pilares" class="hover:text-indigo-600 transition-colors">Pilares</a>
-                <a href="#bitacora" class="hover:text-indigo-600 transition-colors">Bitácora</a>
-                <a href="#proyectos" class="hover:text-indigo-600 transition-colors">Proyectos</a>
-                <a href="#agora" class="hover:text-indigo-600 transition-colors">Comunidad</a>
+            <div class="flex items-center gap-2">
+                <a href="#unete" class="bg-indigo-600 text-white px-5 min-h-[44px] inline-flex items-center rounded-full text-xs font-bold hover:bg-indigo-700 transition-colors uppercase tracking-wider">Unirse</a>
+                <button type="button" id="menu-btn" class="md:hidden w-11 h-11 inline-flex items-center justify-center rounded-full text-slate-700 hover:bg-slate-100" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
             </div>
-            <a href="#unete" class="bg-indigo-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-indigo-700 transition-all uppercase tracking-wider">Unirse</a>
+        </div>
+        <div id="menu-movil" class="md:hidden hidden border-t border-slate-200 bg-white px-6 pb-4">
+            <a href="#inicio" class="nav-link block py-3 text-sm font-semibold text-slate-700">Inicio</a>
+            <a href="#pilares" class="nav-link block py-3 text-sm font-semibold text-slate-700">Pilares</a>
+            <a href="#bitacora" class="nav-link block py-3 text-sm font-semibold text-slate-700">Bitácora</a>
+            <a href="#proyectos" class="nav-link block py-3 text-sm font-semibold text-slate-700">Proyectos</a>
+            <a href="#agora" class="nav-link block py-3 text-sm font-semibold text-slate-700">Comunidad</a>
         </div>
     </nav>
 
-    <header id="inicio" class="max-w-4xl mx-auto px-6 pt-24 pb-16">
-        <h1 class="text-4xl md:text-6xl font-serif font-bold leading-tight mb-12 text-slate-900 text-left">
+    <main id="contenido">
+    <header id="inicio" class="max-w-4xl mx-auto px-6 pt-16 md:pt-24 pb-16">
+        <h1 class="text-4xl md:text-6xl font-serif font-bold leading-tight mb-8 text-slate-900 text-left">
             La arquitectura <br>
             <span class="gradient-text italic">legal de hoy</span>
         </h1>
         
-        <div class="border-l-4 border-indigo-600 pl-8 space-y-6 text-lg text-slate-600 leading-relaxed text-left">
+        <p class="text-xl md:text-2xl text-slate-700 leading-snug max-w-2xl mb-8">Un laboratorio para abogados que quieren entender la inteligencia artificial y los datos, y usarlos con rigor jurídico.</p>
+        <div class="flex flex-wrap gap-3 mb-14">
+            <a href="#proyectos" class="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 min-h-[48px] rounded-full text-sm font-bold hover:bg-indigo-700 transition-colors">Explorar los proyectos <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a href="#bitacora" class="inline-flex items-center gap-2 bg-white text-slate-800 border border-slate-300 px-6 min-h-[48px] rounded-full text-sm font-bold hover:border-indigo-400 hover:text-indigo-700 transition-colors">Leer la bitácora</a>
+        </div>
+
+        <div class="border-l-4 border-indigo-600 pl-6 md:pl-8 space-y-6 text-base md:text-lg text-slate-600 leading-relaxed text-left max-w-[68ch]">
             <p>DataLex Lab nace con un propósito claro: <strong class="text-slate-900">construir comunidad</strong>. Este no es un repositorio de código abierto para ingenieros, sino un espacio de encuentro y reflexión para profesionales del sector legal.</p>
             <p>Aquí analizamos cómo la Inteligencia Artificial y los datos han cambiado definitivamente nuestra forma de interactuar con el mundo y con la profesión. Exploramos el impacto de estas tecnologías desde una mirada crítica, pero también profundamente práctica.</p>
             <p>En este espacio aprendemos juntos a utilizar las herramientas que están redefiniendo nuestro trabajo diario. Desde la implementación de sistemas CLM hasta los principios del Legal Design y el Legal Engineering, buscamos entender la tecnología para dominarla, aplicarla con rigor y transformar nuestra práctica. Bienvenidos a la conversación.</p>
@@ -125,7 +181,7 @@
                 </div>
                 <div>
                     <p class="font-bold text-slate-900 leading-none">Juan Pablo Lopez Mejia</p>
-                    <p class="text-xs text-indigo-500 font-bold uppercase tracking-widest mt-1">Fundador · DataLex Lab</p>
+                    <p class="text-xs text-indigo-700 font-bold uppercase tracking-widest mt-1">Fundador · DataLex Lab</p>
                 </div>
             </div>
         </div>
@@ -134,19 +190,19 @@
     <section id="pilares" class="bg-slate-100/50 border-y border-slate-200 py-24">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-12 text-left">
-                <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">Filosofía del Lab</span>
+                <span class="text-cyan-700 text-xs font-bold uppercase tracking-widest">Filosofía del Lab</span>
                 <h2 class="text-3xl font-serif font-bold mt-4 text-slate-900">Nuestros Pilares</h2>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
-                <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 transition-all duration-300">
-                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-2xl mb-6">🧠</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 text-left">
+                <div class="bg-white p-8 md:p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 transition-all duration-300">
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-6"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/></svg></div>
                     <h3 class="text-2xl font-serif font-bold mb-4">Reflexión Crítica</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">Analicemos el impacto ético, profesional del uso de IA y Big Data en la estructura del Derecho.</p>
+                    <p class="text-slate-600 leading-relaxed">Analicemos el impacto ético, profesional del uso de IA y Big Data en la estructura del Derecho.</p>
                 </div>
-                <div class="bg-white p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-cyan-200 transition-all duration-300">
-                    <div class="w-12 h-12 bg-cyan-50 text-cyan-600 rounded-xl flex items-center justify-center text-2xl mb-6">🛠️</div>
+                <div class="bg-white p-8 md:p-10 rounded-3xl border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 hover:border-cyan-200 transition-all duration-300">
+                    <div class="w-12 h-12 bg-cyan-50 text-cyan-600 rounded-xl flex items-center justify-center mb-6"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
                     <h3 class="text-2xl font-serif font-bold mb-4">Aprendizaje Práctico</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm">Resolvemos problemas reales usando analítica de Datos, herramientas de AI y aplicamos conceptos de Ingeniería Legal de manera práctica.</p>
+                    <p class="text-slate-600 leading-relaxed">Resolvemos problemas reales usando analítica de Datos, herramientas de AI y aplicamos conceptos de Ingeniería Legal de manera práctica.</p>
                 </div>
             </div>
         </div>
@@ -155,25 +211,25 @@
     <section id="perfil" class="py-24 bg-white text-left">
         <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-                <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">Perfil Profesional</span>
+                <span class="text-cyan-700 text-xs font-bold uppercase tracking-widest">Perfil Profesional</span>
                 <h2 class="text-3xl font-serif font-bold mt-4 mb-6 text-slate-900">Evolución de Potencia</h2>
                 <p class="text-slate-600 mb-8 leading-relaxed">
                     Proponemos potenciar el perfil profesional integrando habilidades digitales sin perder la esencia de la profesión. Entendemos esta evolución como un efecto multiplicador: el rigor jurídico es el cimiento innegociable sobre el cual la tecnología actúa como un multiplicador de valor desmedido.
                 </p>
                 <div class="space-y-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-3 h-3 rounded-full bg-slate-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-slate-400" aria-hidden="true"></div>
                         <span class="text-sm font-medium text-slate-600">Perfil de Base (Fundamento)</span>
                     </div>
                     <div class="flex items-center gap-3">
-                        <div class="w-3 h-3 rounded-full bg-indigo-600"></div>
+                        <div class="w-3 h-3 rounded-full bg-indigo-600" aria-hidden="true"></div>
                         <span class="text-sm font-bold text-indigo-700">Perfil Expandido (DataLex Lab)</span>
                     </div>
                 </div>
             </div>
             <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200">
                 <div class="chart-container">
-                    <canvas id="skillsChart"></canvas>
+                    <canvas id="skillsChart" role="img" aria-label="Gráfico de radar: el perfil de base es fuerte en rigor jurídico (95) y bajo en legal engineering, datos, legal design y automatización; el perfil expandido sube todas las dimensiones entre 80 y 95."></canvas>
                 </div>
             </div>
         </div>
@@ -182,61 +238,61 @@
     <section id="bitacora" class="py-24 bg-slate-900 text-white text-left">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-12">
-                <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest">Actualizaciones</span>
+                <span class="text-cyan-300 text-xs font-bold uppercase tracking-widest">Actualizaciones</span>
                 <h2 class="text-3xl md:text-4xl font-serif font-bold mt-4 mb-4">Bitácora de Construcción</h2>
-                <p class="text-slate-400 max-w-xl text-sm">Arquitectura Legal AI: Taller de implementación. Lanzamientos Semanales.</p>
+                <p class="text-slate-300 max-w-xl">Arquitectura Legal AI: Taller de implementación. Lanzamientos Semanales.</p>
             </div>
 
-            <div id="bitacora-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="text-slate-500 italic py-10 text-left">Conectando con la base de datos...</div>
+            <div id="bitacora-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <div class="text-slate-400 italic py-10 text-left" role="status">Cargando la bitácora…</div>
             </div>
         </div>
     </section>
 
     <section id="proyectos" class="py-24 bg-white text-left">
         <div class="max-w-6xl mx-auto px-6">
-            <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">Laboratorio Aplicado</span>
+            <span class="text-cyan-700 text-xs font-bold uppercase tracking-widest">Laboratorio Aplicado</span>
             <h2 class="text-3xl md:text-4xl font-serif font-bold mt-4 mb-4 text-slate-900">Proyectos</h2>
-            <p class="text-slate-500 max-w-xl text-sm mb-12">Del dato crudo a la decisión legal: prototipos reales de Legal Engineering construidos en el Lab.</p>
+            <p class="text-slate-600 max-w-xl mb-12">Del dato crudo a la decisión legal: prototipos reales de Legal Engineering construidos en el Lab.</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <a href="secop-clm.html" class="group bg-slate-50 hover:bg-white rounded-3xl border border-slate-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 p-8 flex flex-col">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <a href="secop-clm.html" class="group bg-slate-50 hover:bg-white rounded-3xl border border-slate-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 p-6 md:p-8 flex flex-col">
                     <div class="flex justify-between items-start mb-6">
-                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">⚖️</div>
-                        <span class="text-[10px] bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Datos en vivo</span>
+                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform motion-reduce:transition-none"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10M12 3v18M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg></div>
+                        <span class="text-xs bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Datos en vivo</span>
                     </div>
                     <h3 class="text-xl font-serif font-bold mb-2 text-slate-900">Auditoría automatizada SECOP II</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
                         Analizamos contratación pública colombiana con un modelo de anomalías (Isolation Forest) para
                         detectar riesgo de sobre-ejecución. Los datos se actualizan solos cada hora.
                     </p>
-                    <div id="proyecto-secop-stats" class="flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-500 mb-6 font-semibold">
-                        <span class="italic text-slate-400 font-normal">Cargando cifras…</span>
+                    <div id="proyecto-secop-stats" class="flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-600 mb-6 font-semibold">
+                        <span class="italic text-slate-500 font-normal">Cargando cifras…</span>
                     </div>
-                    <span class="inline-flex items-center gap-2 text-indigo-600 text-xs font-bold uppercase tracking-wider">
-                        Ver dashboard <span class="group-hover:translate-x-1 transition-transform">➔</span>
+                    <span class="inline-flex items-center gap-2 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+                        Ver dashboard <svg class="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </span>
                 </a>
 
-                <a href="jurisprudencia.html" class="group bg-slate-50 hover:bg-white rounded-3xl border border-slate-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 p-8 flex flex-col">
+                <a href="jurisprudencia.html" class="group bg-slate-50 hover:bg-white rounded-3xl border border-slate-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 p-6 md:p-8 flex flex-col">
                     <div class="flex justify-between items-start mb-6">
-                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">🕸️</div>
-                        <span class="text-[10px] bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Grafo interactivo</span>
+                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform motion-reduce:transition-none"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="8" r="3"/><circle cx="12" cy="18" r="3"/><path d="m8.6 7.4 6.8.4M7.5 8.7l3 6.6M16.6 10.6l-3 5.6"/></svg></div>
+                        <span class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Grafo interactivo</span>
                     </div>
                     <h3 class="text-xl font-serif font-bold mb-2 text-slate-900">Grafo de Jurisprudencia Constitucional</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
                         Busca por tema y explora cómo se citan entre sí las sentencias de la Corte Constitucional.
                         El tamaño de cada nodo refleja qué tan citada — y por tanto influyente — es esa sentencia.
                     </p>
-                    <span class="inline-flex items-center gap-2 text-indigo-600 text-xs font-bold uppercase tracking-wider">
-                        Explorar el grafo <span class="group-hover:translate-x-1 transition-transform">➔</span>
+                    <span class="inline-flex items-center gap-2 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+                        Explorar el grafo <svg class="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </span>
                 </a>
 
-                <a href="latio/" class="group bg-slate-50 hover:bg-white rounded-3xl border border-slate-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 p-8 flex flex-col">
+                <a href="latio/" class="group bg-slate-50 hover:bg-white rounded-3xl border border-slate-200 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 p-6 md:p-8 flex flex-col">
                     <div class="flex justify-between items-start mb-6">
-                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">🧠</div>
-                        <span class="text-[10px] bg-violet-100 text-violet-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Razonamiento real</span>
+                        <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform motion-reduce:transition-none"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/></svg></div>
+                        <span class="text-xs bg-violet-100 text-violet-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Razonamiento real</span>
                     </div>
                     <h3 class="text-xl font-serif font-bold mb-2 text-slate-900">LATIO · Motor Ontológico del Civil Law</h3>
                     <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-grow">
@@ -244,12 +300,12 @@
                         un motor de razonamiento derrotable (reglas por defecto, excepciones, carga de la prueba) que
                         responde sobre contenido real, no simulado.
                     </p>
-                    <div class="flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-500 mb-6 font-semibold">
+                    <div class="flex flex-wrap gap-x-5 gap-y-1 text-xs text-slate-600 mb-6 font-semibold">
                         <span>22.110 artículos reales</span>
                         <span>8 códigos civiles LATAM</span>
                     </div>
-                    <span class="inline-flex items-center gap-2 text-indigo-600 text-xs font-bold uppercase tracking-wider">
-                        Abrir consola API <span class="group-hover:translate-x-1 transition-transform">➔</span>
+                    <span class="inline-flex items-center gap-2 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+                        Abrir consola API <svg class="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                     </span>
                 </a>
             </div>
@@ -259,32 +315,35 @@
     <section id="agora" class="py-24 bg-slate-50 text-left border-y border-slate-200">
         <div class="max-w-4xl mx-auto px-6">
             <div class="mb-12 text-center">
-                <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">Comunidad</span>
+                <span class="text-cyan-700 text-xs font-bold uppercase tracking-widest">Comunidad</span>
                 <h2 class="text-3xl font-serif font-bold mt-4 mb-4 text-slate-900">Ágora DataLex</h2>
-                <p class="text-slate-500 text-sm">El conocimiento compartido nos hace avanzar. Deja tu reflexión, duda o aporte a la comunidad.</p>
+                <p class="text-slate-600">El conocimiento compartido nos hace avanzar. Deja tu reflexión, duda o aporte a la comunidad.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
                 <!-- Formulario de Comentarios -->
-                <div class="md:col-span-5 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm h-fit">
+                <div class="md:col-span-5 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm h-fit">
                     <h3 class="text-lg font-bold text-slate-800 mb-6">Suma tu voz al Lab</h3>
                     <div class="space-y-4">
-                        <input type="text" id="com-nombre" placeholder="Tu nombre" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 outline-none">
-                        <input type="text" id="com-rol" placeholder="Tu rol (Ej: Abogado, Estudiante...)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 outline-none">
-                        <textarea id="com-mensaje" rows="4" placeholder="¿Qué opinas sobre la tecnología en el derecho hoy?" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 outline-none resize-none"></textarea>
-                        <button onclick="publicarComentario()" id="btn-comentar" class="w-full bg-indigo-600 text-white px-4 py-3 rounded-xl text-sm font-bold hover:bg-indigo-700 transition-all">Publicar Reflexión</button>
-                        <p id="com-status" class="text-xs text-center mt-2 hidden"></p>
+                        <label for="com-nombre" class="sr-only">Tu nombre</label>
+                        <input type="text" id="com-nombre" autocomplete="name" placeholder="Tu nombre" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-base md:text-sm focus:border-indigo-500 outline-none">
+                        <label for="com-rol" class="sr-only">Tu rol</label>
+                        <input type="text" id="com-rol" placeholder="Tu rol (Ej: Abogado, Estudiante...)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-base md:text-sm focus:border-indigo-500 outline-none">
+                        <label for="com-mensaje" class="sr-only">Tu reflexión</label>
+                        <textarea id="com-mensaje" rows="4" placeholder="¿Qué opinas sobre la tecnología en el derecho hoy?" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-base md:text-sm focus:border-indigo-500 outline-none resize-none"></textarea>
+                        <button onclick="publicarComentario()" id="btn-comentar" class="w-full bg-indigo-600 text-white px-4 min-h-[48px] rounded-xl text-sm font-bold hover:bg-indigo-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed">Publicar Reflexión</button>
+                        <p id="com-status" role="status" class="text-xs text-center mt-2 hidden"></p>
                     </div>
                 </div>
 
                 <!-- Feed de Comentarios -->
-                <div class="md:col-span-7 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col h-[450px]">
+                <div class="md:col-span-7 bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col h-[450px]">
                     <h3 class="text-lg font-bold text-slate-800 mb-6 flex justify-between items-center">
                         Voces Recientes
                         <span class="bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full text-xs font-bold" id="com-count">0</span>
                     </h3>
-                    <div id="comments-feed" class="flex-grow overflow-y-auto space-y-6 pr-2">
-                        <div class="text-slate-400 text-sm italic text-center mt-10">Cargando comunidad...</div>
+                    <div id="comments-feed" class="flex-grow overflow-y-auto space-y-6 pr-2" tabindex="0" role="region" aria-label="Voces recientes" aria-live="polite">
+                        <div class="text-slate-500 text-sm italic text-center mt-10">Cargando comunidad…</div>
                     </div>
                 </div>
             </div>
@@ -294,46 +353,51 @@
     <section id="ai-lab" class="py-24 bg-white text-left">
         <div class="max-w-4xl mx-auto px-6">
             <h2 class="text-3xl font-serif font-bold mb-2 italic">Laboratorio Experimental</h2>
-            <p class="text-slate-500 mb-10 text-sm">Prototipa ideas de ingeniería legal con Gemini AI.</p>
+            <p class="text-slate-600 mb-10">Prototipa ideas de ingeniería legal con Gemini AI.</p>
             
-            <div class="bg-slate-900 rounded-3xl p-8 shadow-2xl">
+            <div class="bg-slate-900 rounded-3xl p-5 md:p-8 shadow-2xl">
                 <div class="mb-6 text-left">
-                    <label class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2 block">Paso 1: Configura tu acceso</label>
-                    <input type="password" id="api-key" placeholder="Pega tu API Key de Google Gemini aquí..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:border-indigo-500 outline-none">
-                    <p class="text-[10px] text-slate-400 mt-2">
-                        ¿No tienes una? <a href="https://aistudio.google.com/" target="_blank" class="text-indigo-400 hover:underline">Obtén una clave gratuita en Google AI Studio ➔</a> (No la guardamos, es solo para esta sesión).
+                    <label for="api-key" class="text-xs uppercase tracking-widest text-slate-300 font-bold mb-2 block">Paso 1: Configura tu acceso</label>
+                    <input type="password" id="api-key" autocomplete="off" placeholder="Pega tu API Key de Google Gemini aquí..." class="w-full bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 text-white text-base md:text-sm focus:border-indigo-500 outline-none">
+                    <p class="text-xs text-slate-300 mt-2">
+                        ¿No tienes una? <a href="https://aistudio.google.com/" target="_blank" rel="noopener" class="text-indigo-300 underline underline-offset-2 hover:text-white">Obtén una clave gratuita en Google AI Studio ➔</a> (No la guardamos, es solo para esta sesión).
                     </p>
                 </div>
                 
-                <div id="chat-response" class="h-64 bg-slate-800 rounded-2xl p-6 overflow-y-auto mb-4 text-sm text-slate-300 space-y-4">
+                <div id="chat-response" role="log" aria-live="polite" aria-label="Conversación con el asistente" tabindex="0" class="h-64 bg-slate-800 rounded-2xl p-6 overflow-y-auto mb-4 text-sm text-slate-300 space-y-4">
                     <div class="bg-slate-700 p-4 rounded-xl inline-block max-w-[85%] border border-slate-600">
                         Hola. Soy el asistente del Lab de Ingeniería Legal. Configura tu API Key arriba y dime qué quieres construir hoy.
                     </div>
                 </div>
 
                 <div class="flex gap-2">
-                    <input type="text" id="user-prompt" placeholder="Escribe tu consulta técnica o prompt..." class="flex-grow bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none text-sm">
-                    <button onclick="askAI()" id="send-btn" class="bg-indigo-600 px-6 py-2 rounded-xl font-bold hover:bg-indigo-500 transition-all text-white">➔</button>
+                    <label for="user-prompt" class="sr-only">Tu consulta</label>
+                    <input type="text" id="user-prompt" placeholder="Escribe tu consulta técnica o prompt..." class="flex-grow min-w-0 bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 text-white outline-none text-base md:text-sm">
+                    <button onclick="askAI()" id="send-btn" aria-label="Enviar consulta" class="bg-indigo-600 px-6 min-h-[48px] rounded-xl font-bold hover:bg-indigo-500 transition-colors text-white disabled:opacity-60">➔</button>
                 </div>
             </div>
         </div>
     </section>
 
+    </main>
+
     <footer id="unete" class="bg-slate-50 py-16 border-t border-slate-200 text-center">
         <div class="max-w-xl mx-auto px-6">
             <h2 class="text-2xl font-serif font-bold mb-4 text-slate-900">Únete a la Base de Datos</h2>
-            <p class="text-slate-500 text-sm mb-8">Recibe notificaciones cuando publiquemos nuevas herramientas y videos de Arquitectura Legal AI.</p>
+            <p class="text-slate-600 mb-8">Recibe notificaciones cuando publiquemos nuevas herramientas y videos de Arquitectura Legal AI.</p>
             
             <div class="flex flex-col gap-3 max-w-sm mx-auto text-left">
-                <input type="text" id="member-name" placeholder="Tu nombre completo" class="bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-indigo-400">
-                <input type="email" id="member-email" placeholder="Tu correo electrónico" class="bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm outline-none focus:border-indigo-400">
-                <button onclick="registerLead()" id="register-btn" class="bg-indigo-600 text-white px-4 py-3 rounded-lg text-sm font-bold hover:bg-indigo-500 shadow-sm transition-all mt-2">Unirme al Lab</button>
-                <p id="register-status" class="text-xs mt-2 text-center text-emerald-600 font-medium"></p>
+                <label for="member-name" class="sr-only">Tu nombre completo</label>
+                <input type="text" id="member-name" autocomplete="name" placeholder="Tu nombre completo" class="bg-white border border-slate-300 rounded-lg px-4 py-3 text-base md:text-sm outline-none focus:border-indigo-400">
+                <label for="member-email" class="sr-only">Tu correo electrónico</label>
+                <input type="email" id="member-email" autocomplete="email" placeholder="Tu correo electrónico" class="bg-white border border-slate-300 rounded-lg px-4 py-3 text-base md:text-sm outline-none focus:border-indigo-400">
+                <button onclick="registerLead()" id="register-btn" class="bg-indigo-600 text-white px-4 min-h-[48px] rounded-lg text-sm font-bold hover:bg-indigo-700 shadow-sm transition-colors mt-2 disabled:opacity-60">Unirme al Lab</button>
+                <p id="register-status" role="status" class="text-xs mt-2 text-center text-emerald-700 font-medium"></p>
             </div>
 
             <div class="mt-16 pt-8 border-t border-slate-200">
-                <p class="text-slate-400 text-xs tracking-widest uppercase font-bold">Bogotá, 2026 · DataLex Lab</p>
-                <p class="text-slate-400 text-[10px] mt-2">Juan Pablo Lopez Mejia</p>
+                <p class="text-slate-500 text-xs tracking-widest uppercase font-bold">Bogotá, 2026 · DataLex Lab</p>
+                <p class="text-slate-500 text-xs mt-2">Juan Pablo Lopez Mejia</p>
             </div>
         </div>
     </footer>
@@ -344,8 +408,48 @@
         // =========================================================================
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxWpbEkRN6DDDqRlrcElUpI0wm8qJPRoAJ6cpWUm-5rNwhmnnox85ATkGq--ztwgh5h5w/exec"; 
         
+        // Menú móvil: antes, por debajo de 768 px la navegación desaparecía entera.
+        function initMenuMovil() {
+            const btn = document.getElementById('menu-btn');
+            const menu = document.getElementById('menu-movil');
+            if (!btn || !menu) return;
+            const cerrar = () => {
+                menu.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
+                btn.setAttribute('aria-label', 'Abrir menú');
+            };
+            btn.addEventListener('click', () => {
+                const abrir = menu.classList.contains('hidden');
+                menu.classList.toggle('hidden', !abrir);
+                btn.setAttribute('aria-expanded', String(abrir));
+                btn.setAttribute('aria-label', abrir ? 'Cerrar menú' : 'Abrir menú');
+            });
+            menu.querySelectorAll('a').forEach(a => a.addEventListener('click', cerrar));
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') { cerrar(); btn.focus(); } });
+        }
+
+        // Marca en el menú la sección que se está leyendo.
+        function initSeccionActiva() {
+            const enlaces = [...document.querySelectorAll('.nav-link')];
+            const secciones = ['inicio', 'pilares', 'bitacora', 'proyectos', 'agora']
+                .map(id => document.getElementById(id)).filter(Boolean);
+            if (!('IntersectionObserver' in window) || !secciones.length) return;
+            const obs = new IntersectionObserver(entradas => {
+                entradas.forEach(en => {
+                    if (!en.isIntersecting) return;
+                    enlaces.forEach(a => {
+                        if (a.getAttribute('href') === '#' + en.target.id) a.setAttribute('aria-current', 'true');
+                        else a.removeAttribute('aria-current');
+                    });
+                });
+            }, { rootMargin: '-40% 0px -55% 0px' });
+            secciones.forEach(sec => obs.observe(sec));
+        }
+
         // Inicialización General
         window.addEventListener('DOMContentLoaded', () => {
+            initMenuMovil();
+            initSeccionActiva();
             initRadarChart();
             cargarStatsProyectoSecop();
             // La Bitácora ya no depende de Google Script: los artículos son
@@ -370,10 +474,10 @@
                 const totalAcumulado = r.muestra.acumulados_total ?? r.muestra.limpios ?? r.muestra.ingeridos ?? 0;
                 el.innerHTML = `
                     <span>${totalAcumulado.toLocaleString('es-CO')} contratos analizados</span>
-                    <span class="text-red-500">${r.modelo.red_flags} red flags</span>
+                    <span class="text-red-600">${r.modelo.red_flags} red flags</span>
                 `;
             } catch (error) {
-                el.innerHTML = '<span class="italic text-slate-400 font-normal">Ver cifras actualizadas en el dashboard →</span>';
+                el.innerHTML = '<span class="italic text-slate-500 font-normal">Ver cifras actualizadas en el dashboard →</span>';
             }
         }
 
@@ -441,29 +545,30 @@
 
                 data.forEach(item => {
                     const card = document.createElement('div');
-                    card.className = "group bg-slate-800 rounded-3xl p-8 hover:bg-slate-700 transition-all border border-slate-700 hover:border-indigo-500 flex flex-col";
+                    card.className = "group relative bg-slate-800 rounded-3xl p-6 md:p-8 hover:bg-slate-700 transition-colors border border-slate-700 hover:border-indigo-400 flex flex-col";
 
-                    const iconType = (item.tipo && item.tipo.toLowerCase() === 'video') ? '▶' : '📄';
+                    const esVideo = item.tipo && item.tipo.toLowerCase() === 'video';
+                    const icono = esVideo ? `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>` : `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M8 13h8M8 17h8M8 9h2"/></svg>`;
                     const fechaDisplay = esc(item.fecha || "Próximamente");
 
                     card.innerHTML = `
                         <div class="flex justify-between items-start mb-6">
-                            <div class="w-12 h-12 bg-white text-slate-900 rounded-full flex items-center justify-center text-xl font-bold shadow-lg group-hover:scale-110 transition-transform">
-                                ${iconType}
+                            <div class="w-11 h-11 bg-white text-slate-900 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform motion-reduce:transition-none">
+                                ${icono}
                             </div>
-                            <span class="text-[10px] text-slate-300 font-bold bg-slate-900 px-3 py-1.5 rounded-full border border-slate-700 tracking-wider">
+                            <span class="text-xs text-slate-300 font-bold bg-slate-900 px-3 py-1.5 rounded-full border border-slate-700 tracking-wider">
                                 ${fechaDisplay}
                             </span>
                         </div>
-                        <span class="text-cyan-400 text-[10px] font-bold uppercase tracking-widest">${esc(item.etiqueta || 'Sesión')}</span>
-                        <h4 class="text-xl font-serif font-bold mt-2 mb-3 text-white">${esc(item.titulo || 'Sin título')}</h4>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">${esc(item.descripcion || '')}</p>
-                        <a href="${esc(item.ruta || '#')}" class="inline-block text-indigo-400 text-xs font-bold hover:text-indigo-300 uppercase tracking-wider mt-auto">Acceder ➔</a>
+                        <span class="text-cyan-300 text-xs font-bold uppercase tracking-widest">${esc(item.etiqueta || 'Sesión')}</span>
+                        <h3 class="text-xl font-serif font-bold mt-2 mb-3 text-white clamp-3"><a href="${esc(item.ruta || '#')}" class="card-link">${esc(item.titulo || 'Sin título')}</a></h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6 flex-grow clamp-3">${esc(item.descripcion || '')}</p>
+                        <span class="inline-flex items-center gap-2 text-indigo-300 text-xs font-bold uppercase tracking-wider mt-auto" aria-hidden="true">Leer <span class="group-hover:translate-x-1 transition-transform motion-reduce:transition-none"><svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
                     `;
                     grid.appendChild(card);
                 });
             } catch (error) {
-                grid.innerHTML = `<div class="text-red-400 italic py-10 col-span-3 text-sm">Error al cargar la bitácora.</div>`;
+                grid.innerHTML = `<div class="text-red-300 italic py-10 col-span-3 text-sm" role="alert">No se pudo cargar la bitácora. Recarga la página en un momento.</div>`;
             }
         }
 
@@ -478,7 +583,7 @@
                 count.innerText = data.length;
 
                 if (data.length === 0) {
-                    feed.innerHTML = `<div class="text-slate-400 text-sm italic text-center mt-10">Sé el primero en iniciar la conversación.</div>`;
+                    feed.innerHTML = `<div class="text-slate-500 text-sm italic text-center mt-10">Sé el primero en iniciar la conversación.</div>`;
                     return;
                 }
 
@@ -486,7 +591,7 @@
                     // Nombre, rol y mensaje los escribe cualquier visitante: sin escapar, un
                     // comentario con `<img onerror=…>` corría en el navegador de todos los
                     // que abrieran la página (encontrado el 29-09).
-                    const rol = item.rol ? `<span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded uppercase tracking-wider ml-2">${esc(item.rol)}</span>` : '';
+                    const rol = item.rol ? `<span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded uppercase tracking-wider ml-2">${esc(item.rol)}</span>` : '';
                     const commentEl = document.createElement('div');
                     commentEl.className = "border-b border-slate-100 pb-5 last:border-0 fade-in";
                     commentEl.innerHTML = `
@@ -496,15 +601,15 @@
                             </div>
                             <div>
                                 <p class="text-sm font-bold text-slate-800 flex items-center">${esc(item.nombre || 'Anónimo')} ${rol}</p>
-                                <p class="text-[10px] text-slate-400">${esc(item.fecha || '')}</p>
+                                <p class="text-xs text-slate-500">${esc(item.fecha || '')}</p>
                             </div>
                         </div>
-                        <p class="text-sm text-slate-600 leading-relaxed pl-11">${esc(item.mensaje || '')}</p>
+                        <p class="text-sm text-slate-700 leading-relaxed pl-11">${esc(item.mensaje || '')}</p>
                     `;
                     feed.appendChild(commentEl);
                 });
             } catch (error) {
-                feed.innerHTML = `<div class="text-red-400 text-sm italic">No se pudieron cargar los comentarios.</div>`;
+                feed.innerHTML = `<div class="text-red-600 text-sm italic">No se pudieron cargar los comentarios.</div>`;
             }
         }
 
@@ -607,7 +712,7 @@
             input.value = "";
             btn.disabled = true; btn.innerText = "...";
 
-            chat.innerHTML += `<div class="text-right mb-4 fade-in"><div class="bg-indigo-600 text-white p-3 rounded-2xl inline-block max-w-[85%] border border-indigo-500 text-left">${userText}</div></div>`;
+            chat.innerHTML += `<div class="text-right mb-4 fade-in"><div class="bg-indigo-600 text-white p-3 rounded-2xl inline-block max-w-[85%] border border-indigo-500 text-left">${esc(userText)}</div></div>`;
             chat.scrollTop = chat.scrollHeight;
 
             try {
@@ -619,7 +724,7 @@
                 const data = await res.json();
                 const responseText = data.candidates[0].content.parts[0].text;
 
-                chat.innerHTML += `<div class="mb-4 fade-in"><div class="bg-slate-700 p-4 rounded-2xl border border-slate-600 inline-block max-w-[85%]">${responseText.replace(/\n/g, '<br>')}</div></div>`;
+                chat.innerHTML += `<div class="mb-4 fade-in"><div class="bg-slate-700 p-4 rounded-2xl border border-slate-600 inline-block max-w-[85%]">${esc(responseText).replace(/\n/g, '<br>')}</div></div>`;
             } catch (e) {
                 chat.innerHTML += `<div class="mb-4 fade-in"><div class="bg-red-900/50 text-red-200 p-3 rounded-2xl border border-red-800">Error: Verifica tu API Key.</div></div>`;
             } finally {
