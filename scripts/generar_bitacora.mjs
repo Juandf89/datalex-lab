@@ -487,7 +487,12 @@ async function renderBloque(bloque, ctx) {
       // id derivado del texto para poder enlazar a una sección concreta.
       const id = slugificar(textoPlano(datos.rich_text));
       const clase = nivel === "1" ? C.h1 : nivel === "2" ? C.h2 : C.h3;
-      return `<h${nivel} id="${escaparHtml(id)}" class="${clase}">${html}</h${nivel}>`;
+      // La página ya tiene su <h1> (el título del artículo, en la plantilla), así
+      // que los encabezados de Notion bajan un nivel: el "Encabezado 1" de Notion
+      // es un <h2>, el 2 un <h3> y el 3 un <h4>. El tamaño visual sigue el nivel
+      // de Notion (clase `clase`), no la etiqueta.
+      const etiqueta = `h${Number(nivel) + 1}`;
+      return `<${etiqueta} id="${escaparHtml(id)}" class="${clase}">${html}</${etiqueta}>`;
     }
     case "quote": {
       const html = renderRichText(datos.rich_text, ctx.mapaSlugs);
@@ -677,6 +682,7 @@ function plantillaArticulo(art) {
     <meta name="description" content="${escaparHtml(art.descripcion)}">
     <meta name="author" content="${escaparHtml(art.autor)}">
     <link rel="canonical" href="${escaparHtml(urlCanonica)}">
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="${NOMBRE_SITIO}">
@@ -726,17 +732,34 @@ function plantillaArticulo(art) {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        /* Foco visible para quien navega con teclado, enlace para saltar la barra
+           y movimiento reducido. */
+        :focus-visible { outline: 2px solid #a5b4fc; outline-offset: 3px; }
+        .skip-link {
+            position: absolute; left: 1rem; top: -4rem; z-index: 100;
+            background: #4f46e5; color: #fff; padding: .75rem 1rem; border-radius: .75rem;
+            font-weight: 700; font-size: .875rem; transition: top .15s ease;
+        }
+        .skip-link:focus { top: 1rem; }
+        h1, h2, h3, h4 { text-wrap: balance; }
+        @media (prefers-reduced-motion: reduce) {
+            html, body { scroll-behavior: auto !important; }
+            *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-indigo-500 selection:text-white">
 
-    <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-700">
-        <div class="max-w-3xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="font-serif font-bold text-lg text-white">DataLex <span class="gradient-text">Lab</span></a>
-            <a href="/#bitacora" class="text-slate-400 hover:text-indigo-400 text-xs font-bold uppercase tracking-widest transition-colors">&#8592; Bitácora</a>
+    <a href="#contenido" class="skip-link">Saltar al contenido</a>
+
+    <nav class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-700" aria-label="Principal">
+        <div class="max-w-3xl mx-auto px-6 py-2 flex justify-between items-center">
+            <a href="/" class="inline-flex items-center min-h-[44px] font-serif font-bold text-lg text-white" aria-label="DataLex Lab, inicio">DataLex <span class="gradient-text ml-1">Lab</span></a>
+            <a href="/#bitacora" class="inline-flex items-center min-h-[44px] text-slate-300 hover:text-indigo-300 text-xs font-bold uppercase tracking-widest transition-colors">&#8592; Bitácora</a>
         </div>
     </nav>
 
+    <main id="contenido">
     <article class="max-w-3xl mx-auto px-6 py-16 md:py-24">
         <header class="mb-12">
             <span class="text-cyan-400 text-xs font-bold uppercase tracking-widest">${escaparHtml(art.etiqueta)}</span>
@@ -754,10 +777,11 @@ ${art.cuerpo}
         </div>
 
         <footer class="mt-16 pt-8 border-t border-slate-700">
-            <a href="/#bitacora" class="inline-block text-indigo-400 hover:text-indigo-300 text-xs font-bold uppercase tracking-wider">&#8592; Volver a la Bitácora</a>
-            <p class="text-slate-500 text-[10px] mt-6 tracking-widest uppercase font-bold">Bogotá, 2026 · ${NOMBRE_SITIO}</p>
+            <a href="/#bitacora" class="inline-flex items-center min-h-[44px] text-indigo-300 hover:text-indigo-200 text-xs font-bold uppercase tracking-wider">&#8592; Volver a la Bitácora</a>
+            <p class="text-slate-400 text-xs mt-4 tracking-widest uppercase font-bold">Bogotá, 2026 · ${NOMBRE_SITIO}</p>
         </footer>
     </article>
+    </main>
 
 </body>
 </html>
