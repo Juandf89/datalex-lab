@@ -89,9 +89,8 @@
         /* Anillo de foco visible. Los campos usaban `outline-none` y sin nada que lo
            reemplazara, así que quien navega con teclado no veía dónde estaba. */
         :focus-visible { outline: 2px solid #4f46e5; outline-offset: 2px; }
-        .on-dark :focus-visible, #bitacora :focus-visible, #ai-lab :focus-visible { outline-color: #a5b4fc; }
+        .on-dark :focus-visible, #bitacora :focus-visible { outline-color: #a5b4fc; }
         input:focus-visible, textarea:focus-visible { outline: 2px solid #4f46e5; outline-offset: 0; }
-        #ai-lab input:focus-visible { outline-color: #a5b4fc; }
 
         .skip-link {
             position: absolute; left: 1rem; top: -4rem; z-index: 100;
@@ -118,9 +117,9 @@
             *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
         }
 
-        #chat-response::-webkit-scrollbar, #comments-feed::-webkit-scrollbar { width: 4px; }
-        #chat-response::-webkit-scrollbar-track, #comments-feed::-webkit-scrollbar-track { background: transparent; }
-        #chat-response::-webkit-scrollbar-thumb, #comments-feed::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        #comments-feed::-webkit-scrollbar { width: 4px; }
+        #comments-feed::-webkit-scrollbar-track { background: transparent; }
+        #comments-feed::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
@@ -345,35 +344,6 @@
                     <div id="comments-feed" class="flex-grow overflow-y-auto space-y-6 pr-2" tabindex="0" role="region" aria-label="Voces recientes" aria-live="polite">
                         <div class="text-slate-500 text-sm italic text-center mt-10">Cargando comunidad…</div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="ai-lab" class="py-24 bg-white text-left">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-3xl font-serif font-bold mb-2 italic">Laboratorio Experimental</h2>
-            <p class="text-slate-600 mb-10">Prototipa ideas de ingeniería legal con Gemini AI.</p>
-            
-            <div class="bg-slate-900 rounded-3xl p-5 md:p-8 shadow-2xl">
-                <div class="mb-6 text-left">
-                    <label for="api-key" class="text-xs uppercase tracking-widest text-slate-300 font-bold mb-2 block">Paso 1: Configura tu acceso</label>
-                    <input type="password" id="api-key" autocomplete="off" placeholder="Pega tu API Key de Google Gemini aquí..." class="w-full bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 text-white text-base md:text-sm focus:border-indigo-500 outline-none">
-                    <p class="text-xs text-slate-300 mt-2">
-                        ¿No tienes una? <a href="https://aistudio.google.com/" target="_blank" rel="noopener" class="text-indigo-300 underline underline-offset-2 hover:text-white">Obtén una clave gratuita en Google AI Studio ➔</a> (No la guardamos, es solo para esta sesión).
-                    </p>
-                </div>
-                
-                <div id="chat-response" role="log" aria-live="polite" aria-label="Conversación con el asistente" tabindex="0" class="h-64 bg-slate-800 rounded-2xl p-6 overflow-y-auto mb-4 text-sm text-slate-300 space-y-4">
-                    <div class="bg-slate-700 p-4 rounded-xl inline-block max-w-[85%] border border-slate-600">
-                        Hola. Soy el asistente del Lab de Ingeniería Legal. Configura tu API Key arriba y dime qué quieres construir hoy.
-                    </div>
-                </div>
-
-                <div class="flex gap-2">
-                    <label for="user-prompt" class="sr-only">Tu consulta</label>
-                    <input type="text" id="user-prompt" placeholder="Escribe tu consulta técnica o prompt..." class="flex-grow min-w-0 bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 text-white outline-none text-base md:text-sm">
-                    <button onclick="askAI()" id="send-btn" aria-label="Enviar consulta" class="bg-indigo-600 px-6 min-h-[48px] rounded-xl font-bold hover:bg-indigo-500 transition-colors text-white disabled:opacity-60">➔</button>
                 </div>
             </div>
         </div>
@@ -696,39 +666,6 @@
                 status.innerText = "Error de conexión.";
             } finally {
                 btn.innerText = "Unirme al Lab"; btn.disabled = false;
-            }
-        }
-
-        async function askAI() {
-            const apiKey = document.getElementById('api-key').value;
-            const input = document.getElementById('user-prompt');
-            const chat = document.getElementById('chat-response');
-            const btn = document.getElementById('send-btn');
-
-            if (!apiKey) { alert("Configura tu API Key primero."); return; }
-            if (!input.value) return;
-
-            const userText = input.value;
-            input.value = "";
-            btn.disabled = true; btn.innerText = "...";
-
-            chat.innerHTML += `<div class="text-right mb-4 fade-in"><div class="bg-indigo-600 text-white p-3 rounded-2xl inline-block max-w-[85%] border border-indigo-500 text-left">${esc(userText)}</div></div>`;
-            chat.scrollTop = chat.scrollHeight;
-
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: `Eres un experto de DataLex Lab (Comunidad LegalTech en Bogotá). Responde a: ${userText}` }] }] })
-                });
-                const data = await res.json();
-                const responseText = data.candidates[0].content.parts[0].text;
-
-                chat.innerHTML += `<div class="mb-4 fade-in"><div class="bg-slate-700 p-4 rounded-2xl border border-slate-600 inline-block max-w-[85%]">${esc(responseText).replace(/\n/g, '<br>')}</div></div>`;
-            } catch (e) {
-                chat.innerHTML += `<div class="mb-4 fade-in"><div class="bg-red-900/50 text-red-200 p-3 rounded-2xl border border-red-800">Error: Verifica tu API Key.</div></div>`;
-            } finally {
-                btn.disabled = false; btn.innerText = "➔"; chat.scrollTop = chat.scrollHeight;
             }
         }
     </script>
