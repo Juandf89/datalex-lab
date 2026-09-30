@@ -52,6 +52,21 @@
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        section[id], header[id] { scroll-margin-top: 72px; }
+        :focus-visible { outline: 2px solid #4f46e5; outline-offset: 2px; }
+        #red-flags :focus-visible { outline-color: #a5b4fc; }
+        input:focus-visible { outline-offset: 0; }
+        .skip-link {
+            position: absolute; left: 1rem; top: -4rem; z-index: 100;
+            background: #4f46e5; color: #fff; padding: .75rem 1rem; border-radius: .75rem;
+            font-weight: 700; font-size: .875rem; transition: top .15s ease;
+        }
+        .skip-link:focus { top: 1rem; }
+        h1, h2, h3, h4 { text-wrap: balance; }
+        @media (prefers-reduced-motion: reduce) {
+            html, body { scroll-behavior: auto !important; }
+            *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+        }
         .skeleton {
             background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 37%, #e2e8f0 63%);
             background-size: 400% 100%;
@@ -65,37 +80,54 @@
 </head>
 <body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
 
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-xl font-bold tracking-tight flex items-center gap-2">
-                <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white text-xs italic">DL</div>
-                <span>DataLex <span class="font-light text-slate-400">Lab</span></span>
+    <a href="#contenido" class="skip-link">Saltar al contenido</a>
+
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200" aria-label="Principal">
+        <div class="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center gap-4">
+            <a href="index.html" class="text-xl font-bold tracking-tight flex items-center gap-2" aria-label="DataLex Lab, volver al inicio">
+                <span class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white text-xs italic" aria-hidden="true">DL</span>
+                <span class="whitespace-nowrap">DataLex <span class="font-light text-slate-500">Lab</span></span>
             </a>
-            <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
-                <a href="index.html#proyectos" class="hover:text-indigo-600 transition-colors">Proyectos</a>
-                <a href="#resumen" class="hover:text-indigo-600 transition-colors">Resumen</a>
-                <a href="#expediente" class="hover:text-indigo-600 transition-colors">Expediente</a>
-                <a href="#red-flags" class="hover:text-indigo-600 transition-colors">Red Flags</a>
-                <a href="#sectores" class="hover:text-indigo-600 transition-colors">Sectores</a>
+            <div class="hidden lg:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                <a href="index.html#proyectos" class="hover:text-indigo-600 transition-colors py-2">Proyectos</a>
+                <a href="#resumen" class="hover:text-indigo-600 transition-colors py-2">Resumen</a>
+                <a href="#expediente" class="hover:text-indigo-600 transition-colors py-2">Expediente</a>
+                <a href="#red-flags" class="hover:text-indigo-600 transition-colors py-2">Alertas</a>
+                <a href="#sectores" class="hover:text-indigo-600 transition-colors py-2">Sectores</a>
+                <a href="#concentracion" class="hover:text-indigo-600 transition-colors py-2">Proveedores</a>
             </div>
-            <a href="https://github.com/Juandf89/datalex-lab" target="_blank" class="bg-indigo-600 text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-indigo-700 transition-all uppercase tracking-wider">Ver Repo</a>
+            <div class="flex items-center gap-2">
+                <a href="https://github.com/Juandf89/datalex-lab" target="_blank" rel="noopener" class="inline-flex items-center min-h-[44px] px-5 rounded-full border border-slate-300 text-slate-700 hover:border-indigo-400 hover:text-indigo-700 transition-colors text-xs font-bold uppercase tracking-wider">Código<span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+                <button type="button" id="menu-btn" class="lg:hidden w-11 h-11 inline-flex items-center justify-center rounded-full text-slate-700 hover:bg-slate-100" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+            </div>
+        </div>
+        <div id="menu-movil" class="lg:hidden hidden border-t border-slate-200 bg-white px-6 pb-4">
+            <a href="index.html#proyectos" class="block py-3 text-sm font-semibold text-slate-700">Proyectos</a>
+            <a href="#resumen" class="block py-3 text-sm font-semibold text-slate-700">Resumen</a>
+            <a href="#expediente" class="block py-3 text-sm font-semibold text-slate-700">Expediente</a>
+            <a href="#red-flags" class="block py-3 text-sm font-semibold text-slate-700">Alertas</a>
+            <a href="#sectores" class="block py-3 text-sm font-semibold text-slate-700">Sectores</a>
+            <a href="#concentracion" class="block py-3 text-sm font-semibold text-slate-700">Proveedores</a>
         </div>
     </nav>
 
-    <header id="inicio" class="max-w-4xl mx-auto px-6 pt-24 pb-12 text-left">
-        <span class="text-cyan-600 text-xs font-bold uppercase tracking-widest">LegalTech · Contract Lifecycle Management</span>
+    <main id="contenido">
+    <header id="inicio" class="max-w-4xl mx-auto px-6 pt-16 md:pt-24 pb-12 text-left">
+        <span class="text-cyan-700 text-xs font-bold uppercase tracking-widest">LegalTech · Contract Lifecycle Management</span>
         <h1 class="text-4xl md:text-5xl font-serif font-bold leading-tight mt-4 mb-6 text-slate-900">
             Auditoría automatizada <span class="gradient-text italic">SECOP II</span>
         </h1>
-        <p class="text-lg text-slate-600 leading-relaxed max-w-2xl">
+        <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl">
             Analizamos la contratación pública reportada en
-            <a href="https://www.datos.gov.co" target="_blank" class="text-indigo-600 hover:underline">Datos Abiertos Colombia</a>
+            <a href="https://www.datos.gov.co" target="_blank" rel="noopener" class="text-indigo-700 underline underline-offset-2 hover:text-indigo-900">Datos Abiertos Colombia</a>
             y señalamos automáticamente los contratos que se salen del comportamiento normal —
             plazos que se estiran mucho más de lo esperado, valores fuera de lo común para su sector,
             o duraciones atípicas — para que puedas revisarlos antes de que se conviertan en un problema.
             Los datos se actualizan solos cada hora con la información más reciente.
         </p>
-        <p id="meta-generacion" class="text-xs text-slate-400 mt-6 uppercase tracking-wider font-semibold">Cargando última actualización…</p>
+        <p id="meta-generacion" role="status" class="text-xs text-slate-600 mt-6 uppercase tracking-wider font-semibold">Cargando última actualización…</p>
     </header>
 
     <section id="resumen" class="max-w-6xl mx-auto px-6 pb-20">
@@ -106,48 +138,51 @@
 
     <section id="expediente" class="max-w-6xl mx-auto px-6 pb-24">
         <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Buscar entidad o contrato</h2>
-        <p class="text-slate-500 mb-6 text-sm max-w-2xl">
+        <p class="text-slate-600 mb-6 max-w-2xl">
             Escribe el nombre de una entidad contratante o un ID de contrato para explorar su expediente —
             en vez de solo mirar los agregados de arriba.
         </p>
         <div class="relative max-w-xl">
-            <input id="buscador-input" type="text" autocomplete="off"
+            <label for="buscador-input" class="sr-only">Entidad contratante o ID de contrato</label>
+            <input id="buscador-input" type="search" autocomplete="off"
+                   aria-controls="buscador-sugerencias" aria-expanded="false"
                    placeholder="Ej. INVIAS, DEPARTAMENTO DE CORDOBA, CO1.PCCNTR..."
-                   class="w-full border border-slate-300 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                   class="w-full border border-slate-300 rounded-2xl px-5 min-h-[48px] text-base md:text-sm focus:border-indigo-500">
             <div id="buscador-sugerencias"
                  class="absolute z-10 w-full bg-white border border-slate-200 rounded-2xl mt-2 shadow-lg overflow-hidden hidden">
             </div>
         </div>
         <div class="mt-3">
-            <button onclick="limpiarDatos()" class="text-xs font-semibold text-slate-500 hover:text-slate-700 inline-flex items-center gap-1.5">
-                <span>🧹</span> Limpiar búsqueda y filtros
+            <button type="button" onclick="limpiarDatos()" class="text-sm font-semibold text-slate-600 hover:text-slate-900 inline-flex items-center gap-2 min-h-[44px]">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Limpiar búsqueda y filtros
             </button>
         </div>
-        <div id="filtro-activo" class="mt-4 hidden">
+        <div id="filtro-activo" class="mt-4 hidden" role="status">
             <span class="inline-flex items-center gap-2 bg-indigo-50 text-indigo-700 text-xs font-semibold px-4 py-2 rounded-full">
                 <span id="filtro-activo-texto"></span>
-                <button onclick="quitarSeleccion()" class="text-indigo-400 hover:text-indigo-700 font-bold">✕ Ver todos</button>
+                <button type="button" onclick="quitarSeleccion()" class="text-indigo-700 hover:text-indigo-900 font-bold inline-flex items-center gap-1.5 min-h-[32px]"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg> Ver todos</button>
             </span>
         </div>
-        <div id="expediente-card" class="mt-6"></div>
+        <div id="expediente-card" class="mt-6" aria-live="polite"></div>
 
         <div class="mt-16">
             <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
                 <div>
                     <h3 class="text-2xl font-serif font-bold mb-2 text-slate-900">Benchmarking: valor vs. duración</h3>
-                    <p class="text-slate-500 text-sm max-w-2xl">
+                    <p class="text-slate-600 text-sm max-w-2xl">
                         Cada punto es un contrato de la muestra. Sirve para calibrar si un presupuesto o un plazo
                         propuesto está dentro de lo históricamente adjudicado en ese sector.
                     </p>
                 </div>
+                <label for="benchmark-sector-select" class="sr-only">Filtrar el gráfico por sector</label>
                 <select id="benchmark-sector-select"
-                        class="border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="w-full sm:w-auto max-w-full border border-slate-300 rounded-xl px-3 min-h-[44px] text-sm font-semibold text-slate-700 focus:border-indigo-500">
                     <option value="">Todos los sectores</option>
                 </select>
             </div>
             <div class="bg-slate-50 rounded-3xl border border-slate-200 p-6">
                 <div class="chart-container" style="height: 420px;">
-                    <canvas id="benchmarkChart"></canvas>
+                    <canvas id="benchmarkChart" role="img" aria-label="Gráfico de dispersión: duración en días frente al valor de cada contrato de la muestra, agrupado por sector. Sirve para comparar un presupuesto o un plazo con lo histórico."></canvas>
                 </div>
             </div>
         </div>
@@ -157,7 +192,7 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-10 text-left">
                 <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">Alertas de alto riesgo</h2>
-                <p class="text-slate-400 max-w-2xl text-sm leading-relaxed">
+                <p class="text-slate-300 max-w-2xl leading-relaxed">
                     Contratos que combinan dos señales de alerta a la vez: su comportamiento se sale de lo normal
                     para su sector (plazo, valor y duración muy distintos a contratos similares)
                     <strong class="text-slate-200">y</strong> ya acumulan más de 365 días de plazo adicionado —
@@ -167,11 +202,11 @@
 
             <div class="bg-slate-800/60 rounded-3xl border border-slate-700 p-6 mb-8">
                 <div class="chart-container" style="height: 380px;">
-                    <canvas id="redFlagsChart"></canvas>
+                    <canvas id="redFlagsChart" role="img" aria-label="Gráfico de dispersión de las alertas de alto riesgo: valor del contrato frente a días de plazo adicionado. El detalle de cada contrato está en la lista de abajo."></canvas>
                 </div>
             </div>
             <div id="red-flags-list" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                <div class="col-span-full text-slate-500 italic text-sm">Cargando contratos de alto riesgo…</div>
+                <div class="col-span-full text-slate-300 italic text-sm" role="status">Cargando contratos de alto riesgo…</div>
             </div>
         </div>
     </section>
@@ -179,13 +214,13 @@
     <section id="sectores" class="py-24 bg-white">
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Concentración por sector</h2>
-            <p class="text-slate-500 mb-10 text-sm max-w-2xl">
+            <p class="text-slate-600 mb-10 max-w-2xl">
                 Cuánto dinero se ha adjudicado en cada sector. Útil para ver dónde se concentra realmente
                 el gasto público — y comparar si el sector que te interesa mueve más o menos de lo que esperabas.
             </p>
             <div class="bg-slate-50 rounded-3xl border border-slate-200 p-8">
                 <div class="chart-container" style="height: 420px;">
-                    <canvas id="sectorChart"></canvas>
+                    <canvas id="sectorChart" role="img" aria-label="Gráfico de barras con el valor total adjudicado en los principales sectores."></canvas>
                 </div>
             </div>
         </div>
@@ -194,24 +229,26 @@
     <section id="concentracion" class="py-24 bg-slate-100/50 border-y border-slate-200">
         <div class="max-w-2xl mx-auto px-6">
             <h2 class="text-3xl font-serif font-bold mb-2 text-slate-900">Riesgo de concentración</h2>
-            <p class="text-slate-500 mb-2 text-sm">Top 10 proveedores que se llevan varios contratos (mínimo 2) por un valor total significativo — señal de riesgo de monopolio o favoritismo. Un solo contrato grande no cuenta, sin importar su valor.</p>
-            <p id="proveedores-nota" class="text-indigo-600 text-xs font-semibold mb-6 hidden"></p>
+            <p class="text-slate-600 mb-2">Top 10 proveedores que se llevan varios contratos (mínimo 2) por un valor total significativo — señal de riesgo de monopolio o favoritismo. Un solo contrato grande no cuenta, sin importar su valor.</p>
+            <p id="proveedores-nota" class="text-indigo-700 text-xs font-semibold mb-6 hidden" role="status"></p>
             <div class="bg-white rounded-3xl border border-slate-200 p-6">
-                <div class="chart-container" style="height: 420px;"><canvas id="proveedoresChart"></canvas></div>
+                <div class="chart-container" style="height: 420px;"><canvas id="proveedoresChart" role="img" aria-label="Gráfico de barras con los diez proveedores que concentran más valor en varios contratos."></canvas></div>
             </div>
         </div>
     </section>
 
+    </main>
+
     <footer class="bg-slate-50 py-16 border-t border-slate-200 text-center">
         <div class="max-w-xl mx-auto px-6">
-            <p class="text-slate-500 text-sm mb-4">
+            <p class="text-slate-600 text-sm mb-4">
                 Los datos se actualizan solos cada hora desde Datos Abiertos Colombia.
                 Metodología completa, notebook y código fuente en el repositorio.
             </p>
-            <a href="https://github.com/Juandf89/datalex-lab" target="_blank" class="text-indigo-600 text-sm font-bold hover:underline">Ver repositorio en GitHub ➔</a>
+            <a href="https://github.com/Juandf89/datalex-lab" target="_blank" rel="noopener" class="text-indigo-700 text-sm font-bold hover:underline">Ver repositorio en GitHub →</a>
             <div class="mt-12 pt-8 border-t border-slate-200">
-                <p class="text-slate-400 text-xs tracking-widest uppercase font-bold">Bogotá, 2026 · DataLex Lab</p>
-                <p class="text-slate-400 text-[10px] mt-2">Juan Pablo Lopez Mejia</p>
+                <p class="text-slate-500 text-xs tracking-widest uppercase font-bold">Bogotá, 2026 · DataLex Lab</p>
+                <p class="text-slate-500 text-xs mt-2">Juan Pablo Lopez Mejia</p>
             </div>
         </div>
     </footer>
@@ -297,8 +334,8 @@
             return `
                 <div class="bg-white rounded-2xl border border-slate-200 p-6 fade-in hover:shadow-md hover:-translate-y-0.5 hover:border-indigo-200 transition-all">
                     <p class="text-3xl font-serif font-bold ${acento}">${esc(valor)}</p>
-                    <p class="text-xs text-slate-500 mt-2 uppercase tracking-wider font-semibold">${esc(etiqueta)}</p>
-                    ${subtitulo ? `<p class="text-[11px] text-slate-400 mt-1">${esc(subtitulo)}</p>` : ''}
+                    <p class="text-xs text-slate-600 mt-2 uppercase tracking-wider font-semibold">${esc(etiqueta)}</p>
+                    ${subtitulo ? `<p class="text-xs text-slate-500 mt-1">${esc(subtitulo)}</p>` : ''}
                 </div>`;
         }
 
@@ -333,19 +370,19 @@
                 cards.innerHTML = [
                     tarjeta(totalAcumulado.toLocaleString('es-CO'), 'Contratos analizados (acumulado)', 'text-slate-900', rangoFechas),
                     tarjeta(entidadesDistintas != null ? entidadesDistintas.toLocaleString('es-CO') : '—', 'Entidades que puedes buscar', 'text-indigo-600'),
-                    tarjeta(valorTotalAcumulado != null ? formatoCOP(valorTotalAcumulado) : '—', 'Valor total en la muestra (COP)', 'text-cyan-600', rangoFechas),
-                    tarjeta(sectoresDistintos != null ? sectoresDistintos.toLocaleString('es-CO') : '—', 'Sectores cubiertos', 'text-emerald-600'),
+                    tarjeta(valorTotalAcumulado != null ? formatoCOP(valorTotalAcumulado) : '—', 'Valor total en la muestra (COP)', 'text-cyan-700', rangoFechas),
+                    tarjeta(sectoresDistintos != null ? sectoresDistintos.toLocaleString('es-CO') : '—', 'Sectores cubiertos', 'text-emerald-700'),
                 ].join('');
             } catch (e) {
                 meta.textContent = 'No se pudo cargar el resumen. Verifica que la API estática esté publicada.';
-                cards.innerHTML = tarjeta('—', 'Datos no disponibles', 'text-slate-400');
+                cards.innerHTML = tarjeta('—', 'Datos no disponibles', 'text-slate-500');
             }
         }
 
         function pintarListaRedFlags(flags, filtroEtiqueta) {
             const lista = document.getElementById('red-flags-list');
             if (!flags.length) {
-                lista.innerHTML = `<div class="col-span-full text-slate-400 italic text-sm">${
+                lista.innerHTML = `<div class="col-span-full text-slate-300 italic text-sm">${
                     filtroEtiqueta
                         ? `${esc(filtroEtiqueta)} no tiene contratos marcados como alerta de alto riesgo en la muestra actual.`
                         : 'Sin contratos de alto riesgo en la muestra actual.'
@@ -356,10 +393,10 @@
                 <div class="bg-slate-800/60 border border-red-500/30 hover:border-red-400/60 hover:bg-slate-800 rounded-2xl p-5 fade-in transition-colors">
                     <div class="flex justify-between items-start gap-3 mb-2">
                         <span class="text-xs font-mono text-cyan-300">${esc(f.id_contrato)}</span>
-                        <span class="text-[10px] bg-red-500/20 text-red-300 px-2 py-1 rounded-full font-bold uppercase tracking-wider">Alerta</span>
+                        <span class="text-xs bg-red-500/20 text-red-200 px-2 py-1 rounded-full font-bold uppercase tracking-wider">Alerta</span>
                     </div>
                     <p class="font-bold text-white text-sm mb-1">${esc(f.nombre_entidad)}</p>
-                    <p class="text-slate-400 text-xs mb-3">${esc(f.sector)} · ${esc(f.anio)}</p>
+                    <p class="text-slate-300 text-xs mb-3">${esc(f.sector)} · ${esc(f.anio)}</p>
                     <div class="flex justify-between text-xs text-slate-300">
                         <span>${esc(formatoCOP(f.valor_del_contrato))} COP</span>
                         <span class="text-red-300 font-bold">${esc(f.desviacion_temporal_real)} días de plazo adicionado</span>
@@ -392,8 +429,8 @@
                     options: {
                         maintainAspectRatio: false,
                         scales: {
-                            x: { type: 'logarithmic', title: { display: true, text: 'Valor del contrato (COP)', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                            y: { title: { display: true, text: 'Días de plazo adicionado', color: '#94a3b8' }, ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            x: { type: 'logarithmic', title: { display: true, text: 'Valor del contrato (COP)', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            y: { title: { display: true, text: 'Días de plazo adicionado', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
                         },
                         plugins: {
                             legend: { labels: { color: '#cbd5e1' } },
@@ -406,7 +443,7 @@
                     },
                 });
             } catch (e) {
-                document.getElementById('red-flags-list').innerHTML = '<div class="text-red-400 text-sm italic">No se pudieron cargar las alertas.</div>';
+                document.getElementById('red-flags-list').innerHTML = '<div class="text-red-300 text-sm italic" role="alert">No se pudieron cargar las alertas.</div>';
             }
         }
 
@@ -456,7 +493,7 @@
                     },
                 });
             } catch (e) {
-                document.getElementById('sectorChart').closest('.bg-slate-50').innerHTML = '<p class="text-red-500 text-sm italic">No se pudo cargar la distribución por sector.</p>';
+                document.getElementById('sectorChart').closest('.bg-slate-50').innerHTML = '<p class="text-red-600 text-sm italic">No se pudo cargar la distribución por sector.</p>';
             }
         }
 
@@ -515,7 +552,7 @@
                     },
                 });
             } catch (e) {
-                document.getElementById('proveedoresChart').closest('.bg-white').innerHTML = '<p class="text-red-500 text-sm italic">No se pudo cargar el ranking de proveedores.</p>';
+                document.getElementById('proveedoresChart').closest('.bg-white').innerHTML = '<p class="text-red-600 text-sm italic">No se pudo cargar el ranking de proveedores.</p>';
             }
         }
 
@@ -576,14 +613,14 @@
                 <div class="bg-white border border-indigo-200 rounded-3xl p-6 fade-in shadow-sm">
                     <div class="flex justify-between items-start mb-4">
                         <div>
-                            <span class="text-[10px] uppercase tracking-wider font-bold text-indigo-500">${esEntidad ? 'Entidad' : esFallback ? 'Contrato (búsqueda en vivo)' : 'Expediente de contrato'}</span>
+                            <span class="text-xs uppercase tracking-wider font-bold text-indigo-700">${esEntidad ? 'Entidad' : esFallback ? 'Contrato (búsqueda en vivo)' : 'Expediente de contrato'}</span>
                             <h4 class="font-serif font-bold text-lg text-slate-900">${esc(esEntidad ? item.nombre_entidad : item.id_contrato)}</h4>
                         </div>
                     </div>
                     <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
                         ${filas.map(([etiqueta, valor]) => `
                             <div class="flex justify-between sm:block border-b sm:border-0 border-slate-100 pb-2 sm:pb-0">
-                                <dt class="text-xs text-slate-400 uppercase tracking-wide font-semibold">${esc(etiqueta)}</dt>
+                                <dt class="text-xs text-slate-500 uppercase tracking-wide font-semibold">${esc(etiqueta)}</dt>
                                 <dd class="text-sm text-slate-800 font-medium sm:mt-0.5">${valor && valor.html ? valor.html : esc(valor)}</dd>
                             </div>`).join('')}
                     </dl>
@@ -630,9 +667,9 @@
 
             function botonSugerencia(item, idx) {
                 return `
-                    <button data-idx="${idx}" class="w-full text-left px-5 py-3 hover:bg-indigo-50 border-b border-slate-100 last:border-0 flex justify-between items-center gap-3">
+                    <button data-idx="${idx}" class="w-full text-left px-5 py-3 hover:bg-indigo-50 focus-visible:bg-indigo-50 border-b border-slate-100 last:border-0 flex justify-between items-center gap-3">
                         <span class="text-sm font-medium text-slate-800">${esc(item.tipo === 'entidad' ? item.nombre_entidad : item.id_contrato)}</span>
-                        <span class="text-[10px] uppercase tracking-wider font-bold text-slate-400">${esc(item.tipo === 'entidad' ? 'Entidad' : item.sector || 'Contrato')}</span>
+                        <span class="text-xs uppercase tracking-wider font-bold text-slate-500">${esc(item.tipo === 'entidad' ? 'Entidad' : item.sector || 'Contrato')}</span>
                     </button>`;
             }
 
@@ -650,22 +687,22 @@
 
                 let bloqueFallback = '';
                 if (fallbackEstado === 'cargando') {
-                    bloqueFallback = `<div class="px-5 py-2 text-xs text-slate-400 italic border-t border-slate-100">Buscando en vivo en Datos Abiertos Colombia…</div>`;
+                    bloqueFallback = `<div class="px-5 py-2 text-xs text-slate-500 italic border-t border-slate-100">Buscando en vivo en Datos Abiertos Colombia…</div>`;
                 } else if (fallbackEstado === 'limite') {
-                    bloqueFallback = `<div class="px-5 py-2 text-xs text-amber-600 border-t border-slate-100">Alcanzaste el límite de búsquedas en vivo gratis por hoy.</div>`;
+                    bloqueFallback = `<div class="px-5 py-2 text-xs text-amber-700 border-t border-slate-100">Alcanzaste el límite de búsquedas en vivo gratis por hoy.</div>`;
                 } else if (fallbackEstado === 'error') {
-                    bloqueFallback = `<div class="px-5 py-2 text-xs text-red-500 italic border-t border-slate-100">La búsqueda en vivo no está disponible en este momento.</div>`;
+                    bloqueFallback = `<div class="px-5 py-2 text-xs text-red-600 italic border-t border-slate-100">La búsqueda en vivo no está disponible en este momento.</div>`;
                 } else if (fallbackEstado === 'vacio') {
-                    bloqueFallback = `<div class="px-5 py-2 text-xs text-slate-400 italic border-t border-slate-100">Sin resultados adicionales en vivo.</div>`;
+                    bloqueFallback = `<div class="px-5 py-2 text-xs text-slate-500 italic border-t border-slate-100">Sin resultados adicionales en vivo.</div>`;
                 } else if (fallbackEstado === 'ok' && fallbackItems?.length) {
                     bloqueFallback = `
-                        <div class="px-5 py-2 bg-amber-50 text-amber-700 text-[10px] uppercase tracking-wider font-bold border-t border-b border-amber-100">
+                        <div class="px-5 py-2 bg-amber-50 text-amber-700 text-xs uppercase tracking-wider font-bold border-t border-b border-amber-100">
                             En vivo, todo Datos Abiertos Colombia${restantesHoy !== null ? ` · ${esc(restantesHoy)} restantes hoy` : ''}
                         </div>` + fallbackItems.map((item, i) => botonSugerencia(item, locales.length + i)).join('');
                 }
 
                 if (!locales.length && !bloqueFallback) {
-                    sugerenciasEl.innerHTML = `<div class="px-5 py-3 text-sm text-slate-400 italic">Sin coincidencias.</div>`;
+                    sugerenciasEl.innerHTML = `<div class="px-5 py-3 text-sm text-slate-500 italic">Sin coincidencias.</div>`;
                     sugerenciasEl.classList.remove('hidden');
                     return;
                 }
@@ -742,6 +779,27 @@
                 }, 600);
             });
 
+            // aria-expanded sigue a la lista de sugerencias sin tocar cada sitio que la muestra u oculta.
+            new MutationObserver(() => input.setAttribute('aria-expanded', String(!sugerenciasEl.classList.contains('hidden'))))
+                .observe(sugerenciasEl, { attributes: true, attributeFilter: ['class'] });
+
+            // Teclado: flecha abajo entra a las sugerencias, flechas las recorren, Escape cierra.
+            input.addEventListener('keydown', (ev) => {
+                if (ev.key === 'ArrowDown') {
+                    const primera = sugerenciasEl.querySelector('button[data-idx]');
+                    if (primera) { ev.preventDefault(); primera.focus(); }
+                } else if (ev.key === 'Escape') {
+                    sugerenciasEl.classList.add('hidden');
+                }
+            });
+            sugerenciasEl.addEventListener('keydown', (ev) => {
+                const botones = [...sugerenciasEl.querySelectorAll('button[data-idx]')];
+                const i = botones.indexOf(document.activeElement);
+                if (ev.key === 'ArrowDown' && i < botones.length - 1) { ev.preventDefault(); botones[i + 1].focus(); }
+                else if (ev.key === 'ArrowUp') { ev.preventDefault(); (i > 0 ? botones[i - 1] : input).focus(); }
+                else if (ev.key === 'Escape') { sugerenciasEl.classList.add('hidden'); input.focus(); }
+            });
+
             document.addEventListener('click', (ev) => {
                 if (!ev.target.closest('#expediente')) return;
                 if (!ev.target.closest('#buscador-input') && !ev.target.closest('#buscador-sugerencias')) {
@@ -762,7 +820,7 @@
                 renderBenchmark(contratos);
             } catch (e) {
                 document.getElementById('benchmarkChart').closest('.bg-slate-50').innerHTML =
-                    '<p class="text-red-500 text-sm italic">No se pudo cargar el benchmark.</p>';
+                    '<p class="text-red-600 text-sm italic">No se pudo cargar el benchmark.</p>';
             }
         }
 
@@ -946,7 +1004,27 @@
             });
         }
 
+        function initMenuMovil() {
+            const btn = document.getElementById('menu-btn');
+            const menu = document.getElementById('menu-movil');
+            if (!btn || !menu) return;
+            const cerrar = () => {
+                menu.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
+                btn.setAttribute('aria-label', 'Abrir menú');
+            };
+            btn.addEventListener('click', () => {
+                const abrir = menu.classList.contains('hidden');
+                menu.classList.toggle('hidden', !abrir);
+                btn.setAttribute('aria-expanded', String(abrir));
+                btn.setAttribute('aria-label', abrir ? 'Cerrar menú' : 'Abrir menú');
+            });
+            menu.querySelectorAll('a').forEach(a => a.addEventListener('click', cerrar));
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrar(); });
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
+            initMenuMovil();
             cargarResumen();
             cargarExpediente();
             cargarRedFlags();
