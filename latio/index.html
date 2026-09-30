@@ -25,6 +25,7 @@
   --border-dark: #223158;
   --text-main: #0F172A;
   --text-muted: #475569;
+  --eyebrow: #0E7490;
   --text-dark-muted: #94A3B8;
   --accent-primary: #4F46E5;
   --accent-secondary: #06B6D4;
@@ -94,7 +95,7 @@ header {
   justify-content: center;
   box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25);
 }
-.brand-titles h1 {
+.brand-titles .brand-name {
   font-family: var(--font-serif);
   font-size: 18px;
   font-weight: 700;
@@ -150,7 +151,10 @@ header {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  padding: 8px 20px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 20px;
   border-radius: 9999px;
   transition: background 0.15s ease;
 }
@@ -168,7 +172,7 @@ header {
   padding: 48px 28px 32px;
 }
 .eyebrow {
-  color: var(--accent-secondary);
+  color: var(--eyebrow);
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
@@ -211,7 +215,7 @@ header {
   overflow-y: auto;
 }
 .nav-section-title {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -246,7 +250,7 @@ header {
 }
 .badge-method {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   padding: 2px 5px;
   border-radius: 4px;
@@ -258,12 +262,16 @@ header {
 
 .preset-chip {
   display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  line-height: inherit;
   background: #F8FAFC;
   border: 1px solid var(--border-light);
   border-radius: 5px;
-  padding: 8px 10px;
+  padding: 10px 12px;
   margin-bottom: 6px;
-  font-size: 12px;
+  font-size: 12.5px;
   color: #334155;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -406,6 +414,7 @@ header {
   border-radius: 5px;
   cursor: pointer;
   margin-top: 6px;
+  min-height: 40px;
 }
 .btn-secondary-sm:hover { background: #E2E8F0; }
 
@@ -554,7 +563,7 @@ header {
 }
 .v-tag {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 600;
   padding: 2px 6px;
   border-radius: 3px;
@@ -604,7 +613,7 @@ header {
 .proleg-node.is-exception { border-left-color: #F87171; }
 .proleg-node.is-muted { border-left-color: var(--border-dark); }
 .proleg-node-label {
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .06em;
@@ -633,7 +642,7 @@ header {
 }
 .proleg-result.is-ok { background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.4); color: #6EE7B7; }
 .proleg-result.is-ko { background: rgba(220, 38, 38, 0.12); border-color: rgba(220, 38, 38, 0.4); color: #FCA5A5; }
-.proleg-result-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.proleg-result-label { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
 .proleg-result-value { font-size: 13px; margin-top: 3px; color: #F1F5F9; }
 .proleg-footnote { font-size: 11.5px; color: var(--text-dark-muted); line-height: 1.6; margin-top: 10px; }
 .proleg-generic-warning {
@@ -680,7 +689,7 @@ header {
   align-items: center;
   gap: 6px;
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -695,7 +704,7 @@ header {
   align-items: center;
   gap: 6px;
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 11.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -756,8 +765,43 @@ header {
 .docs-link-pending {
   position: relative;
 }
+
+/* El atributo hidden debe ganarle a los display:flex de estas clases: el código oculta con él el botón general y la barra de estado en el modo "Analizar un artículo", y sin esto seguían a la vista. */
+[hidden] { display: none !important; }
+
+/* Saltar al contenido, foco visible y movimiento reducido. */
+.skip-link {
+  position: absolute; left: 12px; top: -64px; z-index: 100;
+  background: var(--accent-primary); color: #fff; padding: 10px 14px;
+  border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none;
+  transition: top .15s ease;
+}
+.skip-link:focus { top: 12px; }
+:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+.col-console :focus-visible { outline-color: #A5B4FC; }
+.form-input:focus-visible, .form-textarea:focus-visible, .form-select:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 0; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  .btn-execute:hover { transform: none; }
+}
+
+/* Teléfono: la barra superior y los bloques de texto no caben con los márgenes de escritorio. */
+@media (max-width: 640px) {
+  header { padding: 0 16px; height: 60px; }
+  .brand-group { gap: 10px; }
+  .brand-titles .brand-name { font-size: 15px; }
+  .status-pill { display: none; }
+  .btn-primary-sm { padding: 0 14px; }
+  .hero-block { padding: 28px 16px 20px; }
+  .hero-h1 { font-size: 28px; }
+  .col-builder { padding: 20px 16px; }
+  .col-console { padding: 16px; }
+  .col-nav { padding: 20px 12px; }
+  .builder-card { padding: 16px; }
+  .endpoint-url-text { font-size: 13px; }
+}
 .docs-link-pending .pending-flag {
-  font-size: 9.5px;
+  font-size: 11px;
   font-weight: 700;
   margin-left: 4px;
   opacity: 0.85;
@@ -766,26 +810,29 @@ header {
 </head>
 <body>
 
+<a href="#contenido" class="skip-link">Saltar al contenido</a>
+
 <header>
   <div class="header-wrapper">
-    <a href="https://www.datalexlab.com" class="brand-group" style="text-decoration:none;">
-      <div class="logo-badge">DL</div>
+    <a href="https://www.datalexlab.com" class="brand-group" style="text-decoration:none;" aria-label="DataLex Lab, volver al inicio">
+      <div class="logo-badge" aria-hidden="true">DL</div>
       <div class="brand-titles">
-        <h1>DataLex <span style="font-weight:300;color:var(--text-muted);">Lab</span> · LATIO</h1>
+        <p class="brand-name">DataLex <span style="font-weight:300;color:var(--text-muted);">Lab</span> · LATIO</p>
       </div>
     </a>
 
-    <div class="status-pill" id="connection-status-pill" title="Verificando conexión con el analizador…">
-      <div class="pulse-dot"></div>
+    <div class="status-pill" id="connection-status-pill" role="status" title="Verificando conexión con el analizador…">
+      <div class="pulse-dot" aria-hidden="true"></div>
       <span id="connection-status-text">Verificando conexión…</span>
     </div>
 
     <div class="header-actions">
-      <a href="https://github.com/Juandf89/TOOL-KIT-CIIVL" target="_blank" class="btn-primary-sm">Ver Repo</a>
+      <a href="https://github.com/Juandf89/TOOL-KIT-CIIVL" target="_blank" rel="noopener" class="btn-primary-sm">Código<span style="position:absolute;left:-9999px;"> (se abre en una pestaña nueva)</span></a>
     </div>
   </div>
 </header>
 
+<main id="contenido">
 <div class="hero-block">
   <span class="eyebrow">LegalTech · Ontología y Razonamiento del Civil Law</span>
   <h1 class="hero-h1">Analizador <em>ontológico</em> del civil law latinoamericano</h1>
@@ -801,52 +848,52 @@ header {
   <!-- Columna 1: Navegador de Endpoints & Presets -->
   <aside class="col-nav">
     <div class="nav-section-title">Analizar</div>
-    <div class="preset-chip" onclick="selectEndpoint('labeling')">
-      <strong>🏷 Analizar un artículo</strong>
+    <button type="button" class="preset-chip" onclick="selectEndpoint('labeling')">
+      <strong>Analizar un artículo</strong>
       <span>Elegí un código civil y un artículo real</span>
-    </div>
+    </button>
 
     <div class="nav-section-title">Ejemplos con análisis completo</div>
-    <div class="preset-chip" onclick="loadCase('art-66-co')">
-      <strong>⚖ Presunción Derrotable</strong>
+    <button type="button" class="preset-chip" onclick="loadCase('art-66-co')">
+      <strong>Presunción Derrotable</strong>
       <span>Art. 66 Colombia · Carga de prueba</span>
-    </div>
-    <div class="preset-chip" onclick="loadCase('art-150-cl')">
-      <strong>⚡ Potestad y Capacidad</strong>
+    </button>
+    <button type="button" class="preset-chip" onclick="loadCase('art-150-cl')">
+      <strong>Potestad y Capacidad</strong>
       <span>Art. 150 Chile · Patrimonio reservado</span>
-    </div>
-    <div class="preset-chip" onclick="loadCase('art-1362-pe')">
-      <strong>📜 Deber de Buena Fe</strong>
+    </button>
+    <button type="button" class="preset-chip" onclick="loadCase('art-1362-pe')">
+      <strong>Deber de Buena Fe</strong>
       <span>Art. 1362 Perú · Concepto indeterminado</span>
-    </div>
-    <div class="preset-chip" onclick="loadCase('art-1710-ar')">
-      <strong>🛡 Prevención del Daño</strong>
+    </button>
+    <button type="button" class="preset-chip" onclick="loadCase('art-1710-ar')">
+      <strong>Prevención del Daño</strong>
       <span>Art. 1710 Argentina CCyC · Deber general</span>
-    </div>
+    </button>
 
     <div class="nav-section-title">Razonamiento jurídico (PROLEG)</div>
-    <div class="preset-chip" onclick="loadReasoningGoldenCase()">
-      <strong>🧩 Art. 612 · Código Civil Japonés</strong>
+    <button type="button" class="preset-chip" onclick="loadReasoningGoldenCase()">
+      <strong>Art. 612 · Código Civil Japonés</strong>
       <span>Caso de oro del motor de razonamiento</span>
-    </div>
-    <div class="preset-chip" onclick="loadReasoningCase256(false)">
-      <strong>👪 Art. 256 CO · Visitas concedidas</strong>
+    </button>
+    <button type="button" class="preset-chip" onclick="loadReasoningCase256(false)">
+      <strong>Art. 256 CO · Visitas concedidas</strong>
       <span>Primer artículo LATAM real · sin condena</span>
-    </div>
-    <div class="preset-chip" onclick="loadReasoningCase256(true)">
-      <strong>🚫 Art. 256 CO · Excepción de victimario</strong>
+    </button>
+    <button type="button" class="preset-chip" onclick="loadReasoningCase256(true)">
+      <strong>Art. 256 CO · Excepción de victimario</strong>
       <span>Mismo artículo · derecho derrotado</span>
-    </div>
+    </button>
 
     <div class="nav-section-title">Buscar en los códigos civiles</div>
-    <div class="preset-chip" onclick="loadCorporaList()">
-      <strong>📚 Los 8 códigos civiles</strong>
+    <button type="button" class="preset-chip" onclick="loadCorporaList()">
+      <strong>Los 8 códigos civiles</strong>
       <span>CL/CO/AR×2/BR/MX×2/PE · 22.110 artículos</span>
-    </div>
-    <div class="preset-chip" onclick="loadCorpusArticles('CO-CC')">
-      <strong>🇨🇴 Artículos de Colombia</strong>
+    </button>
+    <button type="button" class="preset-chip" onclick="loadCorpusArticles('CO-CC')">
+      <strong>Artículos de Colombia</strong>
       <span>Ley 57 de 1887 · texto real paginado</span>
-    </div>
+    </button>
   </aside>
 
   <!-- Columna 2: Request Builder & Parámetros -->
@@ -884,7 +931,7 @@ header {
         </div>
       </div>
 
-      <div id="res-tree-view" class="visual-tree-container">
+      <div id="res-tree-view" class="visual-tree-container" aria-live="polite">
         <!-- Renderizado visual del resultado -->
       </div>
       <pre id="res-json-view" class="code-pre-box" style="display:none;max-height:520px;"></pre>
@@ -893,8 +940,15 @@ header {
   </aside>
 
 </div>
+</main>
 
 <script>
+// Todo lo que viene de fuera (el texto que pega la persona, lo que devuelve la API)
+// se escapa antes de entrar a innerHTML.
+function esc(v) {
+  return String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 // Estado de la consola
 let currentEndpoint = 'labeling';
 let lastResponseData = null;
@@ -982,30 +1036,30 @@ function renderParamsForm() {
       <div class="builder-card">
         <h3>Conjunto de reglas</h3>
         <div class="param-row">
-          <div class="param-label"><span>Cuál usar</span></div>
+          <label class="param-label" for="param-rulebase"><span>Cuál usar</span></label>
           <select id="param-rulebase" class="form-select" onchange="updateCodeSnippet()">
             <option value="jp-civil-612-sublease-demo">Caso de oro (Art. 612 japonés)</option>
             <option value="co-civil-256-visitas">Art. 256 CO · Visitas</option>
           </select>
         </div>
-        <button class="btn-secondary-sm" onclick="refreshRulebases()">🔄 Actualizar lista</button>
+        <button class="btn-secondary-sm" onclick="refreshRulebases()">Actualizar lista</button>
       </div>
       <div class="builder-card">
         <h3>Caso</h3>
-        <button class="btn-secondary-sm" onclick="loadReasoningGoldenCase()" style="margin-bottom:16px;">🧩 Cargar caso de oro (Art. 612 japonés)</button>
+        <button class="btn-secondary-sm" onclick="loadReasoningGoldenCase()" style="margin-bottom:16px;">Cargar caso de oro (Art. 612 japonés)</button>
         <div class="param-row">
-          <div class="param-label"><span>¿Quién representás?</span></div>
+          <label class="param-label" for="param-party"><span>¿Quién representás?</span></label>
           <select id="param-party" class="form-select" onchange="updateCodeSnippet()">
             <option value="plaintiff">demandante</option>
             <option value="defendant">demandado</option>
           </select>
         </div>
         <div class="param-row">
-          <div class="param-label"><span>¿Qué querés probar?</span></div>
+          <label class="param-label" for="param-goal"><span>¿Qué querés probar?</span></label>
           <input type="text" id="param-goal" class="form-input" value="" placeholder="ej. contract_end" oninput="updateCodeSnippet()">
         </div>
         <div class="param-row">
-          <div class="param-label"><span>Hechos del caso</span></div>
+          <label class="param-label" for="param-facts"><span>Hechos del caso</span></label>
           <textarea id="param-facts" class="form-textarea" style="font-family:var(--font-mono);font-size:12px;min-height:220px;" oninput="updateCodeSnippet()">[]</textarea>
         </div>
       </div>
@@ -1022,7 +1076,7 @@ function renderParamsForm() {
       <div class="builder-card">
         <h3>Código civil y página</h3>
         <div class="param-row">
-          <div class="param-label"><span>Código civil</span></div>
+          <label class="param-label" for="param-corpus-id"><span>Código civil</span></label>
           <select id="param-corpus-id" class="form-select" onchange="updateCodeSnippet()">
             <option value="CL-CC">CL-CC — Código Civil de Chile</option>
             <option value="CO-CC" selected>CO-CC — Código Civil de Colombia</option>
@@ -1033,14 +1087,14 @@ function renderParamsForm() {
             <option value="MX-CDMX">MX-CDMX — Código Civil CDMX</option>
             <option value="PE-CC">PE-CC — Código Civil de Perú</option>
           </select>
-          <button class="btn-secondary-sm" onclick="refreshCorporaOptions()">🔄 Actualizar lista</button>
+          <button class="btn-secondary-sm" onclick="refreshCorporaOptions()">Actualizar lista</button>
         </div>
         <div class="param-row">
-          <div class="param-label"><span>Cuántos artículos mostrar</span><span class="param-type">máx 200</span></div>
+          <label class="param-label" for="param-articles-limit"><span>Cuántos artículos mostrar</span><span class="param-type">máx 200</span></label>
           <input type="number" id="param-articles-limit" class="form-input" value="20" min="1" max="200" oninput="updateCodeSnippet()">
         </div>
         <div class="param-row">
-          <div class="param-label"><span>Desde cuál empezar</span></div>
+          <label class="param-label" for="param-articles-offset"><span>Desde cuál empezar</span></label>
           <input type="number" id="param-articles-offset" class="form-input" value="0" min="0" oninput="updateCodeSnippet()">
         </div>
       </div>
@@ -1050,33 +1104,33 @@ function renderParamsForm() {
       <div class="builder-card">
         <h3>Elegí un artículo real</h3>
         <div class="param-row">
-          <div class="param-label"><span>Código civil</span></div>
+          <label class="param-label" for="lbl-corpus-id"><span>Código civil</span></label>
           <select id="lbl-corpus-id" class="form-select" onchange="loadCorpusArticlesForLabeling()">
-            <option value="CL-CC">🇨🇱 Chile — Código Civil</option>
-            <option value="CO-CC" selected>🇨🇴 Colombia — Código Civil</option>
-            <option value="AR-CC">🇦🇷 Argentina — Código Civil (1869)</option>
-            <option value="AR-CCYC">🇦🇷 Argentina — Código Civil y Comercial (2015)</option>
-            <option value="BR-CC">🇧🇷 Brasil — Código Civil</option>
-            <option value="MX-CCF">🇲🇽 México — Código Civil Federal</option>
-            <option value="MX-CDMX">🇲🇽 México — Código Civil CDMX</option>
-            <option value="PE-CC">🇵🇪 Perú — Código Civil</option>
+            <option value="CL-CC">Chile — Código Civil</option>
+            <option value="CO-CC" selected>Colombia — Código Civil</option>
+            <option value="AR-CC">Argentina — Código Civil (1869)</option>
+            <option value="AR-CCYC">Argentina — Código Civil y Comercial (2015)</option>
+            <option value="BR-CC">Brasil — Código Civil</option>
+            <option value="MX-CCF">México — Código Civil Federal</option>
+            <option value="MX-CDMX">México — Código Civil CDMX</option>
+            <option value="PE-CC">Perú — Código Civil</option>
           </select>
         </div>
         <div class="param-row">
-          <div class="param-label"><span>Buscar artículo</span></div>
+          <label class="param-label" for="lbl-article-search"><span>Buscar artículo</span></label>
           <input type="text" id="lbl-article-search" class="form-input" placeholder="por número (ej. 256) o por palabra (ej. usufructo)" oninput="filterArticlesForLabeling()">
         </div>
         <div class="param-row">
-          <div class="param-label"><span>Artículo</span></div>
+          <label class="param-label" for="lbl-article-uid"><span>Artículo</span></label>
           <select id="lbl-article-uid" class="form-select" size="10" style="height:auto;" onchange="loadArticleForLabeling()">
             <option value="">Cargando artículos…</option>
           </select>
         </div>
-        <p id="lbl-article-status" style="font-size:11.5px;color:var(--text-muted);margin-top:6px;"></p>
+        <p id="lbl-article-status" role="status" style="font-size:11.5px;color:var(--text-muted);margin-top:6px;"></p>
       </div>
       <div class="builder-card">
         <h3>Texto a analizar</h3>
-        <textarea id="lbl-text" class="form-textarea" oninput="updateCodeSnippet()">${labelingState.text}</textarea>
+        <textarea id="lbl-text" aria-label="Texto a analizar" class="form-textarea" oninput="updateCodeSnippet()">${esc(labelingState.text)}</textarea>
         <button class="btn-execute" style="margin-top:10px;" onclick="proposeLabels()">Analizar artículo</button>
         <div id="lbl-proposal-notes" style="margin-top:10px;"></div>
       </div>
@@ -1202,7 +1256,7 @@ function renderAnalysisResult(proposal) {
         <span class="v-tag vt-dest">DESTINATARIO: ${addressee}</span>
         ${hasException ? '<span class="v-tag vt-exc">CARGA DE LA PRUEBA (EXCEPCIÓN)</span>' : ''}
       </div>
-      <div class="v-text">"${proposal.text_span || labelingState.text || ''}"</div>
+      <div class="v-text">"${esc(proposal.text_span || labelingState.text || '')}"</div>
       ${proposal.hohfeldian_position === 'derecho_subjetivo' && proposal.deontic_modality === 'ninguno'
         ? '<p class="proleg-footnote" style="margin-top:6px;">El artículo afirma un derecho ("tiene derecho a"): no manda una conducta, por eso no tiene modalidad de Von Wright. Su correlativo es un deber de la otra parte.</p>'
         : ''}
@@ -1227,7 +1281,7 @@ function renderProlegSchema(proposal) {
   const type = proposal.statement_type;
   const hasException = !!proposal.exception_present;
   const preview = proposal.proleg_preview;
-  const title = '<div class="proleg-title">⚖ Esquema PROLEG — razonamiento derrotable</div>';
+  const title = '<div class="proleg-title">Esquema PROLEG — razonamiento derrotable</div>';
 
   if (!hasException && (type === 'definicion' || type === 'remision')) {
     el.innerHTML = `
@@ -1332,7 +1386,7 @@ function renderProlegSchema(proposal) {
     results = `
       <div class="proleg-generic-warning">
         <strong>Prueba con una estructura genérica, no con el contenido de este artículo.</strong>
-        ${preview.note}
+        ${esc(preview.note)}
       </div>
       <div class="proleg-results">
         <div class="proleg-result ${w.proved ? 'is-ok' : 'is-ko'}">
@@ -1364,7 +1418,7 @@ async function proposeLabels() {
   labelingState.text = text;
 
   if (!text) {
-    notesEl.innerHTML = '<div class="api-conn-error">⚠️ Pegá el texto de un artículo primero.</div>';
+    notesEl.innerHTML = '<div class="api-conn-error" role="alert">⚠️ Pegá el texto de un artículo primero.</div>';
     return;
   }
 
@@ -1380,12 +1434,12 @@ async function proposeLabels() {
     });
     if (!res.ok) {
       const errBody = await res.text();
-      notesEl.innerHTML = `<div class="api-conn-error">⚠️ HTTP ${res.status}: ${errBody}</div>`;
+      notesEl.innerHTML = `<div class="api-conn-error" role="alert">⚠️ HTTP ${res.status}: ${esc(errBody)}</div>`;
       return;
     }
     proposal = await res.json();
   } catch (e) {
-    notesEl.innerHTML = `<div class="api-conn-error">⚠️ No se pudo conectar con el analizador. Volvé a intentar en unos minutos.</div>`;
+    notesEl.innerHTML = `<div class="api-conn-error" role="alert">⚠️ No se pudo conectar con el analizador. Volvé a intentar en unos minutos.</div>`;
     return;
   }
 
@@ -1402,7 +1456,7 @@ async function proposeLabels() {
   notesEl.innerHTML = notes.length
     ? `<div style="font-size:11.5px;color:var(--text-muted);line-height:1.6;">
          <strong>Cómo se llegó a este resultado</strong>
-         <ul style="margin:6px 0 0 16px;">${notes.map(n => `<li>${n}</li>`).join('')}</ul>
+         <ul style="margin:6px 0 0 16px;">${notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul>
        </div>`
     : '';
 }
@@ -1477,7 +1531,7 @@ async function loadCorpusArticlesForLabeling() {
   } catch (e) {
     if (token !== articlesLoadToken) return;
     articleSelect.innerHTML = '<option value="">(no se pudo cargar)</option>';
-    status.innerHTML = `<span style="color:#991B1B;">⚠️ No se pudieron cargar los artículos. Detalle: ${e.message}</span>`;
+    status.innerHTML = `<span style="color:#991B1B;">⚠️ No se pudieron cargar los artículos. Detalle: ${esc(e.message)}</span>`;
   }
 }
 
@@ -1511,7 +1565,7 @@ function renderArticleOptions(articles, query) {
 
   const shown = matches.slice(0, ARTICLES_MAX_RENDERED);
   articleSelect.innerHTML = shown.length
-    ? shown.map(a => `<option value="${a.uid}">${articleLabel(a)}</option>`).join('')
+    ? shown.map(a => `<option value="${esc(a.uid)}">${esc(articleLabel(a))}</option>`).join('')
     : '<option value="">(ningún artículo coincide)</option>';
 
   if (shown.some(a => a.uid === previous)) articleSelect.value = previous;
@@ -1553,7 +1607,7 @@ async function loadArticleForLabeling() {
     resetLabelingForm();
     status.innerText = `Artículo ${uid} cargado. Hacé clic en "Analizar artículo" para procesarlo.`;
   } catch (e) {
-    status.innerHTML = `<span style="color:#991B1B;">⚠️ No se pudo cargar el artículo. Detalle: ${e.message}</span>`;
+    status.innerHTML = `<span style="color:#991B1B;">⚠️ No se pudo cargar el artículo. Detalle: ${esc(e.message)}</span>`;
   }
 }
 
@@ -1656,7 +1710,7 @@ async function refreshCorporaOptions() {
     const data = await res.json();
     const current = select.value;
     select.innerHTML = data
-      .map(c => `<option value="${c.corpus_id}">${c.corpus_id} — ${c.display_name}</option>`)
+      .map(c => `<option value="${esc(c.corpus_id)}">${esc(c.corpus_id)} — ${esc(c.display_name)}</option>`)
       .join('');
     if (data.some(c => c.corpus_id === current)) select.value = current;
   } catch (e) {
@@ -1673,7 +1727,7 @@ async function refreshRulebases() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const current = select.value;
-    select.innerHTML = data.map(rb => `<option value="${rb.id}">${rb.id}</option>`).join('');
+    select.innerHTML = data.map(rb => `<option value="${esc(rb.id)}">${esc(rb.id)}</option>`).join('');
     if (data.some(rb => rb.id === current)) select.value = current;
   } catch (e) {
     alert(`No se pudo conectar con el analizador en ${base}. Revisá la dirección de conexión arriba, o los detalles técnicos si sos quien lo está configurando.`);
@@ -1685,17 +1739,17 @@ function partyLabel(p) {
 }
 
 const TRACE_KIND_META = {
-  try_prove:            { icon: '🔍', css: 'ts-neutral', text: s => `intenta probar "${s.subject}"` },
-  rule_matched:         { icon: '📘', css: 'ts-neutral', text: s => `encontró una regla para "${s.subject}" y evalúa sus requisitos procesales` },
-  no_rule:              { icon: '🚫', css: 'ts-bad',     text: s => `no alegó+evidenció (ni la contraria admitió) todos los hechos requeridos para intentar "${s.subject}"` },
-  admitted:             { icon: '🤝', css: 'ts-good',    text: s => `admitió "${s.subject}"` },
-  plausible_true:       { icon: '⚖️', css: 'ts-good',    text: s => `el juez determina plausible "${s.subject}"` },
-  failed_ultimate_fact: { icon: '❌', css: 'ts-bad',     text: s => `no logró probar el hecho último "${s.subject}" (sin admisión ni plausibilidad)` },
-  alleges_defense:      { icon: '🛡️', css: 'ts-neutral', text: s => `alega "${s.subject}" como defensa contra "${s.against}"` },
-  defense_succeeded:    { icon: '✅', css: 'ts-good',    text: s => `probó "${s.subject}" — la defensa contra "${s.against}" tiene éxito` },
-  defense_failed:       { icon: '❌', css: 'ts-bad',     text: s => `no pudo probar "${s.subject}" — la defensa contra "${s.against}" falla` },
-  proved:               { icon: '✅', css: 'ts-good',    text: s => `probó "${s.subject}"` },
-  failed:               { icon: '❌', css: 'ts-bad',     text: s => `no pudo probar "${s.subject}"` }
+  try_prove:            { icon: '🔍', css: 'ts-neutral', text: s => `intenta probar "${esc(s.subject)}"` },
+  rule_matched:         { icon: '📘', css: 'ts-neutral', text: s => `encontró una regla para "${esc(s.subject)}" y evalúa sus requisitos procesales` },
+  no_rule:              { icon: '🚫', css: 'ts-bad',     text: s => `no alegó+evidenció (ni la contraria admitió) todos los hechos requeridos para intentar "${esc(s.subject)}"` },
+  admitted:             { icon: '🤝', css: 'ts-good',    text: s => `admitió "${esc(s.subject)}"` },
+  plausible_true:       { icon: '⚖️', css: 'ts-good',    text: s => `el juez determina plausible "${esc(s.subject)}"` },
+  failed_ultimate_fact: { icon: '❌', css: 'ts-bad',     text: s => `no logró probar el hecho último "${esc(s.subject)}" (sin admisión ni plausibilidad)` },
+  alleges_defense:      { icon: '🛡️', css: 'ts-neutral', text: s => `alega "${esc(s.subject)}" como defensa contra "${esc(s.against)}"` },
+  defense_succeeded:    { icon: '✅', css: 'ts-good',    text: s => `probó "${esc(s.subject)}" — la defensa contra "${esc(s.against)}" tiene éxito` },
+  defense_failed:       { icon: '❌', css: 'ts-bad',     text: s => `no pudo probar "${esc(s.subject)}" — la defensa contra "${esc(s.against)}" falla` },
+  proved:               { icon: '✅', css: 'ts-good',    text: s => `probó "${esc(s.subject)}"` },
+  failed:               { icon: '❌', css: 'ts-bad',     text: s => `no pudo probar "${esc(s.subject)}"` }
 };
 
 function renderTraceSteps(trace) {
@@ -1703,8 +1757,8 @@ function renderTraceSteps(trace) {
     const meta = TRACE_KIND_META[step.kind] || { icon: '•', css: 'ts-neutral', text: s => s.kind };
     return `
       <div class="trace-step ${meta.css}">
-        <span>${meta.icon}</span>
-        <span>${step.actor ? `<span class="ts-actor">${partyLabel(step.actor)}</span> ` : ''}${meta.text(step)}</span>
+        <span aria-hidden="true">${meta.icon}</span>
+        <span>${step.actor ? `<span class="ts-actor">${esc(partyLabel(step.actor))}</span> ` : ''}${meta.text(step)}</span>
       </div>
     `;
   }).join('');
@@ -1866,14 +1920,14 @@ function renderResponse() {
 
   if (currentEndpoint === 'reasoning') {
     if (lastResponseData && lastResponseData.__error) {
-      tree.innerHTML = `<div class="api-conn-error">⚠️ ${lastResponseData.message}</div>`;
+      tree.innerHTML = `<div class="api-conn-error" role="alert">⚠️ ${esc(lastResponseData.message)}</div>`;
       return;
     }
     const proved = lastResponseData.proved;
     tree.innerHTML = `
       <div class="proof-verdict ${proved ? 'is-proved' : 'is-not-proved'}">
-        <span>${proved ? '✅' : '❌'}</span>
-        <span>${partyLabel(lastResponseData.party)} ${proved ? 'PROBÓ' : 'NO PUDO PROBAR'} "${lastResponseData.goal}"</span>
+        <span aria-hidden="true">${proved ? '✅' : '❌'}</span>
+        <span>${esc(partyLabel(lastResponseData.party))} ${proved ? 'PROBÓ' : 'NO PUDO PROBAR'} "${esc(lastResponseData.goal)}"</span>
       </div>
       <div style="font-size:11px;color:var(--text-dark-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;">Traza de argumentación (${lastResponseData.trace.length} pasos)</div>
       ${renderTraceSteps(lastResponseData.trace)}
@@ -1883,7 +1937,7 @@ function renderResponse() {
 
   if (currentEndpoint === 'corpora' || currentEndpoint === 'corpora-articles') {
     if (lastResponseData && lastResponseData.__error) {
-      tree.innerHTML = `<div class="api-conn-error">⚠️ ${lastResponseData.message}</div>`;
+      tree.innerHTML = `<div class="api-conn-error" role="alert">⚠️ ${esc(lastResponseData.message)}</div>`;
       return;
     }
 
@@ -1892,11 +1946,11 @@ function renderResponse() {
       tree.innerHTML = corpora.map(c => `
         <div class="v-statement-card">
           <div class="v-tags">
-            <span class="v-tag vt-type">${c.corpus_id}</span>
-            <span class="v-tag vt-hohfeld">${c.jurisdiction}</span>
+            <span class="v-tag vt-type">${esc(c.corpus_id)}</span>
+            <span class="v-tag vt-hohfeld">${esc(c.jurisdiction)}</span>
             <span class="v-tag ${c.recall >= 1 ? 'vt-deontic' : 'vt-dest'}">RECALL: ${(c.recall * 100).toFixed(1)}%</span>
           </div>
-          <div class="v-text" style="font-style:normal;">${c.display_name}</div>
+          <div class="v-text" style="font-style:normal;">${esc(c.display_name)}</div>
           <div style="font-size:12px;color:var(--text-dark-muted);">artículos extraídos: ${c.articles_parsed} · esperados: ${c.expected_article_count}</div>
         </div>
       `).join('');
@@ -1904,14 +1958,14 @@ function renderResponse() {
       const data = lastResponseData || {};
       const articles = data.articles || [];
       tree.innerHTML = `
-        <div style="font-size:11px;color:var(--text-dark-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;">${data.corpus_id} · ${data.total} artículos totales · mostrando ${articles.length} (offset ${data.offset})</div>
+        <div style="font-size:11px;color:var(--text-dark-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;">${esc(data.corpus_id)} · ${data.total} artículos totales · mostrando ${articles.length} (offset ${data.offset})</div>
         ${articles.map(a => `
           <div class="v-statement-card">
             <div class="v-tags">
-              <span class="v-tag vt-type">${a.uid}</span>
-              ${a.path && a.path.length ? `<span class="v-tag vt-hohfeld">${a.path.map(p => p.label || p.level_type).join(' › ')}</span>` : ''}
+              <span class="v-tag vt-type">${esc(a.uid)}</span>
+              ${a.path && a.path.length ? `<span class="v-tag vt-hohfeld">${esc(a.path.map(p => p.label || p.level_type).join(' › '))}</span>` : ''}
             </div>
-            <div class="v-text">"${a.text_raw}${a.truncated ? '…' : ''}"</div>
+            <div class="v-text">"${esc(a.text_raw)}${a.truncated ? '…' : ''}"</div>
           </div>
         `).join('')}
       `;
