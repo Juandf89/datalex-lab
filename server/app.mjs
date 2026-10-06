@@ -12,6 +12,7 @@ import express from "express";
 import * as cheerio from "cheerio";
 import { crearLimiteDeRafaga, crearLimiteDiario, cuerpoLimiteDiario, numeroDeEntorno } from "./limites.mjs";
 import { obtenerPool } from "./db.mjs";
+import { obtenerIP } from "./ip.mjs";
 import { crearEstado } from "./estado.mjs";
 import { clasificarSalud } from "./salud.mjs";
 
@@ -102,12 +103,6 @@ const estado = crearEstado({
 estado.almacen();
 const ESTADO_RATE_LIMITS = estado.celda("rate-limits");
 const ESTADO_PENDIENTES_SECOP = estado.celda("pendientes-secop");
-
-function obtenerIP(req) {
-  const xff = req.headers["x-forwarded-for"];
-  if (xff) return xff.split(",")[0].trim();
-  return req.socket.remoteAddress || "desconocida";
-}
 
 const app = express();
 app.disable("x-powered-by");
