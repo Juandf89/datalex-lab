@@ -8,7 +8,7 @@
   "muestra": {
     "ingeridos_esta_corrida": 20000,
     "acumulados_total": 447604,
-    "nuevos_o_actualizados_esta_corrida": 7,
+    "nuevos_o_actualizados_esta_corrida": 0,
     "aptos_modelo": 416646,
     "entidades_distintas": 4138,
     "valor_total_acumulado_cop": 465695385717743.1,
@@ -18,7 +18,7 @@
   },
   "modelo": {
     "algoritmo": "IsolationForest",
-    "anomalias_detectadas": 20828,
+    "anomalias_detectadas": 20833,
     "red_flags": 1177
   },
   "red_flags_resumen": {
