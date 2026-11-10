@@ -1,5 +1,5 @@
 {
-  "generado_en": "2026-11-09T11:43:53.087290+00:00",
+  "generado_en": "2026-11-10T01:58:28.687342+00:00",
   "fuente": {
     "dataset": "jbjy-vk9h",
     "dominio": "www.datos.gov.co",
@@ -18,7 +18,7 @@
   },
   "modelo": {
     "algoritmo": "IsolationForest",
-    "anomalias_detectadas": 21497,
+    "anomalias_detectadas": 21502,
     "red_flags": 1283
   },
   "red_flags_resumen": {
